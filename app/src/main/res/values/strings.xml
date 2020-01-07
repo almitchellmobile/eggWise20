@@ -1,0 +1,29 @@
+<resources>
+
+
+    <string name="app_name">eggWise</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">eggWise Mobile Brinsea Products Inc.</string>
+    <string name="nav_header_subtitle">Brinsea Products Inc.</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_gallery">Gallery</string>
+    <string name="menu_slideshow">Slideshow</string>
+    <string name="menu_tools">Tools</string>
+    <string name="menu_share">Share</string>
+    <string name="menu_send">Send</string>
+    <string name="brinsea_image">Brinsea image</string>
+    <string name="eggwise_image">eggWISE image</string>
+    <string name="link_brinsea">Brinsea Products Inc. Visit our website: http://www.brinsea.com</string>
+    <string name="link_almitchell"><a href="http://www.almitchellmobile.net">Developed by AL Mitchell Mobile: http://www.almitchellmobile.net</a></string>
+    <string name="link_almitchell_brinsea"><a href="http://www.almitchellmobile.net">Developed for Brinsea Products Inc.: http://www.brinsea.com</a><a href="http://http://www.brinsea.com">by AL Mitchell: <br></br>http://www.almitchellmobile.net </a></string>
+    <string name="by_line_almitchell">Developed by AL Mitchell http://www.almitchellmobile.net</string>
+    <string name="by_line_almitchell1">Developed by AL Mitchell AL Mitchell Mobile</string>
+    <string name="by_line_almitchell2">http://www.almitchellmobile.net</string>
+    <string name="title_activity_add_incubator">AddIncubatorActivity</string>
+    <string name="title_activity_incubator_list">IncubatorListActivity</string>
+
+</resources>
