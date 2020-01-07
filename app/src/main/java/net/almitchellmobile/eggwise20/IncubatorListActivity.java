@@ -9,6 +9,10 @@ import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import net.almitchellmobile.eggwise20.adapter.IncubatorsAdapter;
+import net.almitchellmobile.eggwise20.database.EggWiseDatabse;
+import net.almitchellmobile.eggwise20.database.model.Incubator;
+
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
@@ -83,7 +87,7 @@ public class IncubatorListActivity extends AppCompatActivity implements Incubato
             public void onClick(View view) {
                 //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                  //       .setAction("Action", null).show();
-                startActivityForResult(new Intent(IncubatorListActivity.this,AddIncubatorActivity.class),100);
+                startActivityForResult(new Intent(IncubatorListActivity.this, AddIncubatorActivity.class),100);
             }
         });
 

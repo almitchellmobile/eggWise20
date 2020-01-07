@@ -1,4 +1,4 @@
-package net.almitchellmobile.eggwise20;
+package net.almitchellmobile.eggwise20.adapter;
 
 import android.content.Context;
 import android.util.Log;
@@ -6,6 +6,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import net.almitchellmobile.eggwise20.R;
+import net.almitchellmobile.eggwise20.database.model.Incubator;
 
 import java.util.List;
 

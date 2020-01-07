@@ -1,7 +1,9 @@
-package net.almitchellmobile.eggwise20;
+package net.almitchellmobile.eggwise20.database;
 
 import android.content.Context;
 
+import net.almitchellmobile.eggwise20.database.model.Incubator;
+import net.almitchellmobile.eggwise20.database.dao.IncubatorDao;
 import net.almitchellmobile.eggwise20.util.Constants;
 import net.almitchellmobile.eggwise20.util.DateRoomConverter;
 

@@ -25,5 +25,7 @@
     <string name="by_line_almitchell2">http://www.almitchellmobile.net</string>
     <string name="title_activity_add_incubator">AddIncubatorActivity</string>
     <string name="title_activity_incubator_list">IncubatorListActivity</string>
+    <string name="title_activity_egg_batch_list">EggBatchListActivity</string>
+    <string name="title_activity_add_batch">AddBatchActivity</string>
 
 </resources>

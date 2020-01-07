@@ -1,4 +1,4 @@
-package net.almitchellmobile.eggwise20;
+package net.almitchellmobile.eggwise20.database.model;
 
 import net.almitchellmobile.eggwise20.util.Constants;
 

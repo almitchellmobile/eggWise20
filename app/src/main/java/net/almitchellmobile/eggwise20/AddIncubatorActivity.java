@@ -8,6 +8,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import net.almitchellmobile.eggwise20.database.EggWiseDatabse;
+import net.almitchellmobile.eggwise20.database.model.Incubator;
+
 import java.lang.ref.WeakReference;
 
 import androidx.appcompat.app.AppCompatActivity;
