@@ -1,15 +1,18 @@
 package net.almitchellmobile.eggwise20.database.dao;
 
+import net.almitchellmobile.eggwise20.database.model.Taxon;
 import net.almitchellmobile.eggwise20.util.Constants;
 
 import java.util.List;
 
+import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
-public interface Taxon {
+@Dao
+public interface TaxonDao {
 
     @Query("SELECT * FROM "+ Constants.TABLE_NAME_TAXON)
     List<Taxon> getTaxon();
@@ -19,21 +22,21 @@ public interface Taxon {
      * @param note, object to be inserted
      */
     @Insert
-    long insertIncubator(Taxon taxon);
+    long insertTaxon(Taxon taxon);
 
     /*
      * update the object in database
      * @param note, object to be updated
      */
     @Update
-    void updateIncubator(Taxon taxon);
+    void updateTaxon(Taxon taxon);
 
     /*
      * delete the object from database
      * @param note, object to be deleted
      */
     @Delete
-    void deleteIncubator(Taxon taxon);
+    void deleteTaxon(Taxon taxon);
 
     // Note... is varargs, here note is an array
     /*
@@ -41,5 +44,5 @@ public interface Taxon {
      * @param note, array of oject to be deleted
      */
     @Delete
-    void deleteIncubator(Taxon... taxon);
+    void deleteTaxon(Taxon... taxon);
 }

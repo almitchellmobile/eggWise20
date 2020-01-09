@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".AddBatchActivity"
+            android:name=".AddEggBatchActivity"
             android:label="@string/title_activity_add_batch"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
@@ -24,8 +24,8 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".IncubatorListActivity"
-            android:label="@string/title_activity_incubator_list"
+            android:name=".MainActivity"
+            android:label="Main"
             android:theme="@style/AppTheme.NoActionBar">
             <!--<intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -38,7 +38,7 @@
             android:label="@string/title_activity_add_incubator"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".MainActivity"
+            android:name=".IncubatorListActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
 

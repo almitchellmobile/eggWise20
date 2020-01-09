@@ -3,7 +3,6 @@ package net.almitchellmobile.eggwise20.database.model;
 import net.almitchellmobile.eggwise20.util.Constants;
 
 import java.io.Serializable;
-import java.sql.Date;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
@@ -29,13 +28,13 @@ public class Breeders implements Serializable {
     public String acquiredFrom;
 
     @ColumnInfo(name = "HatchDate")
-    public Date hatchDate;
+    public java.util.Date hatchDate;
 
     @ColumnInfo(name = "CaptiveBreed")
     public Long captiveBreed;
 
     @ColumnInfo(name = "BuildingLocation")
-    public String bBuildingLocation;
+    public String buildingLocation;
 
     @ColumnInfo(name = "PenLocation")
     public String penLocation;
@@ -68,26 +67,33 @@ public class Breeders implements Serializable {
     public String userDefined1;
 
     @ColumnInfo(name = "UserDefined2")
-    public String UserDefined2;
+    public String userDefined2;
 
     @ColumnInfo(name = "AquiredOn")
-    public Date aquiredOn;
+    public java.util.Date aquiredOn;
 
     @ColumnInfo(name = "PublishedOn")
-    public Date publishedOn;
+    public java.util.Date publishedOn;
 
     @ColumnInfo(name = "CommonName")
     public String commonName;
 
 
-    public Breeders(String birdsName, Long speciesID, String speciesName, String gender, String acquiredFrom, Date hatchDate, Long captiveBreed, String bBuildingLocation, String penLocation, String naturalMate, String rearedBy, String leftLegBand, String rightLegBand, String isisNumber, String studBookNumber, String microChipNumber, String readerType, String userDefined1, String userDefined2, Date aquiredOn, Date publishedOn, String commonName) {
+    public Breeders(String birdsName, Long speciesID, String gender,
+                    String acquiredFrom, java.util.Date hatchDate, Long captiveBreed,
+                    String buildingLocation, String penLocation, String naturalMate,
+                    String rearedBy, String leftLegBand, String rightLegBand, String isisNumber,
+                    String studBookNumber, String microChipNumber, String readerType,
+                    String userDefined1, String userDefined2, java.util.Date aquiredOn, java.util.Date publishedOn,
+                    String commonName) {
+
         this.birdsName = birdsName;
         this.speciesID = speciesID;
         this.gender = gender;
         this.acquiredFrom = acquiredFrom;
         this.hatchDate = hatchDate;
         this.captiveBreed = captiveBreed;
-        this.bBuildingLocation = bBuildingLocation;
+        this.buildingLocation = buildingLocation;
         this.penLocation = penLocation;
         this.naturalMate = naturalMate;
         this.rearedBy = rearedBy;
@@ -98,7 +104,7 @@ public class Breeders implements Serializable {
         this.microChipNumber = microChipNumber;
         this.readerType = readerType;
         this.userDefined1 = userDefined1;
-        UserDefined2 = userDefined2;
+        this.userDefined2 = userDefined2;
         this.aquiredOn = aquiredOn;
         this.publishedOn = publishedOn;
         this.commonName = commonName;
@@ -147,11 +153,11 @@ public class Breeders implements Serializable {
         this.acquiredFrom = acquiredFrom;
     }
 
-    public Date getHatchDate() {
+    public java.util.Date getHatchDate() {
         return hatchDate;
     }
 
-    public void setHatchDate(Date hatchDate) {
+    public void setHatchDate(java.util.Date hatchDate) {
         this.hatchDate = hatchDate;
     }
 
@@ -163,12 +169,12 @@ public class Breeders implements Serializable {
         this.captiveBreed = captiveBreed;
     }
 
-    public String getbBuildingLocation() {
-        return bBuildingLocation;
+    public String getBuildingLocation() {
+        return buildingLocation;
     }
 
-    public void setbBuildingLocation(String bBuildingLocation) {
-        this.bBuildingLocation = bBuildingLocation;
+    public void setBuildingLocation(String buildingLocation) {
+        this.buildingLocation = buildingLocation;
     }
 
     public String getPenLocation() {
@@ -252,26 +258,26 @@ public class Breeders implements Serializable {
     }
 
     public String getUserDefined2() {
-        return UserDefined2;
+        return userDefined2;
     }
 
     public void setUserDefined2(String userDefined2) {
-        UserDefined2 = userDefined2;
+        this.userDefined2 = userDefined2;
     }
 
-    public Date getAquiredOn() {
+    public java.util.Date getAquiredOn() {
         return aquiredOn;
     }
 
-    public void setAquiredOn(Date aquiredOn) {
+    public void setAquiredOn(java.util.Date aquiredOn) {
         this.aquiredOn = aquiredOn;
     }
 
-    public Date getPublishedOn() {
+    public java.util.Date getPublishedOn() {
         return publishedOn;
     }
 
-    public void setPublishedOn(Date publishedOn) {
+    public void setPublishedOn(java.util.Date publishedOn) {
         this.publishedOn = publishedOn;
     }
 

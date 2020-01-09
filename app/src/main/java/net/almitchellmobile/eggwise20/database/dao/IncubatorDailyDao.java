@@ -5,11 +5,13 @@ import net.almitchellmobile.eggwise20.util.Constants;
 
 import java.util.List;
 
+import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
+@Dao
 public interface IncubatorDailyDao {
 
     @Query("SELECT * FROM "+ Constants.TABLE_NAME_INCUBATORDAILY)
@@ -20,21 +22,21 @@ public interface IncubatorDailyDao {
      * @param note, object to be inserted
      */
     @Insert
-    long insertIncubator(IncubatorDaily incubatorDaily);
+    long insertIncubatorDaily(IncubatorDaily incubatorDaily);
 
     /*
      * update the object in database
      * @param note, object to be updated
      */
     @Update
-    void updateIncubator(IncubatorDaily incubatorDaily);
+    void updateIncubatorDaily(IncubatorDaily incubatorDaily);
 
     /*
      * delete the object from database
      * @param note, object to be deleted
      */
     @Delete
-    void deleteIncubator(IncubatorDaily incubatorDaily);
+    void deleteIncubatorDaily(IncubatorDaily incubatorDaily);
 
     // Note... is varargs, here note is an array
     /*
@@ -42,6 +44,6 @@ public interface IncubatorDailyDao {
      * @param note, array of oject to be deleted
      */
     @Delete
-    void deleteIncubator(IncubatorDaily... incubatorDaily);
+    void deleteIncubatorDaily(IncubatorDaily... incubatorDaily);
 
 }

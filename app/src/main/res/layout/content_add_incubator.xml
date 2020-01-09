@@ -7,7 +7,7 @@
     tools:context=".AddIncubatorActivity">
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/txtInputIncubatorName"
+        android:id="@+id/text_incubator_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <com.google.android.material.textfield.TextInputEditText
@@ -20,7 +20,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/txtInputMFGModel"
+        android:id="@+id/text_mfg_model"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <com.google.android.material.textfield.TextInputEditText
@@ -33,7 +33,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/txtInputNumberOfEggs"
+        android:id="@+id/text_number_of_eggs"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <com.google.android.material.textfield.TextInputEditText

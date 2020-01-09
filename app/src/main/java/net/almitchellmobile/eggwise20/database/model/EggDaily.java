@@ -3,7 +3,6 @@ package net.almitchellmobile.eggwise20.database.model;
 import net.almitchellmobile.eggwise20.util.Constants;
 
 import java.io.Serializable;
-import java.sql.Date;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
@@ -26,10 +25,10 @@ public class EggDaily implements Serializable {
     public String eggLabel;
 
     @ColumnInfo(name = "ReadingDate")
-    public Date readingDate;
+    public java.util.Date readingDate;
 
     @ColumnInfo(name = "SetDate")
-    public Date setDate;
+    public java.util.Date setDate;
 
     @ColumnInfo(name = "ReadingDayNumber")
     public Integer readingDayNumber;
@@ -49,7 +48,10 @@ public class EggDaily implements Serializable {
     @ColumnInfo(name = "NumberOfEggs")
     public Integer numberOfEggs;
 
-    public EggDaily(Long settingID, String batchLabel, String eggLabel, Date readingDate, Date setDate, Integer readingDayNumber, Double eggWeight, Double eggWeightAverage, String eggDailyComment, String incubatorName, Integer numberOfEggs) {
+    public EggDaily(Long settingID, String batchLabel, String eggLabel, java.util.Date readingDate,
+                    java.util.Date setDate, Integer readingDayNumber, Double eggWeight,
+                    Double eggWeightAverage, String eggDailyComment, String incubatorName,
+                    Integer numberOfEggs) {
         this.settingID = settingID;
         this.batchLabel = batchLabel;
         this.eggLabel = eggLabel;
@@ -98,19 +100,19 @@ public class EggDaily implements Serializable {
         this.eggLabel = eggLabel;
     }
 
-    public Date getReadingDate() {
+    public java.util.Date getReadingDate() {
         return readingDate;
     }
 
-    public void setReadingDate(Date readingDate) {
+    public void setReadingDate(java.util.Date readingDate) {
         this.readingDate = readingDate;
     }
 
-    public Date getSetDate() {
+    public java.util.Date getSetDate() {
         return setDate;
     }
 
-    public void setSetDate(Date setDate) {
+    public void setSetDate(java.util.Date setDate) {
         this.setDate = setDate;
     }
 

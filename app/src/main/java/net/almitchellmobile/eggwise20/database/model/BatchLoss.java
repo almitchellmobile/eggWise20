@@ -3,8 +3,7 @@ package net.almitchellmobile.eggwise20.database.model;
 import net.almitchellmobile.eggwise20.util.Constants;
 
 import java.io.Serializable;
-import java.sql.Date;
-import java.sql.Timestamp;
+import java.util.Date;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
@@ -36,12 +35,14 @@ public class BatchLoss implements Serializable {
     public String batchlossComment;
 
     @ColumnInfo(name = "ReadingDate")
-    public Date readingDate;
+    public java.util.Date readingDate;
 
     @ColumnInfo(name = "ReadingTime")
-    public Timestamp readingTime;
+    public java.util.Date readingTime;
 
-    public BatchLoss(Long settingID, String batchLabel, String incubatorName, Integer eggLossCount, Integer numberOfEggs, String batchlossComment, Date readingDate, Timestamp readingTime) {
+    public BatchLoss(Long settingID, String batchLabel, String incubatorName,
+                     Integer eggLossCount, Integer numberOfEggs, String batchlossComment,
+                     java.util.Date readingDate, java.util.Date readingTime) {
         this.settingID = settingID;
         this.batchLabel = batchLabel;
         this.incubatorName = incubatorName;
@@ -56,7 +57,7 @@ public class BatchLoss implements Serializable {
     public BatchLoss(){};
 
     public Long getBatchLossID() {
-        return this.batchLossID;
+        return batchLossID;
     }
 
     public void setBatchLossID(Long batchLossID) {
@@ -64,7 +65,7 @@ public class BatchLoss implements Serializable {
     }
 
     public Long getSettingID() {
-        return this.settingID;
+        return settingID;
     }
 
     public void setSettingID(Long settingID) {
@@ -72,7 +73,7 @@ public class BatchLoss implements Serializable {
     }
 
     public String getBatchLabel() {
-        return this.batchLabel;
+        return batchLabel;
     }
 
     public void setBatchLabel(String batchLabel) {
@@ -80,7 +81,7 @@ public class BatchLoss implements Serializable {
     }
 
     public String getIncubatorName() {
-        return this.incubatorName;
+        return incubatorName;
     }
 
     public void setIncubatorName(String incubatorName) {
@@ -88,7 +89,7 @@ public class BatchLoss implements Serializable {
     }
 
     public Integer getEggLossCount() {
-        return this.eggLossCount;
+        return eggLossCount;
     }
 
     public void setEggLossCount(Integer eggLossCount) {
@@ -96,7 +97,7 @@ public class BatchLoss implements Serializable {
     }
 
     public Integer getNumberOfEggs() {
-        return this.numberOfEggs;
+        return numberOfEggs;
     }
 
     public void setNumberOfEggs(Integer numberOfEggs) {
@@ -112,18 +113,18 @@ public class BatchLoss implements Serializable {
     }
 
     public Date getReadingDate() {
-        return this.readingDate;
+        return readingDate;
     }
 
-    public void setReadingDate(Date readingDate) {
+    public void setReadingDate(java.util.Date readingDate) {
         this.readingDate = readingDate;
     }
 
-    public Timestamp getReadingTime() {
-        return this.readingTime;
+    public java.util.Date getReadingTime() {
+        return readingTime;
     }
 
-    public void setReadingTime(Timestamp readingTime) {
+    public void setReadingTime(java.util.Date readingTime) {
         this.readingTime = readingTime;
     }
 }

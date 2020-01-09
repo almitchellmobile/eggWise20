@@ -5,6 +5,8 @@ package net.almitchellmobile.eggwise20.util;
  */
 
 final public class Constants {
+
+
     private Constants() {
     }
 
@@ -16,5 +18,8 @@ final public class Constants {
     public static final String TABLE_NAME_OPTIONS = "OPTIONS";
     public static final String TABLE_NAME_TAXON = "TAXON";
     public static final String TABLE_NAME_INCUBATORS ="INCUBATORS";
+
     public static final String DB_NAME ="EGGWISEDB.db";
+
+    public static final String TIME_STAMP_FORMAT = "dd-MM-yyyy-hh-mm-ss" ;
 }

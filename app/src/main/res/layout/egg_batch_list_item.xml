@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="6dp"
+    android:orientation="vertical">
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardViewEggBatch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        card_view:cardCornerRadius="5dp"
+        card_view:cardElevation="5dp"
+        card_view:cardUseCompatPadding="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="2dp"
+            android:background="?android:attr/selectableItemBackground"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_egg_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="Incubator Name" />
+
+            <TextView
+                android:id="@+id/tv_egg_count"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:text="MFG Model" />
+
+            <TextView
+                android:id="@+id/tv_species_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:text="Number Of Eggs Model" />
+
+            <TextView
+                android:id="@+id/tv_common_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="Common Name" />
+
+            <TextView
+                android:id="@+id/tv_incubator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="Incubator" />
+
+            <TextView
+                android:id="@+id/tv_set_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="Set Date" />
+
+            <TextView
+                android:id="@+id/tv_hatch_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="Hatch Date" />
+
+            <TextView
+                android:id="@+id/tv_location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="Location" />
+
+            <TextView
+                android:id="@+id/tv_weight_loss_racking"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="Weight Loss Tracking " />
+
+            <TextView
+                android:id="@+id/tv_desired_weight_loss"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="Desired Weight Loss " />
+
+        </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+</LinearLayout>

@@ -3,8 +3,6 @@ package net.almitchellmobile.eggwise20.database.model;
 import net.almitchellmobile.eggwise20.util.Constants;
 
 import java.io.Serializable;
-import java.sql.Date;
-import java.sql.Timestamp;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
@@ -24,7 +22,7 @@ public class IncubatorDaily implements Serializable {
     public String eggLabel;
 
     @ColumnInfo(name = "ReadingDate")
-    public Date readingDate;
+    public java.util.Date readingDate;
 
     @ColumnInfo(name = "Temperature")
     public Double temperature;
@@ -33,12 +31,14 @@ public class IncubatorDaily implements Serializable {
     public Double humidity;
 
     @ColumnInfo(name = "ReadingTime")
-    public Timestamp readingTime;
+    public java.util.Date readingTime;
 
     @ColumnInfo(name = "IncubatorDailyComment")
     public String incubatorDailyComment;
 
-    public IncubatorDaily(String incubatorID, String eggLabel, Date readingDate, Double temperature, Double humidity, Timestamp readingTime, String incubatorDailyComment) {
+    public IncubatorDaily(String incubatorID, String eggLabel, java.util.Date readingDate,
+                          Double temperature, Double humidity, java.util.Date readingTime,
+                          String incubatorDailyComment) {
         this.incubatorID = incubatorID;
         this.eggLabel = eggLabel;
         this.readingDate = readingDate;
@@ -75,11 +75,11 @@ public class IncubatorDaily implements Serializable {
         this.eggLabel = eggLabel;
     }
 
-    public Date getReadingDate() {
+    public java.util.Date getReadingDate() {
         return readingDate;
     }
 
-    public void setReadingDate(Date readingDate) {
+    public void setReadingDate(java.util.Date readingDate) {
         this.readingDate = readingDate;
     }
 
@@ -99,11 +99,11 @@ public class IncubatorDaily implements Serializable {
         this.humidity = humidity;
     }
 
-    public Timestamp getReadingTime() {
+    public java.util.Date getReadingTime() {
         return readingTime;
     }
 
-    public void setReadingTime(Timestamp readingTime) {
+    public void setReadingTime(java.util.Date readingTime) {
         this.readingTime = readingTime;
     }
 

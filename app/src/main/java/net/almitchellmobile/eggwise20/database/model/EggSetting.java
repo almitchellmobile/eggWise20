@@ -3,7 +3,7 @@ package net.almitchellmobile.eggwise20.database.model;
 import net.almitchellmobile.eggwise20.util.Constants;
 
 import java.io.Serializable;
-import java.sql.Date;
+import java.util.Date;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
@@ -14,7 +14,7 @@ import androidx.room.PrimaryKey;
 public class EggSetting implements Serializable {
 
     @PrimaryKey(autoGenerate = true)
-    public Long settingID;
+    public Long eggSettingID;
 
     @ColumnInfo(name = "EggLabel")
     public String eggLabel;
@@ -44,10 +44,10 @@ public class EggSetting implements Serializable {
     public Double eggBreadth;
 
     @ColumnInfo(name = "LayDate")
-    public Date layDate;
+    public java.util.Date layDate;
 
     @ColumnInfo(name = "SetDate")
-    public Date setDate;
+    public java.util.Date setDate;
 
     @ColumnInfo(name = "IncubatorID")
     public Long incubatorID;
@@ -56,16 +56,16 @@ public class EggSetting implements Serializable {
     public String location;
 
     @ColumnInfo(name = "HatchDate")
-    public Date hatchDate;
+    public java.util.Date hatchDate;
 
     @ColumnInfo(name = "LossAtPIP")
     public Double lossAtPIP;
 
     @ColumnInfo(name = "NewestLayDate")
-    public Date newestLayDate;
+    public java.util.Date newestLayDate;
 
     @ColumnInfo(name = "OldestLayDate")
-    public Date oldestLayDate;
+    public java.util.Date oldestLayDate;
 
     @ColumnInfo(name = "SettingType")
     public String settingType;
@@ -80,7 +80,7 @@ public class EggSetting implements Serializable {
     public Integer trackingOption;
 
     @ColumnInfo(name = "ReminderHatchDate")
-    public Date reminderHatchDate;
+    public java.util.Date reminderHatchDate;
 
     @ColumnInfo(name = "ReminderIncubatorSetting")
     public Integer reminderIncubatorSetting;
@@ -100,8 +100,7 @@ public class EggSetting implements Serializable {
     @ColumnInfo(name = "CommonName")
     public Integer commonName;
 
-
-    public EggSetting(String eggLabel, String disposition, Long motherID, String motherName, Long fatherID, String fatherName, Long speciesID, String speciesName, Double eggHeight, Double eggBreadth, Date layDate, Date setDate, Long incubatorID, String incubatorName, String location, Date hatchDate, Double lossAtPIP, Date newestLayDate, Date oldestLayDate, String settingType, Integer numberOfEggs, Double pipDate, Integer trackingOption, Date reminderHatchDate, Integer reminderIncubatorSetting, Integer reminderIncubatorWater, Integer reminderEggCandeling, Integer reminderEggTurning, Double desiredWeightLoss, Integer commonName) {
+    public EggSetting(String eggLabel, String disposition, Long motherID, String motherName, Long fatherID, String fatherName, Long speciesID, Double eggHeight, Double eggBreadth, Date layDate, Date setDate, Long incubatorID, String location, Date hatchDate, Double lossAtPIP, Date newestLayDate, Date oldestLayDate, String settingType, Integer numberOfEggs, Double pipDate, Integer trackingOption, Date reminderHatchDate, Integer reminderIncubatorSetting, Integer reminderIncubatorWater, Integer reminderEggCandeling, Integer reminderEggTurning, Double desiredWeightLoss, Integer commonName) {
         this.eggLabel = eggLabel;
         this.disposition = disposition;
         this.motherID = motherID;
@@ -135,12 +134,12 @@ public class EggSetting implements Serializable {
     @Ignore
     public EggSetting(){}
 
-    public Long getSettingID() {
-        return settingID;
+    public Long getEggSettingID() {
+        return eggSettingID;
     }
 
-    public void setSettingID(Long settingID) {
-        this.settingID = settingID;
+    public void setEggSettingID(Long eggSettingID) {
+        this.eggSettingID = eggSettingID;
     }
 
     public String getEggLabel() {
