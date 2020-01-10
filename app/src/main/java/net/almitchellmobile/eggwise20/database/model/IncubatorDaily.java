@@ -1,6 +1,7 @@
 package net.almitchellmobile.eggwise20.database.model;
 
 import net.almitchellmobile.eggwise20.util.Constants;
+import net.almitchellmobile.eggwise20.util.TimestampConverter;
 
 import java.io.Serializable;
 
@@ -8,6 +9,7 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
+import androidx.room.TypeConverters;
 
 @Entity(tableName = Constants.TABLE_NAME_INCUBATORDAILY)
 public class IncubatorDaily implements Serializable {
@@ -22,7 +24,8 @@ public class IncubatorDaily implements Serializable {
     public String eggLabel;
 
     @ColumnInfo(name = "ReadingDate")
-    public java.util.Date readingDate;
+    @TypeConverters({TimestampConverter.class})
+    public String readingDate;
 
     @ColumnInfo(name = "Temperature")
     public Double temperature;
@@ -31,13 +34,14 @@ public class IncubatorDaily implements Serializable {
     public Double humidity;
 
     @ColumnInfo(name = "ReadingTime")
-    public java.util.Date readingTime;
+    @TypeConverters({TimestampConverter.class})
+    public String readingTime;
 
     @ColumnInfo(name = "IncubatorDailyComment")
     public String incubatorDailyComment;
 
-    public IncubatorDaily(String incubatorID, String eggLabel, java.util.Date readingDate,
-                          Double temperature, Double humidity, java.util.Date readingTime,
+    public IncubatorDaily(String incubatorID, String eggLabel, String readingDate,
+                          Double temperature, Double humidity, String readingTime,
                           String incubatorDailyComment) {
         this.incubatorID = incubatorID;
         this.eggLabel = eggLabel;
@@ -75,11 +79,11 @@ public class IncubatorDaily implements Serializable {
         this.eggLabel = eggLabel;
     }
 
-    public java.util.Date getReadingDate() {
+    public String getReadingDate() {
         return readingDate;
     }
 
-    public void setReadingDate(java.util.Date readingDate) {
+    public void setReadingDate(String readingDate) {
         this.readingDate = readingDate;
     }
 
@@ -99,11 +103,11 @@ public class IncubatorDaily implements Serializable {
         this.humidity = humidity;
     }
 
-    public java.util.Date getReadingTime() {
+    public String getReadingTime() {
         return readingTime;
     }
 
-    public void setReadingTime(java.util.Date readingTime) {
+    public void setReadingTime(String readingTime) {
         this.readingTime = readingTime;
     }
 

@@ -1,14 +1,15 @@
 package net.almitchellmobile.eggwise20.database.model;
 
 import net.almitchellmobile.eggwise20.util.Constants;
+import net.almitchellmobile.eggwise20.util.TimestampConverter;
 
 import java.io.Serializable;
-import java.util.Date;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
+import androidx.room.TypeConverters;
 
 @Entity(tableName = Constants.TABLE_NAME_EGGSETTING)
 public class EggSetting implements Serializable {
@@ -44,10 +45,12 @@ public class EggSetting implements Serializable {
     public Double eggBreadth;
 
     @ColumnInfo(name = "LayDate")
-    public java.util.Date layDate;
+    @TypeConverters({TimestampConverter.class})
+    public String layDate;
 
     @ColumnInfo(name = "SetDate")
-    public java.util.Date setDate;
+    @TypeConverters({TimestampConverter.class})
+    public String setDate;
 
     @ColumnInfo(name = "IncubatorID")
     public Long incubatorID;
@@ -56,16 +59,19 @@ public class EggSetting implements Serializable {
     public String location;
 
     @ColumnInfo(name = "HatchDate")
-    public java.util.Date hatchDate;
+    @TypeConverters({TimestampConverter.class})
+    public String hatchDate;
 
     @ColumnInfo(name = "LossAtPIP")
     public Double lossAtPIP;
 
     @ColumnInfo(name = "NewestLayDate")
-    public java.util.Date newestLayDate;
+    @TypeConverters({TimestampConverter.class})
+    public String newestLayDate;
 
     @ColumnInfo(name = "OldestLayDate")
-    public java.util.Date oldestLayDate;
+    @TypeConverters({TimestampConverter.class})
+    public String oldestLayDate;
 
     @ColumnInfo(name = "SettingType")
     public String settingType;
@@ -80,7 +86,8 @@ public class EggSetting implements Serializable {
     public Integer trackingOption;
 
     @ColumnInfo(name = "ReminderHatchDate")
-    public java.util.Date reminderHatchDate;
+    @TypeConverters({TimestampConverter.class})
+    public String reminderHatchDate;
 
     @ColumnInfo(name = "ReminderIncubatorSetting")
     public Integer reminderIncubatorSetting;
@@ -100,7 +107,15 @@ public class EggSetting implements Serializable {
     @ColumnInfo(name = "CommonName")
     public Integer commonName;
 
-    public EggSetting(String eggLabel, String disposition, Long motherID, String motherName, Long fatherID, String fatherName, Long speciesID, Double eggHeight, Double eggBreadth, Date layDate, Date setDate, Long incubatorID, String location, Date hatchDate, Double lossAtPIP, Date newestLayDate, Date oldestLayDate, String settingType, Integer numberOfEggs, Double pipDate, Integer trackingOption, Date reminderHatchDate, Integer reminderIncubatorSetting, Integer reminderIncubatorWater, Integer reminderEggCandeling, Integer reminderEggTurning, Double desiredWeightLoss, Integer commonName) {
+    public EggSetting(String eggLabel, String disposition, Long motherID, String motherName,
+                      Long fatherID, String fatherName, Long speciesID, Double eggHeight,
+                      Double eggBreadth, String layDate, String setDate, Long incubatorID,
+                      String location, String hatchDate, Double lossAtPIP,
+                      String newestLayDate, String oldestLayDate, String settingType,
+                      Integer numberOfEggs, Double pipDate, Integer trackingOption,
+                      String reminderHatchDate, Integer reminderIncubatorSetting,
+                      Integer reminderIncubatorWater, Integer reminderEggCandeling,
+                      Integer reminderEggTurning, Double desiredWeightLoss, Integer commonName) {
         this.eggLabel = eggLabel;
         this.disposition = disposition;
         this.motherID = motherID;
@@ -214,19 +229,19 @@ public class EggSetting implements Serializable {
         this.eggBreadth = eggBreadth;
     }
 
-    public Date getLayDate() {
+    public String getLayDate() {
         return layDate;
     }
 
-    public void setLayDate(Date layDate) {
+    public void setLayDate(String layDate) {
         this.layDate = layDate;
     }
 
-    public Date getSetDate() {
+    public String getSetDate() {
         return setDate;
     }
 
-    public void setSetDate(Date setDate) {
+    public void setSetDate(String setDate) {
         this.setDate = setDate;
     }
 
@@ -246,11 +261,11 @@ public class EggSetting implements Serializable {
         this.location = location;
     }
 
-    public Date getHatchDate() {
+    public String getHatchDate() {
         return hatchDate;
     }
 
-    public void setHatchDate(Date hatchDate) {
+    public void setHatchDate(String hatchDate) {
         this.hatchDate = hatchDate;
     }
 
@@ -262,19 +277,19 @@ public class EggSetting implements Serializable {
         this.lossAtPIP = lossAtPIP;
     }
 
-    public Date getNewestLayDate() {
+    public String getNewestLayDate() {
         return newestLayDate;
     }
 
-    public void setNewestLayDate(Date newestLayDate) {
+    public void setNewestLayDate(String newestLayDate) {
         this.newestLayDate = newestLayDate;
     }
 
-    public Date getOldestLayDate() {
+    public String getOldestLayDate() {
         return oldestLayDate;
     }
 
-    public void setOldestLayDate(Date oldestLayDate) {
+    public void setOldestLayDate(String oldestLayDate) {
         this.oldestLayDate = oldestLayDate;
     }
 
@@ -310,11 +325,11 @@ public class EggSetting implements Serializable {
         this.trackingOption = trackingOption;
     }
 
-    public Date getReminderHatchDate() {
+    public String getReminderHatchDate() {
         return reminderHatchDate;
     }
 
-    public void setReminderHatchDate(Date reminderHatchDate) {
+    public void setReminderHatchDate(String reminderHatchDate) {
         this.reminderHatchDate = reminderHatchDate;
     }
 

@@ -1,6 +1,7 @@
 package net.almitchellmobile.eggwise20.database.model;
 
 import net.almitchellmobile.eggwise20.util.Constants;
+import net.almitchellmobile.eggwise20.util.TimestampConverter;
 
 import java.io.Serializable;
 
@@ -8,6 +9,7 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
+import androidx.room.TypeConverters;
 
 @Entity(tableName = Constants.TABLE_NAME_BREEDERS)
 public class Breeders implements Serializable {
@@ -28,7 +30,8 @@ public class Breeders implements Serializable {
     public String acquiredFrom;
 
     @ColumnInfo(name = "HatchDate")
-    public java.util.Date hatchDate;
+    @TypeConverters({TimestampConverter.class})
+    public String hatchDate;
 
     @ColumnInfo(name = "CaptiveBreed")
     public Long captiveBreed;
@@ -70,23 +73,17 @@ public class Breeders implements Serializable {
     public String userDefined2;
 
     @ColumnInfo(name = "AquiredOn")
-    public java.util.Date aquiredOn;
+    @TypeConverters({TimestampConverter.class})
+    public String aquiredOn;
 
     @ColumnInfo(name = "PublishedOn")
-    public java.util.Date publishedOn;
+    @TypeConverters({TimestampConverter.class})
+    public String publishedOn;
 
     @ColumnInfo(name = "CommonName")
     public String commonName;
 
-
-    public Breeders(String birdsName, Long speciesID, String gender,
-                    String acquiredFrom, java.util.Date hatchDate, Long captiveBreed,
-                    String buildingLocation, String penLocation, String naturalMate,
-                    String rearedBy, String leftLegBand, String rightLegBand, String isisNumber,
-                    String studBookNumber, String microChipNumber, String readerType,
-                    String userDefined1, String userDefined2, java.util.Date aquiredOn, java.util.Date publishedOn,
-                    String commonName) {
-
+    public Breeders(String birdsName, Long speciesID, String gender, String acquiredFrom, String hatchDate, Long captiveBreed, String buildingLocation, String penLocation, String naturalMate, String rearedBy, String leftLegBand, String rightLegBand, String isisNumber, String studBookNumber, String microChipNumber, String readerType, String userDefined1, String userDefined2, String aquiredOn, String publishedOn, String commonName) {
         this.birdsName = birdsName;
         this.speciesID = speciesID;
         this.gender = gender;
@@ -153,11 +150,11 @@ public class Breeders implements Serializable {
         this.acquiredFrom = acquiredFrom;
     }
 
-    public java.util.Date getHatchDate() {
+    public String getHatchDate() {
         return hatchDate;
     }
 
-    public void setHatchDate(java.util.Date hatchDate) {
+    public void setHatchDate(String hatchDate) {
         this.hatchDate = hatchDate;
     }
 
@@ -265,19 +262,19 @@ public class Breeders implements Serializable {
         this.userDefined2 = userDefined2;
     }
 
-    public java.util.Date getAquiredOn() {
+    public String getAquiredOn() {
         return aquiredOn;
     }
 
-    public void setAquiredOn(java.util.Date aquiredOn) {
+    public void setAquiredOn(String aquiredOn) {
         this.aquiredOn = aquiredOn;
     }
 
-    public java.util.Date getPublishedOn() {
+    public String getPublishedOn() {
         return publishedOn;
     }
 
-    public void setPublishedOn(java.util.Date publishedOn) {
+    public void setPublishedOn(String publishedOn) {
         this.publishedOn = publishedOn;
     }
 

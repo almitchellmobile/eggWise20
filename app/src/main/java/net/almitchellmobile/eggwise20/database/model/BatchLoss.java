@@ -1,14 +1,15 @@
 package net.almitchellmobile.eggwise20.database.model;
 
 import net.almitchellmobile.eggwise20.util.Constants;
+import net.almitchellmobile.eggwise20.util.TimestampConverter;
 
 import java.io.Serializable;
-import java.util.Date;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
+import androidx.room.TypeConverters;
 
 @Entity(tableName = Constants.TABLE_NAME_BATCHLOSS)
 public class BatchLoss implements Serializable {
@@ -35,14 +36,17 @@ public class BatchLoss implements Serializable {
     public String batchlossComment;
 
     @ColumnInfo(name = "ReadingDate")
-    public java.util.Date readingDate;
+    @TypeConverters({TimestampConverter.class})
+    public String readingDate;
 
     @ColumnInfo(name = "ReadingTime")
-    public java.util.Date readingTime;
+    @TypeConverters({TimestampConverter.class})
+    public String readingTime;
+
 
     public BatchLoss(Long settingID, String batchLabel, String incubatorName,
                      Integer eggLossCount, Integer numberOfEggs, String batchlossComment,
-                     java.util.Date readingDate, java.util.Date readingTime) {
+                     String readingDate, String readingTime) {
         this.settingID = settingID;
         this.batchLabel = batchLabel;
         this.incubatorName = incubatorName;
@@ -112,19 +116,19 @@ public class BatchLoss implements Serializable {
         this.batchlossComment = batchlossComment;
     }
 
-    public Date getReadingDate() {
+    public String getReadingDate() {
         return readingDate;
     }
 
-    public void setReadingDate(java.util.Date readingDate) {
+    public void setReadingDate(String readingDate) {
         this.readingDate = readingDate;
     }
 
-    public java.util.Date getReadingTime() {
+    public String getReadingTime() {
         return readingTime;
     }
 
-    public void setReadingTime(java.util.Date readingTime) {
+    public void setReadingTime(String readingTime) {
         this.readingTime = readingTime;
     }
 }

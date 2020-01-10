@@ -1,6 +1,7 @@
 package net.almitchellmobile.eggwise20.database.model;
 
 import net.almitchellmobile.eggwise20.util.Constants;
+import net.almitchellmobile.eggwise20.util.TimestampConverter;
 
 import java.io.Serializable;
 
@@ -8,6 +9,7 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
+import androidx.room.TypeConverters;
 
 @Entity(tableName = Constants.TABLE_NAME_EGGDAILY)
 public class EggDaily implements Serializable {
@@ -25,10 +27,12 @@ public class EggDaily implements Serializable {
     public String eggLabel;
 
     @ColumnInfo(name = "ReadingDate")
-    public java.util.Date readingDate;
+    @TypeConverters({TimestampConverter.class})
+    public String readingDate;
 
     @ColumnInfo(name = "SetDate")
-    public java.util.Date setDate;
+    @TypeConverters({TimestampConverter.class})
+    public String setDate;
 
     @ColumnInfo(name = "ReadingDayNumber")
     public Integer readingDayNumber;
@@ -48,10 +52,7 @@ public class EggDaily implements Serializable {
     @ColumnInfo(name = "NumberOfEggs")
     public Integer numberOfEggs;
 
-    public EggDaily(Long settingID, String batchLabel, String eggLabel, java.util.Date readingDate,
-                    java.util.Date setDate, Integer readingDayNumber, Double eggWeight,
-                    Double eggWeightAverage, String eggDailyComment, String incubatorName,
-                    Integer numberOfEggs) {
+    public EggDaily(Long settingID, String batchLabel, String eggLabel, String readingDate, String setDate, Integer readingDayNumber, Double eggWeight, Double eggWeightAverage, String eggDailyComment, String incubatorName, Integer numberOfEggs) {
         this.settingID = settingID;
         this.batchLabel = batchLabel;
         this.eggLabel = eggLabel;
@@ -100,19 +101,19 @@ public class EggDaily implements Serializable {
         this.eggLabel = eggLabel;
     }
 
-    public java.util.Date getReadingDate() {
+    public String getReadingDate() {
         return readingDate;
     }
 
-    public void setReadingDate(java.util.Date readingDate) {
+    public void setReadingDate(String readingDate) {
         this.readingDate = readingDate;
     }
 
-    public java.util.Date getSetDate() {
+    public String getSetDate() {
         return setDate;
     }
 
-    public void setSetDate(java.util.Date setDate) {
+    public void setSetDate(String setDate) {
         this.setDate = setDate;
     }
 
@@ -163,5 +164,4 @@ public class EggDaily implements Serializable {
     public void setNumberOfEggs(Integer numberOfEggs) {
         this.numberOfEggs = numberOfEggs;
     }
-
 }

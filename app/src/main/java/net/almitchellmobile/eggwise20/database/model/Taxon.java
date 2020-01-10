@@ -1,6 +1,7 @@
 package net.almitchellmobile.eggwise20.database.model;
 
 import net.almitchellmobile.eggwise20.util.Constants;
+import net.almitchellmobile.eggwise20.util.TimestampConverter;
 
 import java.io.Serializable;
 
@@ -8,6 +9,7 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
+import androidx.room.TypeConverters;
 
 @Entity(tableName = Constants.TABLE_NAME_TAXON)
 public class Taxon implements Serializable {
@@ -31,10 +33,11 @@ public class Taxon implements Serializable {
     public Double eggSize;
 
     @ColumnInfo(name = "PublishedOn")
-    public java.util.Date publishedOn;
+    @TypeConverters({TimestampConverter.class})
+    public String publishedOn;
 
 
-    public Taxon(String speciesName, String userName, String commonName, String incubationDays, Double eggSize, java.util.Date publishedOn) {
+    public Taxon(String speciesName, String userName, String commonName, String incubationDays, Double eggSize, String publishedOn) {
         this.speciesName = speciesName;
         this.userName = userName;
         this.commonName = commonName;
@@ -94,11 +97,11 @@ public class Taxon implements Serializable {
         this.eggSize = eggSize;
     }
 
-    public java.util.Date getPublishedOn() {
+    public String getPublishedOn() {
         return publishedOn;
     }
 
-    public void setPublishedOn(java.util.Date publishedOn) {
+    public void setPublishedOn(String publishedOn) {
         this.publishedOn = publishedOn;
     }
 }
