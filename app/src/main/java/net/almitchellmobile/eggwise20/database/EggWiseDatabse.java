@@ -28,7 +28,7 @@ import androidx.room.TypeConverters;
 
 @Database(entities = { Incubator.class, BatchLoss.class, Breeders.class, EggDaily.class,
         EggSetting.class, IncubatorDaily.class, Options.class, Taxon.class},
-        version = 2, exportSchema = true)
+        version = 4, exportSchema = true)
 
 @TypeConverters({DateRoomConverter.class})
 public abstract class EggWiseDatabse extends RoomDatabase {

@@ -27,5 +27,16 @@
     <string name="title_activity_incubator_list">IncubatorListActivity</string>
     <string name="title_activity_egg_batch_list">EggBatchListActivity</string>
     <string name="title_activity_add_batch">AddBatchActivity</string>
+    <string name="egg_batch_label">Egg Batch Label</string>
+    <string name="number_of_eggs">Number Of Eggs</string>
+    <string name="species_name">Species Name</string>
+    <string name="common_name">Common Name</string>
+    <string name="incubator_name">Incubator Name</string>
+    <string name="set_date">Set Date</string>
+    <string name="hatch_date">Hatch Date</string>
+    <string name="location">Location</string>
+    <string name="desired_weight_loss">Desired Weight Loss</string>
+    <string name="track_entire_batch">Track Entire Batch</string>
+    <string name="track_specific_eggs">Track Specific Eggs</string>
 
 </resources>

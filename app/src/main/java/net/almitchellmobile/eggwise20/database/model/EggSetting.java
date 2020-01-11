@@ -38,6 +38,9 @@ public class EggSetting implements Serializable {
     @ColumnInfo(name = "SpeciesID")
     public Long speciesID;
 
+    @ColumnInfo(name = "SpeciesName")
+    public String speciesName;
+
     @ColumnInfo(name = "EggHeight")
     public Double eggHeight;
 
@@ -54,6 +57,11 @@ public class EggSetting implements Serializable {
 
     @ColumnInfo(name = "IncubatorID")
     public Long incubatorID;
+
+
+    @ColumnInfo(name = "IncubatorName")
+    public String incubatorName;
+
 
     @ColumnInfo(name = "Location")
     public String location;
@@ -105,17 +113,9 @@ public class EggSetting implements Serializable {
     public Double desiredWeightLoss;
 
     @ColumnInfo(name = "CommonName")
-    public Integer commonName;
+    public String commonName;
 
-    public EggSetting(String eggLabel, String disposition, Long motherID, String motherName,
-                      Long fatherID, String fatherName, Long speciesID, Double eggHeight,
-                      Double eggBreadth, String layDate, String setDate, Long incubatorID,
-                      String location, String hatchDate, Double lossAtPIP,
-                      String newestLayDate, String oldestLayDate, String settingType,
-                      Integer numberOfEggs, Double pipDate, Integer trackingOption,
-                      String reminderHatchDate, Integer reminderIncubatorSetting,
-                      Integer reminderIncubatorWater, Integer reminderEggCandeling,
-                      Integer reminderEggTurning, Double desiredWeightLoss, Integer commonName) {
+    public EggSetting(String eggLabel, String disposition, Long motherID, String motherName, Long fatherID, String fatherName, Long speciesID, String speciesName, Double eggHeight, Double eggBreadth, String layDate, String setDate, Long incubatorID, String incubatorName, String location, String hatchDate, Double lossAtPIP, String newestLayDate, String oldestLayDate, String settingType, Integer numberOfEggs, Double pipDate, Integer trackingOption, String reminderHatchDate, Integer reminderIncubatorSetting, Integer reminderIncubatorWater, Integer reminderEggCandeling, Integer reminderEggTurning, Double desiredWeightLoss, String commonName) {
         this.eggLabel = eggLabel;
         this.disposition = disposition;
         this.motherID = motherID;
@@ -123,11 +123,13 @@ public class EggSetting implements Serializable {
         this.fatherID = fatherID;
         this.fatherName = fatherName;
         this.speciesID = speciesID;
+        this.speciesName = speciesName;
         this.eggHeight = eggHeight;
         this.eggBreadth = eggBreadth;
         this.layDate = layDate;
         this.setDate = setDate;
         this.incubatorID = incubatorID;
+        this.incubatorName = incubatorName;
         this.location = location;
         this.hatchDate = hatchDate;
         this.lossAtPIP = lossAtPIP;
@@ -213,6 +215,14 @@ public class EggSetting implements Serializable {
         this.speciesID = speciesID;
     }
 
+    public String getSpeciesName() {
+        return speciesName;
+    }
+
+    public void setSpeciesName(String speciesName) {
+        this.speciesName = speciesName;
+    }
+
     public Double getEggHeight() {
         return eggHeight;
     }
@@ -251,6 +261,14 @@ public class EggSetting implements Serializable {
 
     public void setIncubatorID(Long incubatorID) {
         this.incubatorID = incubatorID;
+    }
+
+    public String getIncubatorName() {
+        return incubatorName;
+    }
+
+    public void setIncubatorName(String incubatorName) {
+        this.incubatorName = incubatorName;
     }
 
     public String getLocation() {
@@ -373,11 +391,11 @@ public class EggSetting implements Serializable {
         this.desiredWeightLoss = desiredWeightLoss;
     }
 
-    public Integer getCommonName() {
+    public String getCommonName() {
         return commonName;
     }
 
-    public void setCommonName(Integer commonName) {
+    public void setCommonName(String commonName) {
         this.commonName = commonName;
     }
 }
