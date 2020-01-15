@@ -26,7 +26,7 @@ import androidx.recyclerview.widget.RecyclerView;
 public class IncubatorListActivity extends AppCompatActivity implements IncubatorsAdapter.OnIncubatorItemClick{
 
     private TextView textViewMsg;
-    private RecyclerView recyclerView;
+    private RecyclerView recyclerViewIncubatorList;
     private EggWiseDatabse eggWiseDatabse;
     private List<Incubator> incubators;
     private IncubatorsAdapter incubatorAdapter;
@@ -81,8 +81,8 @@ public class IncubatorListActivity extends AppCompatActivity implements Incubato
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         textViewMsg =  (TextView) findViewById(R.id.tv_empty_incubators);
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        FloatingActionButton fabIncubatorList = (FloatingActionButton) findViewById(R.id.fabIncubatorList);
+        fabIncubatorList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
@@ -91,11 +91,11 @@ public class IncubatorListActivity extends AppCompatActivity implements Incubato
             }
         });
 
-        recyclerView = findViewById(R.id.recycler_view_incubator);
-        recyclerView.setLayoutManager(new LinearLayoutManager(IncubatorListActivity.this));
+        recyclerViewIncubatorList = findViewById(R.id.recycler_view_incubator);
+        recyclerViewIncubatorList.setLayoutManager(new LinearLayoutManager(IncubatorListActivity.this));
         incubators = new ArrayList<Incubator>();
         incubatorAdapter = new IncubatorsAdapter(incubators,  IncubatorListActivity.this);
-        recyclerView.setAdapter(incubatorAdapter);
+        recyclerViewIncubatorList.setAdapter(incubatorAdapter);
     }
 
 

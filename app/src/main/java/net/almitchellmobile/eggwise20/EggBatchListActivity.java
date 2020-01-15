@@ -26,7 +26,7 @@ import androidx.recyclerview.widget.RecyclerView;
 public class EggBatchListActivity extends AppCompatActivity implements EggBatchAdapter.OnEggBatchItemClick{
 
     private TextView textViewMsg;
-    private RecyclerView recyclerView;
+    private RecyclerView recyclerViewEggBatchList;
     private EggWiseDatabse eggWiseDatabse;
     private List<EggSetting> eggSetting;
     private EggBatchAdapter eggBatchAdapter;
@@ -36,7 +36,7 @@ public class EggBatchListActivity extends AppCompatActivity implements EggBatchA
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_egg_batch_list);
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar_egg_batch_list);
         setSupportActionBar(toolbar);
 
         initializeViews();
@@ -87,7 +87,7 @@ public class EggBatchListActivity extends AppCompatActivity implements EggBatchA
     }
 
     private void initializeViews(){
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_egg_batch_list);
         setSupportActionBar(toolbar);
         textViewMsg =  (TextView) findViewById(R.id.tv_empty_egg_batches);
         FloatingActionButton fabEggBatchList = (FloatingActionButton) findViewById(R.id.fab_egg_batch_list);
@@ -100,11 +100,11 @@ public class EggBatchListActivity extends AppCompatActivity implements EggBatchA
             }
         });
 
-        recyclerView = findViewById(R.id.recycler_view_egg_batch_list);
-        recyclerView.setLayoutManager(new LinearLayoutManager(EggBatchListActivity.this));
+        recyclerViewEggBatchList = findViewById(R.id.recycler_view_egg_batch_list);
+        recyclerViewEggBatchList.setLayoutManager(new LinearLayoutManager(EggBatchListActivity.this));
         eggSetting = new ArrayList<EggSetting>();
         eggBatchAdapter = new EggBatchAdapter(eggSetting,  EggBatchListActivity.this);
-        recyclerView.setAdapter(eggBatchAdapter);
+        recyclerViewEggBatchList.setAdapter(eggBatchAdapter);
     }
 
 

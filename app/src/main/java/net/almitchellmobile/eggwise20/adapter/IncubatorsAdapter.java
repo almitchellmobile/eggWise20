@@ -32,7 +32,7 @@ public class IncubatorsAdapter extends RecyclerView.Adapter<IncubatorsAdapter.Be
 
     @Override
     public BeanHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = layoutInflater.inflate(R.layout.incubator_list_item,parent,false);
+        View view = layoutInflater.inflate(R.layout.list_item_incubator,parent,false);
         return new BeanHolder(view);
     }
 

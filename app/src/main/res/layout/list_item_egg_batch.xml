@@ -8,14 +8,20 @@
     android:orientation="vertical">
 
     <com.google.android.material.card.MaterialCardView
-        android:id="@+id/cardViewEggBatch"
+        android:id="@+id/cv_egg_batch"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         card_view:cardCornerRadius="5dp"
         card_view:cardElevation="5dp"
         card_view:cardUseCompatPadding="true">
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/tv_egg_batch_line1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Line 1" />
+
+        <!--<LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="2dp"
@@ -29,7 +35,7 @@
                 tools:text="Incubator Name" />
 
             <TextView
-                android:id="@+id/tv_egg_count"
+                android:id="@+id/tv_number_of_eggs"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 tools:text="MFG Model" />
@@ -71,7 +77,7 @@
                 tools:text="Location" />
 
             <TextView
-                android:id="@+id/tv_weight_loss_racking"
+                android:id="@+id/tv_weight_loss_tracking"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 tools:text="Weight Loss Tracking " />
@@ -82,7 +88,7 @@
                 android:layout_height="wrap_content"
                 tools:text="Desired Weight Loss " />
 
-        </LinearLayout>
+        </LinearLayout>-->
 
     </com.google.android.material.card.MaterialCardView>
 

@@ -85,14 +85,15 @@
                 android:id="@+id/et_set_date"
                 android:hint="@string/set_date"
                 android:singleLine="true"
+                android:focusable="false"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
-            <CalendarView
+            <!--<CalendarView
                 android:id="@+id/cv_set_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:scrollbars="vertical"
-                android:tag="Set Date" />
+                android:tag="Set Date" />-->
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -102,16 +103,17 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:inputType="text"
                 android:id="@+id/et_hatch_date"
-                android:hint="@string/set_date"
+                android:hint="@string/hatch_date"
+                android:focusable="false"
                 android:singleLine="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
-            <CalendarView
+            <!--<CalendarView
                 android:id="@+id/cv_hatch_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:scrollbars="vertical"
-                android:tag="@string/hatch_date" />
+                android:tag="@string/hatch_date" />-->
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
