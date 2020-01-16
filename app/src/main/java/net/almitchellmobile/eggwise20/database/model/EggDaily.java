@@ -11,7 +11,7 @@ import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 
-@Entity(tableName = Constants.TABLE_NAME_EGGDAILY)
+@Entity(tableName = Constants.TABLE_NAME_EGG_DAILY)
 public class EggDaily implements Serializable {
 
     @PrimaryKey(autoGenerate = true)

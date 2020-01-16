@@ -6,12 +6,14 @@ import net.almitchellmobile.eggwise20.database.dao.BatchLossDao;
 import net.almitchellmobile.eggwise20.database.dao.BreedersDao;
 import net.almitchellmobile.eggwise20.database.dao.EggDailyDao;
 import net.almitchellmobile.eggwise20.database.dao.EggSettingDao;
+import net.almitchellmobile.eggwise20.database.dao.EggBatchDao;
 import net.almitchellmobile.eggwise20.database.dao.IncubatorDailyDao;
 import net.almitchellmobile.eggwise20.database.dao.IncubatorDao;
 import net.almitchellmobile.eggwise20.database.dao.OptionsDao;
 import net.almitchellmobile.eggwise20.database.dao.TaxonDao;
 import net.almitchellmobile.eggwise20.database.model.BatchLoss;
 import net.almitchellmobile.eggwise20.database.model.Breeders;
+import net.almitchellmobile.eggwise20.database.model.EggBatch;
 import net.almitchellmobile.eggwise20.database.model.EggDaily;
 import net.almitchellmobile.eggwise20.database.model.EggSetting;
 import net.almitchellmobile.eggwise20.database.model.Incubator;
@@ -27,14 +29,15 @@ import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 
 @Database(entities = { Incubator.class, BatchLoss.class, Breeders.class, EggDaily.class,
-        EggSetting.class, IncubatorDaily.class, Options.class, Taxon.class},
-        version = 4, exportSchema = true)
+        EggSetting.class, EggBatch.class, IncubatorDaily.class, Options.class, Taxon.class},
+        version = 5, exportSchema = true)
 
 @TypeConverters({DateRoomConverter.class})
 public abstract class EggWiseDatabse extends RoomDatabase {
 
     public abstract IncubatorDao getIncubatorDao();
     public abstract EggSettingDao getEggSettingDao();
+    public abstract EggBatchDao getEggBatchDao();
     public abstract BatchLossDao getBacthLossDao();
     public abstract BreedersDao getBreedersDao();
     public abstract EggDailyDao getEggDailyDao();

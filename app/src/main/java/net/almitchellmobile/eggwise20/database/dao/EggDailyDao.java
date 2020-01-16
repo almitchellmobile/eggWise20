@@ -14,7 +14,7 @@ import androidx.room.Update;
 @Dao
 public interface EggDailyDao {
 
-    @Query("SELECT * FROM "+ Constants.TABLE_NAME_EGGDAILY)
+    @Query("SELECT * FROM "+ Constants.TABLE_NAME_EGG_DAILY)
     List<EggDaily> getEggDaily();
 
     /*

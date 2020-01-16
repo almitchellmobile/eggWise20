@@ -11,7 +11,7 @@ import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 
-@Entity(tableName = Constants.TABLE_NAME_BATCHLOSS)
+@Entity(tableName = Constants.TABLE_NAME_BATCH_LOSS)
 public class BatchLoss implements Serializable {
 
     @PrimaryKey(autoGenerate = true)

@@ -11,7 +11,7 @@ import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 
-@Entity(tableName = Constants.TABLE_NAME_EGGSETTING)
+@Entity(tableName = Constants.TABLE_NAME_EGG_SETTING)
 public class EggSetting implements Serializable {
 
     @PrimaryKey(autoGenerate = true)

@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import net.almitchellmobile.eggwise20.R;
-import net.almitchellmobile.eggwise20.database.model.EggSetting;
+import net.almitchellmobile.eggwise20.database.model.EggBatch;
 
 import java.util.List;
 
@@ -19,12 +19,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class EggBatchAdapter extends RecyclerView.Adapter<EggBatchAdapter.BeanHolder> {
 
-    private List<EggSetting> list;
+    private List<EggBatch> list;
     private Context context;
     private LayoutInflater layoutInflater;
     private OnEggBatchItemClick onEggBatchItemClick;
 
-    public EggBatchAdapter(List<EggSetting> list,Context context) {
+    public EggBatchAdapter(List<EggBatch> list,Context context) {
         layoutInflater = LayoutInflater.from(context);
         this.list = list;
         this.context = context;
@@ -50,7 +50,7 @@ public class EggBatchAdapter extends RecyclerView.Adapter<EggBatchAdapter.BeanHo
         Log.e("bind", "onBindViewHolder: "+ list.get(position));
 
         String line1 = "";
-        line1 = "<B>Batch Label:</B> " + list.get(position).getEggLabel() +
+        line1 = "<B>Batch Label:</B> " + list.get(position).getBatchLabel() +
                 ", <B>Number Of Eggs:</B> " + list.get(position).getNumberOfEggs().toString() +
                 ", <B>Common Name:</B> " + list.get(position).getCommonName() +
                 ", <B>Species Name:</B> " + list.get(position).getSpeciesName() +

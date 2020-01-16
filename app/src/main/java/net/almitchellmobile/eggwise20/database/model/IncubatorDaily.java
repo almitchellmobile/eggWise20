@@ -11,7 +11,7 @@ import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 
-@Entity(tableName = Constants.TABLE_NAME_INCUBATORDAILY)
+@Entity(tableName = Constants.TABLE_NAME_INCUBATOR_DAILY)
 public class IncubatorDaily implements Serializable {
 
     @PrimaryKey(autoGenerate = true)

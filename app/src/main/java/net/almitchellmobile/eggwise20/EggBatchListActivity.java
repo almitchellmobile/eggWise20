@@ -11,7 +11,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import net.almitchellmobile.eggwise20.adapter.EggBatchAdapter;
 import net.almitchellmobile.eggwise20.database.EggWiseDatabse;
-import net.almitchellmobile.eggwise20.database.model.EggSetting;
+import net.almitchellmobile.eggwise20.database.model.EggBatch;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -28,7 +28,7 @@ public class EggBatchListActivity extends AppCompatActivity implements EggBatchA
     private TextView textViewMsg;
     private RecyclerView recyclerViewEggBatchList;
     private EggWiseDatabse eggWiseDatabse;
-    private List<EggSetting> eggSetting;
+    private List<EggBatch> EggBatch;
     private EggBatchAdapter eggBatchAdapter;
     private int pos;
 
@@ -57,7 +57,7 @@ public class EggBatchListActivity extends AppCompatActivity implements EggBatchA
         new EggBatchListActivity.RetrieveTask(this).execute();
     }
 
-    private static class RetrieveTask extends AsyncTask<Void,Void,List<EggSetting>> {
+    private static class RetrieveTask extends AsyncTask<Void,Void,List<EggBatch>> {
 
         private WeakReference<EggBatchListActivity> activityReference;
 
@@ -67,18 +67,18 @@ public class EggBatchListActivity extends AppCompatActivity implements EggBatchA
         }
 
         @Override
-        protected List<EggSetting> doInBackground(Void... voids) {
+        protected List<EggBatch> doInBackground(Void... voids) {
             if (activityReference.get()!=null)
-                return activityReference.get().eggWiseDatabse.getEggSettingDao().getEggSetting();
+                return activityReference.get().eggWiseDatabse.getEggBatchDao().getEggBatch();
             else
                 return null;
         }
 
         @Override
-        protected void onPostExecute(List<EggSetting> eggSetting) {
-            if (eggSetting!=null && eggSetting.size()>0 ){
-                activityReference.get().eggSetting.clear();
-                activityReference.get().eggSetting.addAll(eggSetting);
+        protected void onPostExecute(List<EggBatch> EggBatch) {
+            if (EggBatch!=null && EggBatch.size()>0 ){
+                activityReference.get().EggBatch.clear();
+                activityReference.get().EggBatch.addAll(EggBatch);
                 // hides empty text view
                 activityReference.get().textViewMsg.setVisibility(View.GONE);
                 activityReference.get().eggBatchAdapter.notifyDataSetChanged();
@@ -102,8 +102,8 @@ public class EggBatchListActivity extends AppCompatActivity implements EggBatchA
 
         recyclerViewEggBatchList = findViewById(R.id.recycler_view_egg_batch_list);
         recyclerViewEggBatchList.setLayoutManager(new LinearLayoutManager(EggBatchListActivity.this));
-        eggSetting = new ArrayList<EggSetting>();
-        eggBatchAdapter = new EggBatchAdapter(eggSetting,  EggBatchListActivity.this);
+        EggBatch = new ArrayList<EggBatch>();
+        eggBatchAdapter = new EggBatchAdapter(EggBatch,  EggBatchListActivity.this);
         recyclerViewEggBatchList.setAdapter(eggBatchAdapter);
     }
 
@@ -114,9 +114,9 @@ public class EggBatchListActivity extends AppCompatActivity implements EggBatchA
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 100 && resultCode > 0) {
             if (resultCode == 1) {
-                eggSetting.add((EggSetting) data.getSerializableExtra("eggSetting"));
+                EggBatch.add((EggBatch) data.getSerializableExtra("EggBatch"));
             } else if (resultCode == 2) {
-                eggSetting.set(pos, (EggSetting) data.getSerializableExtra("eggSetting"));
+                EggBatch.set(pos, (EggBatch) data.getSerializableExtra("EggBatch"));
             }
             listVisibility();
         }
@@ -131,15 +131,15 @@ public class EggBatchListActivity extends AppCompatActivity implements EggBatchA
                     public void onClick(DialogInterface dialogInterface, int i) {
                         switch (i){
                             case 0:
-                                eggWiseDatabse.getEggSettingDao().deleteEggSetting(eggSetting.get(pos));
-                                eggSetting.remove(pos);
+                                eggWiseDatabse.getEggBatchDao().deleteEggBatch(EggBatch.get(pos));
+                                EggBatch.remove(pos);
                                 listVisibility();
                                 break;
                             case 1:
                                 EggBatchListActivity.this.pos = pos;
                                 startActivityForResult(
                                         new Intent(EggBatchListActivity.this,
-                                                AddEggBatchActivity.class).putExtra("eggSetting",eggSetting.get(pos)),
+                                                AddEggBatchActivity.class).putExtra("EggBatch",EggBatch.get(pos)),
                                         100);
 
                                 break;
@@ -151,7 +151,7 @@ public class EggBatchListActivity extends AppCompatActivity implements EggBatchA
 
     private void listVisibility(){
         int emptyMsgVisibility = View.GONE;
-        if (eggSetting.size() == 0){ // no item to display
+        if (EggBatch.size() == 0){ // no item to display
             if (textViewMsg.getVisibility() == View.GONE)
                 emptyMsgVisibility = View.VISIBLE;
         }

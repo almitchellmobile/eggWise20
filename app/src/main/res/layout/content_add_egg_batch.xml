@@ -17,7 +17,7 @@
             android:layout_height="wrap_content">
             <com.google.android.material.textfield.TextInputEditText
                 android:inputType="text"
-                android:id="@+id/et_egg_label"
+                android:id="@+id/et_batch_label"
                 android:hint="@string/egg_batch_label"
                 android:singleLine="true"
                 android:layout_width="match_parent"
@@ -129,11 +129,23 @@
                 android:layout_height="wrap_content" />
         </com.google.android.material.textfield.TextInputLayout>
 
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/text_desired_weight_loss"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <com.google.android.material.textfield.TextInputEditText
+                android:inputType="text"
+                android:id="@+id/et_desired_weight_loss"
+                android:hint="@string/desired_weight_loss"
+                android:singleLine="true"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </com.google.android.material.textfield.TextInputLayout>
+
         <RadioGroup
             android:id="@+id/rg_track_weight_loss"
             android:layout_width="match_parent"
             android:layout_height="match_parent" >
-
             <RadioButton
                 android:id="@+id/rb_track_entire_batch"
                 android:layout_width="match_parent"
@@ -147,18 +159,6 @@
                 android:text="@string/track_specific_eggs" />
         </RadioGroup>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/text_desired_weight_loss"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <com.google.android.material.textfield.TextInputEditText
-                android:inputType="text"
-                android:id="@+id/et_desired_weight_loss"
-                android:hint="@string/desired_weight_loss"
-                android:singleLine="true"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </com.google.android.material.textfield.TextInputLayout>
 
         <Button
             android:id="@+id/button_save_add_egg_batch"

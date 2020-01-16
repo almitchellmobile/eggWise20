@@ -1,5 +1,6 @@
 package net.almitchellmobile.eggwise20.database.dao;
 
+import net.almitchellmobile.eggwise20.database.model.EggBatch;
 import net.almitchellmobile.eggwise20.database.model.EggSetting;
 import net.almitchellmobile.eggwise20.util.Constants;
 
@@ -14,7 +15,7 @@ import androidx.room.Update;
 @Dao
 public interface EggSettingDao {
 
-    @Query("SELECT * FROM "+ Constants.TABLE_NAME_EGGSETTING)
+    @Query("SELECT * FROM "+ Constants.TABLE_NAME_EGG_SETTING)
     List<EggSetting> getEggSetting();
 
     /*
@@ -29,7 +30,7 @@ public interface EggSettingDao {
      * @param note, object to be updated
      */
     @Update
-    void updateEggSetting(EggSetting eggSetting);
+    void updateEggSetting(EggBatch eggSetting);
 
     /*
      * delete the object from database

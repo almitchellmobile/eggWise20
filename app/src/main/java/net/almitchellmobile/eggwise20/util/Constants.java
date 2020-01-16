@@ -10,16 +10,17 @@ final public class Constants {
     private Constants() {
     }
 
-    public static final String TABLE_NAME_BREEDERS = "BREEDERS";
-    public static final String TABLE_NAME_EGGDAILY = "EGGDAILY";
-    public static final String TABLE_NAME_BATCHLOSS = "BATCHLOSS";
-    public static final String TABLE_NAME_EGGSETTING = "EGGSETTING";
-    public static final String TABLE_NAME_INCUBATORDAILY = "INCUBATORDAILY";
-    public static final String TABLE_NAME_OPTIONS = "OPTIONS";
-    public static final String TABLE_NAME_TAXON = "TAXON";
-    public static final String TABLE_NAME_INCUBATORS ="INCUBATORS";
+    public static final String TABLE_NAME_BREEDERS = "Breeders";
+    public static final String TABLE_NAME_EGG_DAILY = "EggDaily";
+    public static final String TABLE_NAME_BATCH_LOSS = "BatchLoss";
+    public static final String TABLE_NAME_EGG_BATCH = "EggBatch";
+    public static final String TABLE_NAME_EGG_SETTING = "EggSetting";
+    public static final String TABLE_NAME_INCUBATOR_DAILY = "IncubatorDaily";
+    public static final String TABLE_NAME_OPTIONS = "Options";
+    public static final String TABLE_NAME_TAXON = "Taxon";
+    public static final String TABLE_NAME_INCUBATORS ="Incubators";
 
-    public static final String DB_NAME ="EGGWISEDB.db";
+    public static final String DB_NAME ="EggWiseDB.db";
 
     public static final String TIME_STAMP_FORMAT = "dd-MM-yyyy-hh-mm-ss" ;
 }

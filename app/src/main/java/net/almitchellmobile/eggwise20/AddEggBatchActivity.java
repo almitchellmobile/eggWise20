@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
@@ -19,10 +20,12 @@ import android.widget.Toast;
 import com.google.android.material.textfield.TextInputEditText;
 
 import net.almitchellmobile.eggwise20.database.EggWiseDatabse;
-import net.almitchellmobile.eggwise20.database.model.EggSetting;
+import net.almitchellmobile.eggwise20.database.model.EggBatch;
 import net.almitchellmobile.eggwise20.util.SetDate;
 
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -30,7 +33,7 @@ import androidx.appcompat.widget.Toolbar;
 
 public class AddEggBatchActivity extends AppCompatActivity {
 
-    TextInputEditText et_egg_label, et_number_of_eggs, et_species_name, et_common_name,
+    TextInputEditText et_batch_label, et_number_of_eggs, et_species_name, et_common_name,
             et_incubator_name, et_set_date, et_hatch_date, et_desired_weight_loss,
             et_location;
     CalendarView cv_set_date, cv_hatch_date;
@@ -42,7 +45,8 @@ public class AddEggBatchActivity extends AppCompatActivity {
 
     public EggWiseDatabse eggWiseDatabse;
 
-    private EggSetting eggSetting;
+    private EggBatch eggBatch;
+    String batchLabel = "";
     String eggLabel = "";
     String disposition = "";
     Long motherID = 0L;
@@ -56,6 +60,7 @@ public class AddEggBatchActivity extends AppCompatActivity {
     String layDate = "";
     String setDate = "";
     Long incubatorID = 0L;
+    String incubatorName = "";
     String location = "";
     String hatchDate = "";
     Double lossAtPIP = 0.0D;
@@ -80,6 +85,8 @@ public class AddEggBatchActivity extends AppCompatActivity {
     String myFormat = "MM/dd/yy"; //In which you need put here
     SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
 
+    List<EditText> validationList = new ArrayList();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,128 +96,116 @@ public class AddEggBatchActivity extends AppCompatActivity {
 
         eggWiseDatabse = EggWiseDatabse.getInstance(AddEggBatchActivity.this);
 
-        et_egg_label = findViewById(R.id.et_egg_label);
+        et_batch_label = findViewById(R.id.et_batch_label);
         et_species_name = findViewById(R.id.et_species_name);
         et_common_name = findViewById(R.id.et_common_name);
         et_incubator_name = findViewById(R.id.et_incubator_name);
         et_number_of_eggs = findViewById(R.id.et_number_of_eggs);
         et_desired_weight_loss = findViewById(R.id.et_desired_weight_loss);
-
         et_set_date = findViewById(R.id.et_set_date);
+        et_hatch_date = findViewById(R.id.et_hatch_date);
+        et_location = findViewById(R.id.et_location);
         rg_track_weight_loss = findViewById(R.id.rg_track_weight_loss);
         rb_track_entire_batch = findViewById(R.id.rb_track_entire_batch);
         rb_track_specific_eggs = findViewById(R.id.rb_track_specific_eggs);
 
-
         button_save_add_egg_batch = findViewById(R.id.button_save_add_egg_batch);
-        if ( (eggSetting = (EggSetting) getIntent().getSerializableExtra("eggSetting"))!=null ){
+        if ( (eggBatch = (EggBatch) getIntent().getSerializableExtra("eggBatch"))!=null ){
             getSupportActionBar().setTitle("Update Egg Batch");
             update = true;
             button_save_add_egg_batch.setText("Update");
-            //et_title.setText(note.getTitle());
-            //et_content.setText(note.getContent());
 
-            et_egg_label.setText(eggSetting.getEggLabel());
-            et_species_name.setText(eggSetting.getSpeciesName());
-            et_common_name.setText(eggSetting.getCommonName());
-            et_set_date.setText(eggSetting.getSetDate());
-            et_hatch_date.setText(eggSetting.getHatchDate());
-            et_incubator_name.setText(eggSetting.getIncubatorName());
-            et_number_of_eggs.setText(eggSetting.getNumberOfEggs().toString());
-            et_location.setText(eggSetting.getLocation());
-            if (eggSetting.getTrackingOption() == 1) {
+            et_batch_label.setText(eggBatch.getBatchLabel());
+            et_species_name.setText(eggBatch.getSpeciesName());
+            et_common_name.setText(eggBatch.getCommonName());
+            et_set_date.setText(eggBatch.getSetDate());
+            et_hatch_date.setText(eggBatch.getHatchDate());
+            et_incubator_name.setText(eggBatch.getIncubatorName());
+            et_number_of_eggs.setText(eggBatch.getNumberOfEggs().toString());
+            et_location.setText(eggBatch.getLocation());
+            if (eggBatch.getTrackingOption() == 1) {
                 rb_track_entire_batch.setChecked(true  );
             } else {
                 rb_track_specific_eggs.setChecked(true);
             }
-            et_desired_weight_loss.setText(eggSetting.getDesiredWeightLoss().toString());
+            et_desired_weight_loss.setText(eggBatch.getDesiredWeightLoss().toString());
         }
         button_save_add_egg_batch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                if (!(isEmptyField(et_batch_label))) {
+                    batchLabel = et_batch_label.getText().toString();
+                }
+                if (!(isEmptyField(et_species_name))) {
+                    speciesName = et_species_name.getText().toString();
+                }
+                if (!(isEmptyField(et_common_name))) {
+                    commonName = et_common_name.getText().toString();
+                }
+                if (isEmptyField(et_set_date)) {
+                    setDate = "";
+                }
+                if (isEmptyField(et_hatch_date)) {
+                    hatchDate = "";
+                }
+                if (!(isEmptyField(et_incubator_name))) {
+                    incubatorName = et_incubator_name.getText().toString();
+                }
+                if (!(isEmptyField(et_location))) {
+                    location = et_location.getText().toString();
+                }
+                if (!(isEmptyField(et_number_of_eggs))) {
+                    numberOfEggs = Integer.parseInt(et_number_of_eggs.getText().toString());
+                }
+                if (!(isEmptyField(et_desired_weight_loss))) {
+                    desiredWeightLoss = (Double.parseDouble(et_desired_weight_loss.getText().toString()));
+                }
+
+
                 if (update){
-                    /*note.setContent(et_content.getText().toString());
-                    note.setTitle(et_title.getText().toString());
-                    noteDatabase.getNoteDao().updateNote(note);
-                    setResult(note,2);*/
+                    eggBatch.setBatchLabel(batchLabel);
+                    eggBatch.setSpeciesName(speciesName);
+                    eggBatch.setCommonName(commonName);
+                    eggBatch.setSpeciesID(null);
+                    eggBatch.setLayDate(layDate);
+                    eggBatch.setSetDate(setDate);
+                    eggBatch.setHatchDate(hatchDate);
+                    eggBatch.setIncubatorID(null);
+                    eggBatch.setIncubatorName(incubatorName);
+                    eggBatch.setLocation(location);
+                    eggBatch.setNumberOfEggs(numberOfEggs);
+                    eggBatch.setTrackingOption(trackingOption);
+                    eggBatch.setDesiredWeightLoss(desiredWeightLoss);
 
-                    eggSetting.setEggLabel(et_egg_label.getText().toString());
-                    eggSetting.setDisposition("");
-                    eggSetting.setMotherID(null);
-                    eggSetting.setSpeciesName(et_species_name.getText().toString());
-                    eggSetting.setCommonName(et_common_name.getText().toString());
-                    eggSetting.setFatherID(null);
-                    eggSetting.setFatherName("");
-                    eggSetting.setSpeciesID(null);
-                    eggSetting.setSpeciesName("");
-                    eggSetting.setEggHeight(null);
-                    eggSetting.setEggBreadth(null);
-                    eggSetting.setLayDate("");
-                    eggSetting.setSetDate(setDate);
-                    eggSetting.setHatchDate(hatchDate);
-                    eggSetting.setIncubatorID(null);
-                    eggSetting.setIncubatorName(et_incubator_name.getText().toString());
-                    eggSetting.setLocation(et_location.getText().toString());
-                    eggSetting.setNumberOfEggs(Integer.parseInt(et_number_of_eggs.getText().toString()));
-                    eggSetting.setLossAtPIP(null);
-                    eggSetting.setNewestLayDate("");
-                    eggSetting.setOldestLayDate("");
-                    eggSetting.setSettingType("");
-                    eggSetting.setPipDate(null);
-                    eggSetting.setTrackingOption(0);
-                    eggSetting.setReminderHatchDate(null);
-                    eggSetting.setReminderIncubatorSetting(0);
-                    eggSetting.setReminderIncubatorWater(0);
-                    eggSetting.setReminderEggCandeling(0);
-                    eggSetting.setReminderEggTurning(0);
-                    eggSetting.setDesiredWeightLoss(null);
-
-
-                    eggWiseDatabse.getEggSettingDao().updateEggSetting((eggSetting));
-                    setResult(eggSetting,29);
+                    eggWiseDatabse.getEggSettingDao().updateEggSetting((eggBatch));
+                    setResult(eggBatch,13);
 
 
                 }else {
                     /*note = new Note(et_content.getText().toString(), et_title.getText().toString());
                     new InsertTask(AddNoteActivity.this,note).execute();*/
-
-                    eggSetting = new EggSetting(et_egg_label.getText().toString(),
-                            disposition,
-                            motherID,
-                            motherName,
-                            fatherID,
-                            fatherName,
+                    eggBatch = new EggBatch(batchLabel,
+                            numberOfEggs,
                             speciesID,
-                            et_species_name.getText().toString(),
-                            eggHeight,
-                            eggBreadth,
+                            speciesName,
+                            commonName,
                             layDate,
                             setDate,
-                            incubatorID,
-                            et_incubator_name.getText().toString(),
-                            location,
                             hatchDate,
-                            lossAtPIP,
-                            newestLayDate,
-                            oldestLayDate,
-                            settingType,
-                            Integer.parseInt(et_number_of_eggs.getText().toString()),
-                            pipDate,
+                            incubatorID,
+                            incubatorName,
+                            location,
                             trackingOption,
-                            reminderHatchDate,
-                            reminderIncubatorSetting,
-                            reminderIncubatorWater,
-                            reminderEggCandeling,
-                            reminderEggTurning,
-                            desiredWeightLoss,
-                            et_common_name.getText().toString());
+                            desiredWeightLoss
+                            );
 
-                    new InsertTask(AddEggBatchActivity.this,eggSetting).execute();
+                    new InsertTask(AddEggBatchActivity.this,eggBatch).execute();
                 }
             }
         });
 
-        //et_set_date.setFocusable(false);
+        et_set_date.setFocusable(true);
         //fromDateSetDate = new SetDate((EditText) et_set_date, this);
         DatePickerDialog.OnDateSetListener setDateDatePickerDialog = new
                 DatePickerDialog.OnDateSetListener() {
@@ -240,8 +235,8 @@ public class AddEggBatchActivity extends AppCompatActivity {
             }
         });
 
-        et_hatch_date = findViewById(R.id.et_hatch_date);
-        //et_hatch_date.setFocusable(false);
+        //et_hatch_date = findViewById(R.id.et_hatch_date);
+        et_hatch_date.setFocusable(true);
         DatePickerDialog.OnDateSetListener hatchDateDatePickerDialog = new
                 DatePickerDialog.OnDateSetListener() {
 
@@ -283,8 +278,10 @@ public class AddEggBatchActivity extends AppCompatActivity {
                 String trackWeightLossValue = trackWeightLoss.getText().toString();
                 if (trackWeightLossValue.toUpperCase().contains("BATCH")) {
                     trackingOption = 1; //Track entire batch
-                } else {
+                } else if (trackWeightLossValue.toUpperCase().contains("EGGS")) {
                     trackingOption = 2; //Track specific eggs
+                } else {
+                    trackingOption = 0;
                 }
 
                 Toast.makeText(AddEggBatchActivity.this,
@@ -293,91 +290,30 @@ public class AddEggBatchActivity extends AppCompatActivity {
 
         });
 
+    }
 
-        /*button_save_add_egg_batch = findViewById(R.id.button_save_add_egg_batch);
-        button_save_add_egg_batch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (update){
-
-                    eggSetting.setEggLabel(et_egg_label.getText().toString());
-                    eggSetting.setDisposition("");
-                    eggSetting.setMotherID(null);
-                    eggSetting.setSpeciesName(et_species_name.getText().toString());
-                    eggSetting.setCommonName(et_common_name.getText().toString());
-                    eggSetting.setFatherID(null);
-                    eggSetting.setFatherName("");
-                    eggSetting.setSpeciesID(null);
-                    eggSetting.setSpeciesName("");
-                    eggSetting.setEggHeight(null);
-                    eggSetting.setEggBreadth(null);
-                    eggSetting.setLayDate("");
-                    eggSetting.setSetDate(setDate);
-                    eggSetting.setIncubatorID(null);
-                    eggSetting.setIncubatorName(et_incubator_name.getText().toString());
-                    eggSetting.setLocation("");
-                    eggSetting.setHatchDate(hatchDate);
-                    eggSetting.setLossAtPIP(null);
-                    eggSetting.setNewestLayDate("");
-                    eggSetting.setOldestLayDate("");
-                    eggSetting.setSettingType("");
-                    eggSetting.setNumberOfEggs(Integer.parseInt(et_number_of_eggs.getText().toString()));
-                    eggSetting.setPipDate(null);
-                    eggSetting.setTrackingOption(trackingOption);
-                    eggSetting.setReminderHatchDate(null);
-                    eggSetting.setReminderIncubatorSetting(0);
-                    eggSetting.setReminderIncubatorWater(0);
-                    eggSetting.setReminderEggCandeling(0);
-                    eggSetting.setReminderEggTurning(0);
-                    eggSetting.setDesiredWeightLoss(desiredWeightLoss);
-
-                    eggWiseDatabse.getEggSettingDao().updateEggSetting((eggSetting));
-                    setResult(eggSetting,29);
-                }else {
-                    eggSetting = new EggSetting(et_egg_label.getText().toString(),
-                            disposition,
-                            motherID,
-                            motherName,
-                            fatherID,
-                            fatherName,
-                            speciesID,
-                            et_species_name.getText().toString(),
-                            eggHeight,
-                            eggBreadth,
-                            layDate,
-                            setDate,
-                            incubatorID,
-                            et_incubator_name.getText().toString(),
-                            location,
-                            hatchDate,
-                            lossAtPIP,
-                            newestLayDate,
-                            oldestLayDate,
-                            settingType,
-                            Integer.parseInt(et_number_of_eggs.getText().toString()),
-                            pipDate,
-                            trackingOption,
-                            reminderHatchDate,
-                            reminderIncubatorSetting,
-                            reminderIncubatorWater,
-                            reminderEggCandeling,
-                            reminderEggTurning,
-                            desiredWeightLoss,
-                            et_common_name.getText().toString());
+    private boolean isEmptyField (EditText editText){
+        boolean result = editText.getText().toString().length() <= 0;
+        if (result)
+            Toast.makeText(this, "Field " + editText.getHint() + " is empty!", Toast.LENGTH_SHORT).show();
+        return result;
+    }
 
 
-                    new InsertTask(AddEggBatchActivity.this,eggSetting).execute();
-                }
-            }
-        });*/
-
-
-
+    void initValidationList() {
+        validationList.add(et_batch_label);
+        validationList.add(et_species_name);
+        validationList.add(et_common_name);
+        validationList.add(et_incubator_name);
+        validationList.add(et_number_of_eggs);
+        validationList.add(et_desired_weight_loss);
+        validationList.add(et_set_date);
+        validationList.add(et_hatch_date);
     }
 
     private void updateLabelSetDate() {
 
-        String myFormat = "MM/dd/yy"; //In which you need put here
+        String myFormat = "MM/dd/yyyy"; //In which you need put here
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
         setDate = sdf.format(myCalendar.getTime());
         et_set_date.setText(sdf.format(myCalendar.getTime()));
@@ -385,36 +321,35 @@ public class AddEggBatchActivity extends AppCompatActivity {
 
     private void updateLabelHatchDate() {
 
-        String myFormat = "MM/dd/yy"; //In which you need put here
+        String myFormat = "MM/dd/yyyy"; //In which you need put here
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
         hatchDate = sdf.format(myCalendar.getTime());
-        et_set_date.setText(sdf.format(myCalendar.getTime()));
+        et_hatch_date.setText(sdf.format(myCalendar.getTime()));
     }
 
-    public void setResult(EggSetting eggSetting, int flag){
-        setResult(flag,new Intent().putExtra("eggSetting",eggSetting));
+    public void setResult(EggBatch eggBatch, int flag){
+        setResult(flag,new Intent().putExtra("eggBatch",eggBatch));
         finish();
     }
 
     private static class InsertTask extends AsyncTask<Void,Void,Boolean> {
 
         private WeakReference<AddEggBatchActivity> activityReference;
-        private EggSetting eggSetting;
-
+        private EggBatch eggBatch;
 
 
         // only retain a weak reference to the activity
-        InsertTask(AddEggBatchActivity context, EggSetting eggSetting) {
+        InsertTask(AddEggBatchActivity context, EggBatch eggBatch) {
             activityReference = new WeakReference<>(context);
-            this.eggSetting = eggSetting;
+            this.eggBatch = eggBatch;
         }
 
         // doInBackground methods runs on a worker thread
         @Override
         protected Boolean doInBackground(Void... objs) {
             // retrieve auto incremented note id
-            long j = activityReference.get().eggWiseDatabse.getEggSettingDao().insertEggSetting(eggSetting);
-            eggSetting.setEggSettingID(j);
+            long j = activityReference.get().eggWiseDatabse.getEggBatchDao().insertEggBatch(eggBatch);
+            eggBatch.setEggBatchID(j);
             Log.e("ID ", "doInBackground: "+j );
             return true;
         }
@@ -423,7 +358,7 @@ public class AddEggBatchActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Boolean bool) {
             if (bool){
-                activityReference.get().setResult(eggSetting,1);
+                activityReference.get().setResult(eggBatch,1);
                 activityReference.get().finish();
             }
         }

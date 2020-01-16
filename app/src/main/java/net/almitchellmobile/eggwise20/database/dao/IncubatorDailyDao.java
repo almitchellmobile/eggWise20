@@ -14,7 +14,7 @@ import androidx.room.Update;
 @Dao
 public interface IncubatorDailyDao {
 
-    @Query("SELECT * FROM "+ Constants.TABLE_NAME_INCUBATORDAILY)
+    @Query("SELECT * FROM "+ Constants.TABLE_NAME_INCUBATOR_DAILY)
     List<IncubatorDaily> getIncubatorDaily();
 
     /*
