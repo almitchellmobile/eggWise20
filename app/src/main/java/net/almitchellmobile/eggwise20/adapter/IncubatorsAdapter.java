@@ -13,6 +13,7 @@ import net.almitchellmobile.eggwise20.database.model.Incubator;
 import java.util.List;
 
 import androidx.cardview.widget.CardView;
+import androidx.core.text.HtmlCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class IncubatorsAdapter extends RecyclerView.Adapter<IncubatorsAdapter.BeanHolder>{
@@ -42,6 +43,14 @@ public class IncubatorsAdapter extends RecyclerView.Adapter<IncubatorsAdapter.Be
         holder.textViewIncubatorName.setText(list.get(position).getIncubatorName());
         holder.textViewMFGModel.setText(list.get(position).getMFGModel());
         holder.textViewNumberOfEggs.setText(list.get(position).getNumberOfEggs().toString());
+
+        String line1 = "";
+        line1 = "<B>Incubator Name:</B> " + list.get(position).getIncubatorName() +
+                ", <B>MFG Model:</B> " + list.get(position).getMFGModel() +
+                ", <B>Number Of Eggs:</B> " + list.get(position).getNumberOfEggs().toString() ;
+
+        CharSequence styledText = HtmlCompat.fromHtml(line1, HtmlCompat.FROM_HTML_MODE_LEGACY);
+        holder.tv_incubator_line1.setText(styledText);
     }
 
     @Override
@@ -51,18 +60,24 @@ public class IncubatorsAdapter extends RecyclerView.Adapter<IncubatorsAdapter.Be
 
     public class BeanHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
+        TextView tv_incubator_line1;
         TextView textViewIncubatorName;
         TextView textViewMFGModel;
         TextView textViewNumberOfEggs;
-        CardView cardView;
+        CardView cv_incubator;
 
         public BeanHolder(View itemView) {
             super(itemView);
             itemView.setOnClickListener(this);
-            cardView = itemView.findViewById(R.id.cardView);
-            textViewIncubatorName = itemView.findViewById(R.id.tv_incubator_name);
+            //cardView = itemView.findViewById(R.id.cardView);
+            cv_incubator = itemView.findViewById(R.id.cv_incubator);
+            tv_incubator_line1  = itemView.findViewById(R.id.tv_incubator_line1);
+
+
+
+            /*textViewIncubatorName = itemView.findViewById(R.id.tv_incubator_name);
             textViewMFGModel = itemView.findViewById(R.id.tv_mfg_model);
-            textViewNumberOfEggs = itemView.findViewById(R.id.tv_number_of_eggs1);
+            textViewNumberOfEggs = itemView.findViewById(R.id.tv_number_of_eggs1);*/
         }
 
         @Override

@@ -11,9 +11,15 @@
         card_view:cardCornerRadius="5dp"
         card_view:cardUseCompatPadding="true"
         card_view:cardElevation="5dp"
-        android:id="@+id/cardView">
+        android:id="@+id/cv_incubator">
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/tv_incubator_line1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Line 1" />
+
+        <!--<LinearLayout
             android:background="?android:attr/selectableItemBackground"
             android:orientation="vertical"
             android:layout_margin="2dp"
@@ -37,7 +43,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 tools:text="Number Of Eggs Model" />
-        </LinearLayout>
+        </LinearLayout>-->
 
     </com.google.android.material.card.MaterialCardView>
 
