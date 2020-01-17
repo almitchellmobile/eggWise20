@@ -40,10 +40,11 @@ public class IncubatorsAdapter extends RecyclerView.Adapter<IncubatorsAdapter.Be
     @Override
     public void onBindViewHolder(BeanHolder holder, int position) {
         Log.e("bind", "onBindViewHolder: "+ list.get(position));
-        holder.textViewIncubatorName.setText(list.get(position).getIncubatorName());
-        holder.textViewMFGModel.setText(list.get(position).getMFGModel());
-        holder.textViewNumberOfEggs.setText(list.get(position).getNumberOfEggs().toString());
 
+        /*holder.textViewIncubatorName.setText(list.get(position).getIncubatorName().toString());
+        holder.textViewMFGModel.setText(list.get(position).getMFGModel().toString());
+        holder.textViewNumberOfEggs.setText(list.get(position).getNumberOfEggs().toString());
+*/
         String line1 = "";
         line1 = "<B>Incubator Name:</B> " + list.get(position).getIncubatorName() +
                 ", <B>MFG Model:</B> " + list.get(position).getMFGModel() +

@@ -126,7 +126,7 @@ public class EggBatchListActivity extends AppCompatActivity implements EggBatchA
     public void onEggBatchClick(final int pos) {
         new AlertDialog.Builder(EggBatchListActivity.this)
                 .setTitle("Select Options")
-                .setItems(new String[]{"Delete", "Update"}, new DialogInterface.OnClickListener() {
+                .setItems(new String[]{"Delete", "Update", "Enter Weight Loss"}, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         switch (i){
@@ -143,6 +143,15 @@ public class EggBatchListActivity extends AppCompatActivity implements EggBatchA
                                         100);
 
                                 break;
+                            case 3:
+                                EggBatchListActivity.this.pos = pos;
+                                startActivityForResult(
+                                        new Intent(EggBatchListActivity.this,
+                                                AddWeightLossActivity.class).putExtra("EggBatchWeightLoss",EggBatch.get(pos)),
+                                        200);
+
+                                break;
+
                         }
                     }
                 }).show();

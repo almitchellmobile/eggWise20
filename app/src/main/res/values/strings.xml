@@ -38,7 +38,11 @@
     <string name="desired_weight_loss">Desired Weight Loss</string>
     <string name="track_entire_batch">Track Entire Batch</string>
     <string name="track_specific_eggs">Track Specific Eggs</string>
-
+    <string name="title_activity_weight_loss_list">WeightLossListActivity</string>
+    <string name="title_activity_add_weight_loss">AddWeightLossActivity</string>
+    <string name="reading_date">Reading Date</string>
+    <string name="egg_weight">Egg Weight</string>
+    <string name="save_button">Save</string>
 
 
 </resources>

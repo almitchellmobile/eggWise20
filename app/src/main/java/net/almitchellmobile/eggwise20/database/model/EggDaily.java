@@ -49,10 +49,10 @@ public class EggDaily implements Serializable {
     @ColumnInfo(name = "IncubatorName")
     public String incubatorName;
 
-    @ColumnInfo(name = "NumberOfEggs")
-    public Integer numberOfEggs;
+    @ColumnInfo(name = "numberOfEggsRemaining")
+    public Integer numberOfEggsRemaining;
 
-    public EggDaily(Long settingID, String batchLabel, String eggLabel, String readingDate, String setDate, Integer readingDayNumber, Double eggWeight, Double eggWeightAverage, String eggDailyComment, String incubatorName, Integer numberOfEggs) {
+    public EggDaily(Long settingID, String batchLabel, String eggLabel, String readingDate, String setDate, Integer readingDayNumber, Double eggWeight, Double eggWeightAverage, String eggDailyComment, String incubatorName, Integer numberOfEggsRemaining) {
         this.settingID = settingID;
         this.batchLabel = batchLabel;
         this.eggLabel = eggLabel;
@@ -63,7 +63,7 @@ public class EggDaily implements Serializable {
         this.eggWeightAverage = eggWeightAverage;
         this.eggDailyComment = eggDailyComment;
         this.incubatorName = incubatorName;
-        this.numberOfEggs = numberOfEggs;
+        this.numberOfEggsRemaining = numberOfEggsRemaining;
     }
 
     @Ignore
@@ -157,11 +157,11 @@ public class EggDaily implements Serializable {
         this.incubatorName = incubatorName;
     }
 
-    public Integer getNumberOfEggs() {
-        return numberOfEggs;
+    public Integer getNumberOfEggsRemaining() {
+        return numberOfEggsRemaining;
     }
 
-    public void setNumberOfEggs(Integer numberOfEggs) {
-        this.numberOfEggs = numberOfEggs;
+    public void setNumberOfEggsRemaining(Integer numberOfEggsRemaining) {
+        this.numberOfEggsRemaining = numberOfEggsRemaining;
     }
 }

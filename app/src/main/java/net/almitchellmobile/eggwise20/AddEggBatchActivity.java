@@ -183,8 +183,6 @@ public class AddEggBatchActivity extends AppCompatActivity {
 
 
                 }else {
-                    /*note = new Note(et_content.getText().toString(), et_title.getText().toString());
-                    new InsertTask(AddNoteActivity.this,note).execute();*/
                     eggBatch = new EggBatch(batchLabel,
                             numberOfEggs,
                             speciesID,

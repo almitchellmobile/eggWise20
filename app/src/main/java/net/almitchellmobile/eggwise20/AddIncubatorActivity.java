@@ -19,7 +19,9 @@ import androidx.appcompat.widget.Toolbar;
 
 public class AddIncubatorActivity extends AppCompatActivity {
 
-    private EditText et_incubator_name, et_,et_mfg_model,et_number_of_eggs;
+    private EditText et_incubator_name,
+            et_mfg_model,
+            et_number_of_eggs;
     private EggWiseDatabse eggWiseDatabse;
     private Incubator incubator;
     private boolean update;
@@ -39,7 +41,8 @@ public class AddIncubatorActivity extends AppCompatActivity {
         et_mfg_model = findViewById(R.id.et_mfg_model);
         et_number_of_eggs = findViewById(R.id.et_number_of_eggs);
         eggWiseDatabse = EggWiseDatabse.getInstance(AddIncubatorActivity.this);
-        Button button = findViewById(R.id.button_save);
+
+        Button button = findViewById(R.id.button_save_incubator);
         if ( (incubator = (Incubator) getIntent().getSerializableExtra("incubator"))!=null ){
             getSupportActionBar().setTitle("Update Note");
             update = true;
