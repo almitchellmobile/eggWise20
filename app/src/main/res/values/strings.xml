@@ -43,6 +43,7 @@
     <string name="reading_date">Reading Date</string>
     <string name="egg_weight">Egg Weight</string>
     <string name="save_button">Save</string>
+    <string name="egg_label">Egg Label</string>
 
 
 </resources>

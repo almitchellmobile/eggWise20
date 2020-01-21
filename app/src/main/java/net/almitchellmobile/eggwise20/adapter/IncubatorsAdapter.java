@@ -74,11 +74,6 @@ public class IncubatorsAdapter extends RecyclerView.Adapter<IncubatorsAdapter.Be
             cv_incubator = itemView.findViewById(R.id.cv_incubator);
             tv_incubator_line1  = itemView.findViewById(R.id.tv_incubator_line1);
 
-
-
-            /*textViewIncubatorName = itemView.findViewById(R.id.tv_incubator_name);
-            textViewMFGModel = itemView.findViewById(R.id.tv_mfg_model);
-            textViewNumberOfEggs = itemView.findViewById(R.id.tv_number_of_eggs1);*/
         }
 
         @Override

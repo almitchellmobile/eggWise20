@@ -30,7 +30,7 @@ import androidx.room.TypeConverters;
 
 @Database(entities = { Incubator.class, BatchLoss.class, Breeders.class, EggDaily.class,
         EggSetting.class, EggBatch.class, IncubatorDaily.class, Options.class, Taxon.class},
-        version = 5, exportSchema = true)
+        version = 6, exportSchema = true)
 
 @TypeConverters({DateRoomConverter.class})
 public abstract class EggWiseDatabse extends RoomDatabase {
@@ -58,7 +58,10 @@ public abstract class EggWiseDatabse extends RoomDatabase {
     private static EggWiseDatabse buildDatabaseInstance(Context context) {
         return Room.databaseBuilder(context,
                 EggWiseDatabse.class,
-                Constants.DB_NAME).allowMainThreadQueries().build();
+                Constants.DB_NAME)
+                .fallbackToDestructiveMigration()
+                .allowMainThreadQueries()
+                .build();
     }
 
     public  void cleanUp(){

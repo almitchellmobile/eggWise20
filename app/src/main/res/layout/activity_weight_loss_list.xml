@@ -24,7 +24,7 @@
         </com.google.android.material.appbar.AppBarLayout>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_view_weight_loss"
+            android:id="@+id/recycler_view_weight_loss_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </LinearLayout>
@@ -37,6 +37,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
-        app:srcCompat="@android:drawable/ic_dialog_email" />
+        app:srcCompat="@android:drawable/ic_input_add" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

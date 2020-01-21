@@ -13,25 +13,25 @@
         android:id="@+id/text_batch_label"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="TextView" />
+        android:text="Batch1" />
 
     <TextView
         android:id="@+id/text_number_of_eggs_remaining"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="TextView" />
+        android:text="10" />
 
     <TextView
         android:id="@+id/text_set_date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="TextView" />
+        android:text="01/01/2020" />
 
     <TextView
         android:id="@+id/text_incubator_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="TextView" />
+        android:text="Incubator 1" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/text_egg_label"
@@ -40,7 +40,7 @@
         <com.google.android.material.textfield.TextInputEditText
             android:inputType="text"
             android:id="@+id/et_egg_label"
-            android:hint="@string/egg_batch_label"
+            android:hint="@string/egg_label"
             android:singleLine="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
@@ -73,7 +73,7 @@
             android:layout_height="wrap_content" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.textfield.TextInputLayout
+    <!--<com.google.android.material.textfield.TextInputLayout
         android:id="@+id/text_reading_day_number"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -84,7 +84,7 @@
             android:singleLine="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
-    </com.google.android.material.textfield.TextInputLayout>
+    </com.google.android.material.textfield.TextInputLayout>-->
 
 
     <com.google.android.material.textfield.TextInputLayout

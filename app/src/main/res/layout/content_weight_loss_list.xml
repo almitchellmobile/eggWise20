@@ -9,7 +9,7 @@
     tools:showIn="@layout/activity_weight_loss_list">
 
     <TextView
-        android:id="@+id/tv_empty_weight_loss_entry"
+        android:id="@+id/tv_empty_weight_loss_message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="40sp"

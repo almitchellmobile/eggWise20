@@ -141,13 +141,12 @@ public class EggBatchListActivity extends AppCompatActivity implements EggBatchA
                                         new Intent(EggBatchListActivity.this,
                                                 AddEggBatchActivity.class).putExtra("EggBatch",EggBatch.get(pos)),
                                         100);
-
                                 break;
-                            case 3:
+                            case 2:
                                 EggBatchListActivity.this.pos = pos;
                                 startActivityForResult(
                                         new Intent(EggBatchListActivity.this,
-                                                AddWeightLossActivity.class).putExtra("EggBatchWeightLoss",EggBatch.get(pos)),
+                                                AddWeightLossActivity.class).putExtra("AddWeightLossActivity",EggBatch.get(pos)),
                                         200);
 
                                 break;
