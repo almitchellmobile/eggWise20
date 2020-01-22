@@ -119,6 +119,12 @@ public class EggBatchListActivity extends AppCompatActivity implements EggBatchA
                 EggBatch.set(pos, (EggBatch) data.getSerializableExtra("EggBatch"));
             }
             listVisibility();
+        } else if (requestCode == 200) {
+            Intent intent1 = new Intent(EggBatchListActivity.this, WeightLossListActivity.class);
+            intent1.putExtra("AddWeightLossActivity",EggBatch.get(pos));
+            startActivity(intent1);
+            //finish();
+
         }
     }
 
@@ -144,10 +150,14 @@ public class EggBatchListActivity extends AppCompatActivity implements EggBatchA
                                 break;
                             case 2:
                                 EggBatchListActivity.this.pos = pos;
-                                startActivityForResult(
+                                /*startActivityForResult(
                                         new Intent(EggBatchListActivity.this,
                                                 AddWeightLossActivity.class).putExtra("AddWeightLossActivity",EggBatch.get(pos)),
-                                        200);
+                                        200);*/
+                                Intent intent1 = new Intent(EggBatchListActivity.this, AddWeightLossActivity.class);
+                                intent1.putExtra("AddWeightLossActivity",EggBatch.get(pos));
+                                startActivity(intent1);
+                                finish();
 
                                 break;
 

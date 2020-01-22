@@ -13,9 +13,9 @@ import androidx.room.Update;
 
 @Dao
 public interface EggDailyDao {
-
-    @Query("SELECT * FROM "+ Constants.TABLE_NAME_EGG_DAILY)
-    List<EggDaily> getEggDaily();
+    String sqlSelect = "SELECT * FROM "+ Constants.TABLE_NAME_EGG_DAILY + " WHERE BatchLabel LIKE  :batchLabel ";
+    @Query(sqlSelect)
+    List<EggDaily> getEggDaily(String batchLabel);
 
     /*
      * Insert the object in database

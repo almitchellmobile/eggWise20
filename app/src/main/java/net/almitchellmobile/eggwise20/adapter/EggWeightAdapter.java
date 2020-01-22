@@ -33,10 +33,16 @@ public class EggWeightAdapter extends RecyclerView.Adapter <EggWeightAdapter.Bea
     }
 
     @Override
-    public BeanHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public EggWeightAdapter.BeanHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = layoutInflater.inflate(R.layout.list_item_egg_weight,parent,false);
-        return null;
+        return new EggWeightAdapter.BeanHolder(view);
     }
+
+    /*@Override
+    public IncubatorsAdapter.BeanHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = layoutInflater.inflate(R.layout.list_item_incubator,parent,false);
+        return new IncubatorsAdapter.BeanHolder(view);
+    }*/
 
     @Override
     public void onBindViewHolder(@NonNull BeanHolder holder, int position) {

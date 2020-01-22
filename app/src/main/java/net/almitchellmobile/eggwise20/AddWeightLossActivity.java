@@ -156,9 +156,15 @@ public class AddWeightLossActivity extends AppCompatActivity {
                 }
 
                 updateInsertEggDaily();
+
+                Intent intent1 = new Intent(AddWeightLossActivity.this, WeightLossListActivity.class);
+                intent1.putExtra("WeightLossListActivity", eggBatch);
+                startActivity(intent1);
             }
         });
     }
+
+
 
     private CharSequence parseHTMLBold(String InputString) {
 
@@ -292,8 +298,9 @@ public class AddWeightLossActivity extends AppCompatActivity {
         protected void onPostExecute(Boolean bool) {
             if (bool){
                 activityReference.get().setResult(eggDaily,1);
-                activityReference.get().finish();
+                //activityReference.get().finish();
             }
+
         }
     }
 
