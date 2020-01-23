@@ -32,7 +32,7 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
     private RecyclerView recyclerViewWeightLossList;
     private EggWiseDatabse eggWiseDatabse;
     EggBatch eggBatch;
-    private List<EggDaily> eggDaily;
+    private List<EggDaily> eggDailyList;
     private EggWeightAdapter eggWeightAdapter;
     private int pos;
 
@@ -48,6 +48,7 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
     public String incubatorName = "";
     public Integer numberOfEggsRemaining = 0;
     public Integer numberOfEggs = 0;
+    Double eggWeightSum = 0.0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +70,9 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
             text_incubator_name.setText(parseHTMLBold("<B>Incubator Name:</B> " + eggBatch.getIncubatorName()));
             text_number_of_eggs_remaining.setText(parseHTMLBold("<B>Number Of Eggs Remaining:</B> " + eggBatch.getNumberOfEggs()));*/
 
+            //computeEggWeightSums();
+            //computeAveragesAndPercents();
+
         }
 
 
@@ -79,6 +83,16 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
     private void displayList(){
         eggWiseDatabse = EggWiseDatabse.getInstance(WeightLossListActivity.this);
         new WeightLossListActivity.RetrieveTask(this).execute();
+
+        eggWeightSum = 0.0D;
+        eggWeightAverage = 0.0D;
+        Integer numberOfEggs = 0;
+        Integer previousNumberOfEggs = 0;
+        for (int i = 0; i < eggDailyList.size(); i++){
+            eggWeightSum += eggDailyList.get(i).getEggWeight();
+            numberOfEggs = eggDailyList.get(i).getNumberOfEggsRemaining();
+        }
+        eggWeightAverage = (eggWeightSum / numberOfEggs);
     }
 
     private void initializeViews(){
@@ -97,8 +111,8 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
 
         recyclerViewWeightLossList = findViewById(R.id.recycler_view_weight_loss_list);
         recyclerViewWeightLossList.setLayoutManager(new LinearLayoutManager(WeightLossListActivity.this));
-        eggDaily = new ArrayList<EggDaily>();
-        eggWeightAdapter = new EggWeightAdapter(eggDaily,  WeightLossListActivity.this);
+        eggDailyList = new ArrayList<EggDaily>();
+        eggWeightAdapter = new EggWeightAdapter(eggDailyList,  WeightLossListActivity.this);
         recyclerViewWeightLossList.setAdapter(eggWeightAdapter);
     }
 
@@ -107,13 +121,15 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 100 && resultCode > 0) {
             if (resultCode == 1) {
-                eggDaily.add((EggDaily) data.getSerializableExtra("eggDaily"));
+                eggDailyList.add((EggDaily) data.getSerializableExtra("eggDailyList"));
             } else if (resultCode == 2) {
-                eggDaily.set(pos, (EggDaily) data.getSerializableExtra("eggDaily"));
+                eggDailyList.set(pos, (EggDaily) data.getSerializableExtra("eggDailyList"));
             }
             listVisibility();
         }
     }
+
+
 
 
     private static class RetrieveTask extends AsyncTask<Void,Void,List<EggDaily>> {
@@ -136,8 +152,8 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
         @Override
         protected void onPostExecute(List<EggDaily> eggDailyList) {
             if (eggDailyList!=null && eggDailyList.size()>0 ){
-                activityReference.get().eggDaily.clear();
-                activityReference.get().eggDaily.addAll(eggDailyList);
+                activityReference.get().eggDailyList.clear();
+                activityReference.get().eggDailyList.addAll(eggDailyList);
                 // hides empty text view
                 activityReference.get().tv_empty_weight_loss_message.setVisibility(View.GONE);
                 activityReference.get().eggWeightAdapter.notifyDataSetChanged();
@@ -155,15 +171,15 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
                     public void onClick(DialogInterface dialogInterface, int i) {
                         switch (i){
                             case 0:
-                                eggWiseDatabse.getEggDailyDao().deleteEggDaily(eggDaily.get(pos));
-                                eggDaily.remove(pos);
+                                eggWiseDatabse.getEggDailyDao().deleteEggDaily(eggDailyList.get(pos));
+                                eggDailyList.remove(pos);
                                 listVisibility();
                                 break;
                             case 1:
                                 WeightLossListActivity.this.pos = pos;
                                 startActivityForResult(
                                         new Intent(WeightLossListActivity.this,
-                                                AddWeightLossActivity.class).putExtra("eggDaily", eggDaily.get(pos)),
+                                                AddWeightLossActivity.class).putExtra("eggDailyList", eggDailyList.get(pos)),
                                         100);
 
                                 break;
@@ -175,7 +191,7 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
 
     private void listVisibility(){
         int emptyMsgVisibility = View.GONE;
-        if (eggDaily.size() == 0){ // no item to display
+        if (eggDailyList.size() == 0){ // no item to display
             if (tv_empty_weight_loss_message.getVisibility() == View.GONE)
                 emptyMsgVisibility = View.VISIBLE;
         }

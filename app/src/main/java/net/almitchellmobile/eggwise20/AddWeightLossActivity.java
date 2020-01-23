@@ -56,6 +56,7 @@ public class AddWeightLossActivity extends AppCompatActivity {
     String incubatorName = "";
     Integer numberOfEggsRemaining = 0;
     Integer numberOfEggs = 0;
+    Double eggWeightSum = 0D;
 
     Button button_save_add_weight_loss;
 
@@ -201,7 +202,8 @@ public class AddWeightLossActivity extends AppCompatActivity {
                     eggWeightAverage,
                     eggDailyComment,
                     incubatorName,
-                    numberOfEggsRemaining);
+                    numberOfEggsRemaining,
+                    eggWeightSum);
 
             new InsertTask(AddWeightLossActivity.this,eggDaily).execute();
         }

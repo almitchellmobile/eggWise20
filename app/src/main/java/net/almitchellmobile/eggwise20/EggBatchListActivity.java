@@ -145,7 +145,7 @@ public class EggBatchListActivity extends AppCompatActivity implements EggBatchA
                                 EggBatchListActivity.this.pos = pos;
                                 startActivityForResult(
                                         new Intent(EggBatchListActivity.this,
-                                                AddEggBatchActivity.class).putExtra("EggBatch",EggBatch.get(pos)),
+                                                AddEggBatchActivity.class).putExtra("UpdateEggBatch",EggBatch.get(pos)),
                                         100);
                                 break;
                             case 2:

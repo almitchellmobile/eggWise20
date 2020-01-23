@@ -35,7 +35,8 @@ public class AddEggBatchActivity extends AppCompatActivity {
 
     TextInputEditText et_batch_label, et_number_of_eggs, et_species_name, et_common_name,
             et_incubator_name, et_set_date, et_hatch_date, et_desired_weight_loss,
-            et_location;
+            et_location, et_incubator_settings, et_temperature, et_incubation_days,
+            et_number_of_eggs_hatched, et_target_weight_loss;
     CalendarView cv_set_date, cv_hatch_date;
     Button button_save_add_egg_batch;
 
@@ -75,8 +76,13 @@ public class AddEggBatchActivity extends AppCompatActivity {
     Integer reminderIncubatorWater = 0;
     Integer reminderEggCandeling = 0;
     Integer reminderEggTurning = 0;
-    Double desiredWeightLoss = 0.0D;
+
     String commonName = "";
+    String incubatorSettings = "";
+    Double temperature = 0.0D;
+    Integer incubationDays = 0;
+    Integer numberOfEggsHatched = 0;
+    Double targetWeightLoss = 0.0D;
 
     private boolean update;
 
@@ -101,16 +107,20 @@ public class AddEggBatchActivity extends AppCompatActivity {
         et_common_name = findViewById(R.id.et_common_name);
         et_incubator_name = findViewById(R.id.et_incubator_name);
         et_number_of_eggs = findViewById(R.id.et_number_of_eggs);
-        et_desired_weight_loss = findViewById(R.id.et_desired_weight_loss);
-        et_set_date = findViewById(R.id.et_set_date);
+       et_set_date = findViewById(R.id.et_set_date);
         et_hatch_date = findViewById(R.id.et_hatch_date);
         et_location = findViewById(R.id.et_location);
         rg_track_weight_loss = findViewById(R.id.rg_track_weight_loss);
         rb_track_entire_batch = findViewById(R.id.rb_track_entire_batch);
         rb_track_specific_eggs = findViewById(R.id.rb_track_specific_eggs);
+        et_incubator_settings = findViewById(R.id.et_incubator_settings);
+        et_temperature = findViewById(R.id.et_temperature);
+        et_incubation_days = findViewById(R.id.et_incubation_days);
+        et_number_of_eggs_hatched = findViewById(R.id.et_number_of_eggs_hatched);
+        et_target_weight_loss = findViewById(R.id.et_target_weight_loss);
 
         button_save_add_egg_batch = findViewById(R.id.button_save_add_egg_batch);
-        if ( (eggBatch = (EggBatch) getIntent().getSerializableExtra("eggBatch"))!=null ){
+        if ( (eggBatch = (EggBatch) getIntent().getSerializableExtra("UpdateEggBatch"))!=null ){
             getSupportActionBar().setTitle("Update Egg Batch");
             update = true;
             button_save_add_egg_batch.setText("Update");
@@ -128,7 +138,11 @@ public class AddEggBatchActivity extends AppCompatActivity {
             } else {
                 rb_track_specific_eggs.setChecked(true);
             }
-            et_desired_weight_loss.setText(eggBatch.getDesiredWeightLoss().toString());
+            et_incubator_settings.setText(eggBatch.getIncubatorSettings().toString());
+            et_temperature.setText(eggBatch.getTemperature().toString());
+            et_incubation_days.setText(eggBatch.getIncubationDays().toString());
+            et_number_of_eggs_hatched.setText(eggBatch.getNumberOfEggsHatched().toString());
+            et_target_weight_loss.setText(eggBatch.getTargetWeightLoss().toString());
         }
         button_save_add_egg_batch.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -158,8 +172,21 @@ public class AddEggBatchActivity extends AppCompatActivity {
                 if (!(isEmptyField(et_number_of_eggs))) {
                     numberOfEggs = Integer.parseInt(et_number_of_eggs.getText().toString());
                 }
-                if (!(isEmptyField(et_desired_weight_loss))) {
-                    desiredWeightLoss = (Double.parseDouble(et_desired_weight_loss.getText().toString()));
+
+                if (!(isEmptyField(et_incubator_settings))) {
+                    incubatorSettings = et_incubator_settings.getText().toString();
+                }
+                if (!(isEmptyField(et_temperature))) {
+                    temperature = Double.parseDouble(et_temperature.getText().toString());
+                }
+                if (!(isEmptyField(et_incubation_days))) {
+                    incubationDays = Integer.parseInt(et_incubation_days.getText().toString());
+                }
+                if (!(isEmptyField(et_number_of_eggs_hatched))) {
+                    numberOfEggsHatched = Integer.parseInt(et_number_of_eggs_hatched.getText().toString());
+                }
+                if (!(isEmptyField(et_target_weight_loss))) {
+                    targetWeightLoss = Double.parseDouble(et_target_weight_loss.getText().toString());
                 }
 
 
@@ -176,7 +203,12 @@ public class AddEggBatchActivity extends AppCompatActivity {
                     eggBatch.setLocation(location);
                     eggBatch.setNumberOfEggs(numberOfEggs);
                     eggBatch.setTrackingOption(trackingOption);
-                    eggBatch.setDesiredWeightLoss(desiredWeightLoss);
+
+                    eggBatch.setIncubatorSettings(incubatorSettings);
+                    eggBatch.setTemperature(temperature);
+                    eggBatch.setIncubationDays(incubationDays);
+                    eggBatch.setNumberOfEggsHatched(numberOfEggsHatched);
+                    eggBatch.setTargetWeightLoss(targetWeightLoss);
 
                     eggWiseDatabse.getEggSettingDao().updateEggSetting((eggBatch));
                     setResult(eggBatch,13);
@@ -195,7 +227,11 @@ public class AddEggBatchActivity extends AppCompatActivity {
                             incubatorName,
                             location,
                             trackingOption,
-                            desiredWeightLoss
+                            incubatorSettings,
+                            temperature,
+                            incubationDays,
+                            numberOfEggsHatched,
+                            targetWeightLoss
                             );
 
                     new InsertTask(AddEggBatchActivity.this,eggBatch).execute();

@@ -21,38 +21,41 @@ public class EggDaily implements Serializable {
     public Long settingID;
 
     @ColumnInfo(name = "BatchLabel")
-    public String batchLabel;
+    public String batchLabel = "";
 
     @ColumnInfo(name = "EggLabel")
-    public String eggLabel;
+    public String eggLabel = "";
 
     @ColumnInfo(name = "ReadingDate")
     @TypeConverters({TimestampConverter.class})
-    public String readingDate;
+    public String readingDate = "";
 
     @ColumnInfo(name = "SetDate")
     @TypeConverters({TimestampConverter.class})
-    public String setDate;
+    public String setDate = "";
 
     @ColumnInfo(name = "ReadingDayNumber")
-    public Integer readingDayNumber;
+    public Integer readingDayNumber = 0;
 
     @ColumnInfo(name = "EggWeight")
-    public Double eggWeight;
+    public Double eggWeight = 0.0D;
 
     @ColumnInfo(name = "EggWeightAverage")
-    public Double eggWeightAverage;
+    public Double eggWeightAverage = 0.0D;
 
     @ColumnInfo(name = "EggDailyComment")
-    public String eggDailyComment;
+    public String eggDailyComment = "";
 
     @ColumnInfo(name = "IncubatorName")
-    public String incubatorName;
+    public String incubatorName = "";
 
-    @ColumnInfo(name = "numberOfEggsRemaining")
-    public Integer numberOfEggsRemaining;
+    @ColumnInfo(name = "NumberOfEggsRemaining")
+    public Integer numberOfEggsRemaining = 0;
 
-    public EggDaily(Long settingID, String batchLabel, String eggLabel, String readingDate, String setDate, Integer readingDayNumber, Double eggWeight, Double eggWeightAverage, String eggDailyComment, String incubatorName, Integer numberOfEggsRemaining) {
+    @ColumnInfo(name = "EggWeightSum")
+    public Double eggWeightSum = 0.0D;
+
+    public EggDaily(Long settingID, String batchLabel, String eggLabel, String readingDate, String setDate, Integer readingDayNumber, Double eggWeight, Double eggWeightAverage, String eggDailyComment, String incubatorName, Integer numberOfEggsRemaining, Double eggWeightSum) {
         this.settingID = settingID;
         this.batchLabel = batchLabel;
         this.eggLabel = eggLabel;
@@ -64,6 +67,7 @@ public class EggDaily implements Serializable {
         this.eggDailyComment = eggDailyComment;
         this.incubatorName = incubatorName;
         this.numberOfEggsRemaining = numberOfEggsRemaining;
+        this.eggWeightSum = eggWeightSum;
     }
 
     @Ignore
@@ -163,5 +167,13 @@ public class EggDaily implements Serializable {
 
     public void setNumberOfEggsRemaining(Integer numberOfEggsRemaining) {
         this.numberOfEggsRemaining = numberOfEggsRemaining;
+    }
+
+    public Double getEggWeightSum() {
+        return eggWeightSum;
+    }
+
+    public void setEggWeightSum(Double eggWeightSum) {
+        this.eggWeightSum = eggWeightSum;
     }
 }

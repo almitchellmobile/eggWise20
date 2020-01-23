@@ -57,10 +57,22 @@ public class EggBatch implements Serializable  {
     @ColumnInfo(name = "TrackingOption")
     public Integer trackingOption;
 
-    @ColumnInfo(name = "DesiredWeightLoss")
-    public Double desiredWeightLoss;
+    @ColumnInfo(name = "IncubatorSettings")
+    public String incubatorSettings;
 
-    public EggBatch(String batchLabel, Integer numberOfEggs, Long speciesID, String speciesName, String commonName, String layDate, String setDate, String hatchDate, Long incubatorID, String incubatorName, String location, Integer trackingOption, Double desiredWeightLoss) {
+    @ColumnInfo(name = "Temperature")
+    public Double temperature;
+
+    @ColumnInfo(name = "IncubationDays")
+    public Integer incubationDays;
+
+    @ColumnInfo(name = "NumberOfEggsHatched")
+    public Integer numberOfEggsHatched;
+
+    @ColumnInfo(name = "TargetWeightLoss")
+    public Double targetWeightLoss;
+
+    public EggBatch(String batchLabel, Integer numberOfEggs, Long speciesID, String speciesName, String commonName, String layDate, String setDate, String hatchDate, Long incubatorID, String incubatorName, String location, Integer trackingOption, String incubatorSettings, Double temperature, Integer incubationDays, Integer numberOfEggsHatched, Double targetWeightLoss) {
         this.batchLabel = batchLabel;
         this.numberOfEggs = numberOfEggs;
         this.speciesID = speciesID;
@@ -73,9 +85,12 @@ public class EggBatch implements Serializable  {
         this.incubatorName = incubatorName;
         this.location = location;
         this.trackingOption = trackingOption;
-        this.desiredWeightLoss = desiredWeightLoss;
+        this.incubatorSettings = incubatorSettings;
+        this.temperature = temperature;
+        this.incubationDays = incubationDays;
+        this.numberOfEggsHatched = numberOfEggsHatched;
+        this.targetWeightLoss = targetWeightLoss;
     }
-
 
     @Ignore
     public EggBatch(){}
@@ -184,11 +199,43 @@ public class EggBatch implements Serializable  {
         this.trackingOption = trackingOption;
     }
 
-    public Double getDesiredWeightLoss() {
-        return desiredWeightLoss;
+    public String getIncubatorSettings() {
+        return incubatorSettings;
     }
 
-    public void setDesiredWeightLoss(Double desiredWeightLoss) {
-        this.desiredWeightLoss = desiredWeightLoss;
+    public void setIncubatorSettings(String incubatorSettings) {
+        this.incubatorSettings = incubatorSettings;
+    }
+
+    public Double getTemperature() {
+        return temperature;
+    }
+
+    public void setTemperature(Double temperature) {
+        this.temperature = temperature;
+    }
+
+    public Integer getIncubationDays() {
+        return incubationDays;
+    }
+
+    public void setIncubationDays(Integer incubationDays) {
+        this.incubationDays = incubationDays;
+    }
+
+    public Integer getNumberOfEggsHatched() {
+        return numberOfEggsHatched;
+    }
+
+    public void setNumberOfEggsHatched(Integer numberOfEggsHatched) {
+        this.numberOfEggsHatched = numberOfEggsHatched;
+    }
+
+    public Double getTargetWeightLoss() {
+        return targetWeightLoss;
+    }
+
+    public void setTargetWeightLoss(Double targetWeightLoss) {
+        this.targetWeightLoss = targetWeightLoss;
     }
 }

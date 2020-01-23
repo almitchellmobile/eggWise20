@@ -58,13 +58,18 @@ public class EggBatchAdapter extends RecyclerView.Adapter<EggBatchAdapter.BeanHo
                 ", <B>Set Date:</B> " + list.get(position).getSetDate() +
                 ", <B>Hatch Date:</B> " + list.get(position).getHatchDate() +
                 ", <B>Location:</B> " + list.get(position).getLocation() +
+                ", <B>Incubator Settings:</B> " + list.get(position).getIncubatorSettings() +
+                ", <B>Incubator Temperature:</B> " + list.get(position).getTemperature().toString() +
+                ", <B>Incubation Days:</B> " + list.get(position).getIncubationDays().toString() +
+                ", <B>Number Of Eggs Hatched:</B> " + list.get(position).getNumberOfEggsHatched().toString() +
+                ", <B>Target Weight Loss:</B> " + list.get(position).getTargetWeightLoss().toString() +
                 ", <B>Tracking Option:</B> ";
                 if (list.get(position).getTrackingOption() == 1) {
                     line1 += "Track entire batch";
                 } else {
                     line1 += "Track specific eggs";
                 }
-                line1 += ", <B>Desired Weight Loss:</B> " + list.get(position).getDesiredWeightLoss().toString();
+
 
         CharSequence styledText = HtmlCompat.fromHtml(line1, HtmlCompat.FROM_HTML_MODE_LEGACY);
         holder.tv_egg_batch_line1.setText(styledText);
