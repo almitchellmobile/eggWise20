@@ -25,10 +25,21 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class EggBatchListActivity extends AppCompatActivity implements EggBatchAdapter.OnEggBatchItemClick{
 
+    public static String BATCH_LABEL = "b1";
+    public static Double BATCH_DAY_WEIGHT_SUM = 0.0;
+    public static Double BATCH_DAY_WEIGHT_AVG_CURRENT = 0.0;
+    public static Double BATCH_DAY_WEIGHT_AVG_DAY_0 = 0.0;
+    public static Double ACTUAL_WEIGHT_LOSS_PERCENT = 0.0;
+    public static Double TARGET_WEIGHT_LOSS_PERCENT = 0.0;
+    public static Double WEIGHT_LOSS_DEVIATION = 0.0;
+    public static Integer READING_DAY_NUMBER = 0;
+    public static Integer TARGET_WEIGHT_LOSS_INTEGER = 0;
+    public static Integer INCUBATION_DAYS = 0;
+
     private TextView textViewMsg;
     private RecyclerView recyclerViewEggBatchList;
     private EggWiseDatabse eggWiseDatabse;
-    private List<EggBatch> EggBatch;
+    private List<EggBatch> eggBatchList;
     private EggBatchAdapter eggBatchAdapter;
     private int pos;
 
@@ -38,18 +49,8 @@ public class EggBatchListActivity extends AppCompatActivity implements EggBatchA
         setContentView(R.layout.activity_egg_batch_list);
         Toolbar toolbar = findViewById(R.id.toolbar_egg_batch_list);
         setSupportActionBar(toolbar);
-
         initializeViews();
         displayList();
-
-        /*FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });*/
     }
 
     private void displayList(){
@@ -69,7 +70,7 @@ public class EggBatchListActivity extends AppCompatActivity implements EggBatchA
         @Override
         protected List<EggBatch> doInBackground(Void... voids) {
             if (activityReference.get()!=null)
-                return activityReference.get().eggWiseDatabse.getEggBatchDao().getEggBatch();
+                return activityReference.get().eggWiseDatabse.getEggBatchDao().getAllEggBatch();
             else
                 return null;
         }
@@ -77,8 +78,8 @@ public class EggBatchListActivity extends AppCompatActivity implements EggBatchA
         @Override
         protected void onPostExecute(List<EggBatch> EggBatch) {
             if (EggBatch!=null && EggBatch.size()>0 ){
-                activityReference.get().EggBatch.clear();
-                activityReference.get().EggBatch.addAll(EggBatch);
+                activityReference.get().eggBatchList.clear();
+                activityReference.get().eggBatchList.addAll(EggBatch);
                 // hides empty text view
                 activityReference.get().textViewMsg.setVisibility(View.GONE);
                 activityReference.get().eggBatchAdapter.notifyDataSetChanged();
@@ -102,8 +103,8 @@ public class EggBatchListActivity extends AppCompatActivity implements EggBatchA
 
         recyclerViewEggBatchList = findViewById(R.id.recycler_view_egg_batch_list);
         recyclerViewEggBatchList.setLayoutManager(new LinearLayoutManager(EggBatchListActivity.this));
-        EggBatch = new ArrayList<EggBatch>();
-        eggBatchAdapter = new EggBatchAdapter(EggBatch,  EggBatchListActivity.this);
+        eggBatchList = new ArrayList<EggBatch>();
+        eggBatchAdapter = new EggBatchAdapter(eggBatchList,  EggBatchListActivity.this);
         recyclerViewEggBatchList.setAdapter(eggBatchAdapter);
     }
 
@@ -114,14 +115,14 @@ public class EggBatchListActivity extends AppCompatActivity implements EggBatchA
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 100 && resultCode > 0) {
             if (resultCode == 1) {
-                EggBatch.add((EggBatch) data.getSerializableExtra("EggBatch"));
+                eggBatchList.add((EggBatch) data.getSerializableExtra("eggBatchList"));
             } else if (resultCode == 2) {
-                EggBatch.set(pos, (EggBatch) data.getSerializableExtra("EggBatch"));
+                eggBatchList.set(pos, (EggBatch) data.getSerializableExtra("eggBatchList"));
             }
             listVisibility();
         } else if (requestCode == 200) {
             Intent intent1 = new Intent(EggBatchListActivity.this, WeightLossListActivity.class);
-            intent1.putExtra("AddWeightLossActivity",EggBatch.get(pos));
+            intent1.putExtra("eggBatchList", eggBatchList.get(pos));
             startActivity(intent1);
             //finish();
 
@@ -132,33 +133,36 @@ public class EggBatchListActivity extends AppCompatActivity implements EggBatchA
     public void onEggBatchClick(final int pos) {
         new AlertDialog.Builder(EggBatchListActivity.this)
                 .setTitle("Select Options")
-                .setItems(new String[]{"Delete", "Update", "Enter Weight Loss"}, new DialogInterface.OnClickListener() {
+                .setItems(new String[]{"Delete", "Update", "Enter Weight Loss", "List Weight Loss"}, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         switch (i){
                             case 0:
-                                eggWiseDatabse.getEggBatchDao().deleteEggBatch(EggBatch.get(pos));
-                                EggBatch.remove(pos);
+                                eggWiseDatabse.getEggBatchDao().deleteEggBatch(eggBatchList.get(pos));
+                                eggBatchList.remove(pos);
                                 listVisibility();
                                 break;
                             case 1:
                                 EggBatchListActivity.this.pos = pos;
                                 startActivityForResult(
                                         new Intent(EggBatchListActivity.this,
-                                                AddEggBatchActivity.class).putExtra("UpdateEggBatch",EggBatch.get(pos)),
+                                                AddEggBatchActivity.class).putExtra("UpdateEggBatch", eggBatchList.get(pos)),
                                         100);
                                 break;
                             case 2:
                                 EggBatchListActivity.this.pos = pos;
-                                /*startActivityForResult(
-                                        new Intent(EggBatchListActivity.this,
-                                                AddWeightLossActivity.class).putExtra("AddWeightLossActivity",EggBatch.get(pos)),
-                                        200);*/
+                                //WeightLossListActivity.BATCH_LABEL = eggBatchList.get(pos).getBatchLabel();
                                 Intent intent1 = new Intent(EggBatchListActivity.this, AddWeightLossActivity.class);
-                                intent1.putExtra("AddWeightLossActivity",EggBatch.get(pos));
+                                intent1.putExtra("eggBatchList", eggBatchList.get(pos));
                                 startActivity(intent1);
                                 finish();
-
+                                break;
+                            case 3:
+                                EggBatchListActivity.this.pos = pos;
+                                Intent intent2 = new Intent(EggBatchListActivity.this, WeightLossListActivity.class);
+                                intent2.putExtra("eggBatchList",eggBatchList.get(pos));
+                                startActivity(intent2);
+                                finish();
                                 break;
 
                         }
@@ -169,7 +173,7 @@ public class EggBatchListActivity extends AppCompatActivity implements EggBatchA
 
     private void listVisibility(){
         int emptyMsgVisibility = View.GONE;
-        if (EggBatch.size() == 0){ // no item to display
+        if (eggBatchList.size() == 0){ // no item to display
             if (textViewMsg.getVisibility() == View.GONE)
                 emptyMsgVisibility = View.VISIBLE;
         }

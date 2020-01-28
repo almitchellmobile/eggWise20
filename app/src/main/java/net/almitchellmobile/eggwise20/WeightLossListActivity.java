@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import net.almitchellmobile.eggwise20.adapter.EggWeightAdapter;
+import net.almitchellmobile.eggwise20.adapter.EggWeightLossAdapter;
 import net.almitchellmobile.eggwise20.database.EggWiseDatabse;
 import net.almitchellmobile.eggwise20.database.model.EggBatch;
 import net.almitchellmobile.eggwise20.database.model.EggDaily;
@@ -24,16 +24,25 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class WeightLossListActivity extends AppCompatActivity implements EggWeightAdapter.OnEggWeightItemClick {
+public class WeightLossListActivity extends AppCompatActivity implements EggWeightLossAdapter.OnEggWeightItemClick {
 
-    public static String BATCH_LABEL = "b1";
+    public static String BATCH_LABEL = "";
+    public static Double EGG_WEIGHT_SUM = 0.0;
+    public static Double EGG_WEIGHT_AVG_CURRENT = 0.0;
+    public static Double EGG_WEIGHT_AVG_DAY_0 = 0.0;
+    public static Double ACTUAL_WEIGHT_LOSS_PERCENT = 0.0;
+    public static Double TARGET_WEIGHT_LOSS_PERCENT = 0.0;
+    public static Double WEIGHT_LOSS_DEVIATION = 0.0;
+    public static Integer READING_DAY_NUMBER = 0;
+    public static Integer TARGET_WEIGHT_LOSS_INTEGER = 0;
+    public static Integer INCUBATION_DAYS = 0;
 
     private TextView tv_empty_weight_loss_message;
     private RecyclerView recyclerViewWeightLossList;
     private EggWiseDatabse eggWiseDatabse;
     EggBatch eggBatch;
     private List<EggDaily> eggDailyList;
-    private EggWeightAdapter eggWeightAdapter;
+    private EggWeightLossAdapter eggWeightLossAdapter;
     private int pos;
 
     public Long settingID = 0L;
@@ -48,34 +57,18 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
     public String incubatorName = "";
     public Integer numberOfEggsRemaining = 0;
     public Integer numberOfEggs = 0;
-    Double eggWeightSum = 0.0;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_weight_loss_list_1);
+        setContentView(R.layout.activity_weight_loss_list);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        if ( (eggBatch = (EggBatch) getIntent().getSerializableExtra("WeightLossListActivity"))!=null ){
-
+        if ( (eggBatch = (EggBatch) getIntent().getSerializableExtra("eggBatchList"))!=null ){
             BATCH_LABEL = eggBatch.getBatchLabel();
-
-            /*setDate = eggBatch.getSetDate();
-            incubatorName = eggBatch.getIncubatorName();
-            numberOfEggs = eggBatch.getNumberOfEggs();
-
-            text_batch_label.setText(parseHTMLBold("<B>Batch Label:</B> " + eggBatch.getBatchLabel()));
-            text_set_date.setText(parseHTMLBold("<B>Set Date:</B> " + eggBatch.getSetDate()));
-            text_incubator_name.setText(parseHTMLBold("<B>Incubator Name:</B> " + eggBatch.getIncubatorName()));
-            text_number_of_eggs_remaining.setText(parseHTMLBold("<B>Number Of Eggs Remaining:</B> " + eggBatch.getNumberOfEggs()));*/
-
-            //computeEggWeightSums();
-            //computeAveragesAndPercents();
-
         }
-
-
         initializeViews();
         displayList();
     }
@@ -83,16 +76,6 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
     private void displayList(){
         eggWiseDatabse = EggWiseDatabse.getInstance(WeightLossListActivity.this);
         new WeightLossListActivity.RetrieveTask(this).execute();
-
-        eggWeightSum = 0.0D;
-        eggWeightAverage = 0.0D;
-        Integer numberOfEggs = 0;
-        Integer previousNumberOfEggs = 0;
-        for (int i = 0; i < eggDailyList.size(); i++){
-            eggWeightSum += eggDailyList.get(i).getEggWeight();
-            numberOfEggs = eggDailyList.get(i).getNumberOfEggsRemaining();
-        }
-        eggWeightAverage = (eggWeightSum / numberOfEggs);
     }
 
     private void initializeViews(){
@@ -111,9 +94,19 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
 
         recyclerViewWeightLossList = findViewById(R.id.recycler_view_weight_loss_list);
         recyclerViewWeightLossList.setLayoutManager(new LinearLayoutManager(WeightLossListActivity.this));
-        eggDailyList = new ArrayList<EggDaily>();
-        eggWeightAdapter = new EggWeightAdapter(eggDailyList,  WeightLossListActivity.this);
-        recyclerViewWeightLossList.setAdapter(eggWeightAdapter);
+        eggDailyList = new ArrayList<>();
+        eggWeightLossAdapter = new EggWeightLossAdapter(eggDailyList,  WeightLossListActivity.this);
+        recyclerViewWeightLossList.setAdapter(eggWeightLossAdapter);
+    }
+
+
+
+    public static Double zeroIfNull(Double valueIn) {
+        if (valueIn == null) {
+            return 0.0D;
+        } else {
+            return valueIn;
+        }
     }
 
     @Override
@@ -129,7 +122,33 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
         }
     }
 
+    @Override
+    public void onEggWeightClick(int pos) {
+        new AlertDialog.Builder(WeightLossListActivity.this)
+                .setTitle("Select Options")
+                .setItems(new String[]{"Delete", "Update"}, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        switch (i){
+                            case 0:
+                                eggWiseDatabse.getEggDailyDao().deleteEggDaily(eggDailyList.get(pos));
+                                eggDailyList.remove(pos);
+                                listVisibility();
+                                break;
+                            case 1:
+                                WeightLossListActivity.this.pos = pos;
+                                BATCH_LABEL = eggDailyList.get(pos).batchLabel;
+                                startActivityForResult(
+                                        new Intent(WeightLossListActivity.this,
+                                                AddWeightLossActivity.class).putExtra("UpdateWeightLoss", eggDailyList.get(pos)),
+                                        100);
 
+                                break;
+                        }
+                    }
+                }).show();
+
+    }
 
 
     private static class RetrieveTask extends AsyncTask<Void,Void,List<EggDaily>> {
@@ -143,27 +162,66 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
 
         @Override
         protected List<EggDaily> doInBackground(Void... voids) {
-            if (activityReference.get()!=null)
-                return activityReference.get().eggWiseDatabse.getEggDailyDao().getEggDaily(BATCH_LABEL);
-            else
-                return null;
-        }
+            if (activityReference.get()!=null) {
+                if (!(BATCH_LABEL == "")) {
+                    EGG_WEIGHT_SUM = zeroIfNull(activityReference.get().eggWiseDatabse.getEggDailyDao().getEggDaily_BatchEggDaySum(BATCH_LABEL));
+                    EGG_WEIGHT_AVG_CURRENT = zeroIfNull(activityReference.get().eggWiseDatabse.getEggDailyDao().getEggDaily_BatchEggDayAvg(BATCH_LABEL));
+                    EGG_WEIGHT_AVG_DAY_0 = zeroIfNull(activityReference.get().eggWiseDatabse.getEggDailyDao().getEggDaily_BatchEggDayAvgDay0(BATCH_LABEL));
 
-        @Override
-        protected void onPostExecute(List<EggDaily> eggDailyList) {
-            if (eggDailyList!=null && eggDailyList.size()>0 ){
-                activityReference.get().eggDailyList.clear();
-                activityReference.get().eggDailyList.addAll(eggDailyList);
-                // hides empty text view
-                activityReference.get().tv_empty_weight_loss_message.setVisibility(View.GONE);
-                activityReference.get().eggWeightAdapter.notifyDataSetChanged();
+                    return activityReference.get().eggWiseDatabse.getEggDailyDao().getEggDaily_BatchEggDay(BATCH_LABEL);
+                } else {
+                    return null;
+                }
+            } else {
+                return null;
             }
         }
 
+        @Override
+        protected void onPostExecute(List<EggDaily> eggDailyListPostEx) {
+            if (eggDailyListPostEx!=null && eggDailyListPostEx.size()>0 ){
+
+                Integer index = 0;
+
+                activityReference.get().eggDailyList.clear();
+
+                for (index = 0; index < eggDailyListPostEx.size();) {
+
+                    eggDailyListPostEx.get(index).setEggWeightSum(EGG_WEIGHT_SUM);
+                    eggDailyListPostEx.get(index).setEggWeightAverageCurrent(EGG_WEIGHT_AVG_CURRENT);
+
+                    if (eggDailyListPostEx.get(index).getReadingDayNumber() == 0) {
+                        eggDailyListPostEx.get(index).setEggWeightAverageDay0(EGG_WEIGHT_AVG_CURRENT);
+                    } else {
+                        eggDailyListPostEx.get(index).setEggWeightAverageDay0(EGG_WEIGHT_AVG_DAY_0);
+
+                        ACTUAL_WEIGHT_LOSS_PERCENT = 100*((EGG_WEIGHT_AVG_DAY_0 - EGG_WEIGHT_AVG_CURRENT)/EGG_WEIGHT_AVG_DAY_0);
+
+                        READING_DAY_NUMBER = (eggDailyListPostEx.get(index).getReadingDayNumber());
+                        TARGET_WEIGHT_LOSS_INTEGER = eggDailyListPostEx.get(index).getTargetWeightLossInteger();
+                        INCUBATION_DAYS = eggDailyListPostEx.get(index).getIncubationDays();
+
+                        TARGET_WEIGHT_LOSS_PERCENT = Double.valueOf(((TARGET_WEIGHT_LOSS_INTEGER * READING_DAY_NUMBER)/INCUBATION_DAYS));
+
+                        WEIGHT_LOSS_DEVIATION = TARGET_WEIGHT_LOSS_PERCENT - ACTUAL_WEIGHT_LOSS_PERCENT;
+
+                        eggDailyListPostEx.get(index).setActualWeightLossPercent(ACTUAL_WEIGHT_LOSS_PERCENT);
+                        eggDailyListPostEx.get(index).setTargetWeightLossPercent(TARGET_WEIGHT_LOSS_PERCENT);
+                        eggDailyListPostEx.get(index).setWeightLossDeviation(WEIGHT_LOSS_DEVIATION);
+
+                    }
+                    index += 1;
+                }
+                activityReference.get().eggDailyList.addAll(eggDailyListPostEx);
+                // hides empty text view
+                activityReference.get().tv_empty_weight_loss_message.setVisibility(View.GONE);
+                activityReference.get().eggWeightLossAdapter.notifyDataSetChanged();
+            }
+        }
     }
 
-    @Override
-    public void onEggWeightClick(int pos) {
+    /*@Override
+    public void onEggWeightClick(final int pos) {
         new AlertDialog.Builder(WeightLossListActivity.this)
                 .setTitle("Select Options")
                 .setItems(new String[]{"Delete", "Update"}, new DialogInterface.OnClickListener() {
@@ -187,7 +245,7 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
                     }
                 }).show();
 
-    }
+    }*/
 
     private void listVisibility(){
         int emptyMsgVisibility = View.GONE;
@@ -196,7 +254,7 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
                 emptyMsgVisibility = View.VISIBLE;
         }
         tv_empty_weight_loss_message.setVisibility(emptyMsgVisibility);
-        eggWeightAdapter.notifyDataSetChanged();
+        eggWeightLossAdapter.notifyDataSetChanged();
     }
 
     @Override

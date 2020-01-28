@@ -13,9 +13,32 @@ import androidx.room.Update;
 
 @Dao
 public interface EggDailyDao {
-    String sqlSelect = "SELECT * FROM "+ Constants.TABLE_NAME_EGG_DAILY + " WHERE BatchLabel LIKE  :batchLabel ";
+    String sqlSelect = "SELECT * FROM "+ Constants.TABLE_NAME_EGG_DAILY +
+            " WHERE BatchLabel LIKE  :batchLabel ORDER BY EggLabel, ReadingDayNumber";
     @Query(sqlSelect)
-    List<EggDaily> getEggDaily(String batchLabel);
+    List<EggDaily> getEggDaily_BatchEggDay(String batchLabel);
+
+    String sqlSelectSum = "SELECT SUM(EggWeight) EggWeightSum FROM "+
+            Constants.TABLE_NAME_EGG_DAILY +
+            " WHERE BatchLabel LIKE  :batchLabel " +
+            " GROUP BY EggLabel, ReadingDayNumber " +
+            " ORDER BY EggLabel ASC, ReadingDayNumber ASC ";
+    @Query(sqlSelectSum)
+    Double getEggDaily_BatchEggDaySum(String batchLabel);
+
+    String sqlSelectAvg = "SELECT AVG(EggWeight) EggWeightAvg FROM "+
+            Constants.TABLE_NAME_EGG_DAILY +
+            " WHERE BatchLabel LIKE  :batchLabel " +
+            " GROUP BY  EggLabel, ReadingDayNumber " +
+            " ORDER BY  EggLabel ASC, ReadingDayNumber ASC ";
+    @Query(sqlSelectAvg)
+    Double getEggDaily_BatchEggDayAvg(String batchLabel);
+
+    String sqlSelectAvgDay0 = "SELECT EggWeightAverageDay0 FROM "+
+            Constants.TABLE_NAME_EGG_DAILY +
+            " WHERE BatchLabel LIKE  :batchLabel AND ReadingDayNumber = 0 ";
+    @Query(sqlSelectAvgDay0)
+    Double getEggDaily_BatchEggDayAvgDay0(String batchLabel);
 
     /*
      * Insert the object in database

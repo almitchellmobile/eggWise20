@@ -70,9 +70,9 @@ public class EggBatch implements Serializable  {
     public Integer numberOfEggsHatched;
 
     @ColumnInfo(name = "TargetWeightLoss")
-    public Double targetWeightLoss;
+    public Integer targetWeightLoss;
 
-    public EggBatch(String batchLabel, Integer numberOfEggs, Long speciesID, String speciesName, String commonName, String layDate, String setDate, String hatchDate, Long incubatorID, String incubatorName, String location, Integer trackingOption, String incubatorSettings, Double temperature, Integer incubationDays, Integer numberOfEggsHatched, Double targetWeightLoss) {
+    public EggBatch(String batchLabel, Integer numberOfEggs, Long speciesID, String speciesName, String commonName, String layDate, String setDate, String hatchDate, Long incubatorID, String incubatorName, String location, Integer trackingOption, String incubatorSettings, Double temperature, Integer incubationDays, Integer numberOfEggsHatched, Integer targetWeightLoss) {
         this.batchLabel = batchLabel;
         this.numberOfEggs = numberOfEggs;
         this.speciesID = speciesID;
@@ -231,11 +231,11 @@ public class EggBatch implements Serializable  {
         this.numberOfEggsHatched = numberOfEggsHatched;
     }
 
-    public Double getTargetWeightLoss() {
+    public Integer getTargetWeightLoss() {
         return targetWeightLoss;
     }
 
-    public void setTargetWeightLoss(Double targetWeightLoss) {
+    public void setTargetWeightLoss(Integer targetWeightLoss) {
         this.targetWeightLoss = targetWeightLoss;
     }
 }

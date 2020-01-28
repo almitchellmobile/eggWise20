@@ -10,7 +10,7 @@
         android:id="@+id/text_incubator_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <com.google.android.material.textfield.TextInputEditText
+        <AutoCompleteTextView
             android:inputType="text"
             android:id="@+id/et_incubator_name"
             android:hint="Incubator Name"
@@ -23,7 +23,7 @@
         android:id="@+id/text_mfg_model"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <com.google.android.material.textfield.TextInputEditText
+        <AutoCompleteTextView
             android:inputType="text"
             android:id="@+id/et_mfg_model"
             android:hint="MFG Model"
@@ -36,7 +36,7 @@
         android:id="@+id/text_number_of_eggs"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <com.google.android.material.textfield.TextInputEditText
+        <AutoCompleteTextView
             android:inputType="text"
             android:id="@+id/et_number_of_eggs"
             android:hint="Number Of Eggs"

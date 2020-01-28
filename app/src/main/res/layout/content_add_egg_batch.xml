@@ -15,20 +15,21 @@
             android:id="@+id/text_egg_batch_label"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <com.google.android.material.textfield.TextInputEditText
-                android:inputType="text"
+
+            <AutoCompleteTextView
                 android:id="@+id/et_batch_label"
-                android:hint="@string/egg_batch_label"
-                android:singleLine="true"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:hint="@string/egg_batch_label"
+                android:inputType="text"
+                android:singleLine="true" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/text_number_of_eggs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <com.google.android.material.textfield.TextInputEditText
+            <AutoCompleteTextView
                 android:inputType="text"
                 android:id="@+id/et_number_of_eggs"
                 android:hint="@string/number_of_eggs"
@@ -41,7 +42,7 @@
             android:id="@+id/text_species_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <com.google.android.material.textfield.TextInputEditText
+            <AutoCompleteTextView
                 android:inputType="text"
                 android:id="@+id/et_species_name"
                 android:hint="@string/species_name"
@@ -54,7 +55,7 @@
             android:id="@+id/text_common_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <com.google.android.material.textfield.TextInputEditText
+            <AutoCompleteTextView
                 android:inputType="text"
                 android:id="@+id/et_common_name"
                 android:hint="@string/common_name"
@@ -67,7 +68,7 @@
             android:id="@+id/text_incubator_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <com.google.android.material.textfield.TextInputEditText
+            <AutoCompleteTextView
                 android:inputType="text"
                 android:id="@+id/et_incubator_name"
                 android:hint="@string/incubator_name"
@@ -80,7 +81,7 @@
             android:id="@+id/text_set_date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <com.google.android.material.textfield.TextInputEditText
+            <AutoCompleteTextView
                 android:inputType="text"
                 android:id="@+id/et_set_date"
                 android:hint="@string/set_date"
@@ -93,7 +94,7 @@
             android:id="@+id/text_hatch_date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <com.google.android.material.textfield.TextInputEditText
+            <AutoCompleteTextView
                 android:inputType="text"
                 android:id="@+id/et_hatch_date"
                 android:hint="@string/hatch_date"
@@ -106,7 +107,7 @@
             android:id="@+id/text_location"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <com.google.android.material.textfield.TextInputEditText
+            <AutoCompleteTextView
                 android:inputType="text"
                 android:id="@+id/et_location"
                 android:hint="@string/location"
@@ -116,23 +117,10 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/text_desired_weight_loss"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <com.google.android.material.textfield.TextInputEditText
-                android:inputType="text"
-                android:id="@+id/et_desired_weight_loss"
-                android:hint="@string/desired_weight_loss"
-                android:singleLine="true"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/text_incubator_settings"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <com.google.android.material.textfield.TextInputEditText
+            <AutoCompleteTextView
                 android:inputType="text"
                 android:id="@+id/et_incubator_settings"
                 android:hint="Incubator Settings"
@@ -145,7 +133,7 @@
             android:id="@+id/text_temperature"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <com.google.android.material.textfield.TextInputEditText
+            <AutoCompleteTextView
                 android:inputType="text"
                 android:id="@+id/et_temperature"
                 android:hint="Incubator Temperature"
@@ -158,7 +146,7 @@
             android:id="@+id/text_incubation_days"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <com.google.android.material.textfield.TextInputEditText
+            <AutoCompleteTextView
                 android:inputType="text"
                 android:id="@+id/et_incubation_days"
                 android:hint="Incubation Days"
@@ -171,7 +159,7 @@
             android:id="@+id/text_number_of_eggs_hatched"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <com.google.android.material.textfield.TextInputEditText
+            <AutoCompleteTextView
                 android:inputType="text"
                 android:id="@+id/et_number_of_eggs_hatched"
                 android:hint="Number Of Eggs Hatched"
@@ -184,10 +172,10 @@
             android:id="@+id/text_target_weight_loss"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <com.google.android.material.textfield.TextInputEditText
+            <AutoCompleteTextView
                 android:inputType="text"
                 android:id="@+id/et_target_weight_loss"
-                android:hint="Target Weight Loss"
+                android:hint="Target Weight Loss (percent, number)"
                 android:singleLine="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />

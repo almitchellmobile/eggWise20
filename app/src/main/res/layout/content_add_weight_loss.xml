@@ -37,7 +37,7 @@
         android:id="@+id/text_egg_label"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <com.google.android.material.textfield.TextInputEditText
+        <AutoCompleteTextView
             android:inputType="text"
             android:id="@+id/et_egg_label"
             android:hint="@string/egg_label"
@@ -50,7 +50,7 @@
         android:id="@+id/text_egg_weight"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <com.google.android.material.textfield.TextInputEditText
+        <AutoCompleteTextView
             android:inputType="text"
             android:id="@+id/et_egg_weight"
             android:hint="@string/egg_weight"
@@ -64,7 +64,7 @@
         android:id="@+id/text_reading_date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <com.google.android.material.textfield.TextInputEditText
+        <AutoCompleteTextView
             android:inputType="text"
             android:id="@+id/et_reading_date"
             android:hint="@string/reading_date"
@@ -77,7 +77,7 @@
         android:id="@+id/text_reading_day_number"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <com.google.android.material.textfield.TextInputEditText
+        <AutoCompleteTextView
             android:inputType="text"
             android:id="@+id/et_reading_day_number"
             android:hint="@string/reading_date"
@@ -91,7 +91,7 @@
         android:id="@+id/text_weight_loss_comment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <com.google.android.material.textfield.TextInputEditText
+        <AutoCompleteTextView
             android:inputType="text"
             android:id="@+id/et_weight_loss_comment"
             android:hint="Comment"
@@ -100,12 +100,33 @@
             android:layout_height="wrap_content" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <Button
-        android:id="@+id/button_save_add_weight_loss"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="@string/save_button" />
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/button_save_add_weight_loss"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Save / Add Next" />
+
+        <Button
+            android:id="@+id/button_save_list_weight_loss"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Save / Return" />
+
+        <Button
+            android:id="@+id/button_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Return" />
+    </LinearLayout>
 
 
 </LinearLayout>

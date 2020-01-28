@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.DatePicker;
@@ -17,15 +18,11 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
-import com.google.android.material.textfield.TextInputEditText;
-
 import net.almitchellmobile.eggwise20.database.EggWiseDatabse;
 import net.almitchellmobile.eggwise20.database.model.EggBatch;
 import net.almitchellmobile.eggwise20.util.SetDate;
 
 import java.lang.ref.WeakReference;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -33,7 +30,7 @@ import androidx.appcompat.widget.Toolbar;
 
 public class AddEggBatchActivity extends AppCompatActivity {
 
-    TextInputEditText et_batch_label, et_number_of_eggs, et_species_name, et_common_name,
+    AutoCompleteTextView et_batch_label, et_number_of_eggs, et_species_name, et_common_name,
             et_incubator_name, et_set_date, et_hatch_date, et_desired_weight_loss,
             et_location, et_incubator_settings, et_temperature, et_incubation_days,
             et_number_of_eggs_hatched, et_target_weight_loss;
@@ -82,7 +79,7 @@ public class AddEggBatchActivity extends AppCompatActivity {
     Double temperature = 0.0D;
     Integer incubationDays = 0;
     Integer numberOfEggsHatched = 0;
-    Double targetWeightLoss = 0.0D;
+    Integer targetWeightLoss = 0;
 
     private boolean update;
 
@@ -91,14 +88,14 @@ public class AddEggBatchActivity extends AppCompatActivity {
     String myFormat = "MM/dd/yy"; //In which you need put here
     SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
 
-    List<EditText> validationList = new ArrayList();
+    //List<EditText> validationList = new ArrayList();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_egg_batch);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        Toolbar toolbar_add_egg_batch = findViewById(R.id.toolbar_add_egg_batch);
+        setSupportActionBar(toolbar_add_egg_batch);
 
         eggWiseDatabse = EggWiseDatabse.getInstance(AddEggBatchActivity.this);
 
@@ -186,7 +183,7 @@ public class AddEggBatchActivity extends AppCompatActivity {
                     numberOfEggsHatched = Integer.parseInt(et_number_of_eggs_hatched.getText().toString());
                 }
                 if (!(isEmptyField(et_target_weight_loss))) {
-                    targetWeightLoss = Double.parseDouble(et_target_weight_loss.getText().toString());
+                    targetWeightLoss = Integer.parseInt(et_target_weight_loss.getText().toString());
                 }
 
 
@@ -334,7 +331,7 @@ public class AddEggBatchActivity extends AppCompatActivity {
     }
 
 
-    void initValidationList() {
+   /* void initValidationList() {
         validationList.add(et_batch_label);
         validationList.add(et_species_name);
         validationList.add(et_common_name);
@@ -343,7 +340,7 @@ public class AddEggBatchActivity extends AppCompatActivity {
         validationList.add(et_desired_weight_loss);
         validationList.add(et_set_date);
         validationList.add(et_hatch_date);
-    }
+    }*/
 
     private void updateLabelSetDate() {
 

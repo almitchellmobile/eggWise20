@@ -12,16 +12,20 @@
         <activity
             android:name=".AddWeightLossActivity"
             android:label="@string/title_activity_add_weight_loss"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar">
+
+        </activity>
         <activity
             android:name=".WeightLossListActivity"
             android:label="@string/title_activity_weight_loss_list"
             android:theme="@style/AppTheme.NoActionBar">
+
             <!--<intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>-->
+
         </activity>
         <activity
             android:name=".AddEggBatchActivity"

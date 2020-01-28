@@ -14,8 +14,31 @@ import androidx.room.Update;
 @Dao
 public interface EggBatchDao {
 
-    @Query("SELECT * FROM "+ Constants.TABLE_NAME_EGG_BATCH)
-    List<EggBatch> getEggBatch();
+    String sqlSelectAll = "SELECT * FROM "+ Constants.TABLE_NAME_EGG_BATCH + " ORDER BY SetDate DESC, BatchLabel ASC";
+    @Query(sqlSelectAll)
+    List<EggBatch> getAllEggBatch();
+
+    String sqlSelectSum = "SELECT SUM(EggWeight) EggWeightSum FROM "+
+            Constants.TABLE_NAME_EGG_DAILY +
+            " WHERE BatchLabel LIKE  :batchLabel " +
+            " GROUP BY ReadingDayNumber " +
+            " ORDER BY BatchLabel ASC, ReadingDayNumber ASC ";
+    @Query(sqlSelectSum)
+    Double getEggDaily_BatchDaySum(String batchLabel);
+
+    String sqlSelectAvg = "SELECT AVG(EggWeight) EggWeightAvg FROM "+
+            Constants.TABLE_NAME_EGG_DAILY +
+            " WHERE BatchLabel LIKE  :batchLabel " +
+            " GROUP BY  BatchLabel, ReadingDayNumber " +
+            " ORDER BY  BatchLabel ASC, ReadingDayNumber ASC ";
+    @Query(sqlSelectAvg)
+    Double getEggDaily_BatchDayAvg(String batchLabel);
+
+    String sqlSelectAvgDay0 = "SELECT EggWeightAverageDay0 FROM "+
+            Constants.TABLE_NAME_EGG_DAILY +
+            " WHERE BatchLabel LIKE  :batchLabel AND ReadingDayNumber = 0 ";
+    @Query(sqlSelectAvgDay0)
+    Double getEggDaily_BatchDayAvgDay0(String batchLabel);
 
     /*
      * Insert the object in database

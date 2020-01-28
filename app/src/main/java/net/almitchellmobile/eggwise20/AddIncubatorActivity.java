@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -19,7 +20,7 @@ import androidx.appcompat.widget.Toolbar;
 
 public class AddIncubatorActivity extends AppCompatActivity {
 
-    private EditText et_incubator_name,
+    private AutoCompleteTextView et_incubator_name,
             et_mfg_model,
             et_number_of_eggs;
     private EggWiseDatabse eggWiseDatabse;
@@ -34,8 +35,8 @@ public class AddIncubatorActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_incubator);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        Toolbar toolbar_add_incubator = findViewById(R.id.toolbar_add_incubator);
+        setSupportActionBar(toolbar_add_incubator);
 
         et_incubator_name = findViewById(R.id.et_incubator_name);
         et_mfg_model = findViewById(R.id.et_mfg_model);

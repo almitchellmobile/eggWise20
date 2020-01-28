@@ -27,6 +27,7 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view_egg_batch_list"
+            android:descendantFocusability="blocksDescendants"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 

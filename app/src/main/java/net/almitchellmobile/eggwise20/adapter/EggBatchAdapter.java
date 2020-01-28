@@ -31,12 +31,6 @@ public class EggBatchAdapter extends RecyclerView.Adapter<EggBatchAdapter.BeanHo
         this.onEggBatchItemClick = (OnEggBatchItemClick) context;
     }
 
-   /* @Override
-    public IncubatorsAdapter.BeanHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = layoutInflater.inflate(R.layout.list_item_incubator,parent,false);
-        return new IncubatorsAdapter.BeanHolder(view);
-    }*/
-
 
     @Override
     public EggBatchAdapter.BeanHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -62,7 +56,7 @@ public class EggBatchAdapter extends RecyclerView.Adapter<EggBatchAdapter.BeanHo
                 ", <B>Incubator Temperature:</B> " + list.get(position).getTemperature().toString() +
                 ", <B>Incubation Days:</B> " + list.get(position).getIncubationDays().toString() +
                 ", <B>Number Of Eggs Hatched:</B> " + list.get(position).getNumberOfEggsHatched().toString() +
-                ", <B>Target Weight Loss:</B> " + list.get(position).getTargetWeightLoss().toString() +
+                ", <B>Target Weight Loss %:</B> " + list.get(position).getTargetWeightLoss().toString() +
                 ", <B>Tracking Option:</B> ";
                 if (list.get(position).getTrackingOption() == 1) {
                     line1 += "Track entire batch";
@@ -70,38 +64,9 @@ public class EggBatchAdapter extends RecyclerView.Adapter<EggBatchAdapter.BeanHo
                     line1 += "Track specific eggs";
                 }
 
-
         CharSequence styledText = HtmlCompat.fromHtml(line1, HtmlCompat.FROM_HTML_MODE_LEGACY);
         holder.tv_egg_batch_line1.setText(styledText);
 
-        //textview.setText(styledText);
-
-        /*TextView tvBatchLabel = new TextView(context);
-        tvBatchLabel.setText("Batch Label: ");
-        tvBatchLabel.setTypeface(tvBatchLabel.getTypeface(), Typeface.BOLD);
-        holder.cv_egg_batch.addView(tvBatchLabel);
-
-        TextView tvBatchLabelValue = new TextView(context);
-        tvBatchLabelValue.setText(", Number of eggs: " + list.get(position).getEggLabel() );
-        //tvBatchLabelValue.setTypeface(tvBatchLabelValue.getTypeface(), Typeface.BOLD);
-        holder.cv_egg_batch.addView(tvBatchLabelValue);*/
-
-
-
-
-        /*holder.tv_egg_label.setText("Batch label: " + list.get(position).getEggLabel());
-        holder.number_of_eggs.setText(list.get(position).getNumberOfEggs().toString());
-        holder.tv_common_name.setText(list.get(position).getCommonName());
-        holder.tv_incubator.setText(list.get(position).getIncubatorName());
-        holder.tv_set_date.setText(list.get(position).getSetDate());
-        holder.tv_hatch_date.setText(list.get(position).getHatchDate());
-        holder.tv_location.setText(list.get(position).getLocation());
-        if (list.get(position).getTrackingOption() == 1) {
-            holder.tv_weight_loss_racking.setText("Track Entire Batch");
-        } else {
-            holder.tv_weight_loss_racking.setText("Track Specific Eggs");
-        }
-        holder.tv_desired_weight_loss.setText(list.get(position).getDesiredWeightLoss().toString());*/
     }
 
     @Override
