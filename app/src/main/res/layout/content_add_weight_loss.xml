@@ -13,25 +13,25 @@
         android:id="@+id/text_batch_label"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Batch1" />
+         />
 
     <TextView
         android:id="@+id/text_number_of_eggs_remaining"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="10" />
+         />
 
     <TextView
         android:id="@+id/text_set_date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="01/01/2020" />
+         />
 
     <TextView
         android:id="@+id/text_incubator_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Incubator 1" />
+         />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/text_egg_label"

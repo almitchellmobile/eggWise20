@@ -14,23 +14,23 @@ import androidx.room.Update;
 @Dao
 public interface EggDailyDao {
     String sqlSelect = "SELECT * FROM "+ Constants.TABLE_NAME_EGG_DAILY +
-            " WHERE BatchLabel LIKE  :batchLabel ORDER BY EggLabel, ReadingDayNumber";
+            " WHERE BatchLabel LIKE  :batchLabel ORDER BY ReadingDayNumber DESC, EggLabel ";
     @Query(sqlSelect)
     List<EggDaily> getEggDaily_BatchEggDay(String batchLabel);
 
     String sqlSelectSum = "SELECT SUM(EggWeight) EggWeightSum FROM "+
             Constants.TABLE_NAME_EGG_DAILY +
             " WHERE BatchLabel LIKE  :batchLabel " +
-            " GROUP BY EggLabel, ReadingDayNumber " +
-            " ORDER BY EggLabel ASC, ReadingDayNumber ASC ";
+            " GROUP BY ReadingDayNumber , EggLabel  " +
+            " ORDER BY ReadingDayNumber DESC, EggLabel ASC ";
     @Query(sqlSelectSum)
     Double getEggDaily_BatchEggDaySum(String batchLabel);
 
     String sqlSelectAvg = "SELECT AVG(EggWeight) EggWeightAvg FROM "+
             Constants.TABLE_NAME_EGG_DAILY +
             " WHERE BatchLabel LIKE  :batchLabel " +
-            " GROUP BY  EggLabel, ReadingDayNumber " +
-            " ORDER BY  EggLabel ASC, ReadingDayNumber ASC ";
+            " GROUP BY ReadingDayNumber, EggLabel  " +
+            " ORDER BY ReadingDayNumber DESC, EggLabel ASC ";
     @Query(sqlSelectAvg)
     Double getEggDaily_BatchEggDayAvg(String batchLabel);
 

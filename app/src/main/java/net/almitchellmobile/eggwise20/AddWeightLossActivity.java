@@ -57,7 +57,7 @@ public class AddWeightLossActivity extends AppCompatActivity {
     String eggDailyComment = "";
     String incubatorName = "";
     Integer numberOfEggsRemaining = 0;
-    Integer numberOfEggs = 0;
+    //Integer numberOfEggs = 0;
     Double eggWeightSum = 0D;
     Double actualWeightLossPercent = 0.0D;
     Double targetWeightLossPercent = 0.0D;
@@ -131,24 +131,21 @@ public class AddWeightLossActivity extends AppCompatActivity {
             public void onClick(View view) {
                 try {
                     updateInsertEggDaily();
-                    setResult(eggDaily,2);
                 } catch (java.text.ParseException e) {
                     e.printStackTrace();
                 }
-                /*finish();
-                Intent intent1 = new Intent(AddWeightLossActivity.this, WeightLossListActivity.class);
-                intent1.putExtra("WeightLossListActivity", eggBatch);
-                startActivity(intent1);*/
+
             }
         });
 
-        /*button_save_add_weight_loss = findViewById(R.id.button_save_add_weight_loss);
+        button_save_add_weight_loss = findViewById(R.id.button_save_add_weight_loss);
+        button_save_add_weight_loss.setText("Save / Next");
         button_save_add_weight_loss.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 try {
                     updateInsertEggDaily();
-                    setResult(eggDaily,3);
+                    //setResult(eggDaily,3);
                 } catch (java.text.ParseException e) {
                     e.printStackTrace();
                 }
@@ -157,10 +154,11 @@ public class AddWeightLossActivity extends AppCompatActivity {
                 //intent1.putExtra("WeightLossListActivity", eggBatch);
                 //startActivity(intent1);
             }
-        });*/
+        });
+        button_save_add_weight_loss.setVisibility(View.GONE);
 
         button_cancel = findViewById(R.id.button_cancel);
-        button_cancel.setText("Cancel");
+        button_cancel.setText("Return");
         button_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -172,52 +170,61 @@ public class AddWeightLossActivity extends AppCompatActivity {
             }
         });
 
-        eggDaily = (EggDaily) getIntent().getSerializableExtra("UpdateWeightLoss");
-        if ( eggDaily!=null ){
-
-            getSupportActionBar().setTitle("Update Egg Daily");
+        getEggBatchData();
+        eggDaily = null;
+        if (getIntent().getSerializableExtra("eggDailyAdd") != null) {
+            eggDaily = (EggDaily) getIntent().getSerializableExtra("eggDailyAdd");
+            update = false;
+            button_save_add_weight_loss.setText("Save");
+        } else if (getIntent().getSerializableExtra("eggDailyUpdate") != null) {
+            eggDaily = (EggDaily) getIntent().getSerializableExtra("eggDailyUpdate");
             update = true;
-            //button_save_add_weight_loss.setText("Update");
+            button_save_add_weight_loss.setText("Update");
+        }
+        if ( eggDaily!=null ){
+            getSupportActionBar().setTitle("Update Egg Weight");
 
             batchLabel = eggDaily.getBatchLabel();
             setDate = eggDaily.getSetDate();
             incubatorName = eggDaily.getIncubatorName();
-            numberOfEggs = eggDaily.getNumberOfEggsRemaining();
+            numberOfEggsRemaining = eggDaily.getNumberOfEggsRemaining();
             targetWeightLossInteger = eggDaily.getTargetWeightLossInteger();
             incubationDays = eggDaily.getIncubationDays();
-
-            eggLabel = eggDaily.getEggLabel();
-            readingDate = eggDaily.getReadingDate();
-            readingDayNumber = eggDaily.getReadingDayNumber();
-            eggWeight = eggDaily.getEggWeight();
-            eggDailyComment = eggDaily.getEggDailyComment();
 
             text_batch_label.setText(parseHTMLBold("<B>Batch Label:</B> " + eggDaily.getBatchLabel()));
             text_set_date.setText(parseHTMLBold("<B>Set Date:</B> " + eggDaily.getSetDate()));
             text_incubator_name.setText(parseHTMLBold("<B>Incubator Name:</B> " + eggDaily.getIncubatorName()));
             text_number_of_eggs_remaining.setText(parseHTMLBold("<B>Number Of Eggs Remaining:</B> " + eggDaily.getNumberOfEggsRemaining()));
 
-            et_egg_label.setText(eggLabel);
-            et_reading_date.setText(readingDate);
-            et_egg_weight.setText(eggWeight.toString());
-            et_weight_loss_comment.setText(eggDailyComment);
+            if (update == true) {
+                eggLabel = eggDaily.getEggLabel();
+                readingDate = eggDaily.getReadingDate();
+                readingDayNumber = eggDaily.getReadingDayNumber();
+                eggWeight = eggDaily.getEggWeight();
+                eggDailyComment = eggDaily.getEggDailyComment();
+
+                et_egg_label.setText(eggLabel);
+                et_reading_date.setText(readingDate);
+                et_egg_weight.setText(eggWeight.toString());
+                et_weight_loss_comment.setText(eggDailyComment);
+            }
 
         }
 
     }
 
     private void getEggBatchData() {
-        eggBatch = (EggBatch) getIntent().getSerializableExtra("UpdateWeightLoss");
+        eggBatch = (EggBatch) getIntent().getSerializableExtra("eggBatch");
         if ( eggBatch!=null ){
 
-            getSupportActionBar().setTitle("Update Egg Batch");
-            update = true;
-            button_save_add_weight_loss.setText("Update");
+           //getSupportActionBar().setTitle("Update Egg Batch");
+            //update = true;
+            //button_save_add_weight_loss.setText("Update");
 
             batchLabel = eggBatch.getBatchLabel();
             setDate = eggBatch.getSetDate();
             incubatorName = eggBatch.getIncubatorName();
-            numberOfEggs = eggBatch.getNumberOfEggs();
+            numberOfEggsRemaining = eggBatch.getNumberOfEggs();
             targetWeightLossInteger = eggBatch.getTargetWeightLoss();
             incubationDays = eggBatch.getIncubationDays();
             text_batch_label.setText(parseHTMLBold("<B>Batch Label:</B> " + eggBatch.getBatchLabel()));
@@ -242,11 +249,15 @@ public class AddWeightLossActivity extends AppCompatActivity {
     }
 
     private void updateInsertEggDaily() throws java.text.ParseException {
+
+        //numberOfEggsRemaining = 7;
+
         if (update){
 
             eggDaily.setBatchLabel(batchLabel);
             eggDaily.setSetDate(setDate);
             eggDaily.setIncubatorName(incubatorName);
+
             eggDaily.setNumberOfEggsRemaining(numberOfEggsRemaining);
             eggDaily.setIncubationDays(incubationDays);
             eggDaily.setTargetWeightLossInteger(targetWeightLossInteger);
@@ -259,7 +270,7 @@ public class AddWeightLossActivity extends AppCompatActivity {
             eggDaily.setEggDailyComment(et_weight_loss_comment.getText().toString());
             try {
                 eggWiseDatabse.getEggDailyDao().updateEggDaily((eggDaily));
-                //setResult(eggDaily,2);
+                setResult(eggDaily,2);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -275,6 +286,7 @@ public class AddWeightLossActivity extends AppCompatActivity {
                     eggDailyComment,
                     incubatorName,
                     numberOfEggsRemaining,
+
                     eggWeightSum,
                     actualWeightLossPercent,
                     targetWeightLossPercent,
@@ -346,8 +358,19 @@ public class AddWeightLossActivity extends AppCompatActivity {
     }
 
     private void setResult(EggDaily eggDaily, int flag){
-        setResult(flag,new Intent().putExtra("eggDaily",eggDaily));
+        setResult(flag,new Intent().putExtra("eggDaily",eggDaily)
+                .putExtra("eggBatch", eggBatch));
         finish();
+        /*if (flag == 1) {
+            Intent intent1 = new Intent(AddWeightLossActivity.this, WeightLossListActivity.class);
+            intent1.putExtra("eggBatch", eggBatch);
+            intent1.putExtra("eggDaily", eggDaily);
+            startActivity(intent1);
+        } else {
+            Intent intent2 = new Intent(AddWeightLossActivity.this, AddWeightLossActivity.class);
+            intent2.putExtra("eggBatch", eggBatch);
+            intent2.putExtra("eggDaily", eggDaily);
+        }*/
     }
 
     private static class InsertTask extends AsyncTask<Void,Void,Boolean> {

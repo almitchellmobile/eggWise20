@@ -9,9 +9,11 @@ import android.widget.TextView;
 
 import net.almitchellmobile.eggwise20.R;
 import net.almitchellmobile.eggwise20.database.model.EggDaily;
+import net.almitchellmobile.eggwise20.util.Common;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import androidx.annotation.NonNull;
@@ -61,12 +63,15 @@ public class EggWeightLossAdapter extends RecyclerView.Adapter <EggWeightLossAda
     public String key = "";
     public String previousKey = "";
 
+    Common common;
+
 
     public EggWeightLossAdapter(List<EggDaily> eggDailyList, Context context) {
         layoutInflater = LayoutInflater.from(context);
         this.eggDailyList = eggDailyList;
         this.context = context;
         this.onEggWeightItemClick = (OnEggWeightItemClick) context;
+        common = new Common();
     }
 
     @Override
@@ -79,24 +84,29 @@ public class EggWeightLossAdapter extends RecyclerView.Adapter <EggWeightLossAda
     @Override
     public void onBindViewHolder(@NonNull BeanHolder holder, int position) {
 
-        Log.e("bind", "onBindViewHolder: "+ eggDailyList.get(position));
+        String line1 = null;
+        try {
+            Log.e("bind", "onBindViewHolder: "+ eggDailyList.get(position));
 
-        String line1 = "";
-        line1 = "<B>Batch Label:</B> " + eggDailyList.get(position).getBatchLabel() +
-                ", <B>Reading Day:</B> " + eggDailyList.get(position).getReadingDayNumber() +
-                ", <B>Egg Label:</B> " + eggDailyList.get(position).getEggLabel() +
-                ", <B>Egg Weight:</B> " + eggDailyList.get(position).getEggWeight() +
-                ", <B>Eggs Remaining:</B> " + eggDailyList.get(position).getNumberOfEggsRemaining() +
-                ", <B>Set Date:</B> " + eggDailyList.get(position).getSetDate() +
-                ", <B>Incubator Name:</B> " + eggDailyList.get(position).getIncubatorName() +
-                ", <B>Reading Date:</B> " + eggDailyList.get(position).getReadingDate() +
-                ", <B>Comment:</B> " + eggDailyList.get(position).getEggDailyComment() +
-                "<br>===<br>" +
-                "<B>Egg Weight Sum:</B> " + eggDailyList.get(position).getEggWeightSum().toString() +
-                ", <B>Egg Weight Avg:</B> " + eggDailyList.get(position).getEggWeightAverageCurrent().toString() +
-                ", <B>Actual Weight Loss %:</B> " + eggDailyList.get(position).getActualWeightLossPercent().toString() +
-                ", <B>Target Weight Loss %:</B> " + eggDailyList.get(position).getTargetWeightLossPercent().toString() +
-                ", <B>Weight Loss % Deviation:</B> " + eggDailyList.get(position).getWeightLossDeviation().toString();
+            line1 = "";
+            line1 = "<B>Batch Label:</B> " + common.blankIfNullString(eggDailyList.get(position).getBatchLabel()) +
+                    ", <B>Reading Day:</B> " + common.zeroIfNullInteger(eggDailyList.get(position).getReadingDayNumber()) +
+                    ", <B>Egg Label:</B> " + common.blankIfNullString(eggDailyList.get(position).getEggLabel()) +
+                    ", <B>Egg Weight:</B> " + common.zeroIfNullDouble(eggDailyList.get(position).getEggWeight()) +
+                    ", <B>Eggs Remaining:</B> " + common.zeroIfNullInteger(eggDailyList.get(position).getNumberOfEggsRemaining()) +
+                    ", <B>Set Date:</B> " + common.blankIfNullString(eggDailyList.get(position).getSetDate()) +
+                    ", <B>Incubator Name:</B> " + common.blankIfNullString(eggDailyList.get(position).getIncubatorName()) +
+                    ", <B>Reading Date:</B> " + common.blankIfNullString(eggDailyList.get(position).getReadingDate()) +
+                    ", <B>Comment:</B> " + common.blankIfNullString(eggDailyList.get(position).getEggDailyComment()) +
+                    "<br>===<br>" +
+                    "<B>Egg Weight Sum:</B> " + String.format(Locale.getDefault(),"%.1f",eggDailyList.get(position).getEggWeightSum()) +
+                    ", <B>Egg Weight Avg:</B> " + String.format(Locale.getDefault(),"%.1f",eggDailyList.get(position).getEggWeightAverageCurrent()) +
+                    ", <B>Actual Weight Loss %:</B> " + String.format(Locale.getDefault(),"%.1f",eggDailyList.get(position).getActualWeightLossPercent()) +
+                    ", <B>Target Weight Loss %:</B> " + String.format(Locale.getDefault(),"%.1f",eggDailyList.get(position).getTargetWeightLossPercent()) +
+                    ", <B>Weight Loss % Deviation:</B> " + String.format(Locale.getDefault(),"%.1f",eggDailyList.get(position).getWeightLossDeviation());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         CharSequence styledText = HtmlCompat.fromHtml(line1, HtmlCompat.FROM_HTML_MODE_LEGACY);
         holder.tv_egg_weight_line1.setText(styledText);

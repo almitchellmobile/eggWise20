@@ -42,13 +42,14 @@ public class EggBatchListActivity extends AppCompatActivity implements EggBatchA
     private List<EggBatch> eggBatchList;
     private EggBatchAdapter eggBatchAdapter;
     private int pos;
+    Toolbar toolbar_egg_batch_list;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_egg_batch_list);
-        Toolbar toolbar = findViewById(R.id.toolbar_egg_batch_list);
-        setSupportActionBar(toolbar);
+        toolbar_egg_batch_list = findViewById(R.id.toolbar_egg_batch_list);
+        setSupportActionBar(toolbar_egg_batch_list);
         initializeViews();
         displayList();
     }
@@ -88,8 +89,8 @@ public class EggBatchListActivity extends AppCompatActivity implements EggBatchA
     }
 
     private void initializeViews(){
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_egg_batch_list);
-        setSupportActionBar(toolbar);
+        toolbar_egg_batch_list = (Toolbar) findViewById(R.id.toolbar_egg_batch_list);
+        setSupportActionBar(toolbar_egg_batch_list);
         textViewMsg =  (TextView) findViewById(R.id.tv_empty_egg_batches);
         FloatingActionButton fabEggBatchList = (FloatingActionButton) findViewById(R.id.fab_egg_batch_list);
         fabEggBatchList.setOnClickListener(new View.OnClickListener() {
@@ -153,14 +154,14 @@ public class EggBatchListActivity extends AppCompatActivity implements EggBatchA
                                 EggBatchListActivity.this.pos = pos;
                                 //WeightLossListActivity.BATCH_LABEL = eggBatchList.get(pos).getBatchLabel();
                                 Intent intent1 = new Intent(EggBatchListActivity.this, AddWeightLossActivity.class);
-                                intent1.putExtra("eggBatchList", eggBatchList.get(pos));
+                                intent1.putExtra("eggBatch", eggBatchList.get(pos));
                                 startActivity(intent1);
                                 finish();
                                 break;
                             case 3:
                                 EggBatchListActivity.this.pos = pos;
                                 Intent intent2 = new Intent(EggBatchListActivity.this, WeightLossListActivity.class);
-                                intent2.putExtra("eggBatchList",eggBatchList.get(pos));
+                                intent2.putExtra("eggBatch",eggBatchList.get(pos));
                                 startActivity(intent2);
                                 finish();
                                 break;
