@@ -32,7 +32,7 @@
     <include layout="@layout/content_weight_loss_list" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab_weight_loss"
+        android:id="@+id/fab_add_weight_loss"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="top|end"

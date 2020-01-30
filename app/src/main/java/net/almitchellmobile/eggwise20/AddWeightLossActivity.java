@@ -1,8 +1,8 @@
 package net.almitchellmobile.eggwise20;
 
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.Intent;
-import android.net.ParseException;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,10 +18,10 @@ import android.widget.Toast;
 import net.almitchellmobile.eggwise20.database.EggWiseDatabse;
 import net.almitchellmobile.eggwise20.database.model.EggBatch;
 import net.almitchellmobile.eggwise20.database.model.EggDaily;
+import net.almitchellmobile.eggwise20.util.Common;
 
 import java.lang.ref.WeakReference;
-import java.util.Calendar;
-import java.util.Date;
+import java.text.ParseException;
 import java.util.Locale;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -40,6 +40,8 @@ public class AddWeightLossActivity extends AppCompatActivity {
             et_egg_weight,
             et_weight_loss_comment;
     private Button button_save_add_weight_loss, button_save_list_weight_loss, button_cancel;
+
+    com.google.android.material.floatingactionbutton.FloatingActionButton fab_add_save_weight_loss;
 
     private EggWiseDatabse eggWiseDatabse;
     private EggDaily eggDaily;
@@ -66,6 +68,7 @@ public class AddWeightLossActivity extends AppCompatActivity {
     Double eggWeightAverageCurrent = 0.0D;
     Integer targetWeightLossInteger = 0;
 
+    Common common = new Common();
 
     android.icu.util.Calendar myCalendar = android.icu.util.Calendar.getInstance();
     String myFormat = "MM/dd/yy"; //In which you need put here
@@ -82,6 +85,26 @@ public class AddWeightLossActivity extends AppCompatActivity {
 
 
         eggWiseDatabse = EggWiseDatabse.getInstance(AddWeightLossActivity.this);
+
+
+
+
+        fab_add_save_weight_loss = findViewById(R.id.fab_add_save_weight_loss);
+        fab_add_save_weight_loss.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                 //       .setAction("Action", null).show();
+                try {
+                    if(checkInputFields()) {
+                        updateInsertEggDaily();
+                    }
+                } catch (java.text.ParseException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        //fab_add_save_weight_loss.setVisibility(View.VISIBLE);
 
         text_batch_label = findViewById(R.id.text_batch_label);
         text_number_of_eggs_remaining = findViewById(R.id.text_number_of_eggs_remaining);
@@ -130,7 +153,9 @@ public class AddWeightLossActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 try {
-                    updateInsertEggDaily();
+                    if(checkInputFields()) {
+                        updateInsertEggDaily();
+                    }
                 } catch (java.text.ParseException e) {
                     e.printStackTrace();
                 }
@@ -144,7 +169,12 @@ public class AddWeightLossActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 try {
-                    updateInsertEggDaily();
+
+                    //common
+
+                    if(checkInputFields()) {
+                        updateInsertEggDaily();
+                    }
                     //setResult(eggDaily,3);
                 } catch (java.text.ParseException e) {
                     e.printStackTrace();
@@ -171,6 +201,8 @@ public class AddWeightLossActivity extends AppCompatActivity {
         });
 
         getEggBatchData();
+
+
         eggDaily = null;
         if (getIntent().getSerializableExtra("eggDailyAdd") != null) {
             eggDaily = (EggDaily) getIntent().getSerializableExtra("eggDailyAdd");
@@ -182,7 +214,7 @@ public class AddWeightLossActivity extends AppCompatActivity {
             button_save_add_weight_loss.setText("Update");
         }
         if ( eggDaily!=null ){
-            getSupportActionBar().setTitle("Update Egg Weight");
+            getSupportActionBar().setTitle("Update Egg Weight Batch: " + batchLabel);
 
             batchLabel = eggDaily.getBatchLabel();
             setDate = eggDaily.getSetDate();
@@ -211,6 +243,8 @@ public class AddWeightLossActivity extends AppCompatActivity {
 
         }
 
+
+
     }
 
     private void getEggBatchData() {
@@ -222,6 +256,8 @@ public class AddWeightLossActivity extends AppCompatActivity {
             //button_save_add_weight_loss.setText("Update");
 
             batchLabel = eggBatch.getBatchLabel();
+            getSupportActionBar().setTitle("Weight Loss Batch: " + batchLabel);
+
             setDate = eggBatch.getSetDate();
             incubatorName = eggBatch.getIncubatorName();
             numberOfEggsRemaining = eggBatch.getNumberOfEggs();
@@ -234,9 +270,43 @@ public class AddWeightLossActivity extends AppCompatActivity {
         }
     }
 
+    Boolean checkInputFields () throws ParseException {
+
+        if (checkRequiredField(et_egg_label, AddWeightLossActivity.this)) {
+            eggLabel = et_egg_label.getText().toString();
+        }
+        if (checkRequiredField(et_egg_weight, AddWeightLossActivity.this)) {
+            eggWeight = Double.parseDouble(et_egg_weight.getText().toString());
+        }
+        if (checkRequiredField(et_reading_date, AddWeightLossActivity.this)) {
+            readingDate = et_reading_date.getText().toString();
+            readingDayNumber = common.computeReadingDateNumber(setDate,et_reading_date.getText().toString());
+        }
+        eggDailyComment =  common.blankIfNullString(et_weight_loss_comment.getText().toString());
+
+        return true;
+    }
+
+    public boolean checkRequiredField (EditText editText, Context context){
+        boolean result = editText.getText().toString().length() <= 0;
+        if (result) {
+            Toast.makeText(context, "Field " + editText.getHint() + " is a required field!", Toast.LENGTH_SHORT).show();
+            editText.requestFocus();
+        }
+        return result;
+    }
+
+    public boolean checkRequiredFieldNumber (EditText editText, Context context){
+        boolean result = editText.getText().toString().length() <= 0;
+        if (result) {
+            Toast.makeText(context, "Field " + editText.getHint() + " is a required field!", Toast.LENGTH_SHORT).show();
+            editText.requestFocus();
+        }
+        return result;
+    }
+
 
     private CharSequence parseHTMLBold(String InputString) {
-
         return  HtmlCompat.fromHtml(InputString, HtmlCompat.FROM_HTML_MODE_LEGACY);
     }
 
@@ -262,12 +332,12 @@ public class AddWeightLossActivity extends AppCompatActivity {
             eggDaily.setIncubationDays(incubationDays);
             eggDaily.setTargetWeightLossInteger(targetWeightLossInteger);
 
-            eggDaily.setEggLabel(et_egg_label.getText().toString());
-            eggDaily.setEggWeight(Double.parseDouble(et_egg_weight.getText().toString()));
-            eggDaily.setReadingDate(et_reading_date.getText().toString());
-            readingDayNumber = computeReadingDateNumber(setDate,et_reading_date.getText().toString());
+            eggDaily.setEggLabel(eggLabel);
+            eggDaily.setEggWeight(eggWeight);
+            eggDaily.setReadingDate(readingDate);
+            //readingDayNumber = common.computeReadingDateNumber(setDate,et_reading_date.getText().toString());
             eggDaily.setReadingDayNumber(readingDayNumber);
-            eggDaily.setEggDailyComment(et_weight_loss_comment.getText().toString());
+            eggDaily.setEggDailyComment(eggDailyComment);
             try {
                 eggWiseDatabse.getEggDailyDao().updateEggDaily((eggDaily));
                 setResult(eggDaily,2);
@@ -295,67 +365,18 @@ public class AddWeightLossActivity extends AppCompatActivity {
                     targetWeightLossInteger,
                     incubationDays);
 
-            new InsertTask(AddWeightLossActivity.this,eggDaily).execute();
-        }
-    }
-
-    private boolean isEmptyField (EditText editText){
-        boolean result = editText.getText().toString().length() <= 0;
-        if (result)
-            Toast.makeText(this, "Field " + editText.getHint() + " is empty!", Toast.LENGTH_SHORT).show();
-        return result;
-    }
-
-    private Integer computeReadingDateNumber(String eggSetDate, String readingDate)
-            throws java.text.ParseException {
-        Integer readingDayNumber = 0;
-        android.icu.text.SimpleDateFormat format = new android.icu.text.SimpleDateFormat("MM/dd/yy", Locale.US);
-        if (!(readingDate).equalsIgnoreCase("")) {
-            Calendar cal = Calendar.getInstance();
-            //Date today = null;
-            Date setDate = null;
-            Date readingDate_DateFormat = null;
-            //String currentDateandTime = format.format(new Date());
             try {
-                readingDate_DateFormat = format.parse(readingDate);//catch exception
-                setDate = format.parse(eggSetDate.toString());//catch exception
-                //today = format.parse(currentDateandTime);
-            } catch (ParseException e) {
-                // TODO Auto-generated catch block
+                new InsertTask(AddWeightLossActivity.this,eggDaily).execute();
+            } catch (Exception e) {
                 e.printStackTrace();
             }
-            readingDayNumber = daysBetween(setDate,readingDate_DateFormat);
-
         }
-        return readingDayNumber;
     }
 
-    public static Calendar getDatePart(Date date){
-        Calendar cal = Calendar.getInstance();       // get calendar instance
-        cal.setTime(date);
-        cal.set(Calendar.HOUR_OF_DAY, 0);            // set hour to midnight
-        cal.set(Calendar.MINUTE, 0);                 // set minute in hour
-        cal.set(Calendar.SECOND, 0);                 // set second in minute
-        cal.set(Calendar.MILLISECOND, 0);            // set millisecond in second
 
-        return cal;                                  // return the date part
-    }
 
-    public static Integer daysBetween(Date startDate, Date endDate) {
-        Calendar sDate = getDatePart(startDate);
-        Calendar eDate = getDatePart(endDate);
-        Integer daysBetween = 0;
 
-        if (sDate.equals(eDate)) {
-            //Do nothing
-        } else {
-            while (sDate.before(eDate)) {
-                sDate.add(Calendar.DAY_OF_MONTH, 1);
-                daysBetween++;
-            }
-        }
-        return daysBetween;
-    }
+
 
     private void setResult(EggDaily eggDaily, int flag){
         setResult(flag,new Intent().putExtra("eggDaily",eggDaily)

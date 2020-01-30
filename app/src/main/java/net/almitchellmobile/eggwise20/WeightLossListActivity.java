@@ -70,12 +70,15 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
         Toolbar toolbar_weight_loss_list = findViewById(R.id.toolbar_weight_loss_list);
         setSupportActionBar(toolbar_weight_loss_list);
 
-        getSupportActionBar().setTitle("Weight Loss List");
+
 
         common = new Common();
 
         if ( (eggBatch = (EggBatch) getIntent().getSerializableExtra("eggBatch"))!=null ){
             BATCH_LABEL = eggBatch.getBatchLabel();
+            getSupportActionBar().setTitle("Weight Loss List Batch: " + BATCH_LABEL);
+        } else {
+            getSupportActionBar().setTitle("Weight Loss List");
         }
         initializeViews();
         displayList();
@@ -90,7 +93,7 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         tv_empty_weight_loss_message =  (TextView) findViewById(R.id.tv_empty_weight_loss_message);
-        fab_weight_loss = (FloatingActionButton) findViewById(R.id.fab_weight_loss);
+        fab_weight_loss = (FloatingActionButton) findViewById(R.id.fab_add_weight_loss);
         fab_weight_loss.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -121,18 +124,23 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 100 && resultCode > 0) {
-            //eggDailyList =  eggWiseDatabse.getEggDailyDao().getEggDaily_BatchEggDay(BATCH_LABEL);
-            if (resultCode == 1) {
-                eggDailyList.add((EggDaily) data.getSerializableExtra("eggDailyList"));
-            } else if (resultCode == 2) {
-                eggDailyList.set(pos, (EggDaily) data.getSerializableExtra("eggDailyList"));
-                //eggDailyList =  eggWiseDatabse.getEggDailyDao().getEggDaily_BatchEggDay(BATCH_LABEL);
-            }
-            listVisibility();
 
-            initializeViews();
-            displayList();
+        try {
+            if (requestCode == 100 && resultCode > 0) {
+                //eggDailyList =  eggWiseDatabse.getEggDailyDao().getEggDaily_BatchEggDay(BATCH_LABEL);
+                if (resultCode == 1) {
+                    eggDailyList.add((EggDaily) data.getSerializableExtra("eggDailyList"));
+                } else if (resultCode == 2) {
+                    eggDailyList.set(pos, (EggDaily) data.getSerializableExtra("eggDailyList"));
+                    //eggDailyList =  eggWiseDatabse.getEggDailyDao().getEggDaily_BatchEggDay(BATCH_LABEL);
+                }
+                listVisibility();
+
+                initializeViews();
+                displayList();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
