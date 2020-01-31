@@ -20,19 +20,19 @@ public interface EggDailyDao {
 
     String sqlSelectSum = "SELECT SUM(EggWeight) EggWeightSum FROM "+
             Constants.TABLE_NAME_EGG_DAILY +
-            " WHERE BatchLabel LIKE  :batchLabel " +
+            " WHERE BatchLabel LIKE :batchLabel AND ReadingDayNumber = :readingDayNumber  " +
             " GROUP BY ReadingDayNumber , EggLabel  " +
-            " ORDER BY ReadingDayNumber DESC, EggLabel ASC ";
+            " ORDER BY ReadingDayNumber ASC, EggLabel ASC ";
     @Query(sqlSelectSum)
-    Double getEggDaily_BatchEggDaySum(String batchLabel);
+    Double getEggDaily_BatchEggDaySum(String batchLabel, Integer readingDayNumber);
 
     String sqlSelectAvg = "SELECT AVG(EggWeight) EggWeightAvg FROM "+
             Constants.TABLE_NAME_EGG_DAILY +
-            " WHERE BatchLabel LIKE  :batchLabel " +
+            " WHERE BatchLabel LIKE :batchLabel AND ReadingDayNumber = :readingDayNumber" +
             " GROUP BY ReadingDayNumber, EggLabel  " +
-            " ORDER BY ReadingDayNumber DESC, EggLabel ASC ";
+            " ORDER BY ReadingDayNumber ASC, EggLabel ASC ";
     @Query(sqlSelectAvg)
-    Double getEggDaily_BatchEggDayAvg(String batchLabel);
+    Double getEggDaily_BatchEggDayAvg(String batchLabel, Integer readingDayNumber);
 
     String sqlSelectAvgDay0 = "SELECT EggWeightAverageDay0 FROM "+
             Constants.TABLE_NAME_EGG_DAILY +

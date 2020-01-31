@@ -95,19 +95,19 @@ public class EggWeightLossAdapter extends RecyclerView.Adapter <EggWeightLossAda
             /*line1 = "<B>Batch Label:</B> " + common.blankIfNullString(eggDailyList.get(position).getBatchLabel()) +
                     ", <B>Reading Day:</B> " + common.zeroIfNullInteger(eggDailyList.get(position).getReadingDayNumber()) +*/
 
-            line1 = "<B>Egg Label:</B> " + common.blankIfNullString(eggDailyList.get(position).getEggLabel()) +
-                    ", <B>Egg Weight:</B> " + common.zeroIfNullDouble(eggDailyList.get(position).getEggWeight()) +
-                    ", <B>Eggs Remaining:</B> " + common.zeroIfNullInteger(eggDailyList.get(position).getNumberOfEggsRemaining()) +
+            line1 = "<B>Label:</B> " + common.blankIfNullString(eggDailyList.get(position).getEggLabel()) +
+                    ", <B>Weight:</B> " + common.zeroIfNullDouble(eggDailyList.get(position).getEggWeight()) +
+                    ", <B># Remaining:</B> " + common.zeroIfNullInteger(eggDailyList.get(position).getNumberOfEggsRemaining()) +
                     ", <B>Set Date:</B> " + common.blankIfNullString(eggDailyList.get(position).getSetDate()) +
-                    ", <B>Incubator Name:</B> " + common.blankIfNullString(eggDailyList.get(position).getIncubatorName()) +
+                    ", <B>Incubator:</B> " + common.blankIfNullString(eggDailyList.get(position).getIncubatorName()) +
                     ", <B>Reading Date:</B> " + common.blankIfNullString(eggDailyList.get(position).getReadingDate()) +
                     ", <B>Comment:</B> " + common.blankIfNullString(eggDailyList.get(position).getEggDailyComment()) +
-                    "<br>===<br>" +
-                    "<B>Egg Weight Sum:</B> " + String.format(Locale.getDefault(),"%.1f",eggDailyList.get(position).getEggWeightSum()) +
-                    ", <B>Egg Weight Avg:</B> " + String.format(Locale.getDefault(),"%.1f",eggDailyList.get(position).getEggWeightAverageCurrent()) +
-                    ", <B>Actual Weight Loss %:</B> " + String.format(Locale.getDefault(),"%.1f",eggDailyList.get(position).getActualWeightLossPercent()) +
-                    ", <B>Target Weight Loss %:</B> " + String.format(Locale.getDefault(),"%.1f",eggDailyList.get(position).getTargetWeightLossPercent()) +
-                    ", <B>Weight Loss % Deviation:</B> " + String.format(Locale.getDefault(),"%.1f",eggDailyList.get(position).getWeightLossDeviation());
+                    "<br>***<br>" +
+                    "<B>Weight Sum:</B> " + String.format(Locale.getDefault(),"%.1f",eggDailyList.get(position).getEggWeightSum()) +
+                    ", <B>Weight Avg:</B> " + String.format(Locale.getDefault(),"%.1f",eggDailyList.get(position).getEggWeightAverageCurrent()) +
+                    ", <B>Actual Loss %:</B> " + String.format(Locale.getDefault(),"%.1f",eggDailyList.get(position).getActualWeightLossPercent()) +
+                    ", <B>Target Loss %:</B> " + String.format(Locale.getDefault(),"%.1f",eggDailyList.get(position).getTargetWeightLossPercent()) +
+                    ", <B>% Deviation:</B> " + String.format(Locale.getDefault(),"%.1f",eggDailyList.get(position).getWeightLossDeviation());
 
             styledText = HtmlCompat.fromHtml(line1, HtmlCompat.FROM_HTML_MODE_LEGACY);
             holder.tv_egg_weight_line1.setText(styledText);
@@ -116,17 +116,6 @@ public class EggWeightLossAdapter extends RecyclerView.Adapter <EggWeightLossAda
             styledTextTitle = HtmlCompat.fromHtml(currentTitle, HtmlCompat.FROM_HTML_MODE_LEGACY);
             holder.tv_egg_weight_title1.setText(styledTextTitle);
 
-            /*if (!(currentTitle.equalsIgnoreCase(previousTitle))) {
-                previousTitle = currentTitle;
-                holder.tv_egg_weight_title1.setVisibility(View.VISIBLE);
-                //holder.tv_egg_weight_line1.setVisibility(View.VISIBLE);
-            } else {
-                //holder.tv_egg_weight_title.setText(styledTextTitle);
-                //holder.tv_egg_weight_title.setVisibility(View.VISIBLE);
-                holder.tv_egg_weight_title1.setVisibility(View.GONE);
-                //holder.tv_egg_weight_line1.setVisibility(View.VISIBLE);
-            }*/
-            //holder.tv_egg_weight_line1.setText(View.VISIBLE);
 
         } catch (Exception e) {
             e.printStackTrace();

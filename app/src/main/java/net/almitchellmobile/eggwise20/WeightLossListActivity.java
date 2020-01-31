@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import com.facebook.stetho.Stetho;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import net.almitchellmobile.eggwise20.adapter.EggWeightLossAdapter;
@@ -37,6 +38,7 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
     public static Integer READING_DAY_NUMBER = 0;
     public static Integer TARGET_WEIGHT_LOSS_INTEGER = 0;
     public static Integer INCUBATION_DAYS = 0;
+    public static Integer NUMBER_OF_EGGS_REMAINING = 0 ;
 
     FloatingActionButton fab_weight_loss;
     private TextView tv_empty_weight_loss_message;
@@ -109,6 +111,9 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
         eggDailyList = new ArrayList<>();
         eggWeightLossAdapter = new EggWeightLossAdapter(eggDailyList,  WeightLossListActivity.this);
         recyclerViewWeightLossList.setAdapter(eggWeightLossAdapter);
+
+        //RoomExplorer.show(WeightLossListActivity.this, EggWiseDatabse.class, "EggWiseDB.db");
+        Stetho.initializeWithDefaults(this);
     }
 
 
@@ -185,7 +190,8 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
         @Override
         protected List<EggDaily> doInBackground(Void... voids) {
             if (activityReference.get()!=null) {
-                if (!(BATCH_LABEL == "")) {
+                return activityReference.get().eggWiseDatabse.getEggDailyDao().getEggDaily_BatchEggDay(BATCH_LABEL);
+                /*if (!(BATCH_LABEL == "")) {
                     List<EggDaily> eggDailyListLocal = activityReference.get().eggWiseDatabse.getEggDailyDao().getEggDaily_BatchEggDay(BATCH_LABEL);
                     EGG_WEIGHT_SUM = zeroIfNull(activityReference.get().eggWiseDatabse.getEggDailyDao().getEggDaily_BatchEggDaySum(BATCH_LABEL));
                     EGG_WEIGHT_AVG_CURRENT = zeroIfNull(activityReference.get().eggWiseDatabse.getEggDailyDao().getEggDaily_BatchEggDayAvg(BATCH_LABEL));
@@ -194,7 +200,7 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
                     return eggDailyListLocal;
                 } else {
                     return null;
-                }
+                }*/
             } else {
                 return null;
             }
@@ -205,36 +211,33 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
             if (eggDailyListPostEx!=null && eggDailyListPostEx.size()>0 ){
 
                 Integer index = 0;
-
-                activityReference.get().eggDailyList.clear();
-
-                for (index = 0; index < eggDailyListPostEx.size();) {
+                EGG_WEIGHT_SUM = 0.0D;
+                READING_DAY_NUMBER = 0;
+                for (index = 0; index < eggDailyListPostEx.size(); index++) {
+                    READING_DAY_NUMBER = eggDailyListPostEx.get(index).getReadingDayNumber();
+                    EGG_WEIGHT_SUM = zeroIfNull(activityReference.get().eggWiseDatabse.getEggDailyDao().getEggDaily_BatchEggDaySum(BATCH_LABEL, READING_DAY_NUMBER));
+                    EGG_WEIGHT_AVG_CURRENT = zeroIfNull(activityReference.get().eggWiseDatabse.getEggDailyDao().getEggDaily_BatchEggDayAvg(BATCH_LABEL, READING_DAY_NUMBER));
+                    EGG_WEIGHT_AVG_DAY_0 = zeroIfNull(activityReference.get().eggWiseDatabse.getEggDailyDao().getEggDaily_BatchEggDayAvgDay0(BATCH_LABEL));
 
                     eggDailyListPostEx.get(index).setEggWeightSum(EGG_WEIGHT_SUM);
                     eggDailyListPostEx.get(index).setEggWeightAverageCurrent(EGG_WEIGHT_AVG_CURRENT);
+                    eggDailyListPostEx.get(index).setEggWeightAverageDay0(EGG_WEIGHT_AVG_CURRENT);
 
-                    if (eggDailyListPostEx.get(index).getReadingDayNumber() == 0) {
-                        eggDailyListPostEx.get(index).setEggWeightAverageDay0(EGG_WEIGHT_AVG_CURRENT);
-                    } else {
-                        eggDailyListPostEx.get(index).setEggWeightAverageDay0(EGG_WEIGHT_AVG_DAY_0);
+                    ACTUAL_WEIGHT_LOSS_PERCENT = 100 * ((EGG_WEIGHT_AVG_DAY_0 - EGG_WEIGHT_AVG_CURRENT) / EGG_WEIGHT_AVG_DAY_0);
 
-                        ACTUAL_WEIGHT_LOSS_PERCENT = 100*((EGG_WEIGHT_AVG_DAY_0 - EGG_WEIGHT_AVG_CURRENT)/EGG_WEIGHT_AVG_DAY_0);
+                    //READING_DAY_NUMBER = (eggDailyListPostEx.get(index).getReadingDayNumber());
+                    TARGET_WEIGHT_LOSS_INTEGER = eggDailyListPostEx.get(index).getTargetWeightLossInteger();
+                    INCUBATION_DAYS = eggDailyListPostEx.get(index).getIncubationDays();
 
-                        READING_DAY_NUMBER = (eggDailyListPostEx.get(index).getReadingDayNumber());
-                        TARGET_WEIGHT_LOSS_INTEGER = eggDailyListPostEx.get(index).getTargetWeightLossInteger();
-                        INCUBATION_DAYS = eggDailyListPostEx.get(index).getIncubationDays();
+                    TARGET_WEIGHT_LOSS_PERCENT = Double.valueOf(((TARGET_WEIGHT_LOSS_INTEGER * READING_DAY_NUMBER) / INCUBATION_DAYS));
 
-                        TARGET_WEIGHT_LOSS_PERCENT = Double.valueOf(((TARGET_WEIGHT_LOSS_INTEGER * READING_DAY_NUMBER)/INCUBATION_DAYS));
+                    WEIGHT_LOSS_DEVIATION = TARGET_WEIGHT_LOSS_PERCENT - ACTUAL_WEIGHT_LOSS_PERCENT;
 
-                        WEIGHT_LOSS_DEVIATION = TARGET_WEIGHT_LOSS_PERCENT - ACTUAL_WEIGHT_LOSS_PERCENT;
-
-                        eggDailyListPostEx.get(index).setActualWeightLossPercent(ACTUAL_WEIGHT_LOSS_PERCENT);
-                        eggDailyListPostEx.get(index).setTargetWeightLossPercent(TARGET_WEIGHT_LOSS_PERCENT);
-                        eggDailyListPostEx.get(index).setWeightLossDeviation(WEIGHT_LOSS_DEVIATION);
-
-                    }
-                    index += 1;
+                    eggDailyListPostEx.get(index).setActualWeightLossPercent(ACTUAL_WEIGHT_LOSS_PERCENT);
+                    eggDailyListPostEx.get(index).setTargetWeightLossPercent(TARGET_WEIGHT_LOSS_PERCENT);
+                    eggDailyListPostEx.get(index).setWeightLossDeviation(WEIGHT_LOSS_DEVIATION);
                 }
+                activityReference.get().eggDailyList.clear();
                 activityReference.get().eggDailyList.addAll(eggDailyListPostEx);
                 // hides empty text view
                 activityReference.get().tv_empty_weight_loss_message.setVisibility(View.GONE);

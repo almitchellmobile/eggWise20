@@ -14,7 +14,7 @@ public class Common {
     public Common() {
     }
 
-    public String blankIfNullString (String value) {
+    public static String blankIfNullString (String value) {
         String newValue = "";
         try {
             if (value != null ) {
@@ -27,7 +27,7 @@ public class Common {
         return	newValue;
     }
 
-    public Date blankIfNullDate (Date value) {
+    public static  Date blankIfNullDate (Date value) {
         Date newValue = null;
         try {
             if (value != null ) {
@@ -42,7 +42,7 @@ public class Common {
         return	newValue;
     }
 
-    public Integer zeroIfNullInteger (Integer value) {
+    public static  Integer zeroIfNullInteger (Integer value) {
         Integer newValue = 0;
         try {
             if (value != null ) {
@@ -55,7 +55,7 @@ public class Common {
         return newValue;
     }
 
-    public Double zeroIfNullDouble (Double value) {
+    public static  Double zeroIfNullDouble (Double value) {
         Double newValue = 0.0;
         try {
             if (value != null ) {
@@ -68,7 +68,7 @@ public class Common {
         return newValue;
     }
 
-    public Integer notSelectedIfNull (Integer value) {
+    public static  Integer notSelectedIfNull (Integer value) {
 
         if (value == null ) {
             return -1;
@@ -76,7 +76,7 @@ public class Common {
             return value;
         }
     }
-    public String checkForNull (String valueIn) {
+    public static  String checkForNull (String valueIn) {
 
         String valueOut = "Not assigned";;
         try {
@@ -93,7 +93,7 @@ public class Common {
         return valueOut;
     }
 
-    public boolean checkRequiredField (EditText editText, Context context){
+    public static  boolean checkRequiredField (EditText editText, Context context){
         boolean result = editText.getText().toString().length() <= 0;
         if (result) {
             Toast.makeText(context, "Field " + editText.getHint() + " is a required field!", Toast.LENGTH_SHORT).show();
@@ -102,7 +102,7 @@ public class Common {
         return result;
     }
 
-    public boolean checkRequiredFieldNumber (EditText editText, Context context){
+    public static  boolean checkRequiredFieldNumber (EditText editText, Context context){
         boolean result = editText.getText().toString().length() <= 0;
         if (result) {
             Toast.makeText(context, "Field " + editText.getHint() + " is a required field!", Toast.LENGTH_SHORT).show();
@@ -111,7 +111,7 @@ public class Common {
         return result;
     }
 
-    public Integer computeReadingDateNumber(String eggSetDate, String readingDate)
+    public  static Integer computeReadingDateNumber(String eggSetDate, String readingDate)
             throws java.text.ParseException {
         Integer readingDayNumber = 0;
         android.icu.text.SimpleDateFormat format = new android.icu.text.SimpleDateFormat("MM/dd/yy", Locale.US);

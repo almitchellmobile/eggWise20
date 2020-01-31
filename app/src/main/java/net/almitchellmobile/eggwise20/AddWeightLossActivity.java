@@ -81,13 +81,8 @@ public class AddWeightLossActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_weight_loss);
         Toolbar toolbar_add_weight_loss = findViewById(R.id.toolbar_add_weight_loss);
         setSupportActionBar(toolbar_add_weight_loss);
-        //toolbar_add_weight_loss.setTitle("Add Egg Daily");
-
 
         eggWiseDatabse = EggWiseDatabse.getInstance(AddWeightLossActivity.this);
-
-
-
 
         fab_add_save_weight_loss = findViewById(R.id.fab_add_save_weight_loss);
         fab_add_save_weight_loss.setOnClickListener(new View.OnClickListener() {
@@ -96,7 +91,7 @@ public class AddWeightLossActivity extends AppCompatActivity {
                 //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                  //       .setAction("Action", null).show();
                 try {
-                    if(checkInputFields()) {
+                    if(validateRequiredFields()) {
                         updateInsertEggDaily();
                     }
                 } catch (java.text.ParseException e) {
@@ -153,7 +148,7 @@ public class AddWeightLossActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 try {
-                    if(checkInputFields()) {
+                    if(validateRequiredFields()) {
                         updateInsertEggDaily();
                     }
                 } catch (java.text.ParseException e) {
@@ -172,9 +167,9 @@ public class AddWeightLossActivity extends AppCompatActivity {
 
                     //common
 
-                    if(checkInputFields()) {
+                    //if(checkInputFields()) {
                         updateInsertEggDaily();
-                    }
+                    //}
                     //setResult(eggDaily,3);
                 } catch (java.text.ParseException e) {
                     e.printStackTrace();
@@ -270,27 +265,43 @@ public class AddWeightLossActivity extends AppCompatActivity {
         }
     }
 
-    Boolean checkInputFields () throws ParseException {
+    Boolean validateRequiredFields () throws ParseException {
 
-        if (checkRequiredField(et_egg_label, AddWeightLossActivity.this)) {
+        if (!(et_egg_label.getText().toString().length() == 0)) {
             eggLabel = et_egg_label.getText().toString();
+        } else {
+            et_egg_label.setHint("Please enter Egg Label.");
+            et_egg_label.setError("Egg Label is required.");
+            et_egg_label.requestFocus();
+            return false;
         }
-        if (checkRequiredField(et_egg_weight, AddWeightLossActivity.this)) {
+        if (!(et_egg_weight.getText().toString().length() == 0)) {
             eggWeight = Double.parseDouble(et_egg_weight.getText().toString());
+        } else {
+            et_egg_weight.setHint("Please enter Egg Weight.");
+            et_egg_weight.setError("Egg Weight is required.");
+            et_egg_weight.requestFocus();
+            return false;
         }
-        if (checkRequiredField(et_reading_date, AddWeightLossActivity.this)) {
+        if (!(et_reading_date.getText().toString().length() == 0)) {
             readingDate = et_reading_date.getText().toString();
             readingDayNumber = common.computeReadingDateNumber(setDate,et_reading_date.getText().toString());
+        } else {
+            et_reading_date.setHint("Please enter Reading Date.");
+            et_reading_date.setError("Reading Date is required.");
+            et_reading_date.requestFocus();
+            return false;
         }
         eggDailyComment =  common.blankIfNullString(et_weight_loss_comment.getText().toString());
 
         return true;
     }
 
-    public boolean checkRequiredField (EditText editText, Context context){
-        boolean result = editText.getText().toString().length() <= 0;
+    public boolean checkIsRequiredFieldMissing (EditText editText, Context context){
+        boolean result = editText.getText().toString().length() == 0;
         if (result) {
             Toast.makeText(context, "Field " + editText.getHint() + " is a required field!", Toast.LENGTH_SHORT).show();
+            editText.setError("Reguired field!");
             editText.requestFocus();
         }
         return result;
@@ -320,10 +331,10 @@ public class AddWeightLossActivity extends AppCompatActivity {
 
     private void updateInsertEggDaily() throws java.text.ParseException {
 
-        //numberOfEggsRemaining = 7;
+
 
         if (update){
-
+            try {
             eggDaily.setBatchLabel(batchLabel);
             eggDaily.setSetDate(setDate);
             eggDaily.setIncubatorName(incubatorName);
@@ -338,13 +349,14 @@ public class AddWeightLossActivity extends AppCompatActivity {
             //readingDayNumber = common.computeReadingDateNumber(setDate,et_reading_date.getText().toString());
             eggDaily.setReadingDayNumber(readingDayNumber);
             eggDaily.setEggDailyComment(eggDailyComment);
-            try {
+
                 eggWiseDatabse.getEggDailyDao().updateEggDaily((eggDaily));
                 setResult(eggDaily,2);
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }else {
+            try {
             eggDaily = new EggDaily(settingID,
                     batchLabel,
                     eggLabel,
@@ -365,7 +377,7 @@ public class AddWeightLossActivity extends AppCompatActivity {
                     targetWeightLossInteger,
                     incubationDays);
 
-            try {
+
                 new InsertTask(AddWeightLossActivity.this,eggDaily).execute();
             } catch (Exception e) {
                 e.printStackTrace();
@@ -379,19 +391,20 @@ public class AddWeightLossActivity extends AppCompatActivity {
 
 
     private void setResult(EggDaily eggDaily, int flag){
-        setResult(flag,new Intent().putExtra("eggDaily",eggDaily)
-                .putExtra("eggBatch", eggBatch));
-        finish();
-        /*if (flag == 1) {
+        //setResult(flag,new Intent().putExtra("eggDaily",eggDaily)
+                //.putExtra("eggBatch", eggBatch));
+
+        //if (flag == 1) {
             Intent intent1 = new Intent(AddWeightLossActivity.this, WeightLossListActivity.class);
             intent1.putExtra("eggBatch", eggBatch);
             intent1.putExtra("eggDaily", eggDaily);
             startActivity(intent1);
-        } else {
-            Intent intent2 = new Intent(AddWeightLossActivity.this, AddWeightLossActivity.class);
-            intent2.putExtra("eggBatch", eggBatch);
-            intent2.putExtra("eggDaily", eggDaily);
-        }*/
+        //} else {
+        //    Intent intent2 = new Intent(AddWeightLossActivity.this, AddWeightLossActivity.class);
+        //    intent2.putExtra("eggBatch", eggBatch);
+        //    intent2.putExtra("eggDaily", eggDaily);
+        //}
+
     }
 
     private static class InsertTask extends AsyncTask<Void,Void,Boolean> {

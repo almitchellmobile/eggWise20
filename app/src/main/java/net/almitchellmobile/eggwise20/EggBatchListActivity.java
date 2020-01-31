@@ -12,6 +12,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import net.almitchellmobile.eggwise20.adapter.EggBatchAdapter;
 import net.almitchellmobile.eggwise20.database.EggWiseDatabse;
 import net.almitchellmobile.eggwise20.database.model.EggBatch;
+import net.almitchellmobile.eggwise20.util.Common;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -25,7 +26,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class EggBatchListActivity extends AppCompatActivity implements EggBatchAdapter.OnEggBatchItemClick{
 
-    public static String BATCH_LABEL = "b1";
+    /*public static String BATCH_LABEL = "b1";
     public static Double BATCH_DAY_WEIGHT_SUM = 0.0;
     public static Double BATCH_DAY_WEIGHT_AVG_CURRENT = 0.0;
     public static Double BATCH_DAY_WEIGHT_AVG_DAY_0 = 0.0;
@@ -34,7 +35,19 @@ public class EggBatchListActivity extends AppCompatActivity implements EggBatchA
     public static Double WEIGHT_LOSS_DEVIATION = 0.0;
     public static Integer READING_DAY_NUMBER = 0;
     public static Integer TARGET_WEIGHT_LOSS_INTEGER = 0;
+    public static Integer INCUBATION_DAYS = 0;*/
+
+    public static String BATCH_LABEL = "";
+    public static Double EGG_WEIGHT_SUM = 0.0;
+    public static Double EGG_WEIGHT_AVG_CURRENT = 0.0;
+    public static Double EGG_WEIGHT_AVG_DAY_0 = 0.0;
+    public static Double ACTUAL_WEIGHT_LOSS_PERCENT = 0.0;
+    public static Double TARGET_WEIGHT_LOSS_PERCENT = 0.0;
+    public static Double WEIGHT_LOSS_DEVIATION = 0.0;
+    public static Integer READING_DAY_NUMBER = 0;
+    public static Integer TARGET_WEIGHT_LOSS_INTEGER = 0;
     public static Integer INCUBATION_DAYS = 0;
+    public static Integer NUMBER_OF_EGGS_REMAINING = 0 ;
 
     private TextView textViewMsg;
     private RecyclerView recyclerViewEggBatchList;
@@ -44,12 +57,16 @@ public class EggBatchListActivity extends AppCompatActivity implements EggBatchA
     private int pos;
     Toolbar toolbar_egg_batch_list;
 
+    Common common;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_egg_batch_list);
         toolbar_egg_batch_list = findViewById(R.id.toolbar_egg_batch_list);
         setSupportActionBar(toolbar_egg_batch_list);
+
+        common = new Common();
         initializeViews();
         displayList();
     }
@@ -77,10 +94,48 @@ public class EggBatchListActivity extends AppCompatActivity implements EggBatchA
         }
 
         @Override
-        protected void onPostExecute(List<EggBatch> EggBatch) {
-            if (EggBatch!=null && EggBatch.size()>0 ){
+        protected void onPostExecute(List<EggBatch> eggBatch) {
+            if (eggBatch!=null && eggBatch.size()>0 ){
+/*
+                List<EggDaily> eggDailyListPostEx;
+
+                Integer indexEggBatch = 0;
+                Integer indexEggDaily = 0;
+
+                EGG_WEIGHT_SUM = 0.0D;
+                READING_DAY_NUMBER = 0;
+
+                for (indexEggBatch = 0; indexEggBatch < eggBatch.size(); indexEggBatch++) {
+                    BATCH_LABEL = eggBatch.get(indexEggBatch).getBatchLabel();
+                    eggDailyListPostEx = activityReference.get().eggWiseDatabse.getEggDailyDao().getEggDaily_BatchEggDay(BATCH_LABEL);
+
+
+                    for (indexEggDaily = 0; indexEggDaily < eggDailyListPostEx.size(); indexEggDaily++) {
+                        READING_DAY_NUMBER = eggDailyListPostEx.get(indexEggDaily).getReadingDayNumber();
+                        EGG_WEIGHT_SUM = Common.zeroIfNullDouble(activityReference.get().eggWiseDatabse.getEggDailyDao().getEggDaily_BatchEggDaySum(BATCH_LABEL, READING_DAY_NUMBER));
+                        EGG_WEIGHT_AVG_CURRENT = Common.zeroIfNullDouble(activityReference.get().eggWiseDatabse.getEggDailyDao().getEggDaily_BatchEggDayAvg(BATCH_LABEL, READING_DAY_NUMBER));
+                        EGG_WEIGHT_AVG_DAY_0 = Common.zeroIfNullDouble(activityReference.get().eggWiseDatabse.getEggDailyDao().getEggDaily_BatchEggDayAvgDay0(BATCH_LABEL));
+
+                        eggDailyListPostEx.get(indexEggDaily).setEggWeightSum(EGG_WEIGHT_SUM);
+                        eggDailyListPostEx.get(indexEggDaily).setEggWeightAverageCurrent(EGG_WEIGHT_AVG_CURRENT);
+                        eggDailyListPostEx.get(indexEggDaily).setEggWeightAverageDay0(EGG_WEIGHT_AVG_CURRENT);
+
+                        ACTUAL_WEIGHT_LOSS_PERCENT = 100 * ((EGG_WEIGHT_AVG_DAY_0 - EGG_WEIGHT_AVG_CURRENT) / EGG_WEIGHT_AVG_DAY_0);
+
+                        TARGET_WEIGHT_LOSS_INTEGER = eggDailyListPostEx.get(indexEggDaily).getTargetWeightLossInteger();
+                        INCUBATION_DAYS = eggDailyListPostEx.get(indexEggDaily).getIncubationDays();
+
+                        TARGET_WEIGHT_LOSS_PERCENT = Double.valueOf(((TARGET_WEIGHT_LOSS_INTEGER * READING_DAY_NUMBER) / INCUBATION_DAYS));
+
+                        WEIGHT_LOSS_DEVIATION = TARGET_WEIGHT_LOSS_PERCENT - ACTUAL_WEIGHT_LOSS_PERCENT;
+
+                        eggDailyListPostEx.get(indexEggDaily).setActualWeightLossPercent(ACTUAL_WEIGHT_LOSS_PERCENT);
+                        eggDailyListPostEx.get(indexEggDaily).setTargetWeightLossPercent(TARGET_WEIGHT_LOSS_PERCENT);
+                        eggDailyListPostEx.get(indexEggDaily).setWeightLossDeviation(WEIGHT_LOSS_DEVIATION);
+                    }
+                }*/
                 activityReference.get().eggBatchList.clear();
-                activityReference.get().eggBatchList.addAll(EggBatch);
+                activityReference.get().eggBatchList.addAll(eggBatch);
                 // hides empty text view
                 activityReference.get().textViewMsg.setVisibility(View.GONE);
                 activityReference.get().eggBatchAdapter.notifyDataSetChanged();

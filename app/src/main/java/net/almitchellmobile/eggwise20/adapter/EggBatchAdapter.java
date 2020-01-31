@@ -19,14 +19,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class EggBatchAdapter extends RecyclerView.Adapter<EggBatchAdapter.BeanHolder> {
 
-    private List<EggBatch> list;
+    private List<EggBatch> listEggBatch;
+    //private List<EggDaily> listEggDaily;
     private Context context;
     private LayoutInflater layoutInflater;
     private OnEggBatchItemClick onEggBatchItemClick;
 
-    public EggBatchAdapter(List<EggBatch> list,Context context) {
+    //public EggBatchAdapter(List<EggBatch> listEggBatch, List<EggDaily> listEggDaily,  Context context) {
+    public EggBatchAdapter(List<EggBatch> listEggBatch, Context context) {
         layoutInflater = LayoutInflater.from(context);
-        this.list = list;
+        this.listEggBatch = listEggBatch;
+        //this.listEggDaily = listEggDaily;
         this.context = context;
         this.onEggBatchItemClick = (OnEggBatchItemClick) context;
     }
@@ -41,41 +44,57 @@ public class EggBatchAdapter extends RecyclerView.Adapter<EggBatchAdapter.BeanHo
     @Override
     public void onBindViewHolder(@NonNull EggBatchAdapter.BeanHolder holder, int position) {
 
-        Log.e("bind", "onBindViewHolder: "+ list.get(position));
+        Log.e("bind", "onBindViewHolder: "+ listEggBatch.get(position));
+        CharSequence styledTextTitle = "";
+        CharSequence styledText = "";
+        String currentTitle;
+
 
         String line1 = "";
-        line1 = "<B>Batch Label:</B> " + list.get(position).getBatchLabel() +
-                ", <B>Number Of Eggs:</B> " + list.get(position).getNumberOfEggs().toString() +
-                ", <B>Common Name:</B> " + list.get(position).getCommonName() +
-                ", <B>Species Name:</B> " + list.get(position).getSpeciesName() +
-                ", <B>Incubator Name:</B> " + list.get(position).getIncubatorName() +
-                ", <B>Set Date:</B> " + list.get(position).getSetDate() +
-                ", <B>Hatch Date:</B> " + list.get(position).getHatchDate() +
-                ", <B>Location:</B> " + list.get(position).getLocation() +
-                ", <B>Incubator Settings:</B> " + list.get(position).getIncubatorSettings() +
-                ", <B>Incubator Temperature:</B> " + list.get(position).getTemperature().toString() +
-                ", <B>Incubation Days:</B> " + list.get(position).getIncubationDays().toString() +
-                ", <B>Number Of Eggs Hatched:</B> " + list.get(position).getNumberOfEggsHatched().toString() +
-                ", <B>Target Weight Loss %:</B> " + list.get(position).getTargetWeightLoss().toString() +
+        line1 = "<B>Batch Label:</B> " + listEggBatch.get(position).getBatchLabel() +
+                ", <B>Number Of Eggs:</B> " + listEggBatch.get(position).getNumberOfEggs().toString() +
+                ", <B>Common Name:</B> " + listEggBatch.get(position).getCommonName() +
+                ", <B>Species Name:</B> " + listEggBatch.get(position).getSpeciesName() +
+                ", <B>Incubator Name:</B> " + listEggBatch.get(position).getIncubatorName() +
+                ", <B>Set Date:</B> " + listEggBatch.get(position).getSetDate() +
+                ", <B>Hatch Date:</B> " + listEggBatch.get(position).getHatchDate() +
+                ", <B>Location:</B> " + listEggBatch.get(position).getLocation() +
+                ", <B>Incubator Settings:</B> " + listEggBatch.get(position).getIncubatorSettings() +
+                ", <B>Incubator Temperature:</B> " + listEggBatch.get(position).getTemperature().toString() +
+                ", <B>Incubation Days:</B> " + listEggBatch.get(position).getIncubationDays().toString() +
+                ", <B>Number Of Eggs Hatched:</B> " + listEggBatch.get(position).getNumberOfEggsHatched().toString() +
+                ", <B>Target Weight Loss %:</B> " + listEggBatch.get(position).getTargetWeightLoss().toString() +
                 ", <B>Tracking Option:</B> ";
-                if (list.get(position).getTrackingOption() == 1) {
+                if (listEggBatch.get(position).getTrackingOption() == 1) {
                     line1 += "Track entire batch";
                 } else {
                     line1 += "Track specific eggs";
                 }
 
-        CharSequence styledText = HtmlCompat.fromHtml(line1, HtmlCompat.FROM_HTML_MODE_LEGACY);
+        /*line1 += "<br>===<br>" +
+                 "<B>Weight Sum:</B> " + String.format(Locale.getDefault(),"%.1f",eggDailyList.get(position).getEggWeightSum()) +
+                 ", <B>Weight Avg:</B> " + String.format(Locale.getDefault(),"%.1f",eggDailyList.get(position).getEggWeightAverageCurrent()) +
+                 ", <B>Actual Loss %:</B> " + String.format(Locale.getDefault(),"%.1f",eggDailyList.get(position).getActualWeightLossPercent()) +
+                 ", <B>Target Loss %:</B> " + String.format(Locale.getDefault(),"%.1f",eggDailyList.get(position).getTargetWeightLossPercent()) +
+                 ", <B>% Deviation:</B> " + String.format(Locale.getDefault(),"%.1f",eggDailyList.get(position).getWeightLossDeviation());*/
+
+        styledText = HtmlCompat.fromHtml(line1, HtmlCompat.FROM_HTML_MODE_LEGACY);
         holder.tv_egg_batch_line1.setText(styledText);
+
+        currentTitle = "<B>Batch: " + listEggBatch.get(position).getBatchLabel()  + "</B>";
+        styledTextTitle = HtmlCompat.fromHtml(currentTitle, HtmlCompat.FROM_HTML_MODE_LEGACY);
+        holder.tv_egg_batch_title1.setText(styledTextTitle);
 
     }
 
     @Override
     public int getItemCount() {
-        return list.size();
+        return listEggBatch.size();
     }
 
     public class BeanHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
+        TextView  tv_egg_batch_title1;
         TextView tv_egg_batch_line1, tv_egg_label, number_of_eggs, tv_common_name, tv_incubator, tv_set_date, tv_hatch_date,
                 tv_location, tv_weight_loss_racking, tv_desired_weight_loss;
         CardView cv_egg_batch;
@@ -83,17 +102,9 @@ public class EggBatchAdapter extends RecyclerView.Adapter<EggBatchAdapter.BeanHo
             super(itemView);
             itemView.setOnClickListener(this);
             cv_egg_batch = itemView.findViewById(R.id.cv_egg_batch);
+            tv_egg_batch_title1 = itemView.findViewById(R.id.tv_egg_batch_title1);
             tv_egg_batch_line1  = itemView.findViewById(R.id.tv_egg_batch_line1);
 
-            /*tv_egg_label = itemView.findViewById(R.id.tv_egg_label);
-            number_of_eggs = itemView.findViewById(R.id.tv_number_of_eggs);
-            tv_common_name = itemView.findViewById(R.id.tv_common_name);
-            tv_incubator = itemView.findViewById(R.id.tv_incubator);
-            tv_set_date = itemView.findViewById(R.id.tv_set_date);
-            tv_hatch_date = itemView.findViewById(R.id.tv_hatch_date);
-            tv_location = itemView.findViewById(R.id.tv_location);
-            tv_weight_loss_racking = itemView.findViewById(R.id.tv_weight_loss_tracking);
-            tv_desired_weight_loss = itemView.findViewById(R.id.tv_desired_weight_loss);*/
 
         }
 
