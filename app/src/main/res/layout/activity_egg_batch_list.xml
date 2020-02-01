@@ -31,10 +31,11 @@
             android:descendantFocusability="blocksDescendants"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
+        <include layout="@layout/content_egg_batch_list" />
 
     </LinearLayout>
 
-    <include layout="@layout/content_egg_batch_list" />
+
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_egg_batch_list"

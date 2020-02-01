@@ -449,8 +449,8 @@ public class AddEggBatchActivity extends AppCompatActivity {
     }
 
     public void setResult(EggBatch eggBatch, int flag){
-        setResult(flag,new Intent().putExtra("eggBatch",eggBatch));
-        finish();
+        //setResult(flag,new Intent().putExtra("eggBatch",eggBatch));
+        //finish();
         Intent intent1 = new Intent(AddEggBatchActivity.this, EggBatchListActivity.class);
         intent1.putExtra("eggBatch", eggBatch);
         startActivity(intent1);

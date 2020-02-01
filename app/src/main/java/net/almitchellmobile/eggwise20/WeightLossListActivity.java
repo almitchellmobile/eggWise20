@@ -235,7 +235,6 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
                     READING_DAY_NUMBER = (eggDailyListPostEx.get(index).getReadingDayNumber());
                     TARGET_WEIGHT_LOSS_INTEGER = eggDailyListPostEx.get(index).getTargetWeightLossInteger();
                     INCUBATION_DAYS = eggDailyListPostEx.get(index).getIncubationDays();
-
                     Double targetWeightLossDouble = Double.valueOf(TARGET_WEIGHT_LOSS_INTEGER);
                     Double readingDayNumberDouble = Double.valueOf(READING_DAY_NUMBER);
                     Double incubationDaysDouble = Double.valueOf(INCUBATION_DAYS);

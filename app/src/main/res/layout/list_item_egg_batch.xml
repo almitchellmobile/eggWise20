@@ -6,23 +6,30 @@
     android:layout_height="wrap_content"
     android:layout_margin="6dp"
     android:orientation="vertical">
+
     <TextView
         android:id="@+id/tv_egg_batch_title1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:focusable="false" />
+        android:focusable="false"
+        android:text="No items found"
+        />
+
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/cv_egg_batch"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
+
         card_view:cardCornerRadius="5dp"
         card_view:cardElevation="5dp"
         card_view:cardUseCompatPadding="true">
+
         <TextView
             android:id="@+id/tv_egg_batch_line1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             tools:text="Line 1" />
+
     </com.google.android.material.card.MaterialCardView>
+
 </LinearLayout>

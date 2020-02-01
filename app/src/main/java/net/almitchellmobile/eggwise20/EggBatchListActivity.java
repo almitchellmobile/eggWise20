@@ -146,7 +146,7 @@ public class EggBatchListActivity extends AppCompatActivity implements EggBatchA
     private void initializeViews(){
         toolbar_egg_batch_list = (Toolbar) findViewById(R.id.toolbar_egg_batch_list);
         setSupportActionBar(toolbar_egg_batch_list);
-        textViewMsg =  (TextView) findViewById(R.id.tv_empty_egg_batches);
+        textViewMsg =  (TextView) findViewById(R.id.tv_egg_batch_title1);
         FloatingActionButton fabEggBatchList = (FloatingActionButton) findViewById(R.id.fab_egg_batch_list);
         fabEggBatchList.setOnClickListener(new View.OnClickListener() {
             @Override

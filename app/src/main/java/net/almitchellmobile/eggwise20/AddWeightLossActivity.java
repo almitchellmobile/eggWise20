@@ -3,6 +3,7 @@ package net.almitchellmobile.eggwise20;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.icu.util.Calendar;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -22,6 +23,8 @@ import net.almitchellmobile.eggwise20.util.Common;
 
 import java.lang.ref.WeakReference;
 import java.text.ParseException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -70,9 +73,9 @@ public class AddWeightLossActivity extends AppCompatActivity {
 
     Common common = new Common();
 
-    android.icu.util.Calendar myCalendar = android.icu.util.Calendar.getInstance();
-    String myFormat = "MM/dd/yy"; //In which you need put here
-    android.icu.text.SimpleDateFormat sdf = new android.icu.text.SimpleDateFormat(myFormat, Locale.US);
+    android.icu.util.Calendar myCalendar;
+    String myFormat;
+    android.icu.text.SimpleDateFormat sdf;;
 
 
     @Override
@@ -108,8 +111,50 @@ public class AddWeightLossActivity extends AppCompatActivity {
 
         et_egg_label = findViewById(R.id.et_egg_label);
         et_egg_weight = findViewById(R.id.et_egg_weight);
+        et_reading_day_number = findViewById(R.id.et_reading_day_number);
         et_reading_date = findViewById(R.id.et_reading_date);
-        et_reading_date.setFocusable(true);
+        //et_reading_date.setFocusable(true);
+
+        et_reading_date.setOnTouchListener(new View.OnTouchListener() {
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if(event.getAction() == MotionEvent.ACTION_DOWN) {
+
+                    String input = setDate;
+
+                    myCalendar = android.icu.util.Calendar.getInstance();
+                    String myFormat = "MM/dd/yyyy"; //In which you need put here
+                    sdf = new android.icu.text.SimpleDateFormat(myFormat, Locale.US);
+
+
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern( myFormat );
+                    LocalDate localDate = LocalDate.parse( input , formatter );
+
+                    //Calendar cal = Calendar.getInstance();
+
+                    myCalendar.set(Calendar.DAY_OF_MONTH, localDate.getDayOfMonth());
+                    myCalendar.set(Calendar.MONTH, localDate.getMonthValue());
+                    myCalendar.set(Calendar.YEAR, localDate.getYear());
+                    myCalendar.add(Calendar.DAY_OF_MONTH, readingDayNumber);
+
+                    readingDate = sdf.format(myCalendar.getTime());
+                    et_reading_date.setText(sdf.format(myCalendar.getTime()));
+
+                    System.out.println(readingDate);
+                    System.out.println(et_reading_date.getText());
+
+                    //readingDate = sdf.format(myCalendar.getTime())
+
+                    //DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+
+                    //Calendar c = Calendar.getInstance();
+                    //c.add(Calendar.DATE, 5);
+
+                }
+                return false;
+            }
+        });
 
         DatePickerDialog.OnDateSetListener setDateDatePickerDialog = new
                 DatePickerDialog.OnDateSetListener() {
