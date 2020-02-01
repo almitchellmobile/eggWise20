@@ -391,8 +391,9 @@ public class AddWeightLossActivity extends AppCompatActivity {
 
 
     private void setResult(EggDaily eggDaily, int flag){
-        //setResult(flag,new Intent().putExtra("eggDaily",eggDaily)
-                //.putExtra("eggBatch", eggBatch));
+        setResult(flag,new Intent().putExtra("eggDaily",eggDaily)
+                .putExtra("eggBatch", eggBatch));
+        finish();
 
         //if (flag == 1) {
             Intent intent1 = new Intent(AddWeightLossActivity.this, WeightLossListActivity.class);

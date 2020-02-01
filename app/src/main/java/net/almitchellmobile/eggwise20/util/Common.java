@@ -55,6 +55,19 @@ public class Common {
         return newValue;
     }
 
+    /*public static  Integer zeroIfNullInteger (String value) {
+        Integer newValue = 0;
+        try {
+            if (value != null ) {
+                newValue = value;
+            }
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return newValue;
+    }*/
+
     public static  Double zeroIfNullDouble (Double value) {
         Double newValue = 0.0;
         try {
