@@ -67,6 +67,8 @@ public class EggBatchListActivity extends AppCompatActivity implements EggBatchA
         setSupportActionBar(toolbar_egg_batch_list);
 
         common = new Common();
+
+
         initializeViews();
         displayList();
     }
@@ -96,44 +98,7 @@ public class EggBatchListActivity extends AppCompatActivity implements EggBatchA
         @Override
         protected void onPostExecute(List<EggBatch> eggBatch) {
             if (eggBatch!=null && eggBatch.size()>0 ){
-/*
-                List<EggDaily> eggDailyListPostEx;
 
-                Integer indexEggBatch = 0;
-                Integer indexEggDaily = 0;
-
-                EGG_WEIGHT_SUM = 0.0D;
-                READING_DAY_NUMBER = 0;
-
-                for (indexEggBatch = 0; indexEggBatch < eggBatch.size(); indexEggBatch++) {
-                    BATCH_LABEL = eggBatch.get(indexEggBatch).getBatchLabel();
-                    eggDailyListPostEx = activityReference.get().eggWiseDatabse.getEggDailyDao().getEggDaily_BatchEggDay(BATCH_LABEL);
-
-
-                    for (indexEggDaily = 0; indexEggDaily < eggDailyListPostEx.size(); indexEggDaily++) {
-                        READING_DAY_NUMBER = eggDailyListPostEx.get(indexEggDaily).getReadingDayNumber();
-                        EGG_WEIGHT_SUM = Common.zeroIfNullDouble(activityReference.get().eggWiseDatabse.getEggDailyDao().getEggDaily_BatchEggDaySum(BATCH_LABEL, READING_DAY_NUMBER));
-                        EGG_WEIGHT_AVG_CURRENT = Common.zeroIfNullDouble(activityReference.get().eggWiseDatabse.getEggDailyDao().getEggDaily_BatchEggDayAvg(BATCH_LABEL, READING_DAY_NUMBER));
-                        EGG_WEIGHT_AVG_DAY_0 = Common.zeroIfNullDouble(activityReference.get().eggWiseDatabse.getEggDailyDao().getEggDaily_BatchEggDayAvgDay0(BATCH_LABEL));
-
-                        eggDailyListPostEx.get(indexEggDaily).setEggWeightSum(EGG_WEIGHT_SUM);
-                        eggDailyListPostEx.get(indexEggDaily).setEggWeightAverageCurrent(EGG_WEIGHT_AVG_CURRENT);
-                        eggDailyListPostEx.get(indexEggDaily).setEggWeightAverageDay0(EGG_WEIGHT_AVG_CURRENT);
-
-                        ACTUAL_WEIGHT_LOSS_PERCENT = 100 * ((EGG_WEIGHT_AVG_DAY_0 - EGG_WEIGHT_AVG_CURRENT) / EGG_WEIGHT_AVG_DAY_0);
-
-                        TARGET_WEIGHT_LOSS_INTEGER = eggDailyListPostEx.get(indexEggDaily).getTargetWeightLossInteger();
-                        INCUBATION_DAYS = eggDailyListPostEx.get(indexEggDaily).getIncubationDays();
-
-                        TARGET_WEIGHT_LOSS_PERCENT = Double.valueOf(((TARGET_WEIGHT_LOSS_INTEGER * READING_DAY_NUMBER) / INCUBATION_DAYS));
-
-                        WEIGHT_LOSS_DEVIATION = TARGET_WEIGHT_LOSS_PERCENT - ACTUAL_WEIGHT_LOSS_PERCENT;
-
-                        eggDailyListPostEx.get(indexEggDaily).setActualWeightLossPercent(ACTUAL_WEIGHT_LOSS_PERCENT);
-                        eggDailyListPostEx.get(indexEggDaily).setTargetWeightLossPercent(TARGET_WEIGHT_LOSS_PERCENT);
-                        eggDailyListPostEx.get(indexEggDaily).setWeightLossDeviation(WEIGHT_LOSS_DEVIATION);
-                    }
-                }*/
                 activityReference.get().eggBatchList.clear();
                 activityReference.get().eggBatchList.addAll(eggBatch);
                 // hides empty text view
@@ -146,7 +111,7 @@ public class EggBatchListActivity extends AppCompatActivity implements EggBatchA
     private void initializeViews(){
         toolbar_egg_batch_list = (Toolbar) findViewById(R.id.toolbar_egg_batch_list);
         setSupportActionBar(toolbar_egg_batch_list);
-        textViewMsg =  (TextView) findViewById(R.id.tv_egg_batch_title1);
+        textViewMsg =  (TextView) findViewById(R.id.tv_empty_egg_batches1);
         FloatingActionButton fabEggBatchList = (FloatingActionButton) findViewById(R.id.fab_egg_batch_list);
         fabEggBatchList.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -227,14 +192,16 @@ public class EggBatchListActivity extends AppCompatActivity implements EggBatchA
 
     }
 
-    private void listVisibility(){
+    private void listVisibility() {
         int emptyMsgVisibility = View.GONE;
-        if (eggBatchList.size() == 0){ // no item to display
-            if (textViewMsg.getVisibility() == View.GONE)
-                emptyMsgVisibility = View.VISIBLE;
+        if (eggBatchList != null) {
+            if (eggBatchList.size() == 0) { // no item to display
+                if (textViewMsg.getVisibility() == View.GONE)
+                    emptyMsgVisibility = View.VISIBLE;
+            }
+            textViewMsg.setVisibility(emptyMsgVisibility);
+            eggBatchAdapter.notifyDataSetChanged();
         }
-        textViewMsg.setVisibility(emptyMsgVisibility);
-        eggBatchAdapter.notifyDataSetChanged();
     }
 
     @Override

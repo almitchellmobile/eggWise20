@@ -37,6 +37,7 @@ public class AddEggBatchActivity extends AppCompatActivity {
             et_number_of_eggs_hatched, et_target_weight_loss;
     CalendarView cv_set_date, cv_hatch_date;
     Button button_save_add_egg_batch;
+    com.google.android.material.floatingactionbutton.FloatingActionButton fab_add_save_egg_batch;
 
     RadioGroup rg_track_weight_loss;
     RadioButton rb_track_entire_batch;
@@ -99,6 +100,23 @@ public class AddEggBatchActivity extends AppCompatActivity {
         setSupportActionBar(toolbar_add_egg_batch);
 
         eggWiseDatabse = EggWiseDatabse.getInstance(AddEggBatchActivity.this);
+
+        fab_add_save_egg_batch = findViewById(R.id.fab_add_save_egg_batch);
+        fab_add_save_egg_batch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                //       .setAction("Action", null).show();
+                try {
+
+                    if(validateRequiredFields()) {
+                        updateInsertEggBatch();
+                    }
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
 
         et_batch_label = findViewById(R.id.et_batch_label);
         et_species_name = findViewById(R.id.et_species_name);

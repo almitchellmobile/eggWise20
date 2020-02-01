@@ -112,10 +112,66 @@ public class AddWeightLossActivity extends AppCompatActivity {
         et_egg_label = findViewById(R.id.et_egg_label);
         et_egg_weight = findViewById(R.id.et_egg_weight);
         et_reading_day_number = findViewById(R.id.et_reading_day_number);
-        et_reading_date = findViewById(R.id.et_reading_date);
-        //et_reading_date.setFocusable(true);
+        et_reading_day_number.setOnFocusChangeListener(new View.OnFocusChangeListener() {
 
-        et_reading_date.setOnTouchListener(new View.OnTouchListener() {
+            public void onFocusChange(View view, boolean hasFocus) {
+                if (hasFocus) {
+                    Toast.makeText(getApplicationContext(), "Got the focus", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Lost the focus", Toast.LENGTH_LONG).show();
+                    String input = setDate;
+
+                    myCalendar = android.icu.util.Calendar.getInstance();
+                    String myFormat = "MM/dd/yyyy"; //In which you need put here
+                    sdf = new android.icu.text.SimpleDateFormat(myFormat, Locale.US);
+
+
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern( myFormat );
+                    LocalDate localDate = LocalDate.parse( input , formatter );
+
+                    //Calendar cal = Calendar.getInstance();
+
+                    myCalendar.set(Calendar.DAY_OF_MONTH, localDate.getDayOfMonth());
+                    myCalendar.set(Calendar.MONTH, localDate.getMonthValue());
+                    myCalendar.set(Calendar.YEAR, localDate.getYear());
+                    myCalendar.add(Calendar.DAY_OF_MONTH, readingDayNumber);
+
+                    readingDate = sdf.format(myCalendar.getTime());
+                    et_reading_date.setText(sdf.format(myCalendar.getTime()));
+
+                    System.out.println(readingDate);
+                    System.out.println(et_reading_date.getText());
+                }
+            }
+
+            /*@Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                String input = setDate;
+
+                myCalendar = android.icu.util.Calendar.getInstance();
+                String myFormat = "MM/dd/yyyy"; //In which you need put here
+                sdf = new android.icu.text.SimpleDateFormat(myFormat, Locale.US);
+
+
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern( myFormat );
+                LocalDate localDate = LocalDate.parse( input , formatter );
+
+                //Calendar cal = Calendar.getInstance();
+
+                myCalendar.set(Calendar.DAY_OF_MONTH, localDate.getDayOfMonth());
+                myCalendar.set(Calendar.MONTH, localDate.getMonthValue());
+                myCalendar.set(Calendar.YEAR, localDate.getYear());
+                myCalendar.add(Calendar.DAY_OF_MONTH, readingDayNumber);
+
+                readingDate = sdf.format(myCalendar.getTime());
+                et_reading_date.setText(sdf.format(myCalendar.getTime()));
+
+                System.out.println(readingDate);
+                System.out.println(et_reading_date.getText());
+
+            }*/
+        });
+        /*et_reading_day_number.setOnTouchListener(new View.OnTouchListener() {
 
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -154,7 +210,7 @@ public class AddWeightLossActivity extends AppCompatActivity {
                 }
                 return false;
             }
-        });
+        });*/
 
         DatePickerDialog.OnDateSetListener setDateDatePickerDialog = new
                 DatePickerDialog.OnDateSetListener() {
@@ -171,6 +227,9 @@ public class AddWeightLossActivity extends AppCompatActivity {
                     }
 
                 };
+
+        et_reading_date = findViewById(R.id.et_reading_date);
+        et_reading_date.setFocusable(true);
         et_reading_date.setOnTouchListener(new View.OnTouchListener() {
 
             @Override
@@ -183,7 +242,7 @@ public class AddWeightLossActivity extends AppCompatActivity {
                 return false;
             }
         });
-        //et_reading_day_number = findViewById(R.id.et_reading_day_number);
+
         et_weight_loss_comment = findViewById(R.id.et_weight_loss_comment);
 
 

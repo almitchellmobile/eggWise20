@@ -66,7 +66,7 @@
        <AutoCompleteTextView
            android:inputType="text"
            android:id="@+id/et_reading_day_number"
-           android:hint="@string/reading_date"
+           android:hint="Reading Day"
            android:singleLine="true"
            android:layout_width="match_parent"
            android:layout_height="wrap_content" />
