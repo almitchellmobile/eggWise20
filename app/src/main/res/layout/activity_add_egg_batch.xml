@@ -26,7 +26,7 @@
 
         </com.google.android.material.appbar.AppBarLayout>
 
-        <include layout="@layout/content_add_egg_batch" />
+        <include layout="@layout/content_add_egg_batch_rl" />
     </LinearLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -36,5 +36,7 @@
         android:layout_gravity="top|end"
         android:layout_margin="@dimen/fab_margin"
         app:srcCompat="@android:drawable/ic_menu_save" />
+
+
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout >

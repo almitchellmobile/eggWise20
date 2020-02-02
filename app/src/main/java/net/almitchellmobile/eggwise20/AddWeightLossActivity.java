@@ -44,7 +44,10 @@ public class AddWeightLossActivity extends AppCompatActivity {
             et_weight_loss_comment;
     private Button button_save_add_weight_loss, button_save_list_weight_loss, button_cancel;
 
-    com.google.android.material.floatingactionbutton.FloatingActionButton fab_add_save_weight_loss;
+    com.google.android.material.floatingactionbutton.FloatingActionButton fab_add_save_weight_loss,
+            fab_reading_date_lookup;
+
+    DatePickerDialog.OnDateSetListener readingDateDatePickerDialog;
 
     private EggWiseDatabse eggWiseDatabse;
     private EggDaily eggDaily;
@@ -91,8 +94,6 @@ public class AddWeightLossActivity extends AppCompatActivity {
         fab_add_save_weight_loss.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                 //       .setAction("Action", null).show();
                 try {
                     if(validateRequiredFields()) {
                         updateInsertEggDaily();
@@ -102,7 +103,87 @@ public class AddWeightLossActivity extends AppCompatActivity {
                 }
             }
         });
-        //fab_add_save_weight_loss.setVisibility(View.VISIBLE);
+
+        readingDateDatePickerDialog = new
+                DatePickerDialog.OnDateSetListener() {
+
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int monthOfYear,
+                                          int dayOfMonth) {
+                        // TODO Auto-generated method stub
+                        myCalendar.set(android.icu.util.Calendar.YEAR, year);
+                        myCalendar.set(android.icu.util.Calendar.MONTH, monthOfYear);
+                        myCalendar.set(android.icu.util.Calendar.DAY_OF_MONTH, dayOfMonth);
+                        //updateLabelReadingDate();
+                        //et_hatch_date.requestFocus();
+
+                        String myFormat = "MM/dd/yyyy"; //In which you need put here
+                        android.icu.text.SimpleDateFormat sdf = new android.icu.text.SimpleDateFormat(myFormat, Locale.US);
+                        readingDate = sdf.format(myCalendar.getTime());
+                        et_reading_date.setText(sdf.format(myCalendar.getTime()));
+
+                        try {
+                            readingDayNumber = Common.computeReadingDateNumber(setDate,et_reading_date.getText().toString());
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+
+                        //myCalendar = android.icu.util.Calendar.getInstance();
+                        //String myFormat = "MM/dd/yyyy"; //In which you need put here
+                        //sdf = new android.icu.text.SimpleDateFormat(myFormat, Locale.US);
+
+
+                        //DateTimeFormatter formatter = DateTimeFormatter.ofPattern( myFormat );
+                        //LocalDate localDate = LocalDate.parse( readingDate , formatter );
+
+                        //Calendar cal = Calendar.getInstance();
+
+                        //myCalendar.set(Calendar.DAY_OF_MONTH, localDate.getDayOfMonth());
+                        //myCalendar.set(Calendar.MONTH, localDate.getMonthValue());
+                        //myCalendar.set(Calendar.YEAR, localDate.getYear());
+                        //myCalendar.add(Calendar.DAY_OF_MONTH, readingDayNumber);
+
+                        //readingDayNumber = Common.computeReadingDateNumber(setDate,et_reading_date.getText().toString());
+
+                        //readingDayNumber = myCalendar.getTime().getDay();
+
+                                //readingDate = sdf.format(myCalendar.getTime());
+                        //et_reading_date.setText(sdf.format(myCalendar.getTime()));
+
+                        //System.out.println(readingDate);
+                        //System.out.println(readingDayNumber);
+                        //System.out.println(et_reading_date.getText());
+
+                    }
+
+                };
+
+        fab_reading_date_lookup = findViewById(R.id.fab_reading_date_lookup);
+        fab_reading_date_lookup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new DatePickerDialog(AddWeightLossActivity.this, readingDateDatePickerDialog, myCalendar
+                        .get(android.icu.util.Calendar.YEAR), myCalendar.get(android.icu.util.Calendar.MONTH),
+                        myCalendar.get(android.icu.util.Calendar.DAY_OF_MONTH)).show();
+
+
+            }
+        });
+
+        et_reading_date = findViewById(R.id.et_reading_date);
+        et_reading_date.setFocusable(true);
+        et_reading_date.setOnTouchListener(new View.OnTouchListener() {
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if(event.getAction() == MotionEvent.ACTION_DOWN) {
+                    new DatePickerDialog(AddWeightLossActivity.this, readingDateDatePickerDialog, myCalendar
+                            .get(android.icu.util.Calendar.YEAR), myCalendar.get(android.icu.util.Calendar.MONTH),
+                            myCalendar.get(android.icu.util.Calendar.DAY_OF_MONTH)).show();
+                }
+                return false;
+            }
+        });
 
         text_batch_label = findViewById(R.id.text_batch_label);
         text_number_of_eggs_remaining = findViewById(R.id.text_number_of_eggs_remaining);
@@ -144,75 +225,11 @@ public class AddWeightLossActivity extends AppCompatActivity {
                 }
             }
 
-            /*@Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                String input = setDate;
 
-                myCalendar = android.icu.util.Calendar.getInstance();
-                String myFormat = "MM/dd/yyyy"; //In which you need put here
-                sdf = new android.icu.text.SimpleDateFormat(myFormat, Locale.US);
-
-
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern( myFormat );
-                LocalDate localDate = LocalDate.parse( input , formatter );
-
-                //Calendar cal = Calendar.getInstance();
-
-                myCalendar.set(Calendar.DAY_OF_MONTH, localDate.getDayOfMonth());
-                myCalendar.set(Calendar.MONTH, localDate.getMonthValue());
-                myCalendar.set(Calendar.YEAR, localDate.getYear());
-                myCalendar.add(Calendar.DAY_OF_MONTH, readingDayNumber);
-
-                readingDate = sdf.format(myCalendar.getTime());
-                et_reading_date.setText(sdf.format(myCalendar.getTime()));
-
-                System.out.println(readingDate);
-                System.out.println(et_reading_date.getText());
-
-            }*/
         });
-        /*et_reading_day_number.setOnTouchListener(new View.OnTouchListener() {
-
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if(event.getAction() == MotionEvent.ACTION_DOWN) {
-
-                    String input = setDate;
-
-                    myCalendar = android.icu.util.Calendar.getInstance();
-                    String myFormat = "MM/dd/yyyy"; //In which you need put here
-                    sdf = new android.icu.text.SimpleDateFormat(myFormat, Locale.US);
 
 
-                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern( myFormat );
-                    LocalDate localDate = LocalDate.parse( input , formatter );
-
-                    //Calendar cal = Calendar.getInstance();
-
-                    myCalendar.set(Calendar.DAY_OF_MONTH, localDate.getDayOfMonth());
-                    myCalendar.set(Calendar.MONTH, localDate.getMonthValue());
-                    myCalendar.set(Calendar.YEAR, localDate.getYear());
-                    myCalendar.add(Calendar.DAY_OF_MONTH, readingDayNumber);
-
-                    readingDate = sdf.format(myCalendar.getTime());
-                    et_reading_date.setText(sdf.format(myCalendar.getTime()));
-
-                    System.out.println(readingDate);
-                    System.out.println(et_reading_date.getText());
-
-                    //readingDate = sdf.format(myCalendar.getTime())
-
-                    //DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-
-                    //Calendar c = Calendar.getInstance();
-                    //c.add(Calendar.DATE, 5);
-
-                }
-                return false;
-            }
-        });*/
-
-        DatePickerDialog.OnDateSetListener setDateDatePickerDialog = new
+        DatePickerDialog.OnDateSetListener setDateDatePickerDialogReadingDate = new
                 DatePickerDialog.OnDateSetListener() {
 
                     @Override
@@ -230,12 +247,13 @@ public class AddWeightLossActivity extends AppCompatActivity {
 
         et_reading_date = findViewById(R.id.et_reading_date);
         et_reading_date.setFocusable(true);
+
         et_reading_date.setOnTouchListener(new View.OnTouchListener() {
 
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if(event.getAction() == MotionEvent.ACTION_DOWN) {
-                    new DatePickerDialog(AddWeightLossActivity.this, setDateDatePickerDialog, myCalendar
+                    new DatePickerDialog(AddWeightLossActivity.this, setDateDatePickerDialogReadingDate, myCalendar
                             .get(android.icu.util.Calendar.YEAR), myCalendar.get(android.icu.util.Calendar.MONTH),
                             myCalendar.get(android.icu.util.Calendar.DAY_OF_MONTH)).show();
                 }
@@ -389,7 +407,7 @@ public class AddWeightLossActivity extends AppCompatActivity {
         }
         if (!(et_reading_date.getText().toString().length() == 0)) {
             readingDate = et_reading_date.getText().toString();
-            readingDayNumber = common.computeReadingDateNumber(setDate,et_reading_date.getText().toString());
+            //readingDayNumber = common.computeReadingDateNumber(setDate,et_reading_date.getText().toString());
         } else {
             et_reading_date.setHint("Please enter Reading Date.");
             et_reading_date.setError("Reading Date is required.");
