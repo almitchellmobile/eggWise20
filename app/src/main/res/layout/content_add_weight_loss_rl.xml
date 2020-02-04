@@ -38,7 +38,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/text_incubator_name">
-
         <AutoCompleteTextView
             android:id="@+id/et_egg_label"
             android:layout_width="match_parent"
@@ -53,7 +52,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/text_egg_label">
-
         <AutoCompleteTextView
             android:id="@+id/et_egg_weight"
             android:layout_width="match_parent"
@@ -63,28 +61,43 @@
             android:singleLine="true" />
     </com.google.android.material.textfield.TextInputLayout>
 
+    <Button
+        android:id="@+id/button_reading_date_lookup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/text_egg_weight"
+        android:text="Get Date" />
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/text_reading_day_number"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/text_egg_weight">
-
+        android:layout_below="@id/button_reading_date_lookup">
         <AutoCompleteTextView
             android:id="@+id/et_reading_day_number"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Reading Day"
             android:inputType="text"
-            android:singleLine="true" />
+            android:singleLine="true"/>
     </com.google.android.material.textfield.TextInputLayout>
 
+    <!--<com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_reading_date_lookup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/text_reading_day_number"
+        android:layout_marginStart="@dimen/fab_margin"
+        android:layout_marginTop="@dimen/fab_margin"
+        android:layout_marginEnd="@dimen/fab_margin"
+        android:layout_marginBottom="@dimen/fab_margin"
+        app:srcCompat="@android:drawable/ic_menu_my_calendar" />-->
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/text_reading_date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/text_reading_day_number">
-
         <AutoCompleteTextView
             android:id="@+id/et_reading_date"
             android:layout_width="match_parent"
@@ -94,25 +107,12 @@
             android:singleLine="true" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab_reading_date_lookup"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginStart="@dimen/fab_margin"
-        android:layout_marginTop="@dimen/fab_margin"
-        android:layout_marginEnd="@dimen/fab_margin"
-        android:layout_marginBottom="@dimen/fab_margin"
-        android:layout_toEndOf="@id/text_reading_day_number"
-        app:srcCompat="@android:drawable/ic_menu_my_calendar" />
-
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/text_weight_loss_comment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/text_reading_date">
-
         <AutoCompleteTextView
             android:id="@+id/et_weight_loss_comment"
             android:layout_width="match_parent"
@@ -128,21 +128,18 @@
         android:layout_alignParentBottom="true"
         android:layout_gravity="center"
         android:orientation="horizontal">
-
         <Button
             android:id="@+id/button_save_add_weight_loss"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="Save / Add Next" />
-
         <Button
             android:id="@+id/button_save_list_weight_loss"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="Save / Return" />
-
         <Button
             android:id="@+id/button_cancel"
             android:layout_width="wrap_content"
