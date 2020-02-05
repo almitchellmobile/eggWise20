@@ -36,6 +36,7 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
     public static Double ACTUAL_WEIGHT_LOSS_PERCENT = 0.0;
     public static Double TARGET_WEIGHT_LOSS_PERCENT = 0.0;
     public static Double WEIGHT_LOSS_DEVIATION = 0.0;
+    public static String WEIGHT_LOSS_DEVIATION_MESSAGE = "";
     public static Integer TRACKING_OPTION = 0;
     public static Integer READING_DAY_NUMBER = 0;
     public static Integer TARGET_WEIGHT_LOSS_INTEGER = 0;
@@ -245,6 +246,16 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
                     eggDailyListPostEx.get(index).setActualWeightLossPercent(ACTUAL_WEIGHT_LOSS_PERCENT);
                     eggDailyListPostEx.get(index).setTargetWeightLossPercent(TARGET_WEIGHT_LOSS_PERCENT);
                     eggDailyListPostEx.get(index).setWeightLossDeviation(WEIGHT_LOSS_DEVIATION);
+
+                    if (WEIGHT_LOSS_DEVIATION != null) {
+
+                        if (Math.abs(ACTUAL_WEIGHT_LOSS_PERCENT) >TARGET_WEIGHT_LOSS_PERCENT) {
+                            String message = "*** Warning: Actual Weight deviates beyond Target Weight by "
+                                    + WEIGHT_LOSS_DEVIATION + " percent. ***";
+                            EggWeightLossAdapter.WEIGHT_LOSS_DEVIATION_MESSAGE = message;
+
+                        }
+                    }
                 }
                 activityReference.get().eggDailyList.clear();
                 activityReference.get().eggDailyList.addAll(eggDailyListPostEx);

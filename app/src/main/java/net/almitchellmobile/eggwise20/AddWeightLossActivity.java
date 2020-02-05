@@ -124,7 +124,6 @@ public class AddWeightLossActivity extends AppCompatActivity {
 
         DatePickerDialog.OnDateSetListener getDateDatePickerDialog = new
                 DatePickerDialog.OnDateSetListener() {
-
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear,
                                           int dayOfMonth) {
@@ -133,81 +132,29 @@ public class AddWeightLossActivity extends AppCompatActivity {
                         myCalendar.set(android.icu.util.Calendar.MONTH, monthOfYear);
                         myCalendar.set(android.icu.util.Calendar.DAY_OF_MONTH, dayOfMonth);
                         updateLabelReadingDate_ReadingDayNumber();
-                        //et_hatch_date.requestFocus();
-
-                        /*String myFormat = "MM/dd/yyyy"; //In which you need put here
-                        android.icu.text.SimpleDateFormat sdf = new android.icu.text.SimpleDateFormat(myFormat, Locale.US);
-                        readingDate = sdf.format(myCalendar.getTime());
-                        et_reading_date.setText(sdf.format(myCalendar.getTime()));
-
-                        try {
-                            readingDayNumber = Common.computeReadingDateNumber(setDate,et_reading_date.getText().toString());
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }*/
-
                     }
-
                 };
-
 
         button_reading_date_lookup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 new DatePickerDialog(AddWeightLossActivity.this, getDateDatePickerDialog, myCalendar
                         .get(android.icu.util.Calendar.YEAR), myCalendar.get(android.icu.util.Calendar.MONTH),
-                        myCalendar.get(android.icu.util.Calendar.DAY_OF_MONTH)).show();
-
-                /*String myFormat = "MM/dd/yyyy"; //In which you need put here
-                android.icu.text.SimpleDateFormat sdf = new android.icu.text.SimpleDateFormat(myFormat, Locale.US);
-                readingDate = sdf.format(myCalendar.getTime());
-                et_reading_date.setText(sdf.format(myCalendar.getTime()));
-
-                try {
-                    readingDayNumber = Common.computeReadingDateNumber(setDate,et_reading_date.getText().toString());
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }*/
-            }
+                        myCalendar.get(android.icu.util.Calendar.DAY_OF_MONTH)).show();            }
         });
 
-
-
         et_reading_day_number.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-
             public void onFocusChange(View view, boolean hasFocus) {
                 if (hasFocus) {
-                    Toast.makeText(getApplicationContext(), "Got the focus", Toast.LENGTH_LONG).show();
+                    //Toast.makeText(getApplicationContext(), "Got the focus", Toast.LENGTH_LONG).show();
                 } else {
-
                     if (!(et_reading_day_number.getText().toString().length() == 0)) {
-                        Toast.makeText(getApplicationContext(), "Lost the focus", Toast.LENGTH_LONG).show();
-
+                        //Toast.makeText(getApplicationContext(), "Lost the focus", Toast.LENGTH_LONG).show();
                         try {
-                            //String input = setDate;
-                           // Date dateSetDate = null;
-
                             readingDayNumber = Integer.parseInt(et_reading_day_number.getText().toString());
 
-                            String myFormat = "MM/dd/yyyy"; //In which you need put here
+                            String myFormat = "MM/dd/yyyy";
                             sdf = new android.icu.text.SimpleDateFormat(myFormat, Locale.US);
-
-                            //String strDate = "2013-05-15T10:00:00-0700";
-                            //SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
-
-                           /* try {
-                                dateSetDate = sdf.parse(setDate);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-*/
-                            //System.out.println(dateSetDate.toString());
-
-
-
-
-                            //DateTimeFormatter formatter = DateTimeFormatter.ofPattern(myFormat);
-                            //LocalDate localDate = LocalDate.parse(dateSetDate, formatter);
 
                             Calendar calendar = Calendar.getInstance();
 
@@ -222,16 +169,6 @@ public class AddWeightLossActivity extends AppCompatActivity {
                             readingDate = sdf1.format(calendar.getTime());
                             et_reading_date.setText(readingDate);
 
-                            /*myCalendar.setTime(sdf.format(dateSetDate));
-                            myCalendar.set(Calendar.DAY_OF_MONTH, localDate.getDayOfMonth());
-                            myCalendar.set(Calendar.MONTH, localDate.getMonthValue());
-                            myCalendar.set(Calendar.YEAR, localDate.getYear());
-                            myCalendar.add(dateSetDate, Integer.parseInt(et_reading_day_number.getText().toString()));
-                            readingDate = sdf.format(myCalendar.getTime());
-                            et_reading_date.setText(readingDate);
-                            System.out.println(readingDate);
-                            System.out.println(et_reading_date.getText());*/
-
                         } catch (NumberFormatException e) {
                             e.printStackTrace();
                         }
@@ -243,10 +180,8 @@ public class AddWeightLossActivity extends AppCompatActivity {
 
         });
 
-
         DatePickerDialog.OnDateSetListener readingDateDatePickerDialog = new
                 DatePickerDialog.OnDateSetListener() {
-
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear,
                                           int dayOfMonth) {
@@ -254,12 +189,8 @@ public class AddWeightLossActivity extends AppCompatActivity {
                         myCalendar.set(android.icu.util.Calendar.MONTH, monthOfYear);
                         myCalendar.set(android.icu.util.Calendar.DAY_OF_MONTH, dayOfMonth);
                         updateLabelReadingDate_ReadingDayNumber();
-
                     }
-
                 };
-
-
         et_reading_date.setFocusable(true);
         et_reading_date.setOnTouchListener(new View.OnTouchListener() {
 
@@ -273,9 +204,6 @@ public class AddWeightLossActivity extends AppCompatActivity {
                 return false;
             }
         });
-
-
-
 
         button_save_list_weight_loss = findViewById(R.id.button_save_list_weight_loss);
         button_save_list_weight_loss.setText("Save");
@@ -299,20 +227,10 @@ public class AddWeightLossActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 try {
-
-                    //common
-
-                    //if(checkInputFields()) {
                         updateInsertEggDaily();
-                    //}
-                    //setResult(eggDaily,3);
                 } catch (java.text.ParseException e) {
                     e.printStackTrace();
                 }
-                //finish();
-                //Intent intent1 = new Intent(AddWeightLossActivity.this, AddWeightLossActivity.class);
-                //intent1.putExtra("WeightLossListActivity", eggBatch);
-                //startActivity(intent1);
             }
         });
         button_save_add_weight_loss.setVisibility(View.GONE);
@@ -322,16 +240,12 @@ public class AddWeightLossActivity extends AppCompatActivity {
         button_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //updateInsertEggDaily();
-
                 Intent intent1 = new Intent(AddWeightLossActivity.this, EggBatchListActivity.class);
-                //intent1.putExtra("WeightLossListActivity", eggBatch);
                 startActivity(intent1);
             }
         });
 
         getEggBatchData();
-
 
         eggDaily = null;
         if (getIntent().getSerializableExtra("eggDailyAdd") != null) {

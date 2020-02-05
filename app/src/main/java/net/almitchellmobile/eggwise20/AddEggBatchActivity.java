@@ -10,7 +10,6 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
-import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -36,7 +35,7 @@ public class AddEggBatchActivity extends AppCompatActivity {
             et_location, et_incubator_settings, et_temperature, et_incubation_days,
             et_number_of_eggs_hatched, et_target_weight_loss;
     CalendarView cv_set_date, cv_hatch_date;
-    Button button_save_add_egg_batch;
+    //Button button_save_add_egg_batch;
     com.google.android.material.floatingactionbutton.FloatingActionButton fab_add_save_egg_batch;
 
     RadioGroup rg_track_weight_loss;
@@ -105,10 +104,7 @@ public class AddEggBatchActivity extends AppCompatActivity {
         fab_add_save_egg_batch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                //       .setAction("Action", null).show();
                 try {
-
                     if(validateRequiredFields()) {
                         updateInsertEggBatch();
                     }
@@ -138,11 +134,12 @@ public class AddEggBatchActivity extends AppCompatActivity {
         et_number_of_eggs_hatched = findViewById(R.id.et_number_of_eggs_hatched);
         et_target_weight_loss = findViewById(R.id.et_target_weight_loss);
 
-        button_save_add_egg_batch = findViewById(R.id.button_save_add_egg_batch);
+        //button_save_add_egg_batch = findViewById(R.id.button_save_add_egg_batch);
+
         if ( (eggBatch = (EggBatch) getIntent().getSerializableExtra("UpdateEggBatch"))!=null ){
             getSupportActionBar().setTitle("Update Egg Batch");
             update = true;
-            button_save_add_egg_batch.setText("Update");
+            //button_save_add_egg_batch.setText("Update");
 
             et_batch_label.setText(eggBatch.getBatchLabel());
             et_species_name.setText(eggBatch.getSpeciesName());
@@ -167,30 +164,22 @@ public class AddEggBatchActivity extends AppCompatActivity {
             et_number_of_eggs_hatched.setText(eggBatch.getNumberOfEggsHatched().toString());
             et_target_weight_loss.setText(eggBatch.getTargetWeightLoss().toString());
         }
-        button_save_add_egg_batch.setOnClickListener(new View.OnClickListener() {
+        /*button_save_add_egg_batch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                //checkIfEmptyField();
-
                 try {
-
                     if(validateRequiredFields()) {
                         updateInsertEggBatch();
                     }
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-
-
             }
-        });
+        });*/
 
         et_set_date.setFocusable(true);
-        //fromDateSetDate = new SetDate((EditText) et_set_date, this);
         DatePickerDialog.OnDateSetListener setDateDatePickerDialog = new
                 DatePickerDialog.OnDateSetListener() {
-
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear,
                                           int dayOfMonth) {
@@ -204,7 +193,6 @@ public class AddEggBatchActivity extends AppCompatActivity {
 
                 };
         et_set_date.setOnTouchListener(new View.OnTouchListener() {
-
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if(event.getAction() == MotionEvent.ACTION_DOWN) {

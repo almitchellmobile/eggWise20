@@ -35,6 +35,7 @@ public class EggWeightLossAdapter extends RecyclerView.Adapter <EggWeightLossAda
     public static Integer numberOfReadings = 0;
     public static String SPECIES_BREED = "";
     public static Integer TAXON_INCUBATION_DAYS = 0;
+    public static String WEIGHT_LOSS_DEVIATION_MESSAGE = "";
 
     public Integer eggsRemaining = -1;
     public Integer numberOfEggs = 0;
@@ -107,7 +108,9 @@ public class EggWeightLossAdapter extends RecyclerView.Adapter <EggWeightLossAda
                     ", <B>Weight Avg:</B> " + String.format(Locale.getDefault(),"%.1f",eggDailyList.get(position).getEggWeightAverageCurrent()) +
                     ", <B>Actual Loss %:</B> " + String.format(Locale.getDefault(),"%.1f",eggDailyList.get(position).getActualWeightLossPercent()) +
                     ", <B>Target Loss %:</B> " + String.format(Locale.getDefault(),"%.1f",eggDailyList.get(position).getTargetWeightLossPercent()) +
-                    ", <B>% Deviation:</B> " + String.format(Locale.getDefault(),"%.1f",eggDailyList.get(position).getWeightLossDeviation());
+                    ", <B>% Deviation:</B> " + String.format(Locale.getDefault(),"%.1f",eggDailyList.get(position).getWeightLossDeviation()) +
+                    "<br>***<br>" +
+                    "<B>*** Weight Loss: </B>" + WEIGHT_LOSS_DEVIATION_MESSAGE;
 
             styledText = HtmlCompat.fromHtml(line1, HtmlCompat.FROM_HTML_MODE_LEGACY);
             holder.tv_egg_weight_line1.setText(styledText);
