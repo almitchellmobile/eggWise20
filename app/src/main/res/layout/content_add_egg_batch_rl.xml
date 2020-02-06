@@ -38,7 +38,7 @@
             android:singleLine="true" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+    <!--<com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_set_date_lookup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -48,7 +48,7 @@
         android:layout_marginEnd="@dimen/fab_margin"
         android:layout_marginBottom="@dimen/fab_margin"
         android:layout_toEndOf="@id/text_set_date"
-        app:srcCompat="@android:drawable/ic_menu_my_calendar" />
+        app:srcCompat="@android:drawable/ic_menu_my_calendar" />-->
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/text_number_of_eggs"
@@ -70,7 +70,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/text_number_of_eggs"
-        >
+        android:tooltipText="Tracking Option">
+
+        <TextView
+            android:id="@+id/tv_track_weight_loss"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tracking Option"
+            android:textStyle="bold" />
+
         <RadioButton
             android:id="@+id/rb_track_entire_batch"
             android:layout_width="match_parent"
@@ -239,7 +247,7 @@
             android:layout_height="wrap_content" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+    <!--<com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_hatch_date_lookup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -249,7 +257,7 @@
         android:layout_marginEnd="@dimen/fab_margin"
         android:layout_marginBottom="@dimen/fab_margin"
         android:layout_toEndOf="@id/text_hatch_date"
-        app:srcCompat="@android:drawable/ic_menu_my_calendar" />
+        app:srcCompat="@android:drawable/ic_menu_my_calendar" />-->
 
     <!--<Button
         android:id="@+id/button_save_add_egg_batch"

@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+app:layout_behavior="@string/appbar_scrolling_view_behavior"
+tools:context=".ConfigurationOptionsActivity"
+tools:showIn="@layout/activity_configuration_options"
+android:paddingBottom="@dimen/activity_vertical_margin"
+android:paddingLeft="@dimen/activity_horizontal_margin"
+android:paddingRight="@dimen/activity_horizontal_margin"
+android:paddingTop="@dimen/activity_vertical_margin" >
+
+    <!--<Button
+    android:id="@+id/btn_retrieve"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_centerHorizontal="true"
+    android:layout_centerVertical="true"
+    android:text="Retrieve" />
+
+<Button
+    android:id="@+id/btn_clear"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignRight="@+id/btn_retrieve"
+    android:layout_centerVertical="true"
+    android:layout_alignParentRight="true"
+    android:layout_alignParentEnd="true"
+
+    android:text="Clear" />-->
+
+
+
+    <RadioGroup
+        android:id="@+id/rg_temperature_entered_in"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        >
+
+        <TextView
+            android:id="@+id/tv_temperature_entered_in"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Temperature Entered In"
+            android:textStyle="bold" />
+        <RadioButton
+            android:id="@+id/rb_celsius"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/rb_value_celsius" />
+        <RadioButton
+            android:id="@+id/rb_fahrenheit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/rb_value_fahrenheit" />
+    </RadioGroup>
+
+    <RadioGroup
+        android:id="@+id/rg_humidity_measured_with"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/rg_temperature_entered_in"
+        android:layout_alignParentRight="true"
+        >
+
+        <TextView
+            android:id="@+id/tv_humidity_measured_with"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Incubator Humidity Measured In"
+            android:textStyle="bold" />
+        <RadioButton
+            android:id="@+id/rb_wet_bulb_readings"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/rb_value_wet_bulb_readings" />
+        <RadioButton
+            android:id="@+id/rb_relative_humidity_percentage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/rb_value_relative_humidity_percentage" />
+    </RadioGroup>
+
+    <RadioGroup
+        android:id="@+id/rg_weight_entered_in"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/rg_humidity_measured_with"
+        android:layout_alignParentRight="true"
+        >
+
+        <TextView
+            android:id="@+id/tv_weight_entered_in"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Egg Weight Measured In"
+            android:textStyle="bold" />
+        <RadioButton
+            android:id="@+id/rb_grams"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/rb_value_grams" />
+        <RadioButton
+            android:id="@+id/rb_ounces"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/rb_value_ounces" />
+    </RadioGroup>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/text_days_to_hatcher_before_hatching"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/rg_weight_entered_in">
+        <AutoCompleteTextView
+            android:id="@+id/et_days_to_hatcher_before_hatching"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Days To Hatcher Before Hatching"
+            android:inputType="text"
+            android:singleLine="true" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/text_default_weight_loss_percentage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/text_days_to_hatcher_before_hatching">
+        <AutoCompleteTextView
+            android:id="@+id/et_default_weight_loss_percentage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Default Weight Loss Percentage"
+            android:inputType="text"
+            android:singleLine="true" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/text_warn_weight_deviation_percentage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/text_default_weight_loss_percentage">
+        <AutoCompleteTextView
+            android:id="@+id/et_warn_weight_deviation_percentage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Warn If Weight Deviates By This % "
+            android:inputType="text"
+            android:singleLine="true" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!--<Button
+        android:id="@+id/btn_save"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/text_warn_weight_deviation_percentage"
+        android:onClick="getPrefrences"
+        android:text="Save" />-->
+
+
+</RelativeLayout>

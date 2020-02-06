@@ -44,6 +44,13 @@
     <string name="egg_weight">Egg Weight</string>
     <string name="save_button">Save</string>
     <string name="egg_label">Egg Label</string>
+    <string name="title_activity_configuration_options">ConfigurationOptionsActivity</string>
+    <string name="rb_value_celsius">Celsius</string>
+    <string name="rb_value_fahrenheit">Fahrenheit</string>
+    <string name="rb_value_wet_bulb_readings">Wet Bulb Readings</string>
+    <string name="rb_value_relative_humidity_percentage">Relative Humidity Percentage</string>
+    <string name="rb_value_grams">Grams</string>
+    <string name="rb_value_ounces">Ounces</string>
 
 
 </resources>

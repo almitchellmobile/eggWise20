@@ -1,6 +1,7 @@
 package net.almitchellmobile.eggwise20;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,6 +20,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 public class AddIncubatorActivity extends AppCompatActivity {
+
+    SharedPreferences sharedpreferences;
+    public static String PREF_TEMPERATURE_ENTERED_IN = "";
+    public static String PREF_HUMIDITY_MEASURED_WITH = "";
+    public static String PREF_WEIGHT_ENTERED_IN = "";
+
+    public static Integer PREF_DAYS_TO_HATCHER_BEFORE_HATCHING = 3;
+    public static Float PREF_DEFAULT_WEIGHT_LOSS_PRECENTAGE= 0.0F;
+    public static Float PREF_WARN_WEIGHT_DEVIATION_PERCENTAGE = 0.0F;
+
+    public static final String mypreference = "mypref";
 
     private AutoCompleteTextView et_incubator_name,
             et_mfg_model,

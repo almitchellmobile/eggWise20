@@ -1,7 +1,9 @@
 package net.almitchellmobile.eggwise20;
 
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.icu.text.SimpleDateFormat;
 import android.icu.util.Calendar;
 import android.os.AsyncTask;
@@ -29,6 +31,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 public class AddEggBatchActivity extends AppCompatActivity {
+
+    SharedPreferences sharedpreferences;
+    public static String PREF_TEMPERATURE_ENTERED_IN = "";
+    public static String PREF_HUMIDITY_MEASURED_WITH = "";
+    public static String PREF_WEIGHT_ENTERED_IN = "";
+
+    public static Integer PREF_DAYS_TO_HATCHER_BEFORE_HATCHING = 3;
+    public static Float PREF_DEFAULT_WEIGHT_LOSS_PRECENTAGE= 0.0F;
+    public static Float PREF_WARN_WEIGHT_DEVIATION_PERCENTAGE = 0.0F;
+
+    public static final String mypreference = "mypref";
 
     AutoCompleteTextView et_batch_label, et_number_of_eggs, et_species_name, et_common_name,
             et_incubator_name, et_set_date, et_hatch_date,
@@ -100,6 +113,34 @@ public class AddEggBatchActivity extends AppCompatActivity {
 
         eggWiseDatabse = EggWiseDatabse.getInstance(AddEggBatchActivity.this);
 
+        sharedpreferences = getSharedPreferences(mypreference,
+                Context.MODE_PRIVATE);
+
+        PREF_TEMPERATURE_ENTERED_IN = sharedpreferences.getString("temperature_entered_in", "@string/rb_value_celsius");
+
+
+        PREF_HUMIDITY_MEASURED_WITH = sharedpreferences.getString("humidity_measured_with", "@string/rb_value_wet_bulb_readings");
+
+
+        PREF_WEIGHT_ENTERED_IN = sharedpreferences.getString("weight_entered_in", "@string/rb_value_grams");
+
+
+        if (sharedpreferences.contains("days_to_hatcher_before_hatching")) {
+            PREF_DAYS_TO_HATCHER_BEFORE_HATCHING = sharedpreferences.getInt("days_to_hatcher_before_hatching", 3);
+        } else {
+            PREF_DAYS_TO_HATCHER_BEFORE_HATCHING = 0;
+        }
+        if (sharedpreferences.contains("default_weight_loss_percentage")) {
+            PREF_DEFAULT_WEIGHT_LOSS_PRECENTAGE = sharedpreferences.getFloat("default_weight_loss_percentage", 13.0F);
+        } else {
+            PREF_DEFAULT_WEIGHT_LOSS_PRECENTAGE = 0.0F;
+        }
+        if (sharedpreferences.contains("warn_weight_deviation_percentage")) {
+            PREF_WARN_WEIGHT_DEVIATION_PERCENTAGE = sharedpreferences.getFloat("warn_weight_deviation_percentage", 0.5F);
+        } else {
+            PREF_WARN_WEIGHT_DEVIATION_PERCENTAGE = 0.0F;
+        }
+
         fab_add_save_egg_batch = findViewById(R.id.fab_add_save_egg_batch);
         fab_add_save_egg_batch.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -152,11 +193,12 @@ public class AddEggBatchActivity extends AppCompatActivity {
             if (eggBatch.getTrackingOption() == 1) {
                 rb_track_entire_batch.setChecked(true);
                 trackingOption = 1;
-            } else if (eggBatch.getTrackingOption() == 1) {
+            } else if (eggBatch.getTrackingOption() == 2) {
                 rb_track_specific_eggs.setChecked(true);
                 trackingOption = 2;
             } else {
                 trackingOption = 1; //Default
+                rb_track_entire_batch.setChecked(true);
             }
             et_incubator_settings.setText(eggBatch.getIncubatorSettings().toString());
             et_temperature.setText(eggBatch.getTemperature().toString());

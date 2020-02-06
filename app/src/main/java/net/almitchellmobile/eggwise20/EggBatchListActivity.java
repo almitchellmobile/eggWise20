@@ -2,6 +2,7 @@ package net.almitchellmobile.eggwise20;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -26,16 +27,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class EggBatchListActivity extends AppCompatActivity implements EggBatchAdapter.OnEggBatchItemClick{
 
-    /*public static String BATCH_LABEL = "b1";
-    public static Double BATCH_DAY_WEIGHT_SUM = 0.0;
-    public static Double BATCH_DAY_WEIGHT_AVG_CURRENT = 0.0;
-    public static Double BATCH_DAY_WEIGHT_AVG_DAY_0 = 0.0;
-    public static Double ACTUAL_WEIGHT_LOSS_PERCENT = 0.0;
-    public static Double TARGET_WEIGHT_LOSS_PERCENT = 0.0;
-    public static Double WEIGHT_LOSS_DEVIATION = 0.0;
-    public static Integer READING_DAY_NUMBER = 0;
-    public static Integer TARGET_WEIGHT_LOSS_INTEGER = 0;
-    public static Integer INCUBATION_DAYS = 0;*/
+    SharedPreferences sharedpreferences;
+    public static String PREF_TEMPERATURE_ENTERED_IN = "";
+    public static String PREF_HUMIDITY_MEASURED_WITH = "";
+    public static String PREF_WEIGHT_ENTERED_IN = "";
+
+    public static Integer PREF_DAYS_TO_HATCHER_BEFORE_HATCHING = 3;
+    public static Float PREF_DEFAULT_WEIGHT_LOSS_PRECENTAGE= 0.0F;
+    public static Float PREF_WARN_WEIGHT_DEVIATION_PERCENTAGE = 0.0F;
+
+    public static final String mypreference = "mypref";
 
     public static String BATCH_LABEL = "";
     public static Double EGG_WEIGHT_SUM = 0.0;

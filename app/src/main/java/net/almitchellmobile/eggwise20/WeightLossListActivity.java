@@ -2,6 +2,7 @@ package net.almitchellmobile.eggwise20;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -27,6 +28,17 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class WeightLossListActivity extends AppCompatActivity implements EggWeightLossAdapter.OnEggWeightItemClick {
+
+    SharedPreferences sharedpreferences;
+    public static String PREF_TEMPERATURE_ENTERED_IN = "";
+    public static String PREF_HUMIDITY_MEASURED_WITH = "";
+    public static String PREF_WEIGHT_ENTERED_IN = "";
+
+    public static Integer PREF_DAYS_TO_HATCHER_BEFORE_HATCHING = 3;
+    public static Float PREF_DEFAULT_WEIGHT_LOSS_PRECENTAGE= 0.0F;
+    public static Float PREF_WARN_WEIGHT_DEVIATION_PERCENTAGE = 0.0F;
+
+    public static final String mypreference = "mypref";
 
     public static String BATCH_LABEL = "";
     public static String EGG_LABEL = "";

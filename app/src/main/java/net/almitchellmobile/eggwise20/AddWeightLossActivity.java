@@ -3,6 +3,7 @@ package net.almitchellmobile.eggwise20;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.icu.text.SimpleDateFormat;
 import android.icu.util.Calendar;
 import android.os.AsyncTask;
@@ -31,6 +32,17 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.text.HtmlCompat;
 
 public class AddWeightLossActivity extends AppCompatActivity {
+
+    SharedPreferences sharedpreferences;
+    public static String PREF_TEMPERATURE_ENTERED_IN = "";
+    public static String PREF_HUMIDITY_MEASURED_WITH = "";
+    public static String PREF_WEIGHT_ENTERED_IN = "";
+
+    public static Integer PREF_DAYS_TO_HATCHER_BEFORE_HATCHING = 3;
+    public static Float PREF_DEFAULT_WEIGHT_LOSS_PRECENTAGE= 0.0F;
+    public static Float PREF_WARN_WEIGHT_DEVIATION_PERCENTAGE = 0.0F;
+
+    public static final String mypreference = "mypref";
 
     private TextView text_batch_label,
             text_number_of_eggs_remaining,
@@ -285,6 +297,12 @@ public class AddWeightLossActivity extends AppCompatActivity {
                 et_weight_loss_comment.setText(eggDailyComment);
             }
 
+            et_egg_label.setSelectAllOnFocus(true);
+            et_reading_date.setSelectAllOnFocus(true);
+            et_reading_day_number.setSelectAllOnFocus(true);
+            et_egg_weight.setSelectAllOnFocus(true);
+            et_weight_loss_comment.setSelectAllOnFocus(true);
+
         }
 
 
@@ -437,6 +455,12 @@ public class AddWeightLossActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
+
+        et_egg_label.setSelectAllOnFocus(true);
+        et_reading_date.setSelectAllOnFocus(true);
+        et_reading_day_number.setSelectAllOnFocus(true);
+        et_egg_weight.setSelectAllOnFocus(true);
+        et_weight_loss_comment.setSelectAllOnFocus(true);
     }
 
 
@@ -445,16 +469,18 @@ public class AddWeightLossActivity extends AppCompatActivity {
                 .putExtra("eggBatch", eggBatch));
         finish();
 
-        //if (flag == 1) {
+
+        if (flag == 1) {
             Intent intent1 = new Intent(AddWeightLossActivity.this, WeightLossListActivity.class);
             intent1.putExtra("eggBatch", eggBatch);
             intent1.putExtra("eggDaily", eggDaily);
             startActivity(intent1);
-        //} else {
-        //    Intent intent2 = new Intent(AddWeightLossActivity.this, AddWeightLossActivity.class);
-        //    intent2.putExtra("eggBatch", eggBatch);
-        //    intent2.putExtra("eggDaily", eggDaily);
-        //}
+        } else {
+            Intent intent2 = new Intent(AddWeightLossActivity.this, AddWeightLossActivity.class);
+            intent2.putExtra("eggBatch", eggBatch);
+            intent2.putExtra("eggDaily", eggDaily);
+        }
+
 
     }
 
@@ -486,7 +512,7 @@ public class AddWeightLossActivity extends AppCompatActivity {
         protected void onPostExecute(Boolean bool) {
             if (bool){
                 activityReference.get().setResult(eggDaily,1);
-                //activityReference.get().finish();
+                activityReference.get().finish();
             }
 
         }
