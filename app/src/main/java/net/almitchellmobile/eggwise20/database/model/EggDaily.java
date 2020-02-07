@@ -73,6 +73,31 @@ public class EggDaily implements Serializable {
     @ColumnInfo(name = "IncubationDays")
     public Integer incubationDays = 0;
 
+    @Override
+    public String toString() {
+        return "EggDaily{" +
+                "eggDailyID=" + eggDailyID +
+                ", settingID=" + settingID +
+                ", batchLabel='" + batchLabel + '\'' +
+                ", eggLabel='" + eggLabel + '\'' +
+                ", readingDate='" + readingDate + '\'' +
+                ", setDate='" + setDate + '\'' +
+                ", readingDayNumber=" + readingDayNumber +
+                ", eggWeight=" + eggWeight +
+                ", eggWeightAverageDay0=" + eggWeightAverageDay0 +
+                ", eggDailyComment='" + eggDailyComment + '\'' +
+                ", incubatorName='" + incubatorName + '\'' +
+                ", numberOfEggsRemaining=" + numberOfEggsRemaining +
+                ", eggWeightSum=" + eggWeightSum +
+                ", actualWeightLossPercent=" + actualWeightLossPercent +
+                ", targetWeightLossPercent=" + targetWeightLossPercent +
+                ", weightLossDeviation=" + weightLossDeviation +
+                ", eggWeightAverageCurrent=" + eggWeightAverageCurrent +
+                ", targetWeightLossInteger=" + targetWeightLossInteger +
+                ", incubationDays=" + incubationDays +
+                '}';
+    }
+
     public EggDaily(Long settingID, String batchLabel, String eggLabel, String readingDate, String setDate, Integer readingDayNumber, Double eggWeight, Double eggWeightAverageDay0, String eggDailyComment, String incubatorName, Integer numberOfEggsRemaining, Double eggWeightSum, Double actualWeightLossPercent, Double targetWeightLossPercent, Double weightLossDeviation, Double eggWeightAverageCurrent, Integer targetWeightLossInteger, Integer incubationDays) {
         this.settingID = settingID;
         this.batchLabel = batchLabel;

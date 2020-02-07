@@ -157,8 +157,8 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
                 }
                 listVisibility();
 
-                initializeViews();
-                displayList();
+                //initializeViews();
+                //displayList();
             }
         } catch (Exception e) {
             e.printStackTrace();
