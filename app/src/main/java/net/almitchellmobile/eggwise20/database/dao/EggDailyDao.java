@@ -1,5 +1,7 @@
 package net.almitchellmobile.eggwise20.database.dao;
 
+import android.database.Cursor;
+
 import net.almitchellmobile.eggwise20.database.model.EggDaily;
 import net.almitchellmobile.eggwise20.util.Constants;
 
@@ -49,6 +51,14 @@ public interface EggDailyDao {
             " ORDER BY ReadingDayNumber ASC ";
     @Query(sqlSelectAvgBatch)
     Double getEggDaily_Compute_Avg_GroupBy_Day_Batch_Tracking(String batchLabel, Integer readingDayNumber);
+
+    String sqlSelectAvgBatchGroupByDay = "SELECT ReadingDayNumber, AVG(EggWeight) EggWeightAvg FROM "+
+            Constants.TABLE_NAME_EGG_DAILY +
+            " WHERE BatchLabel LIKE :batchLabel " +
+            " GROUP BY ReadingDayNumber  " +
+            " ORDER BY ReadingDayNumber ASC ";
+    @Query(sqlSelectAvgBatchGroupByDay)
+    Cursor getEggDaily_Get_ReadingDay_AvgEggWeight_For_Batch_GroupBy_Day(String batchLabel);
 
     String sqlComputeAvgDay0Batch = "SELECT AVG(EggWeight) EggWeightAvg0 FROM "+
             Constants.TABLE_NAME_EGG_DAILY +

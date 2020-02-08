@@ -51,6 +51,7 @@
     <string name="rb_value_relative_humidity_percentage">Relative Humidity Percentage</string>
     <string name="rb_value_grams">Grams</string>
     <string name="rb_value_ounces">Ounces</string>
+    <string name="title_activity_main2">WeightLossChartActivity</string>
 
 
 </resources>

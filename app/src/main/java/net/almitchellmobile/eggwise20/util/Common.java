@@ -5,6 +5,8 @@ import android.net.ParseException;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -12,6 +14,14 @@ import java.util.Locale;
 public class Common {
 
     public Common() {
+    }
+
+    public static double round(double value, int places) {
+        if (places < 0) throw new IllegalArgumentException();
+
+        BigDecimal bd = BigDecimal.valueOf(value);
+        bd = bd.setScale(places, RoundingMode.HALF_UP);
+        return bd.doubleValue();
     }
 
     public static String blankIfNullString (String value) {

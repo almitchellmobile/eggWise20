@@ -3,6 +3,7 @@
     package="net.almitchellmobile.eggwise20">
 
     <application
+        android:name=".App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -10,19 +11,32 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".ConfigurationOptionsActivity"
-            android:label="@string/title_activity_configuration_options"
+            android:name=".WeightLossChartActivity"
+            android:label="@string/title_activity_main2"
             android:theme="@style/AppTheme.NoActionBar">
-            <!--<intent-filter>
+            <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>-->
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ConfigurationOptionsActivity"
+            android:label="@string/title_activity_configuration_options"
+            android:theme="@style/AppTheme.NoActionBar">
+
+            <!--
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            -->
         </activity>
         <activity
             android:name=".AddWeightLossActivity"
             android:label="@string/title_activity_add_weight_loss"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".WeightLossListActivity"
             android:label="@string/title_activity_weight_loss_list"
@@ -45,11 +59,11 @@
             android:name=".EggBatchListActivity"
             android:label="@string/title_activity_egg_batch_list"
             android:theme="@style/AppTheme.NoActionBar">
-            <intent-filter>
+           <!-- <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            </intent-filter>-->
         </activity>
         <activity
             android:name=".MainActivity"

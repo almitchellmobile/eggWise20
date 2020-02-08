@@ -1,6 +1,7 @@
 package net.almitchellmobile.eggwise20.adapter;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +24,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class EggWeightLossAdapter extends RecyclerView.Adapter <EggWeightLossAdapter.BeanHolder>{
 
+    SharedPreferences sharedpreferences;
+    public static String PREF_TEMPERATURE_ENTERED_IN = "";
+    public static String PREF_HUMIDITY_MEASURED_WITH = "";
+    public static String PREF_WEIGHT_ENTERED_IN = "";
+
+    public static Integer PREF_DAYS_TO_HATCHER_BEFORE_HATCHING = 3;
+    public static Double PREF_DEFAULT_WEIGHT_LOSS_PRECENTAGE= 0.0D;
+    public static Double PREF_WARN_WEIGHT_DEVIATION_PERCENTAGE = 0.0D;
+
+    public static final String mypreference = "mypref";
+
+
     private List<EggDaily> eggDailyList;
     private  EggDaily eggDaily;
     private Context context;
@@ -31,7 +44,7 @@ public class EggWeightLossAdapter extends RecyclerView.Adapter <EggWeightLossAda
 
     public static Boolean warnAboutDeviation = false;
     public static String warnAboutDeviationValue = "";
-    public static Double eggWeightWarningDeviationPercentStatic = 0.0;
+    public static Double warningDeviationPercentAmount = 0.0;
     public static Integer numberOfReadings = 0;
     public static String SPECIES_BREED = "";
     public static Integer TAXON_INCUBATION_DAYS = 0;
@@ -65,6 +78,10 @@ public class EggWeightLossAdapter extends RecyclerView.Adapter <EggWeightLossAda
     public String key = "";
     public String previousKey = "";
 
+
+
+
+
     Common common;
 
 
@@ -74,6 +91,13 @@ public class EggWeightLossAdapter extends RecyclerView.Adapter <EggWeightLossAda
         this.context = context;
         this.onEggWeightItemClick = (OnEggWeightItemClick) context;
         common = new Common();
+        sharedpreferences = context.getSharedPreferences(mypreference,
+                Context.MODE_PRIVATE);
+        if (sharedpreferences.contains("warn_weight_deviation_percentage")) {
+            PREF_WARN_WEIGHT_DEVIATION_PERCENTAGE = Double.valueOf(sharedpreferences.getFloat("warn_weight_deviation_percentage", 0.5F));
+        } else {
+            PREF_WARN_WEIGHT_DEVIATION_PERCENTAGE = 0.5D;
+        }
     }
 
     @Override
@@ -104,13 +128,21 @@ public class EggWeightLossAdapter extends RecyclerView.Adapter <EggWeightLossAda
                     ", <B>Reading Date:</B> " + common.blankIfNullString(eggDailyList.get(position).getReadingDate()) +
                     ", <B>Comment:</B> " + common.blankIfNullString(eggDailyList.get(position).getEggDailyComment()) +
                     "<br>***<br>" +
-                    "<B>Weight Sum:</B> " + String.format(Locale.getDefault(),"%.1f",eggDailyList.get(position).getEggWeightSum()) +
-                    ", <B>Weight Avg:</B> " + String.format(Locale.getDefault(),"%.1f",eggDailyList.get(position).getEggWeightAverageCurrent()) +
-                    ", <B>Actual Loss %:</B> " + String.format(Locale.getDefault(),"%.1f",eggDailyList.get(position).getActualWeightLossPercent()) +
-                    ", <B>Target Loss %:</B> " + String.format(Locale.getDefault(),"%.1f",eggDailyList.get(position).getTargetWeightLossPercent()) +
-                    ", <B>% Deviation:</B> " + String.format(Locale.getDefault(),"%.1f",eggDailyList.get(position).getWeightLossDeviation()) +
-                    "<br>***<br>" +
-                    "<B>*** Weight Loss: </B>" + WEIGHT_LOSS_DEVIATION_MESSAGE;
+                    //"<B>Weight Sum:</B> " + String.format(Locale.getDefault(),"%.1f",eggDailyList.get(position).getEggWeightSum()) +
+                    "<B>Weight Avg:</B> " + String.format(Locale.getDefault(),"%.2f",eggDailyList.get(position).getEggWeightAverageCurrent()) +
+                    ", <B>Actual Loss %:</B> " + String.format(Locale.getDefault(),"%.2f",eggDailyList.get(position).getActualWeightLossPercent()) +
+                    ", <B>Target Loss %:</B> " + String.format(Locale.getDefault(),"%.2f",eggDailyList.get(position).getTargetWeightLossPercent()) +
+                    ", <B>% Deviation:</B> " + String.format(Locale.getDefault(),"%.2f",Math.abs(eggDailyList.get(position).getWeightLossDeviation()));
+
+            if (eggDailyList.get(position).getWeightLossDeviation() != null) {
+                if (eggDailyList.get(position).getWeightLossDeviation() > PREF_WARN_WEIGHT_DEVIATION_PERCENTAGE) {
+                    line1 += "<br>***<br>";
+                    line1 += "*** Warning: Actual Weight deviates beyond Target Weight by ";
+                    line1 += (String.format(Locale.getDefault(),"%.2f",Math.abs(eggDailyList.get(position).getWeightLossDeviation()))) + " percent. ***";
+                    //EggWeightLossAdapter.WEIGHT_LOSS_DEVIATION_MESSAGE = message;
+                }
+            }
+            //line1 += "<B>*** Weight Loss: </B>" + WEIGHT_LOSS_DEVIATION_MESSAGE;
 
             styledText = HtmlCompat.fromHtml(line1, HtmlCompat.FROM_HTML_MODE_LEGACY);
             holder.tv_egg_weight_line1.setText(styledText);

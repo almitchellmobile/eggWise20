@@ -1,14 +1,15 @@
 package net.almitchellmobile.eggwise20;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.icu.text.DecimalFormat;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
-import com.facebook.stetho.Stetho;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import net.almitchellmobile.eggwise20.adapter.EggWeightLossAdapter;
@@ -54,6 +55,7 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
     public static Integer TARGET_WEIGHT_LOSS_INTEGER = 0;
     public static Integer INCUBATION_DAYS = 0;
     public static Integer NUMBER_OF_EGGS_REMAINING = 0 ;
+    public static DecimalFormat df = new DecimalFormat("00.00");
 
     FloatingActionButton fab_weight_loss;
     private TextView tv_empty_weight_loss_message;
@@ -86,6 +88,44 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
         setContentView(R.layout.activity_weight_loss_list);
         Toolbar toolbar_weight_loss_list = findViewById(R.id.toolbar_weight_loss_list);
         setSupportActionBar(toolbar_weight_loss_list);
+
+        sharedpreferences = getSharedPreferences(mypreference,
+                Context.MODE_PRIVATE);
+
+        /*String prefValue = sharedpreferences.getString("temperature_entered_in", "@string/rb_value_celsius");
+        if (prefValue.toLowerCase().contains("@string/rb_value_celsius")) {
+            rb_celsius.setChecked(true);
+        } else {
+            rb_fahrenheit.setChecked(true);
+        }
+
+        prefValue = sharedpreferences.getString("humidity_measured_with", "@string/rb_value_wet_bulb_readings");
+        if (prefValue.toLowerCase().contains("@string/rb_value_wet_bulb_readings")) {
+            rb_wet_bulb_readings.setChecked(true);
+        } else {
+            rb_relative_humidity_percentage.setChecked(true);
+        }
+
+        prefValue = sharedpreferences.getString("weight_entered_in", "@string/rb_value_grams");
+        if (prefValue.toLowerCase().contains("@string/rb_value_grams")) {
+            rb_grams.setChecked(true);
+        } else {
+            rb_ounces.setChecked(true);
+        }
+
+        if (sharedpreferences.contains("days_to_hatcher_before_hatching")) {
+            et_days_to_hatcher_before_hatching.setText(sharedpreferences.getInt("days_to_hatcher_before_hatching", 3));
+        } else {
+            et_days_to_hatcher_before_hatching.setText("3");
+        }
+        if (sharedpreferences.contains("default_weight_loss_percentage")) {
+            et_default_weight_loss_percentage.setText(String.valueOf(sharedpreferences.getFloat("default_weight_loss_percentage", 13.0F)));
+        } else {
+            et_default_weight_loss_percentage.setText("13.0");
+        }*/
+        if (sharedpreferences.contains("warn_weight_deviation_percentage")) {
+            PREF_WARN_WEIGHT_DEVIATION_PERCENTAGE = Float.parseFloat(String.valueOf(sharedpreferences.getFloat("warn_weight_deviation_percentage", 0.5F)));
+        }
 
 
 
@@ -129,7 +169,7 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
         recyclerViewWeightLossList.setAdapter(eggWeightLossAdapter);
 
         //RoomExplorer.show(WeightLossListActivity.this, EggWiseDatabse.class, "EggWiseDB.db");
-        Stetho.initializeWithDefaults(this);
+        //Stetho.initializeWithDefaults(this);
     }
 
 
@@ -253,13 +293,15 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
                     Double incubationDaysDouble = Double.valueOf(INCUBATION_DAYS);
                     TARGET_WEIGHT_LOSS_PERCENT = ((targetWeightLossDouble * readingDayNumberDouble) / incubationDaysDouble);
 
+
+
                     WEIGHT_LOSS_DEVIATION = TARGET_WEIGHT_LOSS_PERCENT - ACTUAL_WEIGHT_LOSS_PERCENT;
 
-                    eggDailyListPostEx.get(index).setActualWeightLossPercent(ACTUAL_WEIGHT_LOSS_PERCENT);
-                    eggDailyListPostEx.get(index).setTargetWeightLossPercent(TARGET_WEIGHT_LOSS_PERCENT);
-                    eggDailyListPostEx.get(index).setWeightLossDeviation(WEIGHT_LOSS_DEVIATION);
+                    eggDailyListPostEx.get(index).setActualWeightLossPercent(Common.round(ACTUAL_WEIGHT_LOSS_PERCENT,1));
+                    eggDailyListPostEx.get(index).setTargetWeightLossPercent(Common.round(TARGET_WEIGHT_LOSS_PERCENT,1));
+                    eggDailyListPostEx.get(index).setWeightLossDeviation(Common.round(WEIGHT_LOSS_DEVIATION, 2));
 
-                    if (WEIGHT_LOSS_DEVIATION != null) {
+                    /*if (WEIGHT_LOSS_DEVIATION != null) {
 
                         if (Math.abs(ACTUAL_WEIGHT_LOSS_PERCENT) >TARGET_WEIGHT_LOSS_PERCENT) {
                             String message = "*** Warning: Actual Weight deviates beyond Target Weight by "
@@ -267,7 +309,7 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
                             EggWeightLossAdapter.WEIGHT_LOSS_DEVIATION_MESSAGE = message;
 
                         }
-                    }
+                    }*/
                 }
                 activityReference.get().eggDailyList.clear();
                 activityReference.get().eggDailyList.addAll(eggDailyListPostEx);
@@ -277,6 +319,8 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
             }
         }
     }
+
+
 
     /*@Override
     public void onEggWeightClick(final int pos) {
