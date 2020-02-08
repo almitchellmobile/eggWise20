@@ -14,11 +14,11 @@
             android:name=".WeightLossChartActivity"
             android:label="@string/title_activity_main2"
             android:theme="@style/AppTheme.NoActionBar">
-            <intent-filter>
+            <!--<intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            </intent-filter>-->
         </activity>
         <activity
             android:name=".ConfigurationOptionsActivity"
@@ -59,11 +59,11 @@
             android:name=".EggBatchListActivity"
             android:label="@string/title_activity_egg_batch_list"
             android:theme="@style/AppTheme.NoActionBar">
-           <!-- <intent-filter>
+            <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>-->
+            </intent-filter>
         </activity>
         <activity
             android:name=".MainActivity"

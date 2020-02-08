@@ -13,7 +13,7 @@
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
     <ImageView
-        android:id="@+id/cardView"
+        android:id="@+id/imageView"
         android:layout_width="129dp"
         android:layout_height="109dp"
         android:layout_gravity="center_horizontal"
@@ -29,6 +29,10 @@
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
-
+    <!-- <TextView
+         android:id="@+id/textView"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:text="@string/nav_header_subtitle" />-->
 
 </LinearLayout>
