@@ -15,6 +15,7 @@ final public class Constants {
     public static final String TABLE_NAME_BATCH_LOSS = "BatchLoss";
     public static final String TABLE_NAME_EGG_BATCH = "EggBatch";
     public static final String TABLE_NAME_EGG_SETTING = "EggSetting";
+    public static final String TABLE_NAME_EGG_WEIGHT_LOSS = "EggWeightLoss";
     public static final String TABLE_NAME_INCUBATOR_DAILY = "IncubatorDaily";
     public static final String TABLE_NAME_OPTIONS = "Options";
     public static final String TABLE_NAME_TAXON = "Taxon";

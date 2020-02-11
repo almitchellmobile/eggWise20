@@ -113,18 +113,11 @@ public class AddEggBatchActivity extends AppCompatActivity {
 
         eggWiseDatabse = EggWiseDatabse.getInstance(AddEggBatchActivity.this);
 
-        sharedpreferences = getSharedPreferences(mypreference,
-                Context.MODE_PRIVATE);
+        sharedpreferences = getSharedPreferences(mypreference,Context.MODE_PRIVATE);
 
         PREF_TEMPERATURE_ENTERED_IN = sharedpreferences.getString("temperature_entered_in", "@string/rb_value_celsius");
-
-
         PREF_HUMIDITY_MEASURED_WITH = sharedpreferences.getString("humidity_measured_with", "@string/rb_value_wet_bulb_readings");
-
-
         PREF_WEIGHT_ENTERED_IN = sharedpreferences.getString("weight_entered_in", "@string/rb_value_grams");
-
-
         if (sharedpreferences.contains("days_to_hatcher_before_hatching")) {
             PREF_DAYS_TO_HATCHER_BEFORE_HATCHING = sharedpreferences.getInt("days_to_hatcher_before_hatching", 3);
         } else {

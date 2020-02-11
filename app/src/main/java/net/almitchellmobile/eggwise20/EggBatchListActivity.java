@@ -1,5 +1,6 @@
 package net.almitchellmobile.eggwise20;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -68,6 +69,28 @@ public class EggBatchListActivity extends AppCompatActivity implements EggBatchA
         setSupportActionBar(toolbar_egg_batch_list);
 
         common = new Common();
+
+        sharedpreferences = getSharedPreferences(mypreference,
+                Context.MODE_PRIVATE);
+
+        PREF_TEMPERATURE_ENTERED_IN = sharedpreferences.getString("temperature_entered_in", "@string/rb_value_celsius");
+        PREF_HUMIDITY_MEASURED_WITH = sharedpreferences.getString("humidity_measured_with", "@string/rb_value_wet_bulb_readings");
+        PREF_WEIGHT_ENTERED_IN = sharedpreferences.getString("weight_entered_in", "@string/rb_value_grams");
+        if (sharedpreferences.contains("days_to_hatcher_before_hatching")) {
+            PREF_DAYS_TO_HATCHER_BEFORE_HATCHING = sharedpreferences.getInt("days_to_hatcher_before_hatching", 3);
+        } else {
+            PREF_DAYS_TO_HATCHER_BEFORE_HATCHING = 0;
+        }
+        if (sharedpreferences.contains("default_weight_loss_percentage")) {
+            PREF_DEFAULT_WEIGHT_LOSS_PRECENTAGE = sharedpreferences.getFloat("default_weight_loss_percentage", 13.0F);
+        } else {
+            PREF_DEFAULT_WEIGHT_LOSS_PRECENTAGE = 0.0F;
+        }
+        if (sharedpreferences.contains("warn_weight_deviation_percentage")) {
+            PREF_WARN_WEIGHT_DEVIATION_PERCENTAGE = sharedpreferences.getFloat("warn_weight_deviation_percentage", 0.5F);
+        } else {
+            PREF_WARN_WEIGHT_DEVIATION_PERCENTAGE = 0.0F;
+        }
 
 
         initializeViews();
@@ -155,7 +178,7 @@ public class EggBatchListActivity extends AppCompatActivity implements EggBatchA
     public void onEggBatchClick(final int pos) {
         new AlertDialog.Builder(EggBatchListActivity.this)
                 .setTitle("Select Options")
-                .setItems(new String[]{"Delete", "Update", "Enter Weight Loss", "List Weight Loss"}, new DialogInterface.OnClickListener() {
+                .setItems(new String[]{"Delete", "Update", "Enter Weight Loss", "List Weight Loss", "Weight Loss Chart"}, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         switch (i){
@@ -186,6 +209,14 @@ public class EggBatchListActivity extends AppCompatActivity implements EggBatchA
                                 startActivity(intent2);
                                 finish();
                                 break;
+                            case 4:
+                                EggBatchListActivity.this.pos = pos;
+                                Intent intent3 = new Intent(EggBatchListActivity.this, WeightLossChartActivity.class);
+                                intent3.putExtra("eggBatch",eggBatchList.get(pos));
+                                startActivity(intent3);
+                                finish();
+                                break;
+
 
                         }
                     }

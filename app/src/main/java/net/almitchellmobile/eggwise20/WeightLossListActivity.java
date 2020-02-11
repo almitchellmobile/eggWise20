@@ -67,6 +67,7 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
     private int pos;
 
     public Long settingID = 0L;
+    public EggDaily eggDaily = null;
 
     public String eggLabel = "";
     public String readingDate = "";
@@ -89,45 +90,26 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
         Toolbar toolbar_weight_loss_list = findViewById(R.id.toolbar_weight_loss_list);
         setSupportActionBar(toolbar_weight_loss_list);
 
-        sharedpreferences = getSharedPreferences(mypreference,
-                Context.MODE_PRIVATE);
+        sharedpreferences = getSharedPreferences(mypreference, Context.MODE_PRIVATE);
 
-        /*String prefValue = sharedpreferences.getString("temperature_entered_in", "@string/rb_value_celsius");
-        if (prefValue.toLowerCase().contains("@string/rb_value_celsius")) {
-            rb_celsius.setChecked(true);
-        } else {
-            rb_fahrenheit.setChecked(true);
-        }
-
-        prefValue = sharedpreferences.getString("humidity_measured_with", "@string/rb_value_wet_bulb_readings");
-        if (prefValue.toLowerCase().contains("@string/rb_value_wet_bulb_readings")) {
-            rb_wet_bulb_readings.setChecked(true);
-        } else {
-            rb_relative_humidity_percentage.setChecked(true);
-        }
-
-        prefValue = sharedpreferences.getString("weight_entered_in", "@string/rb_value_grams");
-        if (prefValue.toLowerCase().contains("@string/rb_value_grams")) {
-            rb_grams.setChecked(true);
-        } else {
-            rb_ounces.setChecked(true);
-        }
-
+        PREF_TEMPERATURE_ENTERED_IN = sharedpreferences.getString("temperature_entered_in", "@string/rb_value_celsius");
+        PREF_HUMIDITY_MEASURED_WITH = sharedpreferences.getString("humidity_measured_with", "@string/rb_value_wet_bulb_readings");
+        PREF_WEIGHT_ENTERED_IN = sharedpreferences.getString("weight_entered_in", "@string/rb_value_grams");
         if (sharedpreferences.contains("days_to_hatcher_before_hatching")) {
-            et_days_to_hatcher_before_hatching.setText(sharedpreferences.getInt("days_to_hatcher_before_hatching", 3));
+            PREF_DAYS_TO_HATCHER_BEFORE_HATCHING = sharedpreferences.getInt("days_to_hatcher_before_hatching", 3);
         } else {
-            et_days_to_hatcher_before_hatching.setText("3");
+            PREF_DAYS_TO_HATCHER_BEFORE_HATCHING = 0;
         }
         if (sharedpreferences.contains("default_weight_loss_percentage")) {
-            et_default_weight_loss_percentage.setText(String.valueOf(sharedpreferences.getFloat("default_weight_loss_percentage", 13.0F)));
+            PREF_DEFAULT_WEIGHT_LOSS_PRECENTAGE = sharedpreferences.getFloat("default_weight_loss_percentage", 13.0F);
         } else {
-            et_default_weight_loss_percentage.setText("13.0");
-        }*/
-        if (sharedpreferences.contains("warn_weight_deviation_percentage")) {
-            PREF_WARN_WEIGHT_DEVIATION_PERCENTAGE = Float.parseFloat(String.valueOf(sharedpreferences.getFloat("warn_weight_deviation_percentage", 0.5F)));
+            PREF_DEFAULT_WEIGHT_LOSS_PRECENTAGE = 0.0F;
         }
-
-
+        if (sharedpreferences.contains("warn_weight_deviation_percentage")) {
+            PREF_WARN_WEIGHT_DEVIATION_PERCENTAGE = sharedpreferences.getFloat("warn_weight_deviation_percentage", 0.5F);
+        } else {
+            PREF_WARN_WEIGHT_DEVIATION_PERCENTAGE = 0.0F;
+        }
 
         common = new Common();
 
@@ -209,7 +191,7 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
     public void onEggWeightClick(int pos) {
         new AlertDialog.Builder(WeightLossListActivity.this)
                 .setTitle("Select Options")
-                .setItems(new String[]{"Delete", "Update"}, new DialogInterface.OnClickListener() {
+                .setItems(new String[]{"Delete", "Update", "Weight Loss Chart"}, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         switch (i){
@@ -226,6 +208,15 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
                                                 AddWeightLossActivity.class).putExtra("eggDailyUpdate", eggDailyList.get(pos)),
                                         100);
 
+                                break;
+                            case 2:
+                                WeightLossListActivity.this.pos = pos;
+                                WeightLossChartActivity.BATCH_LABEL = eggDailyList.get(pos).batchLabel;
+                                startActivity(
+                                        new Intent(WeightLossListActivity.this,
+                                                WeightLossChartActivity.class).putExtra("eggDailyChart", eggDailyList.get(pos))
+                                                                                .putExtra("eggBatch", eggBatch));
+                                finish();
                                 break;
                         }
                     }
@@ -278,7 +269,6 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
                         }
                     }
 
-
                     eggDailyListPostEx.get(index).setEggWeightSum(EGG_WEIGHT_SUM);
                     eggDailyListPostEx.get(index).setEggWeightAverageCurrent(EGG_WEIGHT_AVG_CURRENT);
                     eggDailyListPostEx.get(index).setEggWeightAverageDay0(EGG_WEIGHT_AVG_DAY_0);
@@ -293,13 +283,13 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
                     Double incubationDaysDouble = Double.valueOf(INCUBATION_DAYS);
                     TARGET_WEIGHT_LOSS_PERCENT = ((targetWeightLossDouble * readingDayNumberDouble) / incubationDaysDouble);
 
-
-
                     WEIGHT_LOSS_DEVIATION = TARGET_WEIGHT_LOSS_PERCENT - ACTUAL_WEIGHT_LOSS_PERCENT;
 
                     eggDailyListPostEx.get(index).setActualWeightLossPercent(Common.round(ACTUAL_WEIGHT_LOSS_PERCENT,1));
                     eggDailyListPostEx.get(index).setTargetWeightLossPercent(Common.round(TARGET_WEIGHT_LOSS_PERCENT,1));
                     eggDailyListPostEx.get(index).setWeightLossDeviation(Common.round(WEIGHT_LOSS_DEVIATION, 2));
+
+                    //activityReference.get().eggWiseDatabse.getEggDailyDao().updateEggDaily((eggDaily));
 
                     /*if (WEIGHT_LOSS_DEVIATION != null) {
 
@@ -321,33 +311,6 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
     }
 
 
-
-    /*@Override
-    public void onEggWeightClick(final int pos) {
-        new AlertDialog.Builder(WeightLossListActivity.this)
-                .setTitle("Select Options")
-                .setItems(new String[]{"Delete", "Update"}, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        switch (i){
-                            case 0:
-                                eggWiseDatabse.getEggDailyDao().deleteEggDaily(eggDailyList.get(pos));
-                                eggDailyList.remove(pos);
-                                listVisibility();
-                                break;
-                            case 1:
-                                WeightLossListActivity.this.pos = pos;
-                                startActivityForResult(
-                                        new Intent(WeightLossListActivity.this,
-                                                AddWeightLossActivity.class).putExtra("eggDailyList", eggDailyList.get(pos)),
-                                        100);
-
-                                break;
-                        }
-                    }
-                }).show();
-
-    }*/
 
     private void listVisibility(){
         int emptyMsgVisibility = View.GONE;
