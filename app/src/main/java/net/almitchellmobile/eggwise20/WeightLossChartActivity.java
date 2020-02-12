@@ -3,6 +3,7 @@ package net.almitchellmobile.eggwise20;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -21,6 +22,7 @@ import net.almitchellmobile.eggwise20.database.model.EggBatch;
 import net.almitchellmobile.eggwise20.database.model.EggDaily;
 import net.almitchellmobile.eggwise20.util.Common;
 
+import java.lang.ref.WeakReference;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -83,9 +85,13 @@ public class WeightLossChartActivity extends AppCompatActivity {
 
     Common common;
 
+    public  static NumberFormat numberFormat;
     DataPoint dataPoint;
-    LineGraphSeries<DataPoint> lineGraphSeriesActualWeightLoss = null;
-    LineGraphSeries<DataPoint> lineGraphSeriesTargetWeightLoss = null;
+    public  static DataPoint[] dataPointsTargetWeightLoss = new DataPoint[0];
+    public  static DataPoint[] dataPointsActualWeightLoss = new DataPoint[0];
+    public  static LineGraphSeries<DataPoint> lineGraphSeriesActualWeightLoss = new LineGraphSeries<DataPoint>(dataPointsActualWeightLoss);
+    public  static LineGraphSeries<DataPoint> lineGraphSeriesTargetWeightLoss = new LineGraphSeries<DataPoint>(dataPointsTargetWeightLoss);
+
     public static ArrayList<String> y_axis_TARGET_WEIGHT_LOSS_PERCENT_STRING = new ArrayList<String>();
     public static ArrayList<String> y_axis_ACTUAL_WEIGHT_LOSS_PERCENT_STRING = new ArrayList<String>();
     public static ArrayList<Integer> x_axis_READING_DAY = new ArrayList<Integer>();
@@ -95,9 +101,8 @@ public class WeightLossChartActivity extends AppCompatActivity {
 
     Integer numberOfDataPairs = 1;
 
-    GraphView graphWeightLoss;
+    public static GraphView graphWeightLoss;
     PointsGraphSeries<DataPoint> pointPointsGraphSeries;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -139,14 +144,50 @@ public class WeightLossChartActivity extends AppCompatActivity {
         }
 
         graphWeightLoss = (GraphView) findViewById(R.id.graph);
-        //BATCH_LABEL = "b1";
-        //createWeightLossChart();
+
+        try {
+
+            numberFormat = NumberFormat.getInstance();
+            numberFormat.setMinimumFractionDigits(1);
+            numberFormat.setMinimumIntegerDigits(1);
+            graphWeightLoss.getGridLabelRenderer().setLabelFormatter(new DefaultLabelFormatter(numberFormat, numberFormat));
+
+            graphWeightLoss.setTitle("Target Weight Loss vs Actual Weight Loss");
+            graphWeightLoss.setTitleTextSize(60);
+            graphWeightLoss.getGridLabelRenderer().setHorizontalAxisTitle("Weigh Day");
+            graphWeightLoss.getGridLabelRenderer().setVerticalAxisTitle("Weight Loss Percentage");
+
+            /*NumberFormat nf = NumberFormat.getInstance();
+            nf.setMinimumFractionDigits(1);
+            nf.setMinimumIntegerDigits(1);
+            graphWeightLoss.getGridLabelRenderer().setLabelFormatter(new DefaultLabelFormatter(nf, nf));
+
+            graphWeightLoss.setTitle("Target Weight Loss vs Actual Weight Loss");
+            graphWeightLoss.setTitleTextSize(60);
+            graphWeightLoss.getGridLabelRenderer().setHorizontalAxisTitle("Weigh Day");
+            graphWeightLoss.getGridLabelRenderer().setVerticalAxisTitle("Weight Loss Percentage");
+
+            lineGraphSeriesTargetWeightLoss = new LineGraphSeries<DataPoint>(dataPointsTargetWeightLoss);
+            lineGraphSeriesActualWeightLoss.setDrawDataPoints(true);
+            lineGraphSeriesActualWeightLoss.setColor(Color.YELLOW);
+
+            lineGraphSeriesActualWeightLoss = new LineGraphSeries<DataPoint>(dataPointsActualWeightLoss);
+            lineGraphSeriesTargetWeightLoss.setDrawDataPoints(true);
+            lineGraphSeriesTargetWeightLoss.setColor(Color.BLUE);
+*/
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
 
         if ( (eggBatch = (EggBatch) getIntent().getSerializableExtra("eggBatch"))!=null ){
             BATCH_LABEL = eggBatch.getBatchLabel();
             TRACKING_OPTION = eggBatch.getTrackingOption();
             getSupportActionBar().setTitle("Weight Loss Chart Batch: " + BATCH_LABEL);
-            createWeightLossChart();
+            displayChart();
+            //createWeightLossChart();
         } else {
             eggDaily = null;
             if (getIntent().getSerializableExtra("eggDailyChart") != null) {
@@ -155,13 +196,164 @@ public class WeightLossChartActivity extends AppCompatActivity {
                 BATCH_LABEL = eggDaily.getBatchLabel();
                 TRACKING_OPTION = eggBatch.getTrackingOption();
                 getSupportActionBar().setTitle("Weight Loss Chart Batch: " + BATCH_LABEL);
-                createWeightLossChart();
+                //createWeightLossChart();
+                displayChart();
             }
         }
 
     }
 
-    private void createWeightLossChart() {
+    private void displayChart(){
+        eggWiseDatabse = EggWiseDatabse.getInstance(WeightLossChartActivity.this);
+        new WeightLossChartActivity.RetrieveTask(this).execute();
+    }
+
+    @Override
+    protected void onDestroy() {
+        eggWiseDatabse.cleanUp();
+        super.onDestroy();
+    }
+
+    private static class RetrieveTask extends AsyncTask<Void,Void,List<EggDaily>> {
+
+        private WeakReference<WeightLossChartActivity> activityReference;
+
+        EggDaily eggDailyAT;
+
+        GraphView graphWeightLossAT;
+        DataPoint[] dataPointsTargetWeightLossAT = new DataPoint[0];
+        DataPoint[] dataPointsActualWeightLossAT = new DataPoint[0];
+        LineGraphSeries<DataPoint> lineGraphSeriesActualWeightLoss = new LineGraphSeries<DataPoint>(dataPointsActualWeightLoss);
+        LineGraphSeries<DataPoint> lineGraphSeriesTargetWeightLoss = new LineGraphSeries<DataPoint>(dataPointsTargetWeightLoss);*/
+
+        // only retain a weak reference to the activity
+        RetrieveTask(WeightLossChartActivity context) {
+            activityReference = new WeakReference<>(context);
+        }
+
+        @Override
+        protected List<EggDaily> doInBackground(Void... voids) {
+            if (activityReference.get()!=null) {
+                //return activityReference.get().eggWiseDatabse.getEggDailyDao().getEggDaily_BatchEggDay(BATCH_LABEL);
+                return activityReference.get().eggWiseDatabse.getEggDailyDao().getEggDaily_BatchEggDay(BATCH_LABEL);
+            } else {
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(List<EggDaily> eggDailyListPostEx) {
+            if (eggDailyListPostEx!=null && eggDailyListPostEx.size()>0 ){
+
+                Integer index = 0;
+                EGG_WEIGHT_SUM = 0.0D;
+                READING_DAY_NUMBER = 0;
+
+
+                for (index = 0; index < eggDailyListPostEx.size(); index++) {
+                    READING_DAY_NUMBER = eggDailyListPostEx.get(index).getReadingDayNumber();
+                    EGG_LABEL = eggDailyListPostEx.get(index).getEggLabel();
+                    if(TRACKING_OPTION == 1) { //Track entire batch
+                        EGG_WEIGHT_SUM = zeroIfNull(activityReference.get().eggWiseDatabse.getEggDailyDao().getEggDaily_ComputeSum_GroupBy_Day_Batch_Tracking(BATCH_LABEL, READING_DAY_NUMBER));
+                        EGG_WEIGHT_AVG_CURRENT = zeroIfNull(activityReference.get().eggWiseDatabse.getEggDailyDao().getEggDaily_Compute_Avg_GroupBy_Day_Batch_Tracking(BATCH_LABEL, READING_DAY_NUMBER));
+                        EGG_WEIGHT_AVG_DAY_0 = zeroIfNull(activityReference.get().eggWiseDatabse.getEggDailyDao().getEggDaily_ComputeAvg_Day0_Batch_Tracking(BATCH_LABEL));
+                    } else { //Single egg tracking
+                        EGG_WEIGHT_SUM =  zeroIfNull(eggDailyListPostEx.get(index).getEggWeight());
+                        EGG_WEIGHT_AVG_CURRENT = zeroIfNull(eggDailyListPostEx.get(index).getEggWeight()/1D);
+                        if (READING_DAY_NUMBER == 0) {
+                            EGG_WEIGHT_AVG_DAY_0 = EGG_WEIGHT_AVG_CURRENT;
+                        }
+                    }
+                    eggDailyListPostEx.get(index).setEggWeightSum(EGG_WEIGHT_SUM);
+                    eggDailyListPostEx.get(index).setEggWeightAverageCurrent(EGG_WEIGHT_AVG_CURRENT);
+                    eggDailyListPostEx.get(index).setEggWeightAverageDay0(EGG_WEIGHT_AVG_DAY_0);
+
+                    ACTUAL_WEIGHT_LOSS_PERCENT = 100 * ((EGG_WEIGHT_AVG_DAY_0 - EGG_WEIGHT_AVG_CURRENT) / EGG_WEIGHT_AVG_DAY_0);
+
+                    READING_DAY_NUMBER = (eggDailyListPostEx.get(index).getReadingDayNumber());
+                    TARGET_WEIGHT_LOSS_INTEGER = eggDailyListPostEx.get(index).getTargetWeightLossInteger();
+                    INCUBATION_DAYS = eggDailyListPostEx.get(index).getIncubationDays();
+                    Double targetWeightLossDouble = Double.valueOf(TARGET_WEIGHT_LOSS_INTEGER);
+                    Double readingDayNumberDouble = Double.valueOf(READING_DAY_NUMBER);
+                    Double incubationDaysDouble = Double.valueOf(INCUBATION_DAYS);
+                    TARGET_WEIGHT_LOSS_PERCENT = ((targetWeightLossDouble * readingDayNumberDouble) / incubationDaysDouble);
+
+                    WEIGHT_LOSS_DEVIATION = TARGET_WEIGHT_LOSS_PERCENT - ACTUAL_WEIGHT_LOSS_PERCENT;
+
+                    eggDailyListPostEx.get(index).setActualWeightLossPercent(ACTUAL_WEIGHT_LOSS_PERCENT);
+                    eggDailyListPostEx.get(index).setTargetWeightLossPercent(TARGET_WEIGHT_LOSS_PERCENT);
+                    eggDailyListPostEx.get(index).setWeightLossDeviation(WEIGHT_LOSS_DEVIATION);
+
+                }
+                Integer countUniqueReadingDays = 0;
+                Integer previousReadingDayNumber = -1;
+                for (int i = 0; i < eggDailyListPostEx.size(); i++) {
+                    if (previousReadingDayNumber != eggDailyListPostEx.get(i).readingDayNumber) {
+                        // add new DataPoint object to the array for each of your list entries
+                        countUniqueReadingDays += 1;
+                    }
+                    previousReadingDayNumber = eggDailyListPostEx.get(i).readingDayNumber;
+                }
+
+                Integer dataPointIndex = 0;
+                previousReadingDayNumber = -1;
+                dataPointsActualWeightLoss = new DataPoint[countUniqueReadingDays]; // declare an array of DataPoint objects with the same size as your list
+                for (index = 0; index <eggDailyListPostEx.size(); index++) {
+                    if (previousReadingDayNumber != eggDailyListPostEx.get(index).readingDayNumber) {
+                        // add new DataPoint object to the array for each of your list entries
+                        if (dataPointIndex < countUniqueReadingDays) {
+                            dataPointsActualWeightLoss[dataPointIndex] = new DataPoint(Common.round(eggDailyListPostEx.get(index).readingDayNumber, 1),
+                                    Common.round(eggDailyListPostEx.get(index).getActualWeightLossPercent(), 1));
+                            dataPointIndex +=1;
+                        }
+                    }
+                    //index +=1;
+                    previousReadingDayNumber = eggDailyListPostEx.get(index).readingDayNumber;
+                }
+
+                dataPointIndex = 0;
+                previousReadingDayNumber = -1;
+                TARGET_WEIGHT_LOSS_INTEGER = eggDailyListPostEx.get(0).getTargetWeightLossInteger();
+                INCUBATION_DAYS = eggDailyListPostEx.get(0).getIncubationDays();
+
+                Integer incubationDays = eggDailyListPostEx.get(0).getIncubationDays();
+                dataPointsTargetWeightLoss = new DataPoint[incubationDays]; // declare an array of DataPoint objects with the same size as your list
+                for (index = 0; index < incubationDays; index++) {
+                    TARGET_WEIGHT_LOSS_PERCENT = ((Double.valueOf(TARGET_WEIGHT_LOSS_INTEGER) * Double.valueOf(dataPointIndex) )/ Double.valueOf(INCUBATION_DAYS));
+                    dataPointsTargetWeightLoss[dataPointIndex] = new DataPoint(Common.round(dataPointIndex, 1),
+                            Common.round(TARGET_WEIGHT_LOSS_PERCENT, 1));
+                    dataPointIndex +=1;
+                }
+
+                try {
+
+
+
+
+                    lineGraphSeriesTargetWeightLoss = new LineGraphSeries<DataPoint>(dataPointsTargetWeightLoss);
+                    lineGraphSeriesActualWeightLoss.setDrawDataPoints(true);
+                    lineGraphSeriesActualWeightLoss.setColor(Color.YELLOW);
+
+                    lineGraphSeriesActualWeightLoss = new LineGraphSeries<DataPoint>(dataPointsActualWeightLoss);
+                    lineGraphSeriesTargetWeightLoss.setDrawDataPoints(true);
+                    lineGraphSeriesTargetWeightLoss.setColor(Color.BLUE);
+
+                    activityReference.get().graphWeightLoss.addSeries(lineGraphSeriesTargetWeightLoss);
+                    activityReference.get().graphWeightLoss.addSeries(lineGraphSeriesActualWeightLoss);
+
+
+
+                    activityReference.get().graphWeightLoss.refreshDrawableState();
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }
+    }
+
+    public void createWeightLossChart() {
 
         eggDailyList = new ArrayList<>();
         eggWiseDatabse = EggWiseDatabse.getInstance(WeightLossChartActivity.this);
@@ -251,9 +443,9 @@ public class WeightLossChartActivity extends AppCompatActivity {
         DataPoint[] dataPointsTargetWeightLoss = new DataPoint[incubationDays]; // declare an array of DataPoint objects with the same size as your list
         for (index = 0; index < incubationDays; index++) {
             TARGET_WEIGHT_LOSS_PERCENT = ((Double.valueOf(TARGET_WEIGHT_LOSS_INTEGER) * Double.valueOf(dataPointIndex) )/ Double.valueOf(INCUBATION_DAYS));
-                    dataPointsTargetWeightLoss[dataPointIndex] = new DataPoint(Common.round(dataPointIndex, 1),
-                            Common.round(TARGET_WEIGHT_LOSS_PERCENT, 1));
-                    dataPointIndex +=1;
+            dataPointsTargetWeightLoss[dataPointIndex] = new DataPoint(Common.round(dataPointIndex, 1),
+                    Common.round(TARGET_WEIGHT_LOSS_PERCENT, 1));
+            dataPointIndex +=1;
         }
 
         graphWeightLoss.setTitle("Target Weight Loss vs Actual Weight Loss");
@@ -262,7 +454,7 @@ public class WeightLossChartActivity extends AppCompatActivity {
         graphWeightLoss.getGridLabelRenderer().setVerticalAxisTitle("Weight Loss Percentage");
 
 
-        lineGraphSeriesTargetWeightLoss = new LineGraphSeries<DataPoint>(dataPointsTargetWeightLoss);
+        /*lineGraphSeriesTargetWeightLoss = new LineGraphSeries<DataPoint>(dataPointsTargetWeightLoss);
         graphWeightLoss.addSeries(lineGraphSeriesTargetWeightLoss);
 
         lineGraphSeriesActualWeightLoss = new LineGraphSeries<DataPoint>(dataPointsActualWeightLoss);
@@ -273,7 +465,7 @@ public class WeightLossChartActivity extends AppCompatActivity {
         lineGraphSeriesActualWeightLoss.setColor(Color.YELLOW);
 
         lineGraphSeriesTargetWeightLoss.setDrawDataPoints(true);
-        lineGraphSeriesTargetWeightLoss.setColor(Color.BLUE);
+        lineGraphSeriesTargetWeightLoss.setColor(Color.BLUE);*/
 
         //graphWeightLoss.refreshDrawableState();
 

@@ -245,6 +245,7 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
 
         @Override
         protected void onPostExecute(List<EggDaily> eggDailyListPostEx) {
+
             if (eggDailyListPostEx!=null && eggDailyListPostEx.size()>0 ){
 
                 Integer index = 0;
