@@ -96,6 +96,25 @@ public interface EggDailyDao {
     @Update
     void updateEggDaily(EggDaily eggDaily);
 
+    String sqlUpdateEggDaily = "Update " + Constants.TABLE_NAME_EGG_DAILY + "  " +
+            "SET EggWeightSum = :eggWeightSum, " +
+            "   EggWeightAverageCurrent = :eggWeightAverageCurrent, " +
+            "   EggWeightAverageDay0 = :eggWeightAverageDay0, " +
+            "   ActualWeightLossPercent = :actualWeightLossPercent, " +
+            "   TargetWeightLossPercent = :targetWeightLossPercent, " +
+            "   WeightLossDeviation = :weightLossDeviation " +
+            "WHERE EggDailyID =  :eggDailyID ";
+    @Query(sqlUpdateEggDaily)
+    void updateEggDaily_Sum_Averages_Percents(Double eggWeightSum, Double eggWeightAverageCurrent,
+                                    Double eggWeightAverageDay0, Double actualWeightLossPercent,
+                                    Double targetWeightLossPercent, Double weightLossDeviation,
+                                              Long eggDailyID);
+
+
+
+
+
+
     /*
      * delete the object from database
      * @param note, object to be deleted

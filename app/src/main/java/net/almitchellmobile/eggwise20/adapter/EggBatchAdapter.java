@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import net.almitchellmobile.eggwise20.R;
 import net.almitchellmobile.eggwise20.database.model.EggBatch;
+import net.almitchellmobile.eggwise20.database.model.EggDaily;
 
 import java.util.List;
 
@@ -20,13 +21,13 @@ import androidx.recyclerview.widget.RecyclerView;
 public class EggBatchAdapter extends RecyclerView.Adapter<EggBatchAdapter.BeanHolder> {
 
     private List<EggBatch> listEggBatch;
-    //private List<EggDaily> listEggDaily;
+    private List<EggDaily> listEggDaily;
     private Context context;
     private LayoutInflater layoutInflater;
     private OnEggBatchItemClick onEggBatchItemClick;
 
-    //public EggBatchAdapter(List<EggBatch> listEggBatch, List<EggDaily> listEggDaily,  Context context) {
     public EggBatchAdapter(List<EggBatch> listEggBatch, Context context) {
+    //public EggBatchAdapter(List<EggBatch> listEggBatch, Context context) {
         layoutInflater = LayoutInflater.from(context);
         this.listEggBatch = listEggBatch;
         //this.listEggDaily = listEggDaily;

@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/sv_egg_batch"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+<RelativeLayout
     android:id="@+id/rl_egg_batch"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".AddEggBatchActivity"
     tools:showIn="@layout/activity_add_egg_batch"
     >
-
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/text_egg_batch_label"
         android:layout_width="match_parent"
@@ -28,7 +32,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/text_egg_batch_label">
-
         <AutoCompleteTextView
             android:id="@+id/et_set_date"
             android:layout_width="match_parent"
@@ -55,7 +58,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/text_set_date">
-
         <AutoCompleteTextView
             android:id="@+id/et_number_of_eggs"
             android:layout_width="match_parent"
@@ -71,20 +73,17 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/text_number_of_eggs"
         android:tooltipText="Tracking Option">
-
         <TextView
             android:id="@+id/tv_track_weight_loss"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Tracking Option"
             android:textStyle="bold" />
-
         <RadioButton
             android:id="@+id/rb_track_entire_batch"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/track_entire_batch" />
-
         <RadioButton
             android:id="@+id/rb_track_specific_eggs"
             android:layout_width="match_parent"
@@ -92,13 +91,11 @@
             android:text="@string/track_specific_eggs" />
     </RadioGroup>
 
-
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/text_species_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/rg_track_weight_loss">
-
         <AutoCompleteTextView
             android:id="@+id/et_species_name"
             android:layout_width="match_parent"
@@ -113,7 +110,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/text_species_name">
-
         <AutoCompleteTextView
             android:id="@+id/et_common_name"
             android:layout_width="match_parent"
@@ -128,7 +124,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/text_common_name">
-
         <AutoCompleteTextView
             android:id="@+id/et_incubator_name"
             android:layout_width="match_parent"
@@ -138,16 +133,11 @@
             android:singleLine="true" />
     </com.google.android.material.textfield.TextInputLayout>
 
-
-
-
-
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/text_location"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/text_incubator_name">
-
         <AutoCompleteTextView
             android:id="@+id/et_location"
             android:layout_width="match_parent"
@@ -162,12 +152,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/text_location">
-
         <AutoCompleteTextView
             android:id="@+id/et_incubator_settings"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Incubator Settings"
+            android:hint="Incubator Humidity (Relative humidity/Wet Bulb)"
             android:inputType="text"
             android:singleLine="true" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -177,7 +166,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/text_incubator_settings">
-
         <AutoCompleteTextView
             android:id="@+id/et_temperature"
             android:layout_width="match_parent"
@@ -192,7 +180,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/text_temperature">
-
         <AutoCompleteTextView
             android:id="@+id/et_incubation_days"
             android:layout_width="match_parent"
@@ -207,7 +194,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/text_incubation_days">
-
         <AutoCompleteTextView
             android:id="@+id/et_number_of_eggs_hatched"
             android:layout_width="match_parent"
@@ -222,7 +208,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/text_number_of_eggs_hatched">
-
         <AutoCompleteTextView
             android:id="@+id/et_target_weight_loss"
             android:layout_width="match_parent"
@@ -236,8 +221,7 @@
         android:id="@+id/text_hatch_date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/text_target_weight_loss"
-        >
+        android:layout_below="@id/text_target_weight_loss">
         <AutoCompleteTextView
             android:inputType="text"
             android:id="@+id/et_hatch_date"
@@ -267,3 +251,4 @@
         android:text="Save" />-->
 
 </RelativeLayout>
+</ScrollView>

@@ -3,10 +3,14 @@ package net.almitchellmobile.eggwise20;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+
+import net.almitchellmobile.eggwise20.util.Common;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -29,6 +33,9 @@ public class ConfigurationOptionsActivity extends AppCompatActivity {
     public static String PREF_WEIGHT_ENTERED_IN = "";
 
     public static Integer PREF_DAYS_TO_HATCHER_BEFORE_HATCHING = 3;
+
+    public static Integer PREF_DEFAULT_WEIGHT_LOSS_PERCENT_INTEGER = 3;
+
     public static Float PREF_DEFAULT_WEIGHT_LOSS_PRECENTAGE= 0.0F;
     public static Float PREF_WARN_WEIGHT_DEVIATION_PERCENTAGE = 0.0F;
 
@@ -110,6 +117,31 @@ public class ConfigurationOptionsActivity extends AppCompatActivity {
             et_warn_weight_deviation_percentage.setText("0.5");
         }
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        super.onOptionsItemSelected(item);
+
+        switch (item.getItemId()) {
+
+            default:
+                try {
+                    Common common = new Common();
+                    common.menuOptions(item, getApplicationContext(), this);
+                } catch (Exception e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+                return true;
+        }
     }
 
     public Boolean savePrefrences() {

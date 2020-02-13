@@ -9,6 +9,8 @@ import android.icu.util.Calendar;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
@@ -21,6 +23,7 @@ import android.widget.Toast;
 
 import net.almitchellmobile.eggwise20.database.EggWiseDatabse;
 import net.almitchellmobile.eggwise20.database.model.EggBatch;
+import net.almitchellmobile.eggwise20.util.Common;
 import net.almitchellmobile.eggwise20.util.SetDate;
 
 import java.lang.ref.WeakReference;
@@ -38,8 +41,9 @@ public class AddEggBatchActivity extends AppCompatActivity {
     public static String PREF_WEIGHT_ENTERED_IN = "";
 
     public static Integer PREF_DAYS_TO_HATCHER_BEFORE_HATCHING = 3;
-    public static Float PREF_DEFAULT_WEIGHT_LOSS_PRECENTAGE= 0.0F;
+    public static Integer PREF_DEFAULT_WEIGHT_LOSS_INTEGER = 0;
     public static Float PREF_WARN_WEIGHT_DEVIATION_PERCENTAGE = 0.0F;
+    public static Float PREF_DEFAULT_WEIGHT_LOSS_PRECENTAGE = 0.0F;
 
     public static final String mypreference = "mypref";
 
@@ -125,8 +129,10 @@ public class AddEggBatchActivity extends AppCompatActivity {
         }
         if (sharedpreferences.contains("default_weight_loss_percentage")) {
             PREF_DEFAULT_WEIGHT_LOSS_PRECENTAGE = sharedpreferences.getFloat("default_weight_loss_percentage", 13.0F);
+            PREF_DEFAULT_WEIGHT_LOSS_INTEGER = Integer.parseInt(PREF_DEFAULT_WEIGHT_LOSS_PRECENTAGE.toString());
         } else {
-            PREF_DEFAULT_WEIGHT_LOSS_PRECENTAGE = 0.0F;
+            PREF_DEFAULT_WEIGHT_LOSS_PRECENTAGE = 13.0F;
+            PREF_DEFAULT_WEIGHT_LOSS_INTEGER = 13;
         }
         if (sharedpreferences.contains("warn_weight_deviation_percentage")) {
             PREF_WARN_WEIGHT_DEVIATION_PERCENTAGE = sharedpreferences.getFloat("warn_weight_deviation_percentage", 0.5F);
@@ -198,6 +204,36 @@ public class AddEggBatchActivity extends AppCompatActivity {
             et_incubation_days.setText(eggBatch.getIncubationDays().toString());
             et_number_of_eggs_hatched.setText(eggBatch.getNumberOfEggsHatched().toString());
             et_target_weight_loss.setText(eggBatch.getTargetWeightLoss().toString());
+        } else {
+            //et_batch_label.setText(eggBatch.getBatchLabel());
+            //et_species_name.setText(eggBatch.getSpeciesName());
+           // et_common_name.setText(eggBatch.getCommonName());
+            //et_set_date.setText(eggBatch.getSetDate());
+            //et_hatch_date.setText(eggBatch.getHatchDate());
+            //et_incubator_name.setText(eggBatch.getIncubatorName());
+            //et_number_of_eggs.setText(eggBatch.getNumberOfEggs().toString());
+            //et_location.setText(eggBatch.getLocation());
+
+
+           /* if (eggBatch.getTrackingOption() == 1) {
+                rb_track_entire_batch.setChecked(true);
+                trackingOption = 1;
+            } else if (eggBatch.getTrackingOption() == 2) {
+                rb_track_specific_eggs.setChecked(true);
+                trackingOption = 2;
+            } else {
+                trackingOption = 1; //Default
+                rb_track_entire_batch.setChecked(true);
+            }*/
+
+
+            //et_incubator_settings.setText(PREF_HUMIDITY_MEASURED_WITH);
+            //et_temperature.setText(PREF_TEMPERATURE_ENTERED_IN);
+            //et_incubation_days.setText(eggBatch.getIncubationDays().toString());
+            //et_number_of_eggs_hatched.setText(eggBatch.getNumberOfEggsHatched().toString());
+
+            et_target_weight_loss.setText(PREF_DEFAULT_WEIGHT_LOSS_INTEGER.toString());
+
         }
         /*button_save_add_egg_batch.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -294,6 +330,31 @@ public class AddEggBatchActivity extends AppCompatActivity {
 
         });
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        super.onOptionsItemSelected(item);
+
+        switch (item.getItemId()) {
+
+            default:
+                try {
+                    Common common = new Common();
+                    common.menuOptions(item, getApplicationContext(), this);
+                } catch (Exception e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+                return true;
+        }
     }
 
     private void checkIfEmptyField() {

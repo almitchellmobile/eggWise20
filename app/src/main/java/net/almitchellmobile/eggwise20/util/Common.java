@@ -1,9 +1,15 @@
 package net.almitchellmobile.eggwise20.util;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.ParseException;
+import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import net.almitchellmobile.eggwise20.ConfigurationOptionsActivity;
+import net.almitchellmobile.eggwise20.EggBatchListActivity;
+import net.almitchellmobile.eggwise20.R;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -11,9 +17,46 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 public class Common {
 
     public Common() {
+    }
+
+    public void menuOptions (MenuItem item, Context ctx, AppCompatActivity act) {
+
+        try {
+            switch (item.getItemId()) {
+                case R.id.egg_batch_mngt:
+                    Intent intent = new Intent(ctx,
+                            EggBatchListActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    act.startActivity(intent);
+                    break;
+                case R.id.configuration_options:
+                    Intent intent1 = new Intent(ctx,
+                            ConfigurationOptionsActivity.class);
+                    intent1.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    //intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                    act.startActivity(intent1);
+                    break;
+
+
+                case R.id.exit_eggwise:
+                    /*Intent startMain = new Intent(Intent.ACTION_MAIN);
+                    startMain.addCategory(Intent.CATEGORY_HOME);
+                    //startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startMain.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    act.startActivity(startMain);*/
+                    act.finish();
+                    break;
+
+            }
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 
     public static double round(double value, int places) {

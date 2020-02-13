@@ -15,9 +15,10 @@ import androidx.room.TypeConverters;
 public class EggDaily implements Serializable {
 
     @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "EggDailyID")
     public Long eggDailyID;
 
-    @ColumnInfo(name = "settingID")
+    @ColumnInfo(name = "SettingID")
     public Long settingID;
 
     @ColumnInfo(name = "BatchLabel")
@@ -73,6 +74,27 @@ public class EggDaily implements Serializable {
     @ColumnInfo(name = "IncubationDays")
     public Integer incubationDays = 0;
 
+    public EggDaily(Long settingID, String batchLabel, String eggLabel, String readingDate, String setDate, Integer readingDayNumber, Double eggWeight, Double eggWeightAverageDay0, String eggDailyComment, String incubatorName, Integer numberOfEggsRemaining, Double eggWeightSum, Double actualWeightLossPercent, Double targetWeightLossPercent, Double weightLossDeviation, Double eggWeightAverageCurrent, Integer targetWeightLossInteger, Integer incubationDays) {
+        this.settingID = settingID;
+        this.batchLabel = batchLabel;
+        this.eggLabel = eggLabel;
+        this.readingDate = readingDate;
+        this.setDate = setDate;
+        this.readingDayNumber = readingDayNumber;
+        this.eggWeight = eggWeight;
+        this.eggWeightAverageDay0 = eggWeightAverageDay0;
+        this.eggDailyComment = eggDailyComment;
+        this.incubatorName = incubatorName;
+        this.numberOfEggsRemaining = numberOfEggsRemaining;
+        this.eggWeightSum = eggWeightSum;
+        this.actualWeightLossPercent = actualWeightLossPercent;
+        this.targetWeightLossPercent = targetWeightLossPercent;
+        this.weightLossDeviation = weightLossDeviation;
+        this.eggWeightAverageCurrent = eggWeightAverageCurrent;
+        this.targetWeightLossInteger = targetWeightLossInteger;
+        this.incubationDays = incubationDays;
+    }
+
     @Override
     public String toString() {
         return "EggDaily{" +
@@ -96,27 +118,6 @@ public class EggDaily implements Serializable {
                 ", targetWeightLossInteger=" + targetWeightLossInteger +
                 ", incubationDays=" + incubationDays +
                 '}';
-    }
-
-    public EggDaily(Long settingID, String batchLabel, String eggLabel, String readingDate, String setDate, Integer readingDayNumber, Double eggWeight, Double eggWeightAverageDay0, String eggDailyComment, String incubatorName, Integer numberOfEggsRemaining, Double eggWeightSum, Double actualWeightLossPercent, Double targetWeightLossPercent, Double weightLossDeviation, Double eggWeightAverageCurrent, Integer targetWeightLossInteger, Integer incubationDays) {
-        this.settingID = settingID;
-        this.batchLabel = batchLabel;
-        this.eggLabel = eggLabel;
-        this.readingDate = readingDate;
-        this.setDate = setDate;
-        this.readingDayNumber = readingDayNumber;
-        this.eggWeight = eggWeight;
-        this.eggWeightAverageDay0 = eggWeightAverageDay0;
-        this.eggDailyComment = eggDailyComment;
-        this.incubatorName = incubatorName;
-        this.numberOfEggsRemaining = numberOfEggsRemaining;
-        this.eggWeightSum = eggWeightSum;
-        this.actualWeightLossPercent = actualWeightLossPercent;
-        this.targetWeightLossPercent = targetWeightLossPercent;
-        this.weightLossDeviation = weightLossDeviation;
-        this.eggWeightAverageCurrent = eggWeightAverageCurrent;
-        this.targetWeightLossInteger = targetWeightLossInteger;
-        this.incubationDays = incubationDays;
     }
 
     @Ignore

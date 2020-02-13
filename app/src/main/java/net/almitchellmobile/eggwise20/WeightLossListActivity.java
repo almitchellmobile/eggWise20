@@ -7,6 +7,8 @@ import android.content.SharedPreferences;
 import android.icu.text.DecimalFormat;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
@@ -123,6 +125,32 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
         initializeViews();
         displayList();
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        super.onOptionsItemSelected(item);
+
+        switch (item.getItemId()) {
+
+            default:
+                try {
+                    Common common = new Common();
+                    common.menuOptions(item, getApplicationContext(), this);
+                } catch (Exception e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+                return true;
+        }
+    }
+
 
     private void displayList(){
         eggWiseDatabse = EggWiseDatabse.getInstance(WeightLossListActivity.this);
@@ -248,65 +276,72 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
 
             if (eggDailyListPostEx!=null && eggDailyListPostEx.size()>0 ){
 
-                Integer index = 0;
-                EGG_WEIGHT_SUM = 0.0D;
-                READING_DAY_NUMBER = 0;
-                EGG_LABEL = "";
-                for (index = 0; index < eggDailyListPostEx.size(); index++) {
-                    READING_DAY_NUMBER = eggDailyListPostEx.get(index).getReadingDayNumber();
-                    EGG_LABEL = eggDailyListPostEx.get(index).getEggLabel();
-                    if(TRACKING_OPTION == 1) { //Track entire batch
-                        EGG_WEIGHT_SUM = zeroIfNull(activityReference.get().eggWiseDatabse.getEggDailyDao().getEggDaily_ComputeSum_GroupBy_Day_Batch_Tracking(BATCH_LABEL, READING_DAY_NUMBER));
-                        EGG_WEIGHT_AVG_CURRENT = zeroIfNull(activityReference.get().eggWiseDatabse.getEggDailyDao().getEggDaily_Compute_Avg_GroupBy_Day_Batch_Tracking(BATCH_LABEL, READING_DAY_NUMBER));
-                        EGG_WEIGHT_AVG_DAY_0 = zeroIfNull(activityReference.get().eggWiseDatabse.getEggDailyDao().getEggDaily_ComputeAvg_Day0_Batch_Tracking(BATCH_LABEL));
-                    } else { //Single egg tracking
-                        EGG_WEIGHT_SUM =  zeroIfNull(eggDailyListPostEx.get(index).getEggWeight());
-                        EGG_WEIGHT_AVG_CURRENT = zeroIfNull(eggDailyListPostEx.get(index).getEggWeight()/1D);
-                        //EGG_WEIGHT_SUM = zeroIfNull(activityReference.get().eggWiseDatabse.getEggDailyDao().getEggDaily_ComputeSum_GroupBy_Day_EggLabel_Single_Tracking(BATCH_LABEL, READING_DAY_NUMBER, EGG_LABEL));
-                        //EGG_WEIGHT_AVG_CURRENT = zeroIfNull(activityReference.get().eggWiseDatabse.getEggDailyDao().getEggDaily_Compute_Avg_GroupBy_Day_Egglabel_Single_Tracking(BATCH_LABEL, READING_DAY_NUMBER, EGG_LABEL));
-                        //EGG_WEIGHT_AVG_DAY_0 = zeroIfNull(activityReference.get().eggWiseDatabse.getEggDailyDao().getEggDaily_ComputeAvg_Day0_Single_Tracking(BATCH_LABEL, EGG_LABEL ));
-                        if (READING_DAY_NUMBER == 0) {
-                            EGG_WEIGHT_AVG_DAY_0 = EGG_WEIGHT_AVG_CURRENT;
-                        }
-                    }
+                computeAveragesAndPercents(eggDailyListPostEx);
 
-                    eggDailyListPostEx.get(index).setEggWeightSum(EGG_WEIGHT_SUM);
-                    eggDailyListPostEx.get(index).setEggWeightAverageCurrent(EGG_WEIGHT_AVG_CURRENT);
-                    eggDailyListPostEx.get(index).setEggWeightAverageDay0(EGG_WEIGHT_AVG_DAY_0);
-
-                    ACTUAL_WEIGHT_LOSS_PERCENT = 100 * ((EGG_WEIGHT_AVG_DAY_0 - EGG_WEIGHT_AVG_CURRENT) / EGG_WEIGHT_AVG_DAY_0);
-
-                    READING_DAY_NUMBER = (eggDailyListPostEx.get(index).getReadingDayNumber());
-                    TARGET_WEIGHT_LOSS_INTEGER = eggDailyListPostEx.get(index).getTargetWeightLossInteger();
-                    INCUBATION_DAYS = eggDailyListPostEx.get(index).getIncubationDays();
-                    Double targetWeightLossDouble = Double.valueOf(TARGET_WEIGHT_LOSS_INTEGER);
-                    Double readingDayNumberDouble = Double.valueOf(READING_DAY_NUMBER);
-                    Double incubationDaysDouble = Double.valueOf(INCUBATION_DAYS);
-                    TARGET_WEIGHT_LOSS_PERCENT = ((targetWeightLossDouble * readingDayNumberDouble) / incubationDaysDouble);
-
-                    WEIGHT_LOSS_DEVIATION = TARGET_WEIGHT_LOSS_PERCENT - ACTUAL_WEIGHT_LOSS_PERCENT;
-
-                    eggDailyListPostEx.get(index).setActualWeightLossPercent(Common.round(ACTUAL_WEIGHT_LOSS_PERCENT,1));
-                    eggDailyListPostEx.get(index).setTargetWeightLossPercent(Common.round(TARGET_WEIGHT_LOSS_PERCENT,1));
-                    eggDailyListPostEx.get(index).setWeightLossDeviation(Common.round(WEIGHT_LOSS_DEVIATION, 2));
-
-                    //activityReference.get().eggWiseDatabse.getEggDailyDao().updateEggDaily((eggDaily));
-
-                    /*if (WEIGHT_LOSS_DEVIATION != null) {
-
-                        if (Math.abs(ACTUAL_WEIGHT_LOSS_PERCENT) >TARGET_WEIGHT_LOSS_PERCENT) {
-                            String message = "*** Warning: Actual Weight deviates beyond Target Weight by "
-                                    + WEIGHT_LOSS_DEVIATION + " percent. ***";
-                            EggWeightLossAdapter.WEIGHT_LOSS_DEVIATION_MESSAGE = message;
-
-                        }
-                    }*/
-                }
                 activityReference.get().eggDailyList.clear();
                 activityReference.get().eggDailyList.addAll(eggDailyListPostEx);
                 // hides empty text view
                 activityReference.get().tv_empty_weight_loss_message.setVisibility(View.GONE);
                 activityReference.get().eggWeightLossAdapter.notifyDataSetChanged();
+            }
+        }
+
+        private void computeAveragesAndPercents(List<EggDaily> eggDailyListPostEx) {
+            Integer index = 0;
+            EGG_WEIGHT_SUM = 0.0D;
+            READING_DAY_NUMBER = 0;
+            EGG_LABEL = "";
+            for (index = 0; index < eggDailyListPostEx.size(); index++) {
+                READING_DAY_NUMBER = eggDailyListPostEx.get(index).getReadingDayNumber();
+                EGG_LABEL = eggDailyListPostEx.get(index).getEggLabel();
+                if(TRACKING_OPTION == 1) { //Track entire batch
+                    EGG_WEIGHT_SUM = zeroIfNull(activityReference.get().eggWiseDatabse.getEggDailyDao().getEggDaily_ComputeSum_GroupBy_Day_Batch_Tracking(BATCH_LABEL, READING_DAY_NUMBER));
+                    EGG_WEIGHT_AVG_CURRENT = zeroIfNull(activityReference.get().eggWiseDatabse.getEggDailyDao().getEggDaily_Compute_Avg_GroupBy_Day_Batch_Tracking(BATCH_LABEL, READING_DAY_NUMBER));
+                    EGG_WEIGHT_AVG_DAY_0 = zeroIfNull(activityReference.get().eggWiseDatabse.getEggDailyDao().getEggDaily_ComputeAvg_Day0_Batch_Tracking(BATCH_LABEL));
+                } else { //Single egg tracking
+                    EGG_WEIGHT_SUM =  zeroIfNull(eggDailyListPostEx.get(index).getEggWeight());
+                    EGG_WEIGHT_AVG_CURRENT = zeroIfNull(eggDailyListPostEx.get(index).getEggWeight()/1D);
+                    //EGG_WEIGHT_SUM = zeroIfNull(activityReference.get().eggWiseDatabse.getEggDailyDao().getEggDaily_ComputeSum_GroupBy_Day_EggLabel_Single_Tracking(BATCH_LABEL, READING_DAY_NUMBER, EGG_LABEL));
+                    //EGG_WEIGHT_AVG_CURRENT = zeroIfNull(activityReference.get().eggWiseDatabse.getEggDailyDao().getEggDaily_Compute_Avg_GroupBy_Day_Egglabel_Single_Tracking(BATCH_LABEL, READING_DAY_NUMBER, EGG_LABEL));
+                    //EGG_WEIGHT_AVG_DAY_0 = zeroIfNull(activityReference.get().eggWiseDatabse.getEggDailyDao().getEggDaily_ComputeAvg_Day0_Single_Tracking(BATCH_LABEL, EGG_LABEL ));
+                    if (READING_DAY_NUMBER == 0) {
+                        EGG_WEIGHT_AVG_DAY_0 = EGG_WEIGHT_AVG_CURRENT;
+                    }
+                }
+
+                eggDailyListPostEx.get(index).setEggWeightSum(EGG_WEIGHT_SUM);
+                eggDailyListPostEx.get(index).setEggWeightAverageCurrent(EGG_WEIGHT_AVG_CURRENT);
+                eggDailyListPostEx.get(index).setEggWeightAverageDay0(EGG_WEIGHT_AVG_DAY_0);
+
+                ACTUAL_WEIGHT_LOSS_PERCENT = 100 * ((EGG_WEIGHT_AVG_DAY_0 - EGG_WEIGHT_AVG_CURRENT) / EGG_WEIGHT_AVG_DAY_0);
+
+                READING_DAY_NUMBER = (eggDailyListPostEx.get(index).getReadingDayNumber());
+                TARGET_WEIGHT_LOSS_INTEGER = eggDailyListPostEx.get(index).getTargetWeightLossInteger();
+                INCUBATION_DAYS = eggDailyListPostEx.get(index).getIncubationDays();
+                Double targetWeightLossDouble = Double.valueOf(TARGET_WEIGHT_LOSS_INTEGER);
+                Double readingDayNumberDouble = Double.valueOf(READING_DAY_NUMBER);
+                Double incubationDaysDouble = Double.valueOf(INCUBATION_DAYS);
+                TARGET_WEIGHT_LOSS_PERCENT = ((targetWeightLossDouble * readingDayNumberDouble) / incubationDaysDouble);
+
+                WEIGHT_LOSS_DEVIATION = TARGET_WEIGHT_LOSS_PERCENT - ACTUAL_WEIGHT_LOSS_PERCENT;
+
+                eggDailyListPostEx.get(index).setActualWeightLossPercent(Common.round(ACTUAL_WEIGHT_LOSS_PERCENT,1));
+                eggDailyListPostEx.get(index).setTargetWeightLossPercent(Common.round(TARGET_WEIGHT_LOSS_PERCENT,1));
+                eggDailyListPostEx.get(index).setWeightLossDeviation(Common.round(WEIGHT_LOSS_DEVIATION, 2));
+
+                activityReference.get().eggWiseDatabse.getEggDailyDao().updateEggDaily_Sum_Averages_Percents(EGG_WEIGHT_SUM,
+                        EGG_WEIGHT_AVG_CURRENT, EGG_WEIGHT_AVG_DAY_0, ACTUAL_WEIGHT_LOSS_PERCENT, TARGET_WEIGHT_LOSS_PERCENT,
+                        WEIGHT_LOSS_DEVIATION, eggDailyListPostEx.get(index).getEggDailyID());
+
+                if (WEIGHT_LOSS_DEVIATION != null) {
+
+                    if (Math.abs(ACTUAL_WEIGHT_LOSS_PERCENT) >TARGET_WEIGHT_LOSS_PERCENT) {
+                        String message = "*** Warning: Actual Weight deviates beyond Target Weight by "
+                                + WEIGHT_LOSS_DEVIATION + " percent. ***";
+                        EggWeightLossAdapter.WEIGHT_LOSS_DEVIATION_MESSAGE = message;
+
+                    }
+                }
             }
         }
     }

@@ -139,10 +139,9 @@ public class EggWeightLossAdapter extends RecyclerView.Adapter <EggWeightLossAda
                     line1 += "<br>***<br>";
                     line1 += "*** Warning: Actual Weight deviates beyond Target Weight by ";
                     line1 += (String.format(Locale.getDefault(),"%.2f",Math.abs(eggDailyList.get(position).getWeightLossDeviation()))) + " percent. ***";
-                    //EggWeightLossAdapter.WEIGHT_LOSS_DEVIATION_MESSAGE = message;
                 }
             }
-            //line1 += "<B>*** Weight Loss: </B>" + WEIGHT_LOSS_DEVIATION_MESSAGE;
+
 
             styledText = HtmlCompat.fromHtml(line1, HtmlCompat.FROM_HTML_MODE_LEGACY);
             holder.tv_egg_weight_line1.setText(styledText);
