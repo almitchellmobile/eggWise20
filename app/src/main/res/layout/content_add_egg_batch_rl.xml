@@ -134,29 +134,15 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/text_location"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/text_incubator_name">
-        <AutoCompleteTextView
-            android:id="@+id/et_location"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/location"
-            android:inputType="text"
-            android:singleLine="true" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/text_incubator_settings"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/text_location">
+        android:layout_below="@id/text_incubator_name">
         <AutoCompleteTextView
             android:id="@+id/et_incubator_settings"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Incubator Humidity (Relative humidity/Wet Bulb)"
+            android:hint="Incubator Humidity"
             android:inputType="text"
             android:singleLine="true" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -170,16 +156,31 @@
             android:id="@+id/et_temperature"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Incubator Temperature"
+            android:hint="Temperature"
             android:inputType="text"
             android:singleLine="true" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/text_location"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/text_temperature">
+        <AutoCompleteTextView
+            android:id="@+id/et_location"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/location"
+            android:inputType="text"
+            android:singleLine="true" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/text_incubation_days"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/text_temperature">
+        android:layout_below="@id/text_location">
         <AutoCompleteTextView
             android:id="@+id/et_incubation_days"
             android:layout_width="match_parent"
@@ -190,12 +191,26 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/text_number_of_eggs_hatched"
-        android:layout_width="wrap_content"
+        android:id="@+id/text_target_weight_loss"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/text_incubation_days">
         <AutoCompleteTextView
-            android:id="@+id/et_number_of_eggs_hatched"
+            android:id="@+id/et_target_weight_loss"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Target Weight Loss (percent)"
+            android:inputType="text"
+            android:singleLine="true" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/text_number_of_eggs_hatched_rl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/text_target_weight_loss">
+        <AutoCompleteTextView
+            android:id="@+id/et_number_of_eggs_hatched_rl"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Number Of Eggs Hatched"
@@ -203,25 +218,13 @@
             android:singleLine="true" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/text_target_weight_loss"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/text_number_of_eggs_hatched">
-        <AutoCompleteTextView
-            android:id="@+id/et_target_weight_loss"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Target Weight Loss (percent, number)"
-            android:inputType="text"
-            android:singleLine="true" />
-    </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/text_hatch_date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/text_target_weight_loss">
+        android:layout_below="@id/text_number_of_eggs_hatched_rl"
+        >
         <AutoCompleteTextView
             android:inputType="text"
             android:id="@+id/et_hatch_date"
@@ -231,24 +234,13 @@
             android:layout_height="wrap_content" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <!--<com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab_hatch_date_lookup"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginStart="@dimen/fab_margin"
-        android:layout_marginTop="@dimen/fab_margin"
-        android:layout_marginEnd="@dimen/fab_margin"
-        android:layout_marginBottom="@dimen/fab_margin"
-        android:layout_toEndOf="@id/text_hatch_date"
-        app:srcCompat="@android:drawable/ic_menu_my_calendar" />-->
-
-    <!--<Button
+    <Button
         android:id="@+id/button_save_add_egg_batch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="Save" />-->
+        android:layout_below="@id/text_number_of_eggs_hatched_rl"
+        android:text="Save" />
 
 </RelativeLayout>
 </ScrollView>

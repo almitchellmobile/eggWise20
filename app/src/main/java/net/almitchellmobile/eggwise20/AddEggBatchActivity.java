@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.icu.text.SimpleDateFormat;
 import android.icu.util.Calendar;
 import android.os.AsyncTask;
@@ -13,12 +14,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import net.almitchellmobile.eggwise20.database.EggWiseDatabse;
@@ -52,7 +56,7 @@ public class AddEggBatchActivity extends AppCompatActivity {
             et_location, et_incubator_settings, et_temperature, et_incubation_days,
             et_number_of_eggs_hatched, et_target_weight_loss;
     CalendarView cv_set_date, cv_hatch_date;
-    //Button button_save_add_egg_batch;
+    Button button_save_add_egg_batch;
     com.google.android.material.floatingactionbutton.FloatingActionButton fab_add_save_egg_batch;
 
     RadioGroup rg_track_weight_loss;
@@ -98,6 +102,7 @@ public class AddEggBatchActivity extends AppCompatActivity {
     Integer incubationDays = 0;
     Integer numberOfEggsHatched = 0;
     Integer targetWeightLoss = 0;
+    String hintStringValue = "";
 
     private boolean update;
 
@@ -105,6 +110,11 @@ public class AddEggBatchActivity extends AppCompatActivity {
     Calendar myCalendar = Calendar.getInstance();
     String myFormat = "MM/dd/yy"; //In which you need put here
     SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+
+    RelativeLayout rl_egg_batch;
+
+    String[] incubatorSettingsValues = {"Relative Humidity Percentage", "Wet Bulb Readings"};
+    ArrayAdapter<String> adapterIncubatorSettings;
 
 
 
@@ -119,7 +129,7 @@ public class AddEggBatchActivity extends AppCompatActivity {
 
         sharedpreferences = getSharedPreferences(mypreference,Context.MODE_PRIVATE);
 
-        PREF_TEMPERATURE_ENTERED_IN = sharedpreferences.getString("temperature_entered_in", "@string/rb_value_celsius");
+        PREF_TEMPERATURE_ENTERED_IN = sharedpreferences.getString("temperature_entered_in", "celsius");
         PREF_HUMIDITY_MEASURED_WITH = sharedpreferences.getString("humidity_measured_with", "@string/rb_value_wet_bulb_readings");
         PREF_WEIGHT_ENTERED_IN = sharedpreferences.getString("weight_entered_in", "@string/rb_value_grams");
         if (sharedpreferences.contains("days_to_hatcher_before_hatching")) {
@@ -129,7 +139,9 @@ public class AddEggBatchActivity extends AppCompatActivity {
         }
         if (sharedpreferences.contains("default_weight_loss_percentage")) {
             PREF_DEFAULT_WEIGHT_LOSS_PRECENTAGE = sharedpreferences.getFloat("default_weight_loss_percentage", 13.0F);
-            PREF_DEFAULT_WEIGHT_LOSS_INTEGER = Integer.parseInt(PREF_DEFAULT_WEIGHT_LOSS_PRECENTAGE.toString());
+            //double data = PREF_DEFAULT_WEIGHT_LOSS_PRECENTAGE;
+            //int value = (int)data;
+            PREF_DEFAULT_WEIGHT_LOSS_INTEGER = Common.convertDoubleToInteger(PREF_DEFAULT_WEIGHT_LOSS_PRECENTAGE);
         } else {
             PREF_DEFAULT_WEIGHT_LOSS_PRECENTAGE = 13.0F;
             PREF_DEFAULT_WEIGHT_LOSS_INTEGER = 13;
@@ -139,6 +151,8 @@ public class AddEggBatchActivity extends AppCompatActivity {
         } else {
             PREF_WARN_WEIGHT_DEVIATION_PERCENTAGE = 0.0F;
         }
+
+        rl_egg_batch  = findViewById(R.id.rl_egg_batch);
 
         fab_add_save_egg_batch = findViewById(R.id.fab_add_save_egg_batch);
         fab_add_save_egg_batch.setOnClickListener(new View.OnClickListener() {
@@ -168,13 +182,32 @@ public class AddEggBatchActivity extends AppCompatActivity {
         rb_track_entire_batch.setChecked(true);
         trackingOption = 1;
         rb_track_specific_eggs = findViewById(R.id.rb_track_specific_eggs);
-        et_incubator_settings = findViewById(R.id.et_incubator_settings);
-        et_temperature = findViewById(R.id.et_temperature);
-        et_incubation_days = findViewById(R.id.et_incubation_days);
-        et_number_of_eggs_hatched = findViewById(R.id.et_number_of_eggs_hatched);
-        et_target_weight_loss = findViewById(R.id.et_target_weight_loss);
 
-        //button_save_add_egg_batch = findViewById(R.id.button_save_add_egg_batch);
+        et_incubator_settings = findViewById(R.id.et_incubator_settings);
+        adapterIncubatorSettings = new ArrayAdapter<String>
+                (AddEggBatchActivity.this, android.R.layout.select_dialog_item, incubatorSettingsValues);
+        et_incubator_settings = (AutoCompleteTextView) findViewById(R.id.et_incubator_settings);
+        et_incubator_settings.setThreshold(1);//will start working from first character
+        et_incubator_settings.setAdapter(adapterIncubatorSettings);//setting the adapter data into the AutoCompleteTextView
+        et_incubator_settings.setTextColor(Color.RED);
+        //hintStringValue = "Incubator Humidity (" + PREF_HUMIDITY_MEASURED_WITH + ")";
+        //et_incubator_settings.setHint(hintStringValue);
+
+
+        et_temperature = findViewById(R.id.et_temperature);
+        //hintStringValue = "Temperature Reading (" + PREF_TEMPERATURE_ENTERED_IN + ")";
+        //et_temperature.setHint(hintStringValue);
+
+        et_incubation_days = findViewById(R.id.et_incubation_days);
+
+        et_number_of_eggs_hatched = findViewById(R.id.et_number_of_eggs_hatched_rl);
+
+        et_target_weight_loss = findViewById(R.id.et_target_weight_loss);
+        //hintStringValue = "Target Weight Loss % (" + PREF_DEFAULT_WEIGHT_LOSS_INTEGER + "% is default ) ";
+        //et_target_weight_loss.setHint(hintStringValue);
+
+        button_save_add_egg_batch = findViewById(R.id.button_save_add_egg_batch);
+        button_save_add_egg_batch.setVisibility(View.GONE);
 
         if ( (eggBatch = (EggBatch) getIntent().getSerializableExtra("UpdateEggBatch"))!=null ){
             getSupportActionBar().setTitle("Update Egg Batch");
@@ -232,10 +265,10 @@ public class AddEggBatchActivity extends AppCompatActivity {
             //et_incubation_days.setText(eggBatch.getIncubationDays().toString());
             //et_number_of_eggs_hatched.setText(eggBatch.getNumberOfEggsHatched().toString());
 
-            et_target_weight_loss.setText(PREF_DEFAULT_WEIGHT_LOSS_INTEGER.toString());
+            //et_target_weight_loss.setText(PREF_DEFAULT_WEIGHT_LOSS_INTEGER.toString());
 
         }
-        /*button_save_add_egg_batch.setOnClickListener(new View.OnClickListener() {
+        button_save_add_egg_batch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 try {
@@ -246,7 +279,7 @@ public class AddEggBatchActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
             }
-        });*/
+        });
 
         et_set_date.setFocusable(true);
         DatePickerDialog.OnDateSetListener setDateDatePickerDialog = new

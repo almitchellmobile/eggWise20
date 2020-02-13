@@ -15,7 +15,9 @@
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/text_egg_batch_label"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:label="Batch Label"
+            >
 
             <AutoCompleteTextView
                 android:id="@+id/et_batch_label"

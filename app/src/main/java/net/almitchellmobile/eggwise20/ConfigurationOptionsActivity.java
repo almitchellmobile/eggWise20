@@ -74,28 +74,33 @@ public class ConfigurationOptionsActivity extends AppCompatActivity {
         rb_ounces =  findViewById(R.id.rb_ounces);
 
         et_days_to_hatcher_before_hatching =  findViewById(R.id.et_days_to_hatcher_before_hatching);
+        et_days_to_hatcher_before_hatching.setSelectAllOnFocus(true);
+
         et_default_weight_loss_percentage =  findViewById(R.id.et_default_weight_loss_percentage);
+        et_default_weight_loss_percentage.setSelectAllOnFocus(true);
+
         et_warn_weight_deviation_percentage =  findViewById(R.id.et_warn_weight_deviation_percentage);
+        et_warn_weight_deviation_percentage.setSelectAllOnFocus(true);
 
         sharedpreferences = getSharedPreferences(mypreference,
                 Context.MODE_PRIVATE);
 
-        String prefValue = sharedpreferences.getString("temperature_entered_in", "@string/rb_value_celsius");
-        if (prefValue.toLowerCase().contains("@string/rb_value_celsius")) {
+        String prefValue = sharedpreferences.getString("temperature_entered_in", "Celsius");
+        if (prefValue.toLowerCase().contains("Celsius")) {
             rb_celsius.setChecked(true);
         } else {
             rb_fahrenheit.setChecked(true);
         }
 
-        prefValue = sharedpreferences.getString("humidity_measured_with", "@string/rb_value_wet_bulb_readings");
-        if (prefValue.toLowerCase().contains("@string/rb_value_wet_bulb_readings")) {
+        prefValue = sharedpreferences.getString("humidity_measured_with", "Wet Bulb Readings");
+        if (prefValue.toLowerCase().contains("Wet Bulb Readings")) {
             rb_wet_bulb_readings.setChecked(true);
         } else {
             rb_relative_humidity_percentage.setChecked(true);
         }
 
-        prefValue = sharedpreferences.getString("weight_entered_in", "@string/rb_value_grams");
-        if (prefValue.toLowerCase().contains("@string/rb_value_grams")) {
+        prefValue = sharedpreferences.getString("weight_entered_in", "Grams");
+        if (prefValue.toLowerCase().contains("Grams")) {
             rb_grams.setChecked(true);
         } else {
             rb_ounces.setChecked(true);

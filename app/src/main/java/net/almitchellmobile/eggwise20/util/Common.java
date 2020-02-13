@@ -59,6 +59,11 @@ public class Common {
         }
     }
 
+    public static int convertDoubleToInteger(double valueIn) {
+        double data = valueIn;
+        return (int)data;
+    }
+
     public static double round(double value, int places) {
         if (places < 0) throw new IllegalArgumentException();
 

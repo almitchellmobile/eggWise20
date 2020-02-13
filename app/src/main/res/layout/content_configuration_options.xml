@@ -51,12 +51,12 @@ android:paddingTop="@dimen/activity_vertical_margin" >
             android:id="@+id/rb_celsius"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/rb_value_celsius" />
+            android:text="Celsius" />
         <RadioButton
             android:id="@+id/rb_fahrenheit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/rb_value_fahrenheit" />
+            android:text="Fahrenheit" />
     </RadioGroup>
 
     <RadioGroup
@@ -66,7 +66,6 @@ android:paddingTop="@dimen/activity_vertical_margin" >
         android:layout_below="@id/rg_temperature_entered_in"
         android:layout_alignParentRight="true"
         >
-
         <TextView
             android:id="@+id/tv_humidity_measured_with"
             android:layout_width="wrap_content"
@@ -77,12 +76,12 @@ android:paddingTop="@dimen/activity_vertical_margin" >
             android:id="@+id/rb_wet_bulb_readings"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/rb_value_wet_bulb_readings" />
+            android:text="Wet Bulb Readings" />
         <RadioButton
             android:id="@+id/rb_relative_humidity_percentage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/rb_value_relative_humidity_percentage" />
+            android:text="Relative Humidity Percentage" />
     </RadioGroup>
 
     <RadioGroup
@@ -92,7 +91,6 @@ android:paddingTop="@dimen/activity_vertical_margin" >
         android:layout_below="@id/rg_humidity_measured_with"
         android:layout_alignParentRight="true"
         >
-
         <TextView
             android:id="@+id/tv_weight_entered_in"
             android:layout_width="wrap_content"
@@ -103,12 +101,12 @@ android:paddingTop="@dimen/activity_vertical_margin" >
             android:id="@+id/rb_grams"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/rb_value_grams" />
+            android:text="Grams" />
         <RadioButton
             android:id="@+id/rb_ounces"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/rb_value_ounces" />
+            android:text="Ounces" />
     </RadioGroup>
 
     <com.google.android.material.textfield.TextInputLayout
