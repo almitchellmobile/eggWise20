@@ -21,6 +21,9 @@ public class EggDaily implements Serializable {
     @ColumnInfo(name = "SettingID")
     public Long settingID;
 
+    @ColumnInfo(name = "EggBatchID")
+    public Long eggBatchID;
+
     @ColumnInfo(name = "BatchLabel")
     public String batchLabel = "";
 
@@ -74,8 +77,9 @@ public class EggDaily implements Serializable {
     @ColumnInfo(name = "IncubationDays")
     public Integer incubationDays = 0;
 
-    public EggDaily(Long settingID, String batchLabel, String eggLabel, String readingDate, String setDate, Integer readingDayNumber, Double eggWeight, Double eggWeightAverageDay0, String eggDailyComment, String incubatorName, Integer numberOfEggsRemaining, Double eggWeightSum, Double actualWeightLossPercent, Double targetWeightLossPercent, Double weightLossDeviation, Double eggWeightAverageCurrent, Integer targetWeightLossInteger, Integer incubationDays) {
+    public EggDaily(Long settingID, Long eggBatchID, String batchLabel, String eggLabel, String readingDate, String setDate, Integer readingDayNumber, Double eggWeight, Double eggWeightAverageDay0, String eggDailyComment, String incubatorName, Integer numberOfEggsRemaining, Double eggWeightSum, Double actualWeightLossPercent, Double targetWeightLossPercent, Double weightLossDeviation, Double eggWeightAverageCurrent, Integer targetWeightLossInteger, Integer incubationDays) {
         this.settingID = settingID;
+        this.eggBatchID = eggBatchID;
         this.batchLabel = batchLabel;
         this.eggLabel = eggLabel;
         this.readingDate = readingDate;
@@ -100,6 +104,7 @@ public class EggDaily implements Serializable {
         return "EggDaily{" +
                 "eggDailyID=" + eggDailyID +
                 ", settingID=" + settingID +
+                ", eggBatchID=" + eggBatchID +
                 ", batchLabel='" + batchLabel + '\'' +
                 ", eggLabel='" + eggLabel + '\'' +
                 ", readingDate='" + readingDate + '\'' +
@@ -137,6 +142,14 @@ public class EggDaily implements Serializable {
 
     public void setSettingID(Long settingID) {
         this.settingID = settingID;
+    }
+
+    public Long getEggBatchID() {
+        return eggBatchID;
+    }
+
+    public void setEggBatchID(Long eggBatchID) {
+        this.eggBatchID = eggBatchID;
     }
 
     public String getBatchLabel() {

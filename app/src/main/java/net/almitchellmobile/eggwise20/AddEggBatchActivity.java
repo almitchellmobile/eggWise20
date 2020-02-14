@@ -194,14 +194,11 @@ public class AddEggBatchActivity extends AppCompatActivity {
             hintStringValue = "Humidity (" + PREF_HUMIDITY_MEASURED_WITH + ")";
             et_incubator_settings.setHint(hintStringValue);
         }
-
-
         et_temperature = findViewById(R.id.et_temperature);
         if (PREF_TEMPERATURE_ENTERED_IN.trim().length() != 0) {
             hintStringValue = "Temperature (" + PREF_TEMPERATURE_ENTERED_IN + ")";
             et_temperature.setHint(hintStringValue);
         }
-
         et_incubation_days = findViewById(R.id.et_incubation_days);
 
         et_number_of_eggs_hatched = findViewById(R.id.et_number_of_eggs_hatched_rl);

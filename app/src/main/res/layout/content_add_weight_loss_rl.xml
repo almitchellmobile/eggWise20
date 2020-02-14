@@ -56,7 +56,7 @@
             android:id="@+id/et_egg_weight"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/egg_weight"
+            android:hint="Egg Weight "
             android:inputType="text"
             android:singleLine="true" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -82,17 +82,6 @@
             android:singleLine="true"/>
     </com.google.android.material.textfield.TextInputLayout>
 
-    <!--<com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab_reading_date_lookup"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/text_reading_day_number"
-        android:layout_marginStart="@dimen/fab_margin"
-        android:layout_marginTop="@dimen/fab_margin"
-        android:layout_marginEnd="@dimen/fab_margin"
-        android:layout_marginBottom="@dimen/fab_margin"
-        app:srcCompat="@android:drawable/ic_menu_my_calendar" />-->
-
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/text_reading_date"
         android:layout_width="match_parent"
@@ -106,7 +95,6 @@
             android:inputType="text"
             android:singleLine="true" />
     </com.google.android.material.textfield.TextInputLayout>
-
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/text_weight_loss_comment"

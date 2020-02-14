@@ -6,6 +6,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.TextView;
 
 import net.almitchellmobile.eggwise20.R;
@@ -35,9 +37,8 @@ public class EggWeightLossAdapter extends RecyclerView.Adapter <EggWeightLossAda
 
     public static final String mypreference = "mypref";
 
-
     private List<EggDaily> eggDailyList;
-    private  EggDaily eggDaily;
+    private EggDaily eggDaily;
     private Context context;
     private LayoutInflater layoutInflater;
     private OnEggWeightItemClick onEggWeightItemClick;
@@ -77,9 +78,6 @@ public class EggWeightLossAdapter extends RecyclerView.Adapter <EggWeightLossAda
 
     public String key = "";
     public String previousKey = "";
-
-
-
 
 
     Common common;
@@ -162,7 +160,7 @@ public class EggWeightLossAdapter extends RecyclerView.Adapter <EggWeightLossAda
         return eggDailyList.size();
     }
 
-    public class BeanHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class BeanHolder extends RecyclerView.ViewHolder implements View.OnClickListener, Filterable {
 
         TextView tv_egg_weight_line1;
         TextView tv_egg_weight_title1;
@@ -179,6 +177,11 @@ public class EggWeightLossAdapter extends RecyclerView.Adapter <EggWeightLossAda
 
         @Override
         public void onClick(View v) { onEggWeightItemClick.onEggWeightClick(getAdapterPosition());}
+
+        @Override
+        public Filter getFilter() {
+            return null;
+        }
     }
 
     public interface OnEggWeightItemClick{

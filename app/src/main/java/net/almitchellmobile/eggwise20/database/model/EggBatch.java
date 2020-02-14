@@ -16,6 +16,7 @@ import androidx.room.TypeConverters;
 public class EggBatch implements Serializable  {
 
     @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "BatchID")
     public Long eggBatchID;
 
     @ColumnInfo(name = "BatchLabel")
@@ -90,6 +91,30 @@ public class EggBatch implements Serializable  {
         this.incubationDays = incubationDays;
         this.numberOfEggsHatched = numberOfEggsHatched;
         this.targetWeightLoss = targetWeightLoss;
+    }
+
+    @Override
+    public String toString() {
+        return "EggBatch{" +
+                "eggBatchID=" + eggBatchID +
+                ", batchLabel='" + batchLabel + '\'' +
+                ", numberOfEggs=" + numberOfEggs +
+                ", speciesID=" + speciesID +
+                ", speciesName='" + speciesName + '\'' +
+                ", commonName='" + commonName + '\'' +
+                ", layDate='" + layDate + '\'' +
+                ", setDate='" + setDate + '\'' +
+                ", hatchDate='" + hatchDate + '\'' +
+                ", incubatorID=" + incubatorID +
+                ", incubatorName='" + incubatorName + '\'' +
+                ", location='" + location + '\'' +
+                ", trackingOption=" + trackingOption +
+                ", incubatorSettings='" + incubatorSettings + '\'' +
+                ", temperature=" + temperature +
+                ", incubationDays=" + incubationDays +
+                ", numberOfEggsHatched=" + numberOfEggsHatched +
+                ", targetWeightLoss=" + targetWeightLoss +
+                '}';
     }
 
     @Ignore

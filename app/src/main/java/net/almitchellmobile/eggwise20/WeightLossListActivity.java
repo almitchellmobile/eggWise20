@@ -40,10 +40,12 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
     public static Integer PREF_DAYS_TO_HATCHER_BEFORE_HATCHING = 3;
     public static Float PREF_DEFAULT_WEIGHT_LOSS_PRECENTAGE= 0.0F;
     public static Float PREF_WARN_WEIGHT_DEVIATION_PERCENTAGE = 0.0F;
+    public static Integer PREF_DEFAULT_WEIGHT_LOSS_INTEGER = 0;
 
     public static final String mypreference = "mypref";
 
     public static String BATCH_LABEL = "";
+    public static Long EGG_BATCH_ID = 0L;
     public static String EGG_LABEL = "";
     public static Double EGG_WEIGHT_SUM = 0.0;
     public static Double EGG_WEIGHT_AVG_CURRENT = 0.0;
@@ -94,9 +96,9 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
 
         sharedpreferences = getSharedPreferences(mypreference, Context.MODE_PRIVATE);
 
-        PREF_TEMPERATURE_ENTERED_IN = sharedpreferences.getString("temperature_entered_in", "@string/rb_value_celsius");
-        PREF_HUMIDITY_MEASURED_WITH = sharedpreferences.getString("humidity_measured_with", "@string/rb_value_wet_bulb_readings");
-        PREF_WEIGHT_ENTERED_IN = sharedpreferences.getString("weight_entered_in", "@string/rb_value_grams");
+        PREF_TEMPERATURE_ENTERED_IN = sharedpreferences.getString("temperature_entered_in", "");
+        PREF_HUMIDITY_MEASURED_WITH = sharedpreferences.getString("humidity_measured_with", "");
+        PREF_WEIGHT_ENTERED_IN = sharedpreferences.getString("weight_entered_in", "");
         if (sharedpreferences.contains("days_to_hatcher_before_hatching")) {
             PREF_DAYS_TO_HATCHER_BEFORE_HATCHING = sharedpreferences.getInt("days_to_hatcher_before_hatching", 3);
         } else {
@@ -104,8 +106,12 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
         }
         if (sharedpreferences.contains("default_weight_loss_percentage")) {
             PREF_DEFAULT_WEIGHT_LOSS_PRECENTAGE = sharedpreferences.getFloat("default_weight_loss_percentage", 13.0F);
+            //double data = PREF_DEFAULT_WEIGHT_LOSS_PRECENTAGE;
+            //int value = (int)data;
+            PREF_DEFAULT_WEIGHT_LOSS_INTEGER = Common.convertDoubleToInteger(PREF_DEFAULT_WEIGHT_LOSS_PRECENTAGE);
         } else {
-            PREF_DEFAULT_WEIGHT_LOSS_PRECENTAGE = 0.0F;
+            PREF_DEFAULT_WEIGHT_LOSS_PRECENTAGE = 13.0F;
+            PREF_DEFAULT_WEIGHT_LOSS_INTEGER = 13;
         }
         if (sharedpreferences.contains("warn_weight_deviation_percentage")) {
             PREF_WARN_WEIGHT_DEVIATION_PERCENTAGE = sharedpreferences.getFloat("warn_weight_deviation_percentage", 0.5F);
@@ -117,6 +123,7 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
 
         if ( (eggBatch = (EggBatch) getIntent().getSerializableExtra("eggBatch"))!=null ){
             BATCH_LABEL = eggBatch.getBatchLabel();
+            EGG_BATCH_ID = eggBatch.getEggBatchID();
             TRACKING_OPTION = eggBatch.getTrackingOption();
             getSupportActionBar().setTitle("Weight Loss List Batch: " + BATCH_LABEL);
         } else {
@@ -265,7 +272,7 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
         @Override
         protected List<EggDaily> doInBackground(Void... voids) {
             if (activityReference.get()!=null) {
-                return activityReference.get().eggWiseDatabse.getEggDailyDao().getEggDaily_BatchEggDay(BATCH_LABEL);
+                return activityReference.get().eggWiseDatabse.getEggDailyDao().getEggDaily_BatchEggDay(EGG_BATCH_ID);
             } else {
                 return null;
             }
@@ -295,9 +302,9 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
                 READING_DAY_NUMBER = eggDailyListPostEx.get(index).getReadingDayNumber();
                 EGG_LABEL = eggDailyListPostEx.get(index).getEggLabel();
                 if(TRACKING_OPTION == 1) { //Track entire batch
-                    EGG_WEIGHT_SUM = zeroIfNull(activityReference.get().eggWiseDatabse.getEggDailyDao().getEggDaily_ComputeSum_GroupBy_Day_Batch_Tracking(BATCH_LABEL, READING_DAY_NUMBER));
-                    EGG_WEIGHT_AVG_CURRENT = zeroIfNull(activityReference.get().eggWiseDatabse.getEggDailyDao().getEggDaily_Compute_Avg_GroupBy_Day_Batch_Tracking(BATCH_LABEL, READING_DAY_NUMBER));
-                    EGG_WEIGHT_AVG_DAY_0 = zeroIfNull(activityReference.get().eggWiseDatabse.getEggDailyDao().getEggDaily_ComputeAvg_Day0_Batch_Tracking(BATCH_LABEL));
+                    EGG_WEIGHT_SUM = zeroIfNull(activityReference.get().eggWiseDatabse.getEggDailyDao().getEggDaily_ComputeSum_GroupBy_Day_Batch_Tracking(EGG_BATCH_ID, READING_DAY_NUMBER));
+                    EGG_WEIGHT_AVG_CURRENT = zeroIfNull(activityReference.get().eggWiseDatabse.getEggDailyDao().getEggDaily_Compute_Avg_GroupBy_Day_Batch_Tracking(EGG_BATCH_ID, READING_DAY_NUMBER));
+                    EGG_WEIGHT_AVG_DAY_0 = zeroIfNull(activityReference.get().eggWiseDatabse.getEggDailyDao().getEggDaily_ComputeAvg_Day0_Batch_Tracking(EGG_BATCH_ID));
                 } else { //Single egg tracking
                     EGG_WEIGHT_SUM =  zeroIfNull(eggDailyListPostEx.get(index).getEggWeight());
                     EGG_WEIGHT_AVG_CURRENT = zeroIfNull(eggDailyListPostEx.get(index).getEggWeight()/1D);
