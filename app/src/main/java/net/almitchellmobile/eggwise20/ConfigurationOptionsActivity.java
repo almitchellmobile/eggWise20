@@ -92,8 +92,8 @@ public class ConfigurationOptionsActivity extends AppCompatActivity {
             rb_fahrenheit.setChecked(true);
         }
 
-        prefValue = sharedpreferences.getString("humidity_measured_with", "Wet Bulb Readings");
-        if (prefValue.toLowerCase().contains("Wet Bulb Readings")) {
+        prefValue = sharedpreferences.getString("humidity_measured_with", "Wet Bulb");
+        if (prefValue.toLowerCase().contains("Wet Bulb")) {
             rb_wet_bulb_readings.setChecked(true);
         } else {
             rb_relative_humidity_percentage.setChecked(true);
@@ -107,7 +107,7 @@ public class ConfigurationOptionsActivity extends AppCompatActivity {
         }
 
         if (sharedpreferences.contains("days_to_hatcher_before_hatching")) {
-            et_days_to_hatcher_before_hatching.setText(sharedpreferences.getInt("days_to_hatcher_before_hatching", 3));
+            et_days_to_hatcher_before_hatching.setText(String.valueOf(sharedpreferences.getInt("days_to_hatcher_before_hatching", 3)));
         } else {
             et_days_to_hatcher_before_hatching.setText("3");
         }

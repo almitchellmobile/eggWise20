@@ -129,9 +129,9 @@ public class AddEggBatchActivity extends AppCompatActivity {
 
         sharedpreferences = getSharedPreferences(mypreference,Context.MODE_PRIVATE);
 
-        PREF_TEMPERATURE_ENTERED_IN = sharedpreferences.getString("temperature_entered_in", "celsius");
-        PREF_HUMIDITY_MEASURED_WITH = sharedpreferences.getString("humidity_measured_with", "@string/rb_value_wet_bulb_readings");
-        PREF_WEIGHT_ENTERED_IN = sharedpreferences.getString("weight_entered_in", "@string/rb_value_grams");
+        PREF_TEMPERATURE_ENTERED_IN = sharedpreferences.getString("temperature_entered_in", "");
+        PREF_HUMIDITY_MEASURED_WITH = sharedpreferences.getString("humidity_measured_with", "");
+        PREF_WEIGHT_ENTERED_IN = sharedpreferences.getString("weight_entered_in", "");
         if (sharedpreferences.contains("days_to_hatcher_before_hatching")) {
             PREF_DAYS_TO_HATCHER_BEFORE_HATCHING = sharedpreferences.getInt("days_to_hatcher_before_hatching", 3);
         } else {
@@ -190,21 +190,27 @@ public class AddEggBatchActivity extends AppCompatActivity {
         et_incubator_settings.setThreshold(1);//will start working from first character
         et_incubator_settings.setAdapter(adapterIncubatorSettings);//setting the adapter data into the AutoCompleteTextView
         et_incubator_settings.setTextColor(Color.RED);
-        //hintStringValue = "Incubator Humidity (" + PREF_HUMIDITY_MEASURED_WITH + ")";
-        //et_incubator_settings.setHint(hintStringValue);
+        if (PREF_HUMIDITY_MEASURED_WITH.trim().length() != 0) {
+            hintStringValue = "Humidity (" + PREF_HUMIDITY_MEASURED_WITH + ")";
+            et_incubator_settings.setHint(hintStringValue);
+        }
 
 
         et_temperature = findViewById(R.id.et_temperature);
-        //hintStringValue = "Temperature Reading (" + PREF_TEMPERATURE_ENTERED_IN + ")";
-        //et_temperature.setHint(hintStringValue);
+        if (PREF_TEMPERATURE_ENTERED_IN.trim().length() != 0) {
+            hintStringValue = "Temperature (" + PREF_TEMPERATURE_ENTERED_IN + ")";
+            et_temperature.setHint(hintStringValue);
+        }
 
         et_incubation_days = findViewById(R.id.et_incubation_days);
 
         et_number_of_eggs_hatched = findViewById(R.id.et_number_of_eggs_hatched_rl);
 
         et_target_weight_loss = findViewById(R.id.et_target_weight_loss);
-        //hintStringValue = "Target Weight Loss % (" + PREF_DEFAULT_WEIGHT_LOSS_INTEGER + "% is default ) ";
-        //et_target_weight_loss.setHint(hintStringValue);
+        if (PREF_DEFAULT_WEIGHT_LOSS_INTEGER.toString().trim().length() != 0) {
+            hintStringValue = "Target Weight Loss % (" + PREF_DEFAULT_WEIGHT_LOSS_INTEGER + ")";
+            et_target_weight_loss.setHint(hintStringValue);
+        }
 
         button_save_add_egg_batch = findViewById(R.id.button_save_add_egg_batch);
         button_save_add_egg_batch.setVisibility(View.GONE);

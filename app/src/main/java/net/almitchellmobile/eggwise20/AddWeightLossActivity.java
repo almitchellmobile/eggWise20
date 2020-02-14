@@ -69,8 +69,10 @@ public class AddWeightLossActivity extends AppCompatActivity {
     private EggBatch eggBatch;
     private boolean update;
 
+    Long eggDailyID = 0L;
     Long settingID = 0L;
     String batchLabel = "";
+    Long eggBatchID = 0L;
     String eggLabel = "";
     String readingDate = "";
     String setDate = "";
@@ -396,6 +398,7 @@ public class AddWeightLossActivity extends AppCompatActivity {
             //button_save_add_weight_loss.setText("Update");
 
             batchLabel = eggBatch.getBatchLabel();
+            eggBatchID = eggBatch.getEggBatchID();
             getSupportActionBar().setTitle("Weight Loss Batch: " + batchLabel);
 
             setDate = eggBatch.getSetDate();

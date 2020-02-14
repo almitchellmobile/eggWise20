@@ -40,7 +40,6 @@ android:paddingTop="@dimen/activity_vertical_margin" >
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
         >
-
         <TextView
             android:id="@+id/tv_temperature_entered_in"
             android:layout_width="wrap_content"
@@ -76,12 +75,12 @@ android:paddingTop="@dimen/activity_vertical_margin" >
             android:id="@+id/rb_wet_bulb_readings"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Wet Bulb Readings" />
+            android:text="Wet Bulb" />
         <RadioButton
             android:id="@+id/rb_relative_humidity_percentage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Relative Humidity Percentage" />
+            android:text="Humidity %" />
     </RadioGroup>
 
     <RadioGroup
