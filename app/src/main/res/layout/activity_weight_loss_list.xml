@@ -23,6 +23,13 @@
                 app:popupTheme="@style/AppTheme.PopupOverlay" />
 
         </com.google.android.material.appbar.AppBarLayout>
+        <!--<android.support.v7.widget.SearchView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/search_view"
+            android:layout_gravity="end"
+            app:theme="@style/Theme.AppCompat.NoActionBar"
+            app:searchIcon="@drawable/ic_search_white_24dp"/>-->
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view_weight_loss_list"

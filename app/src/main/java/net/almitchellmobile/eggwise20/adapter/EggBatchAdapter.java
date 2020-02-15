@@ -5,12 +5,15 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.TextView;
 
 import net.almitchellmobile.eggwise20.R;
 import net.almitchellmobile.eggwise20.database.model.EggBatch;
 import net.almitchellmobile.eggwise20.database.model.EggDaily;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -18,9 +21,10 @@ import androidx.cardview.widget.CardView;
 import androidx.core.text.HtmlCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class EggBatchAdapter extends RecyclerView.Adapter<EggBatchAdapter.BeanHolder> {
+public class EggBatchAdapter extends RecyclerView.Adapter<EggBatchAdapter.BeanHolder> implements Filterable {
 
     private List<EggBatch> listEggBatch;
+    private List<EggBatch> listEggBatchFiltered;
     private List<EggDaily> listEggDaily;
     private Context context;
     private LayoutInflater layoutInflater;
@@ -91,6 +95,41 @@ public class EggBatchAdapter extends RecyclerView.Adapter<EggBatchAdapter.BeanHo
     @Override
     public int getItemCount() {
         return listEggBatch.size();
+    }
+
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence charSequence) {
+                String charString = charSequence.toString();
+                if (charString.isEmpty()) {
+                    listEggBatchFiltered = listEggBatch;
+                } else {
+                    List<EggBatch> filteredList = new ArrayList<>();
+                    for (EggBatch row : listEggBatch) {
+
+                        // name match condition. this might differ depending on your requirement
+                        // here we are looking for name or phone number match
+                        if (row.getBatchLabel().toLowerCase().contains(charSequence)) {
+                            filteredList.add(row);
+                        }
+                    }
+
+                    listEggBatchFiltered = filteredList;
+                }
+
+                FilterResults filterResults = new FilterResults();
+                filterResults.values = listEggBatchFiltered;
+                return filterResults;
+            }
+
+            @Override
+            protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+                listEggBatchFiltered = (ArrayList<EggBatch>) filterResults.values;
+                notifyDataSetChanged();
+            }
+        };
     }
 
     public class BeanHolder extends RecyclerView.ViewHolder implements View.OnClickListener {

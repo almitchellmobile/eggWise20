@@ -1,5 +1,6 @@
 package net.almitchellmobile.eggwise20;
 
+import android.app.SearchManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -10,7 +11,9 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.SearchView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -30,7 +33,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class WeightLossListActivity extends AppCompatActivity implements EggWeightLossAdapter.OnEggWeightItemClick {
+public class WeightLossListActivity extends AppCompatActivity implements EggWeightLossAdapter.OnEggWeightItemClick, EggWeightLossAdapter.EggWeightLossAdapterListener {
 
     SharedPreferences sharedpreferences;
     public static String PREF_TEMPERATURE_ENTERED_IN = "";
@@ -61,6 +64,7 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
     public static Integer NUMBER_OF_EGGS_REMAINING = 0 ;
     public static DecimalFormat df = new DecimalFormat("00.00");
 
+    private SearchView searchView;
     FloatingActionButton fab_weight_loss;
     private TextView tv_empty_weight_loss_message;
     private RecyclerView recyclerViewWeightLossList;
@@ -135,8 +139,32 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
+
+        // Associate searchable configuration with the SearchView
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        searchView = (SearchView) menu.findItem(R.id.action_search)
+                .getActionView();
+        searchView.setSearchableInfo(searchManager
+                .getSearchableInfo(getComponentName()));
+        searchView.setMaxWidth(Integer.MAX_VALUE);
+
+        // listening to search query text change
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                // filter recycler view when query submitted
+                eggWeightLossAdapter.getFilter().filter(query);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String query) {
+                // filter recycler view when text is changed
+                eggWeightLossAdapter.getFilter().filter(query);
+                return false;
+            }
+        });
         return true;
     }
 
@@ -145,6 +173,8 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
         super.onOptionsItemSelected(item);
 
         switch (item.getItemId()) {
+            case R.id.action_search:
+                return true;
 
             default:
                 try {
@@ -158,6 +188,16 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
         }
     }
 
+
+    @Override
+    public void onBackPressed() {
+        // close search view on back button pressed
+        if (!searchView.isIconified()) {
+            searchView.setIconified(true);
+            return;
+        }
+        super.onBackPressed();
+    }
 
     private void displayList(){
         eggWiseDatabse = EggWiseDatabse.getInstance(WeightLossListActivity.this);
@@ -178,6 +218,27 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
                         AddWeightLossActivity.class).putExtra("eggDailyAdd", eggDailyList.get(0)),100);
             }
         });
+
+        /*searchView = (SearchView) findViewById(R.id.search_view);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String text) {
+                return false;
+            }
+
+           @Override
+            public boolean onQueryTextChange(String newText) {
+               CharSequence = newText;
+                eggWeightLossAdapter.getFilter().filter(newText);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(CharSequence text) {
+                eggWeightLossAdapter.getFilter().filter(text);
+                return false;
+            }
+        });*/
 
         recyclerViewWeightLossList = findViewById(R.id.recycler_view_weight_loss_list);
         recyclerViewWeightLossList.setLayoutManager(new LinearLayoutManager(WeightLossListActivity.this));
@@ -257,6 +318,11 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
                     }
                 }).show();
 
+    }
+
+    @Override
+    public void EggWeightLossAdapterListener(EggDaily eggDaily) {
+        Toast.makeText(getApplicationContext(), "Selected: " + eggDaily.getEggLabel() + ", " + eggDaily.getEggWeight(), Toast.LENGTH_LONG).show();
     }
 
 

@@ -14,6 +14,7 @@ import net.almitchellmobile.eggwise20.R;
 import net.almitchellmobile.eggwise20.database.model.EggDaily;
 import net.almitchellmobile.eggwise20.util.Common;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -24,7 +25,7 @@ import androidx.cardview.widget.CardView;
 import androidx.core.text.HtmlCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class EggWeightLossAdapter extends RecyclerView.Adapter <EggWeightLossAdapter.BeanHolder>{
+public class EggWeightLossAdapter extends RecyclerView.Adapter <EggWeightLossAdapter.BeanHolder>  implements Filterable {
 
     SharedPreferences sharedpreferences;
     public static String PREF_TEMPERATURE_ENTERED_IN = "";
@@ -37,11 +38,18 @@ public class EggWeightLossAdapter extends RecyclerView.Adapter <EggWeightLossAda
 
     public static final String mypreference = "mypref";
 
+    //private List<Contact> contactList;
+    //private List<Contact> contactListFiltered;
+
     private List<EggDaily> eggDailyList;
+    private List<EggDaily> eggDailyListFiltered;
+
     private EggDaily eggDaily;
     private Context context;
     private LayoutInflater layoutInflater;
     private OnEggWeightItemClick onEggWeightItemClick;
+
+    private EggWeightLossAdapterListener eggWeightLossAdapter;
 
     public static Boolean warnAboutDeviation = false;
     public static String warnAboutDeviationValue = "";
@@ -160,6 +168,41 @@ public class EggWeightLossAdapter extends RecyclerView.Adapter <EggWeightLossAda
         return eggDailyList.size();
     }
 
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence charSequence) {
+                String charString = charSequence.toString();
+                if (charString.isEmpty()) {
+                    eggDailyListFiltered = eggDailyList;
+                } else {
+                    List<EggDaily> filteredList = new ArrayList<>();
+                    for (EggDaily row : eggDailyList) {
+
+                        // name match condition. this might differ depending on your requirement
+                        // here we are looking for name or phone number match
+                        if (row.getEggLabel().toLowerCase().contains(charSequence)) {
+                            filteredList.add(row);
+                        }
+                    }
+
+                    eggDailyListFiltered = filteredList;
+                }
+
+                FilterResults filterResults = new FilterResults();
+                filterResults.values = eggDailyListFiltered;
+                return filterResults;
+            }
+
+            @Override
+            protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+                eggDailyListFiltered = (ArrayList<EggDaily>) filterResults.values;
+                notifyDataSetChanged();
+            }
+        };
+    }
+
     public class BeanHolder extends RecyclerView.ViewHolder implements View.OnClickListener, Filterable {
 
         TextView tv_egg_weight_line1;
@@ -173,10 +216,19 @@ public class EggWeightLossAdapter extends RecyclerView.Adapter <EggWeightLossAda
             cv_egg_weight = itemView.findViewById(R.id.cv_egg_weight);
             tv_egg_weight_line1  = itemView.findViewById(R.id.tv_egg_weight_line1);
             itemView.setOnClickListener(this);
+
+            /*itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    // send selected contact in callback
+                    eggWeightLossAdapter.on.onContactSelected(contactListFiltered.get(getAdapterPosition()));
+                }
+            });*/
         }
 
         @Override
-        public void onClick(View v) { onEggWeightItemClick.onEggWeightClick(getAdapterPosition());}
+        public void onClick(View v) {
+            onEggWeightItemClick.onEggWeightClick(getAdapterPosition());}
 
         @Override
         public Filter getFilter() {
@@ -186,6 +238,10 @@ public class EggWeightLossAdapter extends RecyclerView.Adapter <EggWeightLossAda
 
     public interface OnEggWeightItemClick{
         void onEggWeightClick(int pos);
+    }
+
+    public interface EggWeightLossAdapterListener {
+        void EggWeightLossAdapterListener(EggDaily eggDaily);
     }
 
 
