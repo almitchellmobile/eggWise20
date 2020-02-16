@@ -8,9 +8,12 @@ import android.content.SharedPreferences;
 import android.icu.text.DecimalFormat;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -73,6 +76,7 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
     private List<EggDaily> eggDailyList;
     private EggWeightLossAdapter eggWeightLossAdapter;
     private int pos;
+    EditText editTextSearch;
 
     public Long settingID = 0L;
     public EggDaily eggDaily = null;
@@ -96,6 +100,7 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_weight_loss_list);
         Toolbar toolbar_weight_loss_list = findViewById(R.id.toolbar_weight_loss_list);
+        toolbar_weight_loss_list.inflateMenu(R.menu.main);
         setSupportActionBar(toolbar_weight_loss_list);
 
         sharedpreferences = getSharedPreferences(mypreference, Context.MODE_PRIVATE);
@@ -133,9 +138,32 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
         } else {
             getSupportActionBar().setTitle("Weight Loss List");
         }
+
+        editTextSearch = (EditText) findViewById(R.id.editTextSearch);
+        editTextSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                //after the change calling the method and passing the search input
+                eggWeightLossAdapter.getFilter().filter(editable.toString());
+                //filter(editable.toString());
+            }
+        });
+
         initializeViews();
         displayList();
     }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

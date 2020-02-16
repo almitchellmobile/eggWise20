@@ -169,13 +169,29 @@ public class AddEggBatchActivity extends AppCompatActivity {
         });
 
         et_batch_label = findViewById(R.id.et_batch_label);
+        et_batch_label.setSelectAllOnFocus(true);
+
         et_species_name = findViewById(R.id.et_species_name);
+        et_species_name.setSelectAllOnFocus(true);
+
         et_common_name = findViewById(R.id.et_common_name);
+        et_common_name.setSelectAllOnFocus(true);
+
         et_incubator_name = findViewById(R.id.et_incubator_name);
+        et_incubator_name.setSelectAllOnFocus(true);
+
         et_number_of_eggs = findViewById(R.id.et_number_of_eggs);
+        et_number_of_eggs.setSelectAllOnFocus(true);
+
         et_set_date = findViewById(R.id.et_set_date);
+        et_set_date.setSelectAllOnFocus(true);
+
         et_hatch_date = findViewById(R.id.et_hatch_date);
+        et_hatch_date.setSelectAllOnFocus(true);
+
         et_location = findViewById(R.id.et_location);
+        et_location.setSelectAllOnFocus(true);
+
         rg_track_weight_loss = findViewById(R.id.rg_track_weight_loss);
         rb_track_entire_batch = findViewById(R.id.rb_track_entire_batch);
         // Batch tracking is default
@@ -184,6 +200,7 @@ public class AddEggBatchActivity extends AppCompatActivity {
         rb_track_specific_eggs = findViewById(R.id.rb_track_specific_eggs);
 
         et_incubator_settings = findViewById(R.id.et_incubator_settings);
+        et_incubator_settings.setSelectAllOnFocus(true);
         adapterIncubatorSettings = new ArrayAdapter<String>
                 (AddEggBatchActivity.this, android.R.layout.select_dialog_item, incubatorSettingsValues);
         et_incubator_settings = (AutoCompleteTextView) findViewById(R.id.et_incubator_settings);
@@ -195,15 +212,19 @@ public class AddEggBatchActivity extends AppCompatActivity {
             et_incubator_settings.setHint(hintStringValue);
         }
         et_temperature = findViewById(R.id.et_temperature);
+        et_temperature.setSelectAllOnFocus(true);
         if (PREF_TEMPERATURE_ENTERED_IN.trim().length() != 0) {
             hintStringValue = "Temperature (" + PREF_TEMPERATURE_ENTERED_IN + ")";
             et_temperature.setHint(hintStringValue);
         }
         et_incubation_days = findViewById(R.id.et_incubation_days);
+        et_incubation_days.setSelectAllOnFocus(true);
 
         et_number_of_eggs_hatched = findViewById(R.id.et_number_of_eggs_hatched_rl);
+        et_number_of_eggs_hatched.setSelectAllOnFocus(true);
 
         et_target_weight_loss = findViewById(R.id.et_target_weight_loss);
+        et_target_weight_loss.setSelectAllOnFocus(true);
         if (PREF_DEFAULT_WEIGHT_LOSS_INTEGER.toString().trim().length() != 0) {
             hintStringValue = "Target Weight Loss % (" + PREF_DEFAULT_WEIGHT_LOSS_INTEGER + ")";
             et_target_weight_loss.setHint(hintStringValue);

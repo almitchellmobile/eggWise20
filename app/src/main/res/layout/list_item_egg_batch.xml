@@ -19,16 +19,24 @@
         android:id="@+id/cv_egg_batch"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
+        card_view:cardBackgroundColor="@android:color/transparent"
         card_view:cardCornerRadius="5dp"
         card_view:cardElevation="5dp"
         card_view:cardUseCompatPadding="true">
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp">
 
         <TextView
             android:id="@+id/tv_egg_batch_line1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             tools:text="Line 1" />
+        </FrameLayout>
 
     </com.google.android.material.card.MaterialCardView>
 

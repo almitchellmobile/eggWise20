@@ -86,6 +86,7 @@ public class EggWeightLossAdapter extends RecyclerView.Adapter <EggWeightLossAda
 
     public String key = "";
     public String previousKey = "";
+    String line1 = "";
 
 
     Common common;
@@ -116,7 +117,7 @@ public class EggWeightLossAdapter extends RecyclerView.Adapter <EggWeightLossAda
     @Override
     public void onBindViewHolder(@NonNull BeanHolder holder, int position) {
 
-        String line1 = "";
+
         try {
             Log.e("bind", "onBindViewHolder: "+ eggDailyList.get(position));
             CharSequence styledTextTitle = "";
@@ -126,8 +127,8 @@ public class EggWeightLossAdapter extends RecyclerView.Adapter <EggWeightLossAda
             /*line1 = "<B>Batch Label:</B> " + common.blankIfNullString(eggDailyList.get(position).getBatchLabel()) +
                     ", <B>Reading Day:</B> " + common.zeroIfNullInteger(eggDailyList.get(position).getReadingDayNumber()) +*/
 
-            line1 = "<B>Label:</B> " + common.blankIfNullString(eggDailyList.get(position).getEggLabel()) +
-                    ", <B>Weight:</B> " + common.zeroIfNullDouble(eggDailyList.get(position).getEggWeight()) +
+            //line1 = "<B>Label:</B> " + common.blankIfNullString(eggDailyList.get(position).getEggLabel()) +
+            line1 = "<B>Weight:</B> " + common.zeroIfNullDouble(eggDailyList.get(position).getEggWeight()) +
                     ", <B># Remaining:</B> " + common.zeroIfNullInteger(eggDailyList.get(position).getNumberOfEggsRemaining()) +
                     ", <B>Set Date:</B> " + common.blankIfNullString(eggDailyList.get(position).getSetDate()) +
                     ", <B>Incubator:</B> " + common.blankIfNullString(eggDailyList.get(position).getIncubatorName()) +
@@ -152,7 +153,8 @@ public class EggWeightLossAdapter extends RecyclerView.Adapter <EggWeightLossAda
             styledText = HtmlCompat.fromHtml(line1, HtmlCompat.FROM_HTML_MODE_LEGACY);
             holder.tv_egg_weight_line1.setText(styledText);
 
-            currentTitle = "<B>Reading Day: " + common.zeroIfNullInteger(eggDailyList.get(position).getReadingDayNumber())  + "</B>";
+            currentTitle = "<B>Day: " + common.zeroIfNullInteger(eggDailyList.get(position).getReadingDayNumber())  + "</B>, " +
+                "<B>Label: " + eggDailyList.get(position).getEggLabel() + "</B>";
             styledTextTitle = HtmlCompat.fromHtml(currentTitle, HtmlCompat.FROM_HTML_MODE_LEGACY);
             holder.tv_egg_weight_title1.setText(styledTextTitle);
 
@@ -182,7 +184,7 @@ public class EggWeightLossAdapter extends RecyclerView.Adapter <EggWeightLossAda
 
                         // name match condition. this might differ depending on your requirement
                         // here we are looking for name or phone number match
-                        if (row.getEggLabel().toLowerCase().contains(charSequence)) {
+                        if (line1.toLowerCase().contains(charSequence) || currentTitle.toLowerCase().contains(charSequence)) {
                             filteredList.add(row);
                         }
                     }
