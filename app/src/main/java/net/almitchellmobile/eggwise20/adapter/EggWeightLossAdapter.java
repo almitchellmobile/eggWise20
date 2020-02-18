@@ -25,7 +25,7 @@ import androidx.cardview.widget.CardView;
 import androidx.core.text.HtmlCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class EggWeightLossAdapter extends RecyclerView.Adapter <EggWeightLossAdapter.BeanHolder>  implements Filterable {
+public class EggWeightLossAdapter extends RecyclerView.Adapter <EggWeightLossAdapter.BeanHolder>  {
 
     SharedPreferences sharedpreferences;
     public static String PREF_TEMPERATURE_ENTERED_IN = "";
@@ -170,7 +170,17 @@ public class EggWeightLossAdapter extends RecyclerView.Adapter <EggWeightLossAda
         return eggDailyList.size();
     }
 
-    @Override
+    public void filterEggDailyList(ArrayList<EggDaily> eggDailyListFiltered) {
+        this.eggDailyList = eggDailyListFiltered;
+        notifyDataSetChanged();
+    }
+
+   /* public void filterListDay(ArrayList<EggDaily> eggDailyListFiltered) {
+        this.eggDailyList = eggDailyListFiltered;
+        notifyDataSetChanged();
+    }*/
+
+    /*@Override
     public Filter getFilter() {
         return new Filter() {
             @Override
@@ -184,7 +194,8 @@ public class EggWeightLossAdapter extends RecyclerView.Adapter <EggWeightLossAda
 
                         // name match condition. this might differ depending on your requirement
                         // here we are looking for name or phone number match
-                        if (line1.toLowerCase().contains(charSequence) || currentTitle.toLowerCase().contains(charSequence)) {
+                        //if (row.getEggLabel().toLowerCase().contains(charSequence) || currentTitle.toLowerCase().contains(charSequence)) {
+                        if (row.getEggLabel().toLowerCase().contains(charSequence) || currentTitle.toLowerCase().contains(charSequence)) {
                             filteredList.add(row);
                         }
                     }
@@ -203,7 +214,7 @@ public class EggWeightLossAdapter extends RecyclerView.Adapter <EggWeightLossAda
                 notifyDataSetChanged();
             }
         };
-    }
+    }*/
 
     public class BeanHolder extends RecyclerView.ViewHolder implements View.OnClickListener, Filterable {
 

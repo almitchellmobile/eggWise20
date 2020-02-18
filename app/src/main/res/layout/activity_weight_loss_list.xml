@@ -23,12 +23,59 @@
                 app:popupTheme="@style/AppTheme.PopupOverlay" />
 
         </com.google.android.material.appbar.AppBarLayout>
-        <EditText
-            android:id="@+id/editTextSearch"
+
+        <LinearLayout
+            android:id="@+id/ll_weight_loss_filter"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Enter filter critera"
-            />
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/et_weight_loss_filter_day"
+                android:layout_width="75dp"
+                android:layout_height="wrap_content"
+                android:hint="Filter Day" />
+
+            <ToggleButton
+                android:id="@+id/toggle_btn_and_or"
+                android:layout_width="75dp"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:textOff="Or"
+                android:textOn="And" />
+
+            <EditText
+                android:id="@+id/et_weight_loss_filter_label"
+                android:layout_width="75dp"
+                android:layout_height="wrap_content"
+                android:hint="Filter Label" />
+
+            <Button
+                android:id="@+id/btn_filter_weight_loss_apply"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Apply" />
+
+            <Button
+                android:id="@+id/btn_filter_weight_loss_reset"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Reset" />
+
+            <!--<com.google.android.material.chip.Chip
+                android:id="@+id/chip_filter_weight_loss_apply_reset"
+                style="@style/Widget.MaterialComponents.Chip.Action"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Apply"
+                android:checkable="true"
+                 />-->
+
+
+
+        </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view_weight_loss_list"

@@ -8,16 +8,18 @@ import android.content.SharedPreferences;
 import android.icu.text.DecimalFormat;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
+import com.google.android.material.chip.Chip;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import net.almitchellmobile.eggwise20.adapter.EggWeightLossAdapter;
@@ -76,7 +78,11 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
     private List<EggDaily> eggDailyList;
     private EggWeightLossAdapter eggWeightLossAdapter;
     private int pos;
-    EditText editTextSearch;
+    EditText et_weight_loss_filter_label, et_weight_loss_filter_day;
+    Chip chip_filter_weight_loss_apply_reset;
+    ToggleButton toggle_btn_and_or;
+    Boolean toggleButtonState;
+    Button btn_filter_weight_loss_apply, btn_filter_weight_loss_reset;
 
     public Long settingID = 0L;
     public EggDaily eggDaily = null;
@@ -139,13 +145,106 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
             getSupportActionBar().setTitle("Weight Loss List");
         }
 
-        editTextSearch = (EditText) findViewById(R.id.editTextSearch);
-        editTextSearch.addTextChangedListener(new TextWatcher() {
+        toggle_btn_and_or = (ToggleButton) findViewById(R.id.toggle_btn_and_or);
+        toggle_btn_and_or.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    // The toggle is enabled
+                    toggle_btn_and_or.setChecked(false);
+                } else {
+                    // The toggle is disabled
+                    toggle_btn_and_or.setChecked(true);
+                }
+            }
+        });
+
+        btn_filter_weight_loss_apply = (Button) findViewById(R.id.btn_filter_weight_loss_apply);
+        btn_filter_weight_loss_apply.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //apply filters
+                if (toggle_btn_and_or.isChecked()) {
+                    if (et_weight_loss_filter_label.getText().toString().length() > 0 && et_weight_loss_filter_day.getText().toString().length() > 0) {
+                        filterLabelAndReadingDay(et_weight_loss_filter_label.getText().toString(), et_weight_loss_filter_day.getText().toString());
+                    } else if (et_weight_loss_filter_label.getText().toString().length() > 0 && et_weight_loss_filter_day.getText().toString().length() == 0) {
+                        filterLabel(et_weight_loss_filter_label.getText().toString());
+                    } else if (et_weight_loss_filter_label.getText().toString().length() == 0 && et_weight_loss_filter_day.getText().toString().length() > 0) {
+                        filterDay(et_weight_loss_filter_day.getText().toString());
+                    }
+                } else {
+                    if (et_weight_loss_filter_label.getText().toString().length() > 0 || et_weight_loss_filter_day.getText().toString().length() > 0) {
+                        filterLabelAndReadingDay(et_weight_loss_filter_label.getText().toString(), et_weight_loss_filter_day.getText().toString());
+                    } else if (et_weight_loss_filter_label.getText().toString().length() > 0 || et_weight_loss_filter_day.getText().toString().length() == 0) {
+                        filterLabel(et_weight_loss_filter_label.getText().toString());
+                    } else if (et_weight_loss_filter_label.getText().toString().length() == 0 || et_weight_loss_filter_day.getText().toString().length() > 0) {
+                        filterDay(et_weight_loss_filter_day.getText().toString());
+                    }
+                }
+            }
+        });
+
+
+        btn_filter_weight_loss_reset = findViewById(R.id.btn_filter_weight_loss_reset);
+        btn_filter_weight_loss_reset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //reset filters
+                et_weight_loss_filter_label.setText("");
+                et_weight_loss_filter_day.setText("");
+            }
+        });
+
+
+        /*chip_filter_weight_loss_apply_reset = findViewById(R.id.chip_filter_weight_loss_apply_reset);
+        chip_filter_weight_loss_apply_reset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (chip_filter_weight_loss_apply_reset.isChecked()) {
+                    //reset filters
+                } else {
+                    //apply filters
+                    if (et_weight_loss_filter_label.getText().toString().length() > 0 && et_weight_loss_filter_day.getText().toString().length() >0 ) {
+                        filterLabelAndReadingDay(et_weight_loss_filter_label.getText().toString(), et_weight_loss_filter_day.getText().toString());
+                        chip_filter_weight_loss_apply_reset.setText("Reset");
+                    } else if (et_weight_loss_filter_label.getText().toString().length() > 0 && et_weight_loss_filter_day.getText().toString().length() == 0 ) {
+                        filterLabel(et_weight_loss_filter_label.getText().toString());
+                        chip_filter_weight_loss_apply_reset.setText("Reset");
+                    } else if (et_weight_loss_filter_label.getText().toString().length() == 0 && et_weight_loss_filter_day.getText().toString().length() > 0 ) {
+                        filterDay(et_weight_loss_filter_day.getText().toString());
+                        chip_filter_weight_loss_apply_reset.setText("Reset");
+                    }
+
+                }
+
+
+            }
+        });
+*/
+
+        et_weight_loss_filter_label = (EditText) findViewById(R.id.et_weight_loss_filter_label);
+        /*et_weight_loss_filter_label.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
             }
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
+            }
+            @Override
+            public void afterTextChanged(Editable editable) {
+                //after the change calling the method and passing the search input
+                //filterLabel(editable.toString());
+                //filter(editable.toString());
+            }
+        });*/
+
+        et_weight_loss_filter_day = (EditText) findViewById(R.id.et_weight_loss_filter_day);
+        /*et_weight_loss_filter_day.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
@@ -154,13 +253,66 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
             @Override
             public void afterTextChanged(Editable editable) {
                 //after the change calling the method and passing the search input
-                eggWeightLossAdapter.getFilter().filter(editable.toString());
+                //filterDay(editable.toString());
                 //filter(editable.toString());
             }
-        });
+        });*/
 
         initializeViews();
         displayList();
+    }
+
+    private void filterLabelAndReadingDay(String textLabel, String textReadingDay) {
+        //new array list that will hold the filtered data
+        ArrayList<EggDaily> eggDailyListFiltered = new ArrayList<>();
+
+        //if (text.trim().length())
+        //looping through existing elements
+        for (EggDaily eggDaily : eggDailyList) {
+            //if the existing elements contains the search input
+            if (eggDaily.getEggLabel().toLowerCase().contains(textLabel.toLowerCase()) ||
+                    eggDaily.getReadingDayNumber().toString().toLowerCase().contains(textReadingDay.toLowerCase())) {
+                //adding the element to filtered list
+                eggDailyListFiltered.add(eggDaily);
+            }
+        }
+
+        //calling a method of the adapter class and passing the filtered list
+        eggWeightLossAdapter.filterEggDailyList(eggDailyListFiltered);
+    }
+
+    private void filterLabel(String text) {
+        //new array list that will hold the filtered data
+        ArrayList<EggDaily> eggDailyListFiltered = new ArrayList<>();
+
+        //looping through existing elements
+        for (EggDaily eggDaily : eggDailyList) {
+            //if the existing elements contains the search input
+            if (eggDaily.getEggLabel().toLowerCase().contains(text.toLowerCase())) {
+                //adding the element to filtered list
+                eggDailyListFiltered.add(eggDaily);
+            }
+        }
+
+        //calling a method of the adapter class and passing the filtered list
+        eggWeightLossAdapter.filterEggDailyList(eggDailyListFiltered);
+    }
+
+    private void filterDay(String text) {
+        //new array list that will hold the filtered data
+        ArrayList<EggDaily> eggDailyListFiltered = new ArrayList<>();
+
+        //looping through existing elements
+        for (EggDaily eggDaily : eggDailyList) {
+            //if the existing elements contains the search input
+            if (eggDaily.getReadingDayNumber().toString().toLowerCase().contains(text.toLowerCase())) {
+                //adding the element to filtered list
+                eggDailyListFiltered.add(eggDaily);
+            }
+        }
+
+        //calling a method of the adapter class and passing the filtered list
+        eggWeightLossAdapter.filterEggDailyList(eggDailyListFiltered);
     }
 
 
@@ -182,14 +334,14 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
             @Override
             public boolean onQueryTextSubmit(String query) {
                 // filter recycler view when query submitted
-                eggWeightLossAdapter.getFilter().filter(query);
+                //eggWeightLossAdapter.getFilter().filter(query);
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String query) {
                 // filter recycler view when text is changed
-                eggWeightLossAdapter.getFilter().filter(query);
+                //eggWeightLossAdapter.getFilter().filter(query);
                 return false;
             }
         });
