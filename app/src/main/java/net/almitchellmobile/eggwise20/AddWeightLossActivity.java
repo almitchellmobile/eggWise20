@@ -306,7 +306,7 @@ public class AddWeightLossActivity extends AppCompatActivity {
         //button_save_add_weight_loss.setVisibility(View.GONE);
 
         button_cancel = findViewById(R.id.button_cancel);
-        button_cancel.setText("Return");
+        button_cancel.setText("List Batch");
         button_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -2,7 +2,6 @@ package net.almitchellmobile.eggwise20.adapter;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -119,7 +118,7 @@ public class EggWeightLossAdapter extends RecyclerView.Adapter <EggWeightLossAda
 
 
         try {
-            Log.e("bind", "onBindViewHolder: "+ eggDailyList.get(position));
+            //Log.e("bind", "onBindViewHolder: "+ eggDailyList.get(position));
             CharSequence styledTextTitle = "";
             CharSequence styledText = "";
 
