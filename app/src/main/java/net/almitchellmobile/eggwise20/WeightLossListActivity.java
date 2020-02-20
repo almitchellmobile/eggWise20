@@ -43,14 +43,14 @@ import androidx.recyclerview.widget.RecyclerView;
 public class WeightLossListActivity extends AppCompatActivity implements EggWeightLossAdapter.OnEggWeightItemClick, EggWeightLossAdapter.EggWeightLossAdapterListener {
 
     SharedPreferences sharedpreferences;
-    public static String PREF_TEMPERATURE_ENTERED_IN = "";
+    /*public static String PREF_TEMPERATURE_ENTERED_IN = "";
     public static String PREF_HUMIDITY_MEASURED_WITH = "";
     public static String PREF_WEIGHT_ENTERED_IN = "";
 
     public static Integer PREF_DAYS_TO_HATCHER_BEFORE_HATCHING = 3;
     public static Float PREF_DEFAULT_WEIGHT_LOSS_PRECENTAGE= 0.0F;
     public static Float PREF_WARN_WEIGHT_DEVIATION_PERCENTAGE = 0.0F;
-    public static Integer PREF_DEFAULT_WEIGHT_LOSS_INTEGER = 0;
+    public static Integer PREF_DEFAULT_WEIGHT_LOSS_INTEGER = 0;*/
 
     public static final String mypreference = "mypref";
 
@@ -121,27 +121,27 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
 
         sharedpreferences = getSharedPreferences(mypreference, Context.MODE_PRIVATE);
 
-        PREF_TEMPERATURE_ENTERED_IN = sharedpreferences.getString("temperature_entered_in", "");
-        PREF_HUMIDITY_MEASURED_WITH = sharedpreferences.getString("humidity_measured_with", "");
-        PREF_WEIGHT_ENTERED_IN = sharedpreferences.getString("weight_entered_in", "");
+        Common.PREF_TEMPERATURE_ENTERED_IN = sharedpreferences.getString("temperature_entered_in", "");
+        Common.PREF_HUMIDITY_MEASURED_WITH = sharedpreferences.getString("humidity_measured_with", "");
+        Common.PREF_WEIGHT_ENTERED_IN = sharedpreferences.getString("weight_entered_in", "");
         if (sharedpreferences.contains("days_to_hatcher_before_hatching")) {
-            PREF_DAYS_TO_HATCHER_BEFORE_HATCHING = sharedpreferences.getInt("days_to_hatcher_before_hatching", 3);
+            Common.PREF_DAYS_TO_HATCHER_BEFORE_HATCHING = sharedpreferences.getInt("days_to_hatcher_before_hatching", 3);
         } else {
-            PREF_DAYS_TO_HATCHER_BEFORE_HATCHING = 0;
+            Common.PREF_DAYS_TO_HATCHER_BEFORE_HATCHING = 0;
         }
         if (sharedpreferences.contains("default_weight_loss_percentage")) {
-            PREF_DEFAULT_WEIGHT_LOSS_PRECENTAGE = sharedpreferences.getFloat("default_weight_loss_percentage", 13.0F);
+            Common.PREF_DEFAULT_WEIGHT_LOSS_PRECENTAGE = sharedpreferences.getFloat("default_weight_loss_percentage", 13.0F);
             //double data = PREF_DEFAULT_WEIGHT_LOSS_PRECENTAGE;
             //int value = (int)data;
-            PREF_DEFAULT_WEIGHT_LOSS_INTEGER = Common.convertDoubleToInteger(PREF_DEFAULT_WEIGHT_LOSS_PRECENTAGE);
+            Common.PREF_DEFAULT_WEIGHT_LOSS_INTEGER = Common.convertDoubleToInteger(Common.PREF_DEFAULT_WEIGHT_LOSS_PRECENTAGE);
         } else {
-            PREF_DEFAULT_WEIGHT_LOSS_PRECENTAGE = 13.0F;
-            PREF_DEFAULT_WEIGHT_LOSS_INTEGER = 13;
+            Common.PREF_DEFAULT_WEIGHT_LOSS_PRECENTAGE = 13.0F;
+            Common.PREF_DEFAULT_WEIGHT_LOSS_INTEGER = 13;
         }
         if (sharedpreferences.contains("warn_weight_deviation_percentage")) {
-            PREF_WARN_WEIGHT_DEVIATION_PERCENTAGE = sharedpreferences.getFloat("warn_weight_deviation_percentage", 0.5F);
+            Common.PREF_WARN_WEIGHT_DEVIATION_PERCENTAGE = sharedpreferences.getFloat("warn_weight_deviation_percentage", 0.5F);
         } else {
-            PREF_WARN_WEIGHT_DEVIATION_PERCENTAGE = 0.0F;
+            Common.PREF_WARN_WEIGHT_DEVIATION_PERCENTAGE = 0.0F;
         }
 
         common = new Common();
