@@ -125,6 +125,12 @@ public interface EggDailyDao {
                                     Double targetWeightLossPercent, Double weightLossDeviation,
                                               Long eggDailyID);
 
+    String sqlUpdateEggDaily_RejectedEgg = "Update " + Constants.TABLE_NAME_EGG_DAILY + "  " +
+            "SET RejectedEgg = :rejectedEgg " +
+            "WHERE EggDailyID =  :eggDailyID AND EggLabel Like :eggLabel" ;
+    @Query(sqlUpdateEggDaily_RejectedEgg)
+    void updateEggDaily__RejectedEgg(Integer rejectedEgg, Long eggDailyID, String eggLabel);
+
 
 
 

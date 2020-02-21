@@ -15,6 +15,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.SearchView;
@@ -91,7 +92,7 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
     private RecyclerView recyclerViewWeightLossList;
     private EggWiseDatabse eggWiseDatabse;
     EggBatch eggBatch;
-    private List<EggDaily> eggDailyList;
+    public List<EggDaily> eggDailyList;
     EggDaily eggDailyOnClick = null;
 
     private EggWeightLossAdapter eggWeightLossAdapter;
@@ -102,6 +103,7 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
     Boolean toggleButtonState;
     Button btn_filter_weight_loss_apply, btn_filter_weight_loss_reset;
     Spinner spinnerSortBy;
+    CheckBox check_box_rejected_egg;
 
     public Long settingID = 0L;
     public EggDaily eggDaily = null;
@@ -116,6 +118,7 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
     public String incubatorName = "";
     public Integer numberOfEggsRemaining = 0;
     public Integer numberOfEggs = 0;
+    public Integer rejectedEgg = 0;
 
     Common common;
 
@@ -163,8 +166,6 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
         } else {
             getSupportActionBar().setTitle("Weight Loss List");
         }
-
-        //sortByLinkedHashMap = new LinkedHashMap<Integer, String>();
 
 
         spinnerSortBy = (Spinner) findViewById(R.id.spinnerSortBy);
@@ -216,6 +217,16 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
         });
 
 
+        /*check_box_rejected_egg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(((CompoundButton) view).isChecked()){
+                    eggWiseDatabse.getEggDailyDao().updateEggDaily(eggDaily.rejectedEgg);
+                } else {
+
+                }
+            }
+        });*/
 
         toggle_btn_and_or = (ToggleButton) findViewById(R.id.toggle_btn_and_or);
         toggle_btn_and_or.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -492,6 +503,18 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
                         AddWeightLossActivity.class).putExtra("eggDailyAdd", eggDailyList.get(0)),100);
             }
         });
+
+        /*check_box_rejected_egg = (CompoundButton) findViewById(R.id.check_box_rejected_egg);
+        check_box_rejected_egg.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+              @Override
+              public void onCheckedChanged(CompoundButton buttonView,boolean isChecked) {
+                  rejectedEgg = 1;
+                  Integer position = EGG_DAILY_LIST_POS_STATIC;
+                  //eggWiseDatabse.getEggDailyDao().updateEggDaily__RejectedEgg(rejectedEgg, eggDailyList.);
+
+              }
+          }
+        );*/
 
         /*searchView = (SearchView) findViewById(R.id.search_view);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {

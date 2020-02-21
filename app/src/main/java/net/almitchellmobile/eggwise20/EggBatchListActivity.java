@@ -339,7 +339,7 @@ public class EggBatchListActivity extends AppCompatActivity implements EggBatchA
             Intent intent1 = new Intent(EggBatchListActivity.this, WeightLossListActivity.class);
             intent1.putExtra("eggBatchList", eggBatchList.get(pos));
             startActivity(intent1);
-            //finish();
+            finish();
 
         }
     }

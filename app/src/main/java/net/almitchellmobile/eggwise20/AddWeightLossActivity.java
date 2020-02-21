@@ -94,6 +94,7 @@ public class AddWeightLossActivity extends AppCompatActivity {
     Double eggWeightAverageCurrent = 0.0D;
     Double eggWeightAverageDay0 = 0.0D;
     Integer targetWeightLossInteger = 0;
+    Integer rejectedEgg = 0;  // 0= false, 1 = true
 
     Common common = new Common();
 
@@ -262,7 +263,7 @@ public class AddWeightLossActivity extends AppCompatActivity {
         });
 
         button_save_list_weight_loss = findViewById(R.id.button_save_list_weight_loss);
-        button_save_list_weight_loss.setText("Save / List");
+        button_save_list_weight_loss.setText("Save / List Eggs");
         button_save_list_weight_loss.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -510,7 +511,11 @@ public class AddWeightLossActivity extends AppCompatActivity {
             }
         }else {
             try {
-            eggDaily = new EggDaily(settingID, eggBatchID, batchLabel, eggLabel, readingDate, setDate, readingDayNumber, eggWeight, eggWeightAverageDay0, eggDailyComment, incubatorName, numberOfEggsRemaining, eggWeightSum, actualWeightLossPercent, targetWeightLossPercent, weightLossDeviation, eggWeightAverageCurrent, targetWeightLossInteger, incubationDays
+            eggDaily = new EggDaily(settingID, eggBatchID, batchLabel, eggLabel, readingDate,
+                    setDate, readingDayNumber, eggWeight, eggWeightAverageDay0, eggDailyComment,
+                    incubatorName, numberOfEggsRemaining, eggWeightSum, actualWeightLossPercent,
+                    targetWeightLossPercent, weightLossDeviation, eggWeightAverageCurrent,
+                    targetWeightLossInteger, incubationDays, rejectedEgg
             );
 
                 new InsertTask(AddWeightLossActivity.this,eggDaily).execute();

@@ -77,7 +77,10 @@ public class EggDaily implements Serializable {
     @ColumnInfo(name = "IncubationDays")
     public Integer incubationDays = 0;
 
-    public EggDaily(Long settingID, Long eggBatchID, String batchLabel, String eggLabel, String readingDate, String setDate, Integer readingDayNumber, Double eggWeight, Double eggWeightAverageDay0, String eggDailyComment, String incubatorName, Integer numberOfEggsRemaining, Double eggWeightSum, Double actualWeightLossPercent, Double targetWeightLossPercent, Double weightLossDeviation, Double eggWeightAverageCurrent, Integer targetWeightLossInteger, Integer incubationDays) {
+    @ColumnInfo(name = "RejectedEgg")
+    public Integer rejectedEgg = 0;
+
+    public EggDaily(Long settingID, Long eggBatchID, String batchLabel, String eggLabel, String readingDate, String setDate, Integer readingDayNumber, Double eggWeight, Double eggWeightAverageDay0, String eggDailyComment, String incubatorName, Integer numberOfEggsRemaining, Double eggWeightSum, Double actualWeightLossPercent, Double targetWeightLossPercent, Double weightLossDeviation, Double eggWeightAverageCurrent, Integer targetWeightLossInteger, Integer incubationDays, Integer rejectedEgg) {
         this.settingID = settingID;
         this.eggBatchID = eggBatchID;
         this.batchLabel = batchLabel;
@@ -97,6 +100,7 @@ public class EggDaily implements Serializable {
         this.eggWeightAverageCurrent = eggWeightAverageCurrent;
         this.targetWeightLossInteger = targetWeightLossInteger;
         this.incubationDays = incubationDays;
+        this.rejectedEgg = rejectedEgg;
     }
 
     @Override
@@ -122,6 +126,7 @@ public class EggDaily implements Serializable {
                 ", eggWeightAverageCurrent=" + eggWeightAverageCurrent +
                 ", targetWeightLossInteger=" + targetWeightLossInteger +
                 ", incubationDays=" + incubationDays +
+                ", rejectedEgg=" + rejectedEgg +
                 '}';
     }
 
@@ -286,5 +291,13 @@ public class EggDaily implements Serializable {
 
     public void setIncubationDays(Integer incubationDays) {
         this.incubationDays = incubationDays;
+    }
+
+    public Integer getRejectedEgg() {
+        return rejectedEgg;
+    }
+
+    public void setRejectedEgg(Integer rejectedEgg) {
+        this.rejectedEgg = rejectedEgg;
     }
 }

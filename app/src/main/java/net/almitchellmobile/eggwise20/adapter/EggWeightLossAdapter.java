@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
@@ -119,6 +120,23 @@ public class EggWeightLossAdapter extends RecyclerView.Adapter <EggWeightLossAda
 
         try {
             Log.e("bind", "onBindViewHolder: "+ eggDailyList.get(position));
+
+            holder.check_box_rejected_egg.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int pos = holder.getAdapterPosition();
+                    //ChoiceItem currentItem = mChoice.get(pos);
+                    if(holder.check_box_rejected_egg.isChecked()){
+                        //reject this egg
+                        eggDailyList.get(position).setRejectedEgg(1);
+                    }else{
+                        //unreject this egg
+                        eggDailyList.get(position).setRejectedEgg(0);
+                    }
+                }
+            });
+
+
             CharSequence styledTextTitle = "";
             CharSequence styledText = "";
 
@@ -152,18 +170,13 @@ public class EggWeightLossAdapter extends RecyclerView.Adapter <EggWeightLossAda
                     line1 += "<br>***<br>";
                     line1 += "*** Warning: Actual Weight deviates beyond Target Weight by ";
                     line1 += (String.format(Locale.getDefault(),"%.2f",Math.abs(eggDailyList.get(position).getWeightLossDeviation()))) + " percent. ***";
-                    holder.cv_egg_weight.setBackgroundColor(Color.parseColor("@color/colorPrimary"));
+                    holder.cv_egg_weight.setBackgroundColor(Color.parseColor("#ecc317"));
                 } else {
                     //holder.cv_egg_weight.setBackgroundColor(Color.parseColor("@android:color/transparent"));
                 }
                 styledText = HtmlCompat.fromHtml(line1, HtmlCompat.FROM_HTML_MODE_LEGACY);
                 holder.tv_egg_weight_line1.setText(styledText);
             }
-
-
-
-
-
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -185,6 +198,7 @@ public class EggWeightLossAdapter extends RecyclerView.Adapter <EggWeightLossAda
 
         TextView tv_egg_weight_line1;
         TextView tv_egg_weight_title1;
+        CheckBox check_box_rejected_egg;
         CardView cv_egg_weight;
 
         public BeanHolder(@NonNull View itemView) {
@@ -193,12 +207,15 @@ public class EggWeightLossAdapter extends RecyclerView.Adapter <EggWeightLossAda
             tv_egg_weight_title1 = itemView.findViewById(R.id.tv_egg_weight_title1);
             cv_egg_weight = itemView.findViewById(R.id.cv_egg_weight);
             tv_egg_weight_line1  = itemView.findViewById(R.id.tv_egg_weight_line1);
+            check_box_rejected_egg = itemView.findViewById(R.id.check_box_rejected_egg);
             itemView.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
-            onEggWeightItemClick.onEggWeightClick(getAdapterPosition());}
+            onEggWeightItemClick.onEggWeightClick(getAdapterPosition()
+
+            );}
 
         @Override
         public Filter getFilter() {
@@ -209,5 +226,7 @@ public class EggWeightLossAdapter extends RecyclerView.Adapter <EggWeightLossAda
     public interface OnEggWeightItemClick{
         void onEggWeightClick(int pos);
     }
+
+
 
 }
