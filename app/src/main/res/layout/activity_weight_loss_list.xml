@@ -23,12 +23,19 @@
                 app:popupTheme="@style/AppTheme.PopupOverlay" />
 
         </com.google.android.material.appbar.AppBarLayout>
+        <Spinner
+            android:id="@+id/spinnerSortBy"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+             />
 
         <LinearLayout
             android:id="@+id/ll_weight_loss_filter"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
+
+
 
             <EditText
                 android:id="@+id/et_weight_loss_filter_day"

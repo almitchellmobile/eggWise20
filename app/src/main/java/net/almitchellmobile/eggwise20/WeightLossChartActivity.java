@@ -215,7 +215,7 @@ public class WeightLossChartActivity extends AppCompatActivity {
         @Override
         protected List<EggDaily> doInBackground(Void... voids) {
             if (activityReference.get()!=null) {
-                    eggDailyListAT =  activityReference.get().eggWiseDatabse.getEggDailyDao().getEggDaily_BatchEggDay(EGG_BATCH_ID);
+                    eggDailyListAT =  activityReference.get().eggWiseDatabse.getEggDailyDao().getEggDaily_BatchEggDay_Day_ASC_LABEL_ASC(EGG_BATCH_ID);
                 return eggDailyListAT;
             } else {
                 return null;
@@ -356,7 +356,7 @@ public class WeightLossChartActivity extends AppCompatActivity {
 
         eggDailyList = new ArrayList<>();
         eggWiseDatabse = EggWiseDatabse.getInstance(WeightLossChartActivity.this);
-        eggDailyList =  eggWiseDatabse.getEggDailyDao().getEggDaily_BatchEggDay(EGG_BATCH_ID);
+        eggDailyList =  eggWiseDatabse.getEggDailyDao().getEggDaily_BatchEggDay_Day_ASC_LABEL_ASC(EGG_BATCH_ID);
 
         Integer index = 0;
         EGG_WEIGHT_SUM = 0.0D;

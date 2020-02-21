@@ -52,6 +52,12 @@
     <string name="rb_value_grams">Grams</string>
     <string name="rb_value_ounces">Ounces</string>
     <string name="title_activity_main2">WeightLossChartActivity</string>
+    <string-array name="sort_by_array">
+        <item>By Day ASC, By Egg ASC</item>
+        <item>By Day ASC, By Egg DESC</item>
+        <item>By Day DESC, By Egg ASC</item>
+        <item>By Day DESC, By Egg DESC</item>
+    </string-array>
 
 
 </resources>

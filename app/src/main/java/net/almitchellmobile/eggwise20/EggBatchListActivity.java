@@ -246,7 +246,7 @@ public class EggBatchListActivity extends AppCompatActivity implements EggBatchA
 
         private void computeAveragesAndPercents() {
 
-            List<EggDaily> eggDailyListPostEx = activityReference.get().eggWiseDatabse.getEggDailyDao().getEggDaily_BatchEggDay(EGG_BATCH_ID);
+            List<EggDaily> eggDailyListPostEx = activityReference.get().eggWiseDatabse.getEggDailyDao().getEggDaily_BatchEggDay_Day_ASC_LABEL_ASC(EGG_BATCH_ID);
 
             Integer index = 0;
             EGG_WEIGHT_SUM = 0.0D;

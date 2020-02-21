@@ -12,10 +12,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.SearchView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
@@ -32,6 +35,7 @@ import net.almitchellmobile.eggwise20.util.Common;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import androidx.appcompat.app.AlertDialog;
@@ -40,7 +44,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class WeightLossListActivity extends AppCompatActivity implements EggWeightLossAdapter.OnEggWeightItemClick, EggWeightLossAdapter.EggWeightLossAdapterListener {
+public class WeightLossListActivity extends AppCompatActivity implements EggWeightLossAdapter.OnEggWeightItemClick {
 
     SharedPreferences sharedpreferences;
     /*public static String PREF_TEMPERATURE_ENTERED_IN = "";
@@ -54,6 +58,10 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
 
     public static final String mypreference = "mypref";
 
+    public static String ORDER_BY_COLUMNS = " ReadingDayNumber ASC, EggLabel ASC";
+    public static Integer ORDER_BY_SELECTION = 0;
+
+    public static LinkedHashMap<Integer ,String> sortByLinkedHashMap;
     public static List<EggDaily> EGG_DAILY_LIST_STATIC = null;
     public static HashMap<Long,EggDaily> HASHMAP_EGG_DAILY_ID_EGG_DAILY = new HashMap<Long,EggDaily>();
     public static ArrayList<EggDaily> eggDailyListFiltered = new ArrayList<>();
@@ -93,6 +101,7 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
     ToggleButton toggle_btn_and_or;
     Boolean toggleButtonState;
     Button btn_filter_weight_loss_apply, btn_filter_weight_loss_reset;
+    Spinner spinnerSortBy;
 
     public Long settingID = 0L;
     public EggDaily eggDaily = null;
@@ -154,6 +163,59 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
         } else {
             getSupportActionBar().setTitle("Weight Loss List");
         }
+
+        //sortByLinkedHashMap = new LinkedHashMap<Integer, String>();
+
+
+        spinnerSortBy = (Spinner) findViewById(R.id.spinnerSortBy);
+        List<String> list = new ArrayList<String>();
+        list.add("Sort By Reading Day ASC, Egg Label ASC");
+        list.add("Sort By Reading Day ASC, Egg Label DESC");
+        list.add("Sort By Reading Day DESC, Egg Label ASC");
+        list.add("Sort By Reading Day DESC, Egg Label DESC");
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, list);
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerSortBy.setAdapter(dataAdapter);
+        spinnerSortBy.setSelection(0);
+        spinnerSortBy.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                switch (position) {
+                    case 0:
+                        Toast.makeText(parent.getContext(), "Spinner item 1!", Toast.LENGTH_SHORT).show();
+                        ORDER_BY_COLUMNS = " ReadingDayNumber ASC, EggLabel ASC";
+                        ORDER_BY_SELECTION = 0;
+                        break;
+                    case 1:
+                        Toast.makeText(parent.getContext(), "Spinner item 2!", Toast.LENGTH_SHORT).show();
+                        ORDER_BY_COLUMNS = " ReadingDayNumber ASC, EggLabel DESC ";
+                        ORDER_BY_SELECTION = 1;
+                        break;
+                    case 2:
+                        Toast.makeText(parent.getContext(), "Spinner item 3!", Toast.LENGTH_SHORT).show();
+                        ORDER_BY_COLUMNS = " ReadingDayNumber DESC, EggLabel ASC ";
+                        ORDER_BY_SELECTION = 2;
+                        break;
+                    case 3:
+                        Toast.makeText(parent.getContext(), "Spinner item 4!", Toast.LENGTH_SHORT).show();
+                        ORDER_BY_COLUMNS = " ReadingDayNumber DESC, EggLabel DESC ";
+                        ORDER_BY_SELECTION = 3;
+                        break;
+                }
+                initializeViews();
+                displayList();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+                // sometimes you need nothing here
+            }
+        });
+
+
 
         toggle_btn_and_or = (ToggleButton) findViewById(R.id.toggle_btn_and_or);
         toggle_btn_and_or.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -544,10 +606,7 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
 
     }
 
-    @Override
-    public void EggWeightLossAdapterListener(EggDaily eggDaily) {
-        Toast.makeText(getApplicationContext(), "Selected: " + eggDaily.getEggLabel() + ", " + eggDaily.getEggWeight(), Toast.LENGTH_LONG).show();
-    }
+
 
 
     private static class RetrieveTask extends AsyncTask<Void,Void,List<EggDaily>> {
@@ -561,11 +620,27 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
 
         @Override
         protected List<EggDaily> doInBackground(Void... voids) {
+            List<EggDaily> returnEggDaily = null;
             if (activityReference.get()!=null) {
-                return activityReference.get().eggWiseDatabse.getEggDailyDao().getEggDaily_BatchEggDay(EGG_BATCH_ID);
+                //return activityReference.get().eggWiseDatabse.getEggDailyDao().getEggDaily_BatchEggDay(EGG_BATCH_ID);
+                switch (ORDER_BY_SELECTION) {
+                    case 0:
+                        returnEggDaily = activityReference.get().eggWiseDatabse.getEggDailyDao().getEggDaily_BatchEggDay_Day_ASC_LABEL_ASC(EGG_BATCH_ID);
+                        break;
+                    case 1:
+                        returnEggDaily = activityReference.get().eggWiseDatabse.getEggDailyDao().getEggDaily_BatchEggDay_Day_ASC_Label_DESC(EGG_BATCH_ID);
+                        break;
+                    case 2:
+                        returnEggDaily = activityReference.get().eggWiseDatabse.getEggDailyDao().getEggDaily_BatchEggDay_Day_DESC_Label_ASC(EGG_BATCH_ID);
+                        break;
+                    case 3:
+                        returnEggDaily = activityReference.get().eggWiseDatabse.getEggDailyDao().getEggDaily_BatchEggDay_Day_DESC_Label_DESC(EGG_BATCH_ID);
+                    break;
+                }
             } else {
-                return null;
+                return returnEggDaily;
             }
+            return returnEggDaily;
         }
 
         @Override
@@ -579,14 +654,6 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
                 activityReference.get().eggDailyList.addAll(eggDailyListPostEx);
                 activityReference.get().EGG_DAILY_LIST_STATIC = new ArrayList<>();
                 activityReference.get().EGG_DAILY_LIST_STATIC.addAll(eggDailyListPostEx);
-                //for (int index = 0; index < EGG_DAILY_LIST_STATIC.size(); index++) {
-                //    HASHMAP_EGG_DAILY_ID_EGG_DAILY_LIST_POS.put(EGG_DAILY_LIST_STATIC.get(index).getEggDailyID(), index);
-                //}
-
-
-
-
-
                 // hides empty text view
                 activityReference.get().tv_empty_weight_loss_message.setVisibility(View.GONE);
                 activityReference.get().eggWeightLossAdapter.notifyDataSetChanged();
@@ -643,6 +710,7 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
                         EGG_WEIGHT_AVG_CURRENT, EGG_WEIGHT_AVG_DAY_0, ACTUAL_WEIGHT_LOSS_PERCENT, TARGET_WEIGHT_LOSS_PERCENT,
                         WEIGHT_LOSS_DEVIATION, eggDailyListPostEx.get(index).getEggDailyID());
 
+                EggWeightLossAdapter.WEIGHT_LOSS_DEVIATION_MESSAGE = "";
                 if (WEIGHT_LOSS_DEVIATION != null) {
 
                     if (Math.abs(ACTUAL_WEIGHT_LOSS_PERCENT) >TARGET_WEIGHT_LOSS_PERCENT) {

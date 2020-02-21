@@ -2,6 +2,8 @@ package net.almitchellmobile.eggwise20.adapter;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,8 +49,6 @@ public class EggWeightLossAdapter extends RecyclerView.Adapter <EggWeightLossAda
     private Context context;
     private LayoutInflater layoutInflater;
     private OnEggWeightItemClick onEggWeightItemClick;
-
-    private EggWeightLossAdapterListener eggWeightLossAdapter;
 
     public static Boolean warnAboutDeviation = false;
     public static String warnAboutDeviationValue = "";
@@ -118,9 +118,16 @@ public class EggWeightLossAdapter extends RecyclerView.Adapter <EggWeightLossAda
 
 
         try {
-            //Log.e("bind", "onBindViewHolder: "+ eggDailyList.get(position));
+            Log.e("bind", "onBindViewHolder: "+ eggDailyList.get(position));
             CharSequence styledTextTitle = "";
             CharSequence styledText = "";
+
+
+
+            currentTitle = "<B>Day: " + common.zeroIfNullInteger(eggDailyList.get(position).getReadingDayNumber())  + "</B>, " +
+                    "<B>Label: " + eggDailyList.get(position).getEggLabel() + "</B>";
+            styledTextTitle = HtmlCompat.fromHtml(currentTitle, HtmlCompat.FROM_HTML_MODE_LEGACY);
+            holder.tv_egg_weight_title1.setText(styledTextTitle);
 
 
             /*line1 = "<B>Batch Label:</B> " + common.blankIfNullString(eggDailyList.get(position).getBatchLabel()) +
@@ -145,17 +152,17 @@ public class EggWeightLossAdapter extends RecyclerView.Adapter <EggWeightLossAda
                     line1 += "<br>***<br>";
                     line1 += "*** Warning: Actual Weight deviates beyond Target Weight by ";
                     line1 += (String.format(Locale.getDefault(),"%.2f",Math.abs(eggDailyList.get(position).getWeightLossDeviation()))) + " percent. ***";
+                    holder.cv_egg_weight.setBackgroundColor(Color.parseColor("@color/colorPrimary"));
+                } else {
+                    //holder.cv_egg_weight.setBackgroundColor(Color.parseColor("@android:color/transparent"));
                 }
+                styledText = HtmlCompat.fromHtml(line1, HtmlCompat.FROM_HTML_MODE_LEGACY);
+                holder.tv_egg_weight_line1.setText(styledText);
             }
 
 
-            styledText = HtmlCompat.fromHtml(line1, HtmlCompat.FROM_HTML_MODE_LEGACY);
-            holder.tv_egg_weight_line1.setText(styledText);
 
-            currentTitle = "<B>Day: " + common.zeroIfNullInteger(eggDailyList.get(position).getReadingDayNumber())  + "</B>, " +
-                "<B>Label: " + eggDailyList.get(position).getEggLabel() + "</B>";
-            styledTextTitle = HtmlCompat.fromHtml(currentTitle, HtmlCompat.FROM_HTML_MODE_LEGACY);
-            holder.tv_egg_weight_title1.setText(styledTextTitle);
+
 
 
         } catch (Exception e) {
@@ -174,47 +181,6 @@ public class EggWeightLossAdapter extends RecyclerView.Adapter <EggWeightLossAda
         notifyDataSetChanged();
     }
 
-   /* public void filterListDay(ArrayList<EggDaily> eggDailyListFiltered) {
-        this.eggDailyList = eggDailyListFiltered;
-        notifyDataSetChanged();
-    }*/
-
-    /*@Override
-    public Filter getFilter() {
-        return new Filter() {
-            @Override
-            protected FilterResults performFiltering(CharSequence charSequence) {
-                String charString = charSequence.toString();
-                if (charString.isEmpty()) {
-                    eggDailyListFiltered = eggDailyList;
-                } else {
-                    List<EggDaily> filteredList = new ArrayList<>();
-                    for (EggDaily row : eggDailyList) {
-
-                        // name match condition. this might differ depending on your requirement
-                        // here we are looking for name or phone number match
-                        //if (row.getEggLabel().toLowerCase().contains(charSequence) || currentTitle.toLowerCase().contains(charSequence)) {
-                        if (row.getEggLabel().toLowerCase().contains(charSequence) || currentTitle.toLowerCase().contains(charSequence)) {
-                            filteredList.add(row);
-                        }
-                    }
-
-                    eggDailyListFiltered = filteredList;
-                }
-
-                FilterResults filterResults = new FilterResults();
-                filterResults.values = eggDailyListFiltered;
-                return filterResults;
-            }
-
-            @Override
-            protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
-                eggDailyListFiltered = (ArrayList<EggDaily>) filterResults.values;
-                notifyDataSetChanged();
-            }
-        };
-    }*/
-
     public class BeanHolder extends RecyclerView.ViewHolder implements View.OnClickListener, Filterable {
 
         TextView tv_egg_weight_line1;
@@ -228,14 +194,6 @@ public class EggWeightLossAdapter extends RecyclerView.Adapter <EggWeightLossAda
             cv_egg_weight = itemView.findViewById(R.id.cv_egg_weight);
             tv_egg_weight_line1  = itemView.findViewById(R.id.tv_egg_weight_line1);
             itemView.setOnClickListener(this);
-
-            /*itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    // send selected contact in callback
-                    eggWeightLossAdapter.on.onContactSelected(contactListFiltered.get(getAdapterPosition()));
-                }
-            });*/
         }
 
         @Override
@@ -251,10 +209,5 @@ public class EggWeightLossAdapter extends RecyclerView.Adapter <EggWeightLossAda
     public interface OnEggWeightItemClick{
         void onEggWeightClick(int pos);
     }
-
-    public interface EggWeightLossAdapterListener {
-        void EggWeightLossAdapterListener(EggDaily eggDaily);
-    }
-
 
 }
