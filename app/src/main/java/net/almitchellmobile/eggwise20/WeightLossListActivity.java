@@ -103,7 +103,8 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
     Boolean toggleButtonState;
     Button btn_filter_weight_loss_apply, btn_filter_weight_loss_reset;
     Spinner spinnerSortBy;
-    CheckBox check_box_rejected_egg;
+
+    public static CheckBox check_box_rejected_egg;
 
     public Long settingID = 0L;
     public EggDaily eggDaily = null;
@@ -167,6 +168,7 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
             getSupportActionBar().setTitle("Weight Loss List");
         }
 
+        //check_box_rejected_egg = (CheckBox) findViewById(R.id.check_box_rejected_egg);
 
         spinnerSortBy = (Spinner) findViewById(R.id.spinnerSortBy);
         List<String> list = new ArrayList<String>();
@@ -504,7 +506,9 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
             }
         });
 
-        /*check_box_rejected_egg = (CompoundButton) findViewById(R.id.check_box_rejected_egg);
+
+
+        /*
         check_box_rejected_egg.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
               @Override
               public void onCheckedChanged(CompoundButton buttonView,boolean isChecked) {
@@ -540,7 +544,7 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
         recyclerViewWeightLossList = findViewById(R.id.recycler_view_weight_loss_list);
         recyclerViewWeightLossList.setLayoutManager(new LinearLayoutManager(WeightLossListActivity.this));
         eggDailyList = new ArrayList<>();
-        eggWeightLossAdapter = new EggWeightLossAdapter(eggDailyList,  WeightLossListActivity.this);
+        eggWeightLossAdapter = new EggWeightLossAdapter(eggDailyList,  WeightLossListActivity.this, eggWiseDatabse);
         recyclerViewWeightLossList.setAdapter(eggWeightLossAdapter);
 
         //RoomExplorer.show(WeightLossListActivity.this, EggWiseDatabse.class, "EggWiseDB.db");
@@ -671,6 +675,7 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
 
             if (eggDailyListPostEx!=null && eggDailyListPostEx.size()>0 ){
 
+
                 computeAveragesAndPercents(eggDailyListPostEx);
 
                 activityReference.get().eggDailyList.clear();
@@ -691,6 +696,12 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
             for (index = 0; index < eggDailyListPostEx.size(); index++) {
 
                 //HASHMAP_EGG_DAILY_ID_EGG_DAILY_LIST_POS.put(eggDailyListPostEx.get(index).getEggDailyID(), index);
+
+                /*if (eggDailyListPostEx.get(index).getRejectedEgg() == 1) {
+                    check_box_rejected_egg.setChecked(true);
+                } else {
+                    check_box_rejected_egg.setChecked(false);
+                }*/
 
                 READING_DAY_NUMBER = eggDailyListPostEx.get(index).getReadingDayNumber();
                 EGG_LABEL = eggDailyListPostEx.get(index).getEggLabel();

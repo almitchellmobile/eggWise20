@@ -13,6 +13,7 @@ import android.widget.Filterable;
 import android.widget.TextView;
 
 import net.almitchellmobile.eggwise20.R;
+import net.almitchellmobile.eggwise20.database.EggWiseDatabse;
 import net.almitchellmobile.eggwise20.database.model.EggDaily;
 import net.almitchellmobile.eggwise20.util.Common;
 
@@ -74,6 +75,7 @@ public class EggWeightLossAdapter extends RecyclerView.Adapter <EggWeightLossAda
     public Double eggWeight = 0.0;
     public Double eggWeightWarningDeviationPercent = 0.0;
     public Double eggWeightPercentDeviationAmount = 0.0;
+    Integer rejectedEgg = 0;
 
     String previousTitle = "";
     String currentTitle = "";
@@ -88,15 +90,18 @@ public class EggWeightLossAdapter extends RecyclerView.Adapter <EggWeightLossAda
     public String previousKey = "";
     String line1 = "";
 
+    EggWiseDatabse eggWiseDatabse;
+
 
     Common common;
 
 
-    public EggWeightLossAdapter(List<EggDaily> eggDailyList, Context context) {
+    public EggWeightLossAdapter(List<EggDaily> eggDailyList, Context context, EggWiseDatabse eggWiseDatabse) {
         layoutInflater = LayoutInflater.from(context);
         this.eggDailyList = eggDailyList;
         this.context = context;
         this.onEggWeightItemClick = (OnEggWeightItemClick) context;
+        this.eggWiseDatabse = eggWiseDatabse;
         common = new Common();
         sharedpreferences = context.getSharedPreferences(mypreference,
                 Context.MODE_PRIVATE);
@@ -124,17 +129,28 @@ public class EggWeightLossAdapter extends RecyclerView.Adapter <EggWeightLossAda
             holder.check_box_rejected_egg.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    int pos = holder.getAdapterPosition();
+                    //int pos = holder.getAdapterPosition();
                     //ChoiceItem currentItem = mChoice.get(pos);
                     if(holder.check_box_rejected_egg.isChecked()){
                         //reject this egg
                         eggDailyList.get(position).setRejectedEgg(1);
+                        rejectedEgg = eggDailyList.get(position).getRejectedEgg();
+                        eggWiseDatabse.getEggDailyDao().updateEggDaily__RejectedEgg(rejectedEgg,
+                                eggDailyList.get(position).getEggDailyID(), eggDailyList.get(position).getEggLabel());
                     }else{
                         //unreject this egg
                         eggDailyList.get(position).setRejectedEgg(0);
+                        rejectedEgg = eggDailyList.get(position).getRejectedEgg();
+                        eggWiseDatabse.getEggDailyDao().updateEggDaily__RejectedEgg(rejectedEgg,
+                                eggDailyList.get(position).getEggDailyID(), eggDailyList.get(position).getEggLabel());
                     }
                 }
             });
+            if (eggDailyList.get(position).getRejectedEgg() == 1) {
+                holder.check_box_rejected_egg.setChecked(true);
+            } else {
+                holder.check_box_rejected_egg.setChecked(false);
+            }
 
 
             CharSequence styledTextTitle = "";
@@ -143,7 +159,7 @@ public class EggWeightLossAdapter extends RecyclerView.Adapter <EggWeightLossAda
 
 
             currentTitle = "<B>Day: " + common.zeroIfNullInteger(eggDailyList.get(position).getReadingDayNumber())  + "</B>, " +
-                    "<B>Label: " + eggDailyList.get(position).getEggLabel() + "</B>";
+                    "<B>Egg: " + eggDailyList.get(position).getEggLabel() + "</B>";
             styledTextTitle = HtmlCompat.fromHtml(currentTitle, HtmlCompat.FROM_HTML_MODE_LEGACY);
             holder.tv_egg_weight_title1.setText(styledTextTitle);
 
@@ -165,18 +181,25 @@ public class EggWeightLossAdapter extends RecyclerView.Adapter <EggWeightLossAda
                     ", <B>Target Loss %:</B> " + String.format(Locale.getDefault(),"%.2f",eggDailyList.get(position).getTargetWeightLossPercent()) +
                     ", <B>% Deviation:</B> " + String.format(Locale.getDefault(),"%.2f",Math.abs(eggDailyList.get(position).getWeightLossDeviation()));
 
-            if (eggDailyList.get(position).getWeightLossDeviation() != null) {
-                if (eggDailyList.get(position).getWeightLossDeviation() > PREF_WARN_WEIGHT_DEVIATION_PERCENTAGE) {
-                    line1 += "<br>***<br>";
-                    line1 += "*** Warning: Actual Weight deviates beyond Target Weight by ";
-                    line1 += (String.format(Locale.getDefault(),"%.2f",Math.abs(eggDailyList.get(position).getWeightLossDeviation()))) + " percent. ***";
-                    holder.cv_egg_weight.setBackgroundColor(Color.parseColor("#ecc317"));
-                } else {
-                    //holder.cv_egg_weight.setBackgroundColor(Color.parseColor("@android:color/transparent"));
+            if (eggDailyList.get(position).getRejectedEgg() == 1) {
+                holder.cv_egg_weight.setBackgroundColor(Color.RED);
+            } else {
+                if (eggDailyList.get(position).getWeightLossDeviation() != null) {
+                    if (eggDailyList.get(position).getWeightLossDeviation() > PREF_WARN_WEIGHT_DEVIATION_PERCENTAGE) {
+                        line1 += "<br>***<br>";
+                        line1 += "*** Warning: Actual Weight deviates beyond Target Weight by ";
+                        line1 += (String.format(Locale.getDefault(), "%.2f", Math.abs(eggDailyList.get(position).getWeightLossDeviation()))) + " percent. ***";
+                        //holder.cv_egg_weight.setBackgroundColor(Color.parseColor("#ecc317"));
+                        holder.cv_egg_weight.setBackgroundColor(Color.YELLOW);
+                    } else {
+                        //holder.cv_egg_weight.setBackgroundColor(Color.parseColor("@android:color/transparent"));
+                    }
                 }
-                styledText = HtmlCompat.fromHtml(line1, HtmlCompat.FROM_HTML_MODE_LEGACY);
-                holder.tv_egg_weight_line1.setText(styledText);
             }
+
+
+            styledText = HtmlCompat.fromHtml(line1, HtmlCompat.FROM_HTML_MODE_LEGACY);
+            holder.tv_egg_weight_line1.setText(styledText);
 
         } catch (Exception e) {
             e.printStackTrace();

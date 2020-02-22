@@ -37,7 +37,10 @@ public interface EggDailyDao {
 
     String sqlSelectSumSingle = "SELECT SUM(EggWeight) EggWeightSum FROM "+
             Constants.TABLE_NAME_EGG_DAILY +
-            " WHERE EggBatchID = :eggBatchID AND ReadingDayNumber = :readingDayNumber AND EggDailyID = :eggDailyID " +
+            " WHERE EggBatchID = :eggBatchID " +
+            " AND ReadingDayNumber = :readingDayNumber " +
+            " AND EggDailyID = :eggDailyID " +
+            " AND RejectedEgg = 0 " +
             " GROUP BY ReadingDayNumber , EggLabel  " +
             " ORDER BY ReadingDayNumber ASC, EggLabel ASC ";
     @Query(sqlSelectSumSingle)
@@ -45,7 +48,10 @@ public interface EggDailyDao {
 
     String sqlSelectAvgSingle = "SELECT AVG(EggWeight) EggWeightAvg FROM "+
             Constants.TABLE_NAME_EGG_DAILY +
-            " WHERE EggBatchID = :eggBatchID AND ReadingDayNumber = :readingDayNumber AND EggDailyID = :eggDailyID " +
+            " WHERE EggBatchID = :eggBatchID " +
+            " AND ReadingDayNumber = :readingDayNumber " +
+            " AND EggDailyID = :eggDailyID " +
+            " AND RejectedEgg = 0 " +
             " GROUP BY ReadingDayNumber, EggLabel  " +
             " ORDER BY ReadingDayNumber ASC, EggLabel ASC ";
     @Query(sqlSelectAvgSingle)
@@ -53,7 +59,9 @@ public interface EggDailyDao {
 
     String sqlSelectSumBatch = "SELECT SUM(EggWeight) EggWeightSum FROM "+
             Constants.TABLE_NAME_EGG_DAILY +
-            " WHERE EggBatchID = :eggBatchID AND ReadingDayNumber = :readingDayNumber  " +
+            " WHERE EggBatchID = :eggBatchID " +
+            " AND ReadingDayNumber = :readingDayNumber  " +
+            " AND RejectedEgg = 0 " +
             " GROUP BY ReadingDayNumber  " +
             " ORDER BY ReadingDayNumber ASC ";
     @Query(sqlSelectSumBatch)
@@ -61,7 +69,9 @@ public interface EggDailyDao {
 
     String sqlSelectAvgBatch = "SELECT AVG(EggWeight) EggWeightAvg FROM "+
             Constants.TABLE_NAME_EGG_DAILY +
-            " WHERE EggBatchID = :eggBatchID AND ReadingDayNumber = :readingDayNumber" +
+            " WHERE EggBatchID = :eggBatchID " +
+            " AND ReadingDayNumber = :readingDayNumber" +
+            " AND RejectedEgg = 0 " +
             " GROUP BY ReadingDayNumber  " +
             " ORDER BY ReadingDayNumber ASC ";
     @Query(sqlSelectAvgBatch)
@@ -70,6 +80,7 @@ public interface EggDailyDao {
     String sqlSelectAvgBatchGroupByDay = "SELECT ReadingDayNumber, AVG(EggWeight) EggWeightAvg FROM "+
             Constants.TABLE_NAME_EGG_DAILY +
             " WHERE EggBatchID = :eggBatchID " +
+            " AND RejectedEgg = 0 " +
             " GROUP BY ReadingDayNumber  " +
             " ORDER BY ReadingDayNumber ASC ";
     @Query(sqlSelectAvgBatchGroupByDay)
@@ -77,21 +88,25 @@ public interface EggDailyDao {
 
     String sqlComputeAvgDay0Batch = "SELECT AVG(EggWeight) EggWeightAvg0 FROM "+
             Constants.TABLE_NAME_EGG_DAILY +
-            " WHERE EggBatchID = :eggBatchID AND ReadingDayNumber = 0 " +
+            " WHERE EggBatchID = :eggBatchID " +
+            " AND ReadingDayNumber = 0 " +
+            " AND RejectedEgg = 0 " +
             " GROUP BY ReadingDayNumber  ";
     @Query(sqlComputeAvgDay0Batch)
     Double getEggDaily_ComputeAvg_Day0_Batch_Tracking(Long eggBatchID);
 
     String sqlComputeAvgDay0Single = "SELECT AVG(EggWeight) EggWeightAvg0 FROM "+
             Constants.TABLE_NAME_EGG_DAILY +
-            " WHERE EggBatchID = :eggBatchID AND ReadingDayNumber = 0  AND EggDailyID = :eggDailyID" +
+            " WHERE EggBatchID = :eggBatchID " +
+            " AND ReadingDayNumber = 0  " +
+            " AND EggDailyID = :eggDailyID" +
             " GROUP BY ReadingDayNumber, EggLabel  ";
     @Query(sqlComputeAvgDay0Single)
     Double getEggDaily_ComputeAvg_Day0_Single_Tracking(Long eggBatchID, Long eggDailyID);
 
     String sqlSelectAvgDay0 = "SELECT EggWeightAverageDay0 FROM "+
             Constants.TABLE_NAME_EGG_DAILY +
-            " WHERE EggBatchID = :eggBatchID AND ReadingDayNumber = 0 ";
+            " WHERE EggBatchID = :eggBatchID AND ReadingDayNumber = 0";
     @Query(sqlSelectAvgDay0)
     Double getEggDaily_BatchEggDayAvgDay0(Long eggBatchID);
 
