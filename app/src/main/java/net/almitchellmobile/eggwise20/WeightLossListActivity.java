@@ -21,7 +21,6 @@ import android.widget.EditText;
 import android.widget.SearchView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.google.android.material.chip.Chip;
@@ -187,22 +186,22 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
 
                 switch (position) {
                     case 0:
-                        Toast.makeText(parent.getContext(), "Spinner item 1!", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(parent.getContext(), "Spinner item 1!", Toast.LENGTH_SHORT).show();
                         ORDER_BY_COLUMNS = " ReadingDayNumber ASC, EggLabel ASC";
                         ORDER_BY_SELECTION = 0;
                         break;
                     case 1:
-                        Toast.makeText(parent.getContext(), "Spinner item 2!", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(parent.getContext(), "Spinner item 2!", Toast.LENGTH_SHORT).show();
                         ORDER_BY_COLUMNS = " ReadingDayNumber ASC, EggLabel DESC ";
                         ORDER_BY_SELECTION = 1;
                         break;
                     case 2:
-                        Toast.makeText(parent.getContext(), "Spinner item 3!", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(parent.getContext(), "Spinner item 3!", Toast.LENGTH_SHORT).show();
                         ORDER_BY_COLUMNS = " ReadingDayNumber DESC, EggLabel ASC ";
                         ORDER_BY_SELECTION = 2;
                         break;
                     case 3:
-                        Toast.makeText(parent.getContext(), "Spinner item 4!", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(parent.getContext(), "Spinner item 4!", Toast.LENGTH_SHORT).show();
                         ORDER_BY_COLUMNS = " ReadingDayNumber DESC, EggLabel DESC ";
                         ORDER_BY_SELECTION = 3;
                         break;
@@ -594,7 +593,7 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
 
         new AlertDialog.Builder(WeightLossListActivity.this)
                 .setTitle("Select Options")
-                .setItems(new String[]{"Delete", "Update", "Weight Loss Chart"}, new DialogInterface.OnClickListener() {
+                .setItems(new String[]{"Delete", "Update", "Weight Loss Chart", "Reject this Egg"}, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         switch (i){
@@ -626,6 +625,25 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
                                                 WeightLossChartActivity.class).putExtra("eggDailyChart", eggDailyOnClick)
                                                                                 .putExtra("eggBatch", eggBatch));
                                 finish();
+                                break;
+                            case 3:
+                                EGG_DAILY_ID_STATIC = eggDailyListFiltered.get(pos).getEggDailyID();
+                                eggDailyOnClick = HASHMAP_EGG_DAILY_ID_EGG_DAILY.get(EGG_DAILY_ID_STATIC);
+                                if(eggDailyList.get(pos).getRejectedEgg() == 0){
+                                    //reject this egg
+                                    eggDailyList.get(pos).setRejectedEgg(1);
+                                    rejectedEgg = eggDailyList.get(pos).getRejectedEgg();
+                                    eggWiseDatabse.getEggDailyDao().updateEggDaily_RejectedEgg(rejectedEgg,
+                                            eggDailyList.get(pos).getEggBatchID(), eggDailyList.get(pos).getEggLabel());
+                                }else if(eggDailyList.get(pos).getRejectedEgg() == 1){
+                                    //unreject this egg
+                                    eggDailyList.get(pos).setRejectedEgg(0);
+                                    rejectedEgg = eggDailyList.get(pos).getRejectedEgg();
+                                    eggWiseDatabse.getEggDailyDao().updateEggDaily_RejectedEgg(rejectedEgg,
+                                            eggDailyList.get(pos).getEggBatchID(), eggDailyList.get(pos).getEggLabel());
+                                }
+                                eggWeightLossAdapter.notifyDataSetChanged();
+                                listVisibility();
                                 break;
                         }
                     }

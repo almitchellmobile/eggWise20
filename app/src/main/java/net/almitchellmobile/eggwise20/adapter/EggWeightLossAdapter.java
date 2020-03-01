@@ -131,21 +131,24 @@ public class EggWeightLossAdapter extends RecyclerView.Adapter <EggWeightLossAda
                 public void onClick(View view) {
                     //int pos = holder.getAdapterPosition();
                     //ChoiceItem currentItem = mChoice.get(pos);
-                    if(holder.check_box_rejected_egg.isChecked()){
+                    if(holder.check_box_rejected_egg.isChecked() && eggDailyList.get(position).getRejectedEgg() == 0){
                         //reject this egg
                         eggDailyList.get(position).setRejectedEgg(1);
                         rejectedEgg = eggDailyList.get(position).getRejectedEgg();
-                        eggWiseDatabse.getEggDailyDao().updateEggDaily__RejectedEgg(rejectedEgg,
-                                eggDailyList.get(position).getEggDailyID(), eggDailyList.get(position).getEggLabel());
-                    }else{
+                        eggWiseDatabse.getEggDailyDao().updateEggDaily_RejectedEgg(rejectedEgg,
+                                eggDailyList.get(position).getEggBatchID(), eggDailyList.get(position).getEggLabel());
+                        //notifyDataSetChanged();
+                    }else if(!holder.check_box_rejected_egg.isChecked() && eggDailyList.get(position).getRejectedEgg() == 1){
                         //unreject this egg
                         eggDailyList.get(position).setRejectedEgg(0);
                         rejectedEgg = eggDailyList.get(position).getRejectedEgg();
-                        eggWiseDatabse.getEggDailyDao().updateEggDaily__RejectedEgg(rejectedEgg,
-                                eggDailyList.get(position).getEggDailyID(), eggDailyList.get(position).getEggLabel());
+                        eggWiseDatabse.getEggDailyDao().updateEggDaily_RejectedEgg(rejectedEgg,
+                                eggDailyList.get(position).getEggBatchID(), eggDailyList.get(position).getEggLabel());
+                        //notifyDataSetChanged();
                     }
                 }
             });
+
             if (eggDailyList.get(position).getRejectedEgg() == 1) {
                 holder.check_box_rejected_egg.setChecked(true);
             } else {
@@ -162,7 +165,6 @@ public class EggWeightLossAdapter extends RecyclerView.Adapter <EggWeightLossAda
                     "<B>Egg: " + eggDailyList.get(position).getEggLabel() + "</B>";
             styledTextTitle = HtmlCompat.fromHtml(currentTitle, HtmlCompat.FROM_HTML_MODE_LEGACY);
             holder.tv_egg_weight_title1.setText(styledTextTitle);
-
 
             /*line1 = "<B>Batch Label:</B> " + common.blankIfNullString(eggDailyList.get(position).getBatchLabel()) +
                     ", <B>Reading Day:</B> " + common.zeroIfNullInteger(eggDailyList.get(position).getReadingDayNumber()) +*/
