@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".EggWiseMainActivity"
+    tools:showIn="@layout/activity_egg_wise_main">
+
+   <!-- <TextView
+        android:id="@+id/tv_empty_incubators"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="40sp"
+        android:gravity="center"
+        android:text="No Incubators Found, Let's Add Some!"
+        />-->
+
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:background="@drawable/radialback3"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        style="?buttonBarStyle"
+        >
+
+
+        <ImageView
+            android:id="@+id/eggwise_image"
+            android:layout_alignParentTop="true"
+            android:layout_centerInParent="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:keepScreenOn="true"
+            android:src="@drawable/eggwise_master_background1t"
+            android:contentDescription="@string/eggwise_image"
+            />
+
+        <!--
+        <TextView
+            android:id="@+id/link_brinsea"
+            android:layout_below="@+id/eggwise_image"
+            android:layout_centerInParent="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="marquee"
+            android:fadingEdge="horizontal"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:scrollHorizontally="true"
+            android:singleLine="true"
+            android:text="@string/link_brinsea"
+            android:textSize="20sp"
+            android:textColor="#0000c0"
+            />
+            -->
+
+        <Button
+            android:id="@+id/buttonLinkBrinsea"
+            android:layout_below="@+id/eggwise_image"
+            android:layout_centerInParent="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:textColor="#0000c0"
+            android:background="@android:color/transparent"
+            android:gravity="center"
+            android:text="@string/link_brinsea"
+            />
+
+        <ImageView
+            android:id="@+id/brinsea_image"
+            android:layout_above="@+id/buttonByLineALMmitchell"
+            android:layout_centerInParent="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/brinsea_1t"
+            android:contentDescription="@string/brinsea_image"
+            />
+
+        <!-- <TextView
+           android:id="@+id/by_line_almitchell1"
+           android:layout_centerHorizontal="true"
+           android:layout_alignParentBottom="true"
+           android:keepScreenOn="true"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:text="@string/link_almitchell"
+           android:textSize="20sp"
+           android:textColor="#0000c0"
+           />  -->
+
+        <Button
+            android:id="@+id/buttonByLineALMmitchell"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            android:keepScreenOn="true"
+            android:textSize="20sp"
+            android:textColor="#0000c0"
+            android:background="@android:color/transparent"
+            android:gravity="center"
+            android:text="@string/by_line_almitchell1"
+            />
+
+    </RelativeLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

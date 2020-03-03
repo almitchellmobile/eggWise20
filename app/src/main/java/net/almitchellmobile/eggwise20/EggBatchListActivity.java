@@ -381,6 +381,7 @@ public class EggBatchListActivity extends AppCompatActivity implements EggBatchA
                                 break;
                             case 4:
                                 EggBatchListActivity.this.pos = pos;
+                                WeightLossChartActivity.RETURN_ACTIVITY = "EggBatchListActivity";
                                 Intent intent3 = new Intent(EggBatchListActivity.this, WeightLossChartActivity.class);
                                 intent3.putExtra("eggBatch",eggBatchList.get(pos));
                                 startActivity(intent3);

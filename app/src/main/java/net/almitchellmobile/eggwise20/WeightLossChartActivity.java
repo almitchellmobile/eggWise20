@@ -1,6 +1,7 @@
 package net.almitchellmobile.eggwise20;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.AsyncTask;
@@ -9,7 +10,6 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 import com.jjoe64.graphview.DefaultLabelFormatter;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
@@ -61,6 +61,7 @@ public class WeightLossChartActivity extends AppCompatActivity {
     public static Integer TARGET_WEIGHT_LOSS_INTEGER = 0;
     public static Integer INCUBATION_DAYS = 0;
     public static Integer NUMBER_OF_EGGS_REMAINING = 0 ;
+    public static String RETURN_ACTIVITY = "";
 
     FloatingActionButton fab_weight_loss;
     private TextView tv_empty_weight_loss_message;
@@ -106,6 +107,10 @@ public class WeightLossChartActivity extends AppCompatActivity {
 
     public static GraphView graphWeightLoss;
     PointsGraphSeries<DataPoint> pointPointsGraphSeries;
+    FloatingActionButton fabWeightLossChart;
+    Class<WeightLossListActivity> returnWeightLossListActivity;
+    Class<EggBatchListActivity> returnEggBatchListActivity;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,15 +119,6 @@ public class WeightLossChartActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Weight Loss Chart");
-
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
 
         sharedpreferences = getSharedPreferences(mypreference,
                 Context.MODE_PRIVATE);
@@ -164,6 +160,8 @@ public class WeightLossChartActivity extends AppCompatActivity {
             EGG_BATCH_ID = eggBatch.getEggBatchID();
             EGG_LABEL = eggBatch.getBatchLabel();
             TRACKING_OPTION = eggBatch.getTrackingOption();
+            returnEggBatchListActivity = EggBatchListActivity.class;
+            //returnActivity = "EggBatchListActivity";
             getSupportActionBar().setTitle("Weight Loss Chart Batch: " + BATCH_LABEL);
             displayChart();
         } else {
@@ -173,11 +171,29 @@ public class WeightLossChartActivity extends AppCompatActivity {
                 eggBatch = (EggBatch) getIntent().getSerializableExtra("eggBatch");
                 BATCH_LABEL = eggDaily.getBatchLabel();
                 TRACKING_OPTION = eggBatch.getTrackingOption();
+                returnWeightLossListActivity = WeightLossListActivity.class;
+                //returnActivity = "WeightLossListActivity";
                 getSupportActionBar().setTitle("Weight Loss Chart Batch: " + BATCH_LABEL);
                 //createWeightLossChart();
                 displayChart();
             }
         }
+
+        fabWeightLossChart = findViewById(R.id.fabWeightLossChart);
+        fabWeightLossChart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent2 = null;
+                if (RETURN_ACTIVITY.equalsIgnoreCase("WeightLossListActivity")) {
+                    intent2 = new Intent(WeightLossChartActivity.this, WeightLossListActivity.class);
+                } else {
+                    intent2 = new Intent(WeightLossChartActivity.this, EggBatchListActivity.class);
+                }
+                intent2.putExtra("eggBatch",eggBatch);
+                startActivity(intent2);
+                finish();
+            }
+        });
 
     }
 

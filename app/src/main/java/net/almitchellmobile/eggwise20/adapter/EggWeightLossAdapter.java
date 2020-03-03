@@ -126,7 +126,7 @@ public class EggWeightLossAdapter extends RecyclerView.Adapter <EggWeightLossAda
         try {
             Log.e("bind", "onBindViewHolder: "+ eggDailyList.get(position));
 
-            holder.check_box_rejected_egg.setOnClickListener(new View.OnClickListener() {
+            /*holder.check_box_rejected_egg.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     //int pos = holder.getAdapterPosition();
@@ -147,13 +147,13 @@ public class EggWeightLossAdapter extends RecyclerView.Adapter <EggWeightLossAda
                         //notifyDataSetChanged();
                     }
                 }
-            });
+            });*/
 
-            if (eggDailyList.get(position).getRejectedEgg() == 1) {
+            /*if (eggDailyList.get(position).getRejectedEgg() == 1) {
                 holder.check_box_rejected_egg.setChecked(true);
             } else {
                 holder.check_box_rejected_egg.setChecked(false);
-            }
+            }*/
 
 
             CharSequence styledTextTitle = "";
@@ -233,6 +233,7 @@ public class EggWeightLossAdapter extends RecyclerView.Adapter <EggWeightLossAda
             cv_egg_weight = itemView.findViewById(R.id.cv_egg_weight);
             tv_egg_weight_line1  = itemView.findViewById(R.id.tv_egg_weight_line1);
             check_box_rejected_egg = itemView.findViewById(R.id.check_box_rejected_egg);
+            check_box_rejected_egg.setVisibility(View.GONE);
             itemView.setOnClickListener(this);
         }
 

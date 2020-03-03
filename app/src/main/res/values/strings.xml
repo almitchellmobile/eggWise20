@@ -17,7 +17,7 @@
     <string name="menu_send">Send</string>
     <string name="brinsea_image">Brinsea image</string>
     <string name="eggwise_image">eggWISE image</string>
-    <string name="link_brinsea">Brinsea Products Inc. Visit our website: http://www.brinsea.com</string>
+    <string name="link_brinsea">Brinsea Products Inc. Visit our website: <a href="http://www.brinsea.com">www.brinsea.com</a></string>
     <string name="link_almitchell"><a href="http://www.almitchellmobile.net">Developed by AL Mitchell Mobile: http://www.almitchellmobile.net</a></string>
     <string name="link_almitchell_brinsea"><a href="http://www.almitchellmobile.net">Developed for Brinsea Products Inc.: http://www.brinsea.com</a><a href="http://http://www.brinsea.com">by AL Mitchell: <br></br>http://www.almitchellmobile.net </a></string>
     <string name="by_line_almitchell">Developed by AL Mitchell http://www.almitchellmobile.net</string>
@@ -58,6 +58,7 @@
         <item>By Day DESC, By Egg ASC</item>
         <item>By Day DESC, By Egg DESC</item>
     </string-array>
+    <string name="title_activity_egg_wise_maine">EggWiseMaineActivity</string>
 
 
 </resources>
