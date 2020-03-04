@@ -263,7 +263,7 @@ public class AddWeightLossActivity extends AppCompatActivity {
         });
 
         button_save_list_weight_loss = findViewById(R.id.button_save_list_weight_loss);
-        button_save_list_weight_loss.setText("Save / List Eggs");
+        button_save_list_weight_loss.setText("Save/List Eggs");
         button_save_list_weight_loss.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -285,7 +285,7 @@ public class AddWeightLossActivity extends AppCompatActivity {
         });
 
         button_save_add_weight_loss = findViewById(R.id.button_save_add_weight_loss);
-        button_save_add_weight_loss.setText("Save / Next");
+        button_save_add_weight_loss.setText("Save/Next");
         button_save_add_weight_loss.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -307,7 +307,7 @@ public class AddWeightLossActivity extends AppCompatActivity {
         //button_save_add_weight_loss.setVisibility(View.GONE);
 
         button_cancel = findViewById(R.id.button_cancel);
-        button_cancel.setText("List Batch");
+        button_cancel.setText("Cancel/List Batch");
         button_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -31,18 +31,31 @@
 
     <Button
         android:id="@+id/buttonLinkBrinsea"
-        android:layout_below="@+id/eggwise_image"
-        android:layout_centerInParent="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:textColor="#0000c0"
+        android:layout_below="@+id/eggwise_image"
+        android:layout_centerInParent="true"
         android:background="@android:color/transparent"
-
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/eggwise_image"
         android:text="@string/link_brinsea"
-        />
+        android:textColor="#0000c0"
+
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/eggwise_image" />
+
+    <Button
+        android:id="@+id/buttonLinkBrinseaFacebook"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/buttonLinkBrinsea"
+        android:layout_centerHorizontal="true"
+
+        android:background="@android:color/transparent"
+        android:text="@string/link_brinsea_facebook"
+        android:textColor="#0000c0"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/buttonLinkBrinsea" />
 
     <ImageView
         android:id="@+id/brinsea_image"

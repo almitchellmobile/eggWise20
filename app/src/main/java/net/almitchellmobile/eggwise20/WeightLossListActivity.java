@@ -1,6 +1,5 @@
 package net.almitchellmobile.eggwise20;
 
-import android.app.SearchManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -47,16 +46,9 @@ import androidx.recyclerview.widget.RecyclerView;
 public class WeightLossListActivity extends AppCompatActivity implements EggWeightLossAdapter.OnEggWeightItemClick {
 
     SharedPreferences sharedpreferences;
-    /*public static String PREF_TEMPERATURE_ENTERED_IN = "";
-    public static String PREF_HUMIDITY_MEASURED_WITH = "";
-    public static String PREF_WEIGHT_ENTERED_IN = "";
-
-    public static Integer PREF_DAYS_TO_HATCHER_BEFORE_HATCHING = 3;
-    public static Float PREF_DEFAULT_WEIGHT_LOSS_PRECENTAGE= 0.0F;
-    public static Float PREF_WARN_WEIGHT_DEVIATION_PERCENTAGE = 0.0F;
-    public static Integer PREF_DEFAULT_WEIGHT_LOSS_INTEGER = 0;*/
 
     public static final String mypreference = "mypref";
+    public static Boolean HIDE_REJECTS = true;
 
     public static String ORDER_BY_COLUMNS = " ReadingDayNumber ASC, EggLabel ASC";
     public static Integer ORDER_BY_SELECTION = 0;
@@ -87,7 +79,7 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
     public static DecimalFormat df = new DecimalFormat("00.00");
 
     private SearchView searchView;
-    FloatingActionButton fab_weight_loss;
+    FloatingActionButton fab_weight_loss_rejects_visibility, fab_add_weight_loss;
     private TextView tv_empty_weight_loss_message;
     private RecyclerView recyclerViewWeightLossList;
     private EggWiseDatabse eggWiseDatabse;
@@ -402,9 +394,33 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
         eggWeightLossAdapter.filterEggDailyList(eggDailyListFiltered);
     }
 
-
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
 
     @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        super.onOptionsItemSelected(item);
+
+        switch (item.getItemId()) {
+
+            default:
+                try {
+                    Common common = new Common();
+                    common.menuOptions(item, getApplicationContext(), this);
+                } catch (Exception e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+                return true;
+        }
+    }
+
+
+    /*@Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);
 
@@ -454,7 +470,7 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
                 return true;
         }
     }
-
+*/
 
     @Override
     public void onBackPressed() {
@@ -476,14 +492,37 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         tv_empty_weight_loss_message =  (TextView) findViewById(R.id.tv_empty_weight_loss_message);
-        fab_weight_loss = (FloatingActionButton) findViewById(R.id.fab_add_weight_loss);
-        fab_weight_loss.setOnClickListener(new View.OnClickListener() {
+
+        fab_weight_loss_rejects_visibility = (FloatingActionButton) findViewById(R.id.fab_weight_loss_reject_visibility);
+        //fab_weight_loss_rejects_visibility.setImageResource(R.drawable.baseline_visibility_black_18dp);
+        fab_weight_loss_rejects_visibility.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                //       .setAction("Action", null).show();
+                //startActivityForResult(new Intent(WeightLossListActivity.this,
+                //        AddWeightLossActivity.class).putExtra("eggDailyAdd", eggDailyList.get(0)),100);
+                if (HIDE_REJECTS) {
+                    HIDE_REJECTS = false;
+                    fab_weight_loss_rejects_visibility.setImageResource(R.drawable.baseline_visibility_off_black_18dp);
+                } else {
+                    HIDE_REJECTS = true;
+                    fab_weight_loss_rejects_visibility.setImageResource(R.drawable.baseline_visibility_black_18dp);
+                }
+                initializeViews();
+                displayList();
+            }
+        });
+
+        fab_add_weight_loss = (FloatingActionButton) findViewById(R.id.fab_add_weight_loss);
+        fab_add_weight_loss.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 //       .setAction("Action", null).show();
                 startActivityForResult(new Intent(WeightLossListActivity.this,
-                        AddWeightLossActivity.class).putExtra("eggDailyAdd", eggDailyList.get(0)),100);
+                       AddWeightLossActivity.class).putExtra("eggDailyAdd", eggDailyList.get(0)),100);
+
             }
         });
 
@@ -581,7 +620,7 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
 
         new AlertDialog.Builder(WeightLossListActivity.this)
                 .setTitle("Select Options")
-                .setItems(new String[]{"Delete", "Update", "Weight Loss Chart", "Reject Egg"}, new DialogInterface.OnClickListener() {
+                .setItems(new String[]{"Delete", "Update", "Weight Loss Chart", "Reject/Restore Egg"}, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         switch (i){
@@ -686,6 +725,17 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
 
             if (eggDailyListPostEx!=null && eggDailyListPostEx.size()>0 ){
 
+                if (HIDE_REJECTS) {
+                    List<EggDaily> eggDailyListTemp = new ArrayList<>();
+                    for (int i = 0; i < eggDailyListPostEx.size(); i++) {
+                        if (eggDailyListPostEx.get(i).getRejectedEgg() == 0  ) {
+                            eggDailyListTemp.add(eggDailyListPostEx.get(i));
+                        }
+                    }
+                    eggDailyListPostEx.clear();
+                    eggDailyListPostEx.addAll(eggDailyListTemp);
+                }
+
 
                 computeAveragesAndPercents(eggDailyListPostEx);
 
@@ -706,13 +756,7 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
             EGG_LABEL = "";
             for (index = 0; index < eggDailyListPostEx.size(); index++) {
 
-                //HASHMAP_EGG_DAILY_ID_EGG_DAILY_LIST_POS.put(eggDailyListPostEx.get(index).getEggDailyID(), index);
 
-                /*if (eggDailyListPostEx.get(index).getRejectedEgg() == 1) {
-                    check_box_rejected_egg.setChecked(true);
-                } else {
-                    check_box_rejected_egg.setChecked(false);
-                }*/
 
                 READING_DAY_NUMBER = eggDailyListPostEx.get(index).getReadingDayNumber();
                 EGG_LABEL = eggDailyListPostEx.get(index).getEggLabel();

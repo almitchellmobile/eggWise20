@@ -9,6 +9,8 @@ import android.widget.Toast;
 
 import net.almitchellmobile.eggwise20.ConfigurationOptionsActivity;
 import net.almitchellmobile.eggwise20.EggBatchListActivity;
+import net.almitchellmobile.eggwise20.EggWiseMainActivity;
+import net.almitchellmobile.eggwise20.FeedbackActivity;
 import net.almitchellmobile.eggwise20.R;
 
 import java.math.BigDecimal;
@@ -48,12 +50,26 @@ public class Common {
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     act.startActivity(intent);
                     break;
-                case R.id.configuration_options:
+                case R.id.settings:
                     Intent intent1 = new Intent(ctx,
                             ConfigurationOptionsActivity.class);
                     intent1.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     //intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                     act.startActivity(intent1);
+                    break;
+                case R.id.home:
+                    Intent intent2 = new Intent(ctx,
+                            EggWiseMainActivity.class);
+                    intent2.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    //intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                    act.startActivity(intent2);
+                    break;
+                case R.id.send_feedback:
+                    Intent intent3 = new Intent(ctx,
+                            FeedbackActivity.class);
+                    intent3.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    //intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                    act.startActivity(intent3);
                     break;
 
 

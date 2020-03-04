@@ -11,6 +11,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".FeedbackActivity"
+            android:label="@string/title_activity_feedback"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
             android:name=".EggWiseMainActivity"
             android:label="@string/title_activity_egg_wise_maine"
             android:theme="@style/AppTheme.NoActionBar">
@@ -28,11 +32,14 @@
             android:name=".EggBatchListActivity"
             android:label="@string/title_activity_egg_batch_list"
             android:theme="@style/AppTheme.NoActionBar">
-           <!-- <intent-filter>
+
+            <!--
+            <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>-->
+            </intent-filter>
+            -->
         </activity>
         <activity
             android:name=".WeightLossChartActivity"
@@ -94,6 +101,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
             -->
+
         </activity>
         <activity
             android:name=".AddIncubatorActivity"

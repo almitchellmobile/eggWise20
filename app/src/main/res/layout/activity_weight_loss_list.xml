@@ -71,16 +71,6 @@
                 android:layout_weight="1"
                 android:text="Reset" />
 
-            <!--<com.google.android.material.chip.Chip
-                android:id="@+id/chip_filter_weight_loss_apply_reset"
-                style="@style/Widget.MaterialComponents.Chip.Action"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Apply"
-                android:checkable="true"
-                 />-->
-
-
 
         </LinearLayout>
 
@@ -93,11 +83,26 @@
     </LinearLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab_add_weight_loss"
+        android:id="@+id/fab_weight_loss_reject_visibility"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
+        app:srcCompat="@drawable/baseline_visibility_off_black_18dp" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_add_weight_loss"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|end"
+        android:layout_marginBottom="10dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="0dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="10dp"
+        app:layout_anchor="@id/fab_weight_loss_reject_visibility"
+        app:layout_anchorGravity="top"
         app:srcCompat="@android:drawable/ic_input_add" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

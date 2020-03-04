@@ -8,16 +8,6 @@
     tools:context=".EggWiseMainActivity"
     tools:showIn="@layout/activity_egg_wise_main">
 
-   <!-- <TextView
-        android:id="@+id/tv_empty_incubators"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="40sp"
-        android:gravity="center"
-        android:text="No Incubators Found, Let's Add Some!"
-        />-->
-
-
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
@@ -46,23 +36,6 @@
             android:contentDescription="@string/eggwise_image"
             />
 
-        <!--
-        <TextView
-            android:id="@+id/link_brinsea"
-            android:layout_below="@+id/eggwise_image"
-            android:layout_centerInParent="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ellipsize="marquee"
-            android:fadingEdge="horizontal"
-            android:marqueeRepeatLimit="marquee_forever"
-            android:scrollHorizontally="true"
-            android:singleLine="true"
-            android:text="@string/link_brinsea"
-            android:textSize="20sp"
-            android:textColor="#0000c0"
-            />
-            -->
 
         <Button
             android:id="@+id/buttonLinkBrinsea"
@@ -76,6 +49,18 @@
             android:gravity="center"
             android:text="@string/link_brinsea"
             />
+
+        <Button
+            android:id="@+id/buttonLinkBrinseaFacebook"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/buttonLinkBrinsea"
+            android:layout_centerHorizontal="true"
+            android:background="@android:color/transparent"
+            android:text="@string/link_brinsea_facebook"
+            android:textColor="#0000c0"
+            android:textSize="20sp"
+             />
 
         <ImageView
             android:id="@+id/brinsea_image"
