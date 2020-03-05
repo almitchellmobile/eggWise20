@@ -35,6 +35,11 @@ public interface EggDailyDao {
     @Query(sqlSelectOrderBy4)
     List<EggDaily> getEggDaily_BatchEggDay_Day_DESC_Label_DESC(Long eggBatchID);
 
+    String sqlSelectAllBatchLabels = "SELECT DISTINCT(BatchLabel) FROM "+ Constants.TABLE_NAME_EGG_DAILY +
+            " GROUP BY BatchLabel ORDER BY BatchLabel ASC ";
+    @Query(sqlSelectAllBatchLabels)
+    List<String> getEggDaily_AllBatchLabels();
+
     String sqlSelectSumSingle = "SELECT SUM(EggWeight) EggWeightSum FROM "+
             Constants.TABLE_NAME_EGG_DAILY +
             " WHERE EggBatchID = :eggBatchID " +

@@ -9,17 +9,31 @@
     tools:showIn="@layout/activity_add_weight_loss">
 
 
-    <TextView
+    <!--<TextView
         android:id="@+id/text_batch_label"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true" />-->
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/text_egg_batch_label_egg_weight"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true">
+        <AutoCompleteTextView
+            android:id="@+id/et_batch_label_add_egg_weight"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/egg_batch_label"
+            android:inputType="text"
+            android:singleLine="true" />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
         android:id="@+id/text_number_of_eggs_remaining"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/text_batch_label" />
+        android:layout_below="@id/text_egg_batch_label_egg_weight" />
 
     <TextView
         android:id="@+id/text_set_date"

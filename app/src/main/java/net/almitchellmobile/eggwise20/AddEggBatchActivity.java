@@ -32,6 +32,7 @@ import net.almitchellmobile.eggwise20.util.SetDate;
 
 import java.lang.ref.WeakReference;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Locale;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -115,6 +116,7 @@ public class AddEggBatchActivity extends AppCompatActivity {
 
     String[] incubatorSettingsValues = {"Relative Humidity Percentage", "Wet Bulb Readings"};
     ArrayAdapter<String> adapterIncubatorSettings;
+    ArrayList<String> batchLabels = new ArrayList<>();
 
 
 
