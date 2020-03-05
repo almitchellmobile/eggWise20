@@ -124,6 +124,7 @@ public class AddEggBatchActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_egg_batch);
         Toolbar toolbar_add_egg_batch = findViewById(R.id.toolbar_add_egg_batch);
         setSupportActionBar(toolbar_add_egg_batch);
+        getSupportActionBar().setTitle("Add Egg Batch");
 
         eggWiseDatabse = EggWiseDatabse.getInstance(AddEggBatchActivity.this);
 
@@ -206,7 +207,7 @@ public class AddEggBatchActivity extends AppCompatActivity {
         et_incubator_settings = (AutoCompleteTextView) findViewById(R.id.et_incubator_settings);
         et_incubator_settings.setThreshold(1);//will start working from first character
         et_incubator_settings.setAdapter(adapterIncubatorSettings);//setting the adapter data into the AutoCompleteTextView
-        et_incubator_settings.setTextColor(Color.RED);
+        et_incubator_settings.setTextColor(Color.BLACK);
         if (Common.PREF_HUMIDITY_MEASURED_WITH.trim().length() != 0) {
             hintStringValue = "Humidity (" + Common.PREF_HUMIDITY_MEASURED_WITH + ")";
             et_incubator_settings.setHint(hintStringValue);

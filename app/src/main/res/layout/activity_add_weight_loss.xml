@@ -6,14 +6,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/radialback3"
-    tools:context=".AddWeightLossActivity">
 
+    tools:context=".AddWeightLossActivity"
+    >
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <com.google.android.material.appbar.AppBarLayout
+    <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:theme="@style/AppTheme.AppBarOverlay">
@@ -27,8 +28,47 @@
 
         </com.google.android.material.appbar.AppBarLayout>
 
+
         <include layout="@layout/content_add_weight_loss_rl" />
+
     </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:layout_gravity="bottom"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/button_save_add_weight_loss"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Save / Add Next" />
+
+        <Button
+            android:id="@+id/button_save_list_weight_loss"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Save / Return" />
+
+        <Button
+            android:id="@+id/button_cancel_list_batch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Cancel/List Batch" />
+
+        <Button
+            android:id="@+id/button_cancel_list_eggs"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Cancel/List Eggs" />
+    </LinearLayout>
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_add_save_weight_loss"
         android:layout_width="wrap_content"
@@ -38,4 +78,5 @@
         app:srcCompat="@android:drawable/ic_menu_save" />
 
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout >
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

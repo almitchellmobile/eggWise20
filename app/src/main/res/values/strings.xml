@@ -1,7 +1,7 @@
 <resources>
 
 
-    <string name="app_name">eggWise</string>
+    <string name="app_name">eggWise 2.0</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">eggWise Mobile Brinsea Products Inc.</string>
@@ -28,30 +28,29 @@
 
     <string name="brinsea_image">Brinsea image</string>
     <string name="eggwise_image">eggWISE image</string>
-    <string name="link_brinsea_facebook">Facebook: <a href="https://www.facebook.com/pages/Brinsea-ProductsInc/140621339296778">www.facebook.com/Brinsea-ProductsInc</a></string>
+    <string name="link_brinsea_facebook">Facebook: <a href="https://www.facebook.com/pages/Brinsea-ProductsInc/140621339296778">www.facebook.com/Brinsea-Products Inc.</a></string>
     <string name="link_brinsea">Brinsea Products Inc. Website: <a href="http://www.brinsea.com">www.brinsea.com</a></string>
     <string name="link_almitchell"><a href="http://www.almitchellmobile.net">Developed by AL Mitchell Mobile: http://www.almitchellmobile.net</a></string>
-    <string name="link_almitchell_brinsea"><a href="http://www.almitchellmobile.net">Developed for Brinsea Products Inc.: http://www.brinsea.com</a><a href="http://http://www.brinsea.com">by AL Mitchell: <br></br>http://www.almitchellmobile.net </a></string>
+    <string name="link_almitchell_brinsea"><a href="http://www.almitchellmobile.net">Developed for Brinsea Products Inc. http://www.brinsea.com</a><a href="http://http://www.brinsea.com">by AL Mitchell: <br></br>http://www.almitchellmobile.net </a></string>
     <string name="by_line_almitchell">Developed by AL Mitchell http://www.almitchellmobile.net</string>
     <string name="by_line_almitchell1">Developed by AL Mitchell AL Mitchell Mobile</string>
     <string name="by_line_almitchell2">http://www.almitchellmobile.net</string>
-    <string name="title_activity_add_incubator">AddIncubatorActivity</string>
-    <string name="title_activity_incubator_list">IncubatorListActivity</string>
-    <string name="title_activity_egg_batch_list">EggBatchListActivity</string>
-    <string name="title_activity_add_batch">AddBatchActivity</string>
+    <string name="title_activity_add_incubator">Add Incubator </string>
+    <string name="title_activity_incubator_list">Incubator List </string>
+    <string name="title_activity_egg_batch_list">Egg Batch List </string>
+    <string name="title_activity_add_batch">Add Batch </string>
     <string name="egg_batch_label">Egg Batch Label</string>
     <string name="number_of_eggs">Number Of Eggs</string>
     <string name="species_name">Species Name</string>
     <string name="common_name">Common Name</string>
     <string name="incubator_name">Incubator Name</string>
-    <string name="set_date">Set Date</string>
-    <string name="hatch_date">Hatch Date</string>
+    <string name="set_date">Set Date</string>    <string name="hatch_date">Hatch Date</string>
     <string name="location">Location</string>
     <string name="desired_weight_loss">Desired Weight Loss</string>
     <string name="track_entire_batch">Track Entire Batch</string>
     <string name="track_specific_eggs">Track Specific Eggs</string>
-    <string name="title_activity_weight_loss_list">WeightLossListActivity</string>
-    <string name="title_activity_add_weight_loss">AddWeightLossActivity</string>
+    <string name="title_activity_weight_loss_list">Weight Loss List </string>
+    <string name="title_activity_add_weight_loss">Add Weight Loss </string>
     <string name="reading_date">Reading Date</string>
     <string name="egg_weight">Egg Weight</string>
     <string name="save_button">Save</string>
@@ -63,15 +62,15 @@
     <string name="rb_value_relative_humidity_percentage">Relative Humidity Percentage</string>
     <string name="rb_value_grams">Grams</string>
     <string name="rb_value_ounces">Ounces</string>
-    <string name="title_activity_main2">WeightLossChartActivity</string>
+    <string name="title_activity_main2">Weight Loss Chart </string>
     <string-array name="sort_by_array">
         <item>By Day ASC, By Egg ASC</item>
         <item>By Day ASC, By Egg DESC</item>
         <item>By Day DESC, By Egg ASC</item>
         <item>By Day DESC, By Egg DESC</item>
     </string-array>
-    <string name="title_activity_egg_wise_maine">EggWiseMaineActivity</string>
-    <string name="title_activity_feedback">FeedbackActivity</string>
+    <string name="title_activity_egg_wise_main">eggWise 2.0 Mobile</string>
+    <string name="title_activity_feedback">Feedback</string>
 
 
 </resources>

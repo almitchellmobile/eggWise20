@@ -155,7 +155,7 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
             BATCH_LABEL = eggBatch.getBatchLabel();
             EGG_BATCH_ID = eggBatch.getEggBatchID();
             TRACKING_OPTION = eggBatch.getTrackingOption();
-            getSupportActionBar().setTitle("Weight Loss List Batch: " + BATCH_LABEL);
+            getSupportActionBar().setTitle("Weight Loss List for Batch: " + BATCH_LABEL);
         } else {
             getSupportActionBar().setTitle("Weight Loss List");
         }
@@ -210,17 +210,6 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
             }
         });
 
-
-        /*check_box_rejected_egg.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(((CompoundButton) view).isChecked()){
-                    eggWiseDatabse.getEggDailyDao().updateEggDaily(eggDaily.rejectedEgg);
-                } else {
-
-                }
-            }
-        });*/
 
         toggle_btn_and_or = (ToggleButton) findViewById(R.id.toggle_btn_and_or);
         toggle_btn_and_or.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -338,15 +327,15 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
         for (EggDaily eggDaily : eggDailyList) {
             //if the existing elements contains the search input
             if (toggle_btn_and_or.isChecked()) { // And the filters
-                if (eggDaily.getEggLabel().toLowerCase().contains(textLabel.toLowerCase()) &&
-                        eggDaily.getReadingDayNumber().toString().toLowerCase().contains(textReadingDay.toLowerCase())) {
+                if (eggDaily.getEggLabel().equalsIgnoreCase(textLabel.toLowerCase()) &&
+                        eggDaily.getReadingDayNumber().toString().equalsIgnoreCase(textReadingDay.toLowerCase())) {
                     eggDailyListFiltered.add(eggDaily);
                     HASHMAP_EGG_DAILY_ID_EGG_DAILY.put(eggDaily.getEggDailyID(), eggDaily);
                 }
 
             } else {  //Or the filters
-                if (eggDaily.getEggLabel().toLowerCase().contains(textLabel.toLowerCase()) ||
-                        eggDaily.getReadingDayNumber().toString().toLowerCase().contains(textReadingDay.toLowerCase())) {
+                if (eggDaily.getEggLabel().equalsIgnoreCase(textLabel.toLowerCase()) ||
+                        eggDaily.getReadingDayNumber().toString().equalsIgnoreCase(textReadingDay.toLowerCase())) {
                     //adding the element to filtered list
                     eggDailyListFiltered.add(eggDaily);
                     HASHMAP_EGG_DAILY_ID_EGG_DAILY.put(eggDaily.getEggDailyID(), eggDaily);
@@ -365,7 +354,7 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
         //looping through existing elements
         for (EggDaily eggDaily : eggDailyList) {
             //if the existing elements contains the search input
-            if (eggDaily.getEggLabel().toLowerCase().contains(text.toLowerCase())) {
+            if (eggDaily.getEggLabel().equalsIgnoreCase(text.toLowerCase())) {
                 //adding the element to filtered list
                 eggDailyListFiltered.add(eggDaily);
                 HASHMAP_EGG_DAILY_ID_EGG_DAILY.put(eggDaily.getEggDailyID(), eggDaily);
@@ -383,7 +372,7 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
         //looping through existing elements
         for (EggDaily eggDaily : eggDailyList) {
             //if the existing elements contains the search input
-            if (eggDaily.getReadingDayNumber().toString().toLowerCase().contains(text.toLowerCase())) {
+            if (eggDaily.getReadingDayNumber().toString().equalsIgnoreCase(text.toLowerCase())) {
                 //adding the element to filtered list
                 eggDailyListFiltered.add(eggDaily);
                 HASHMAP_EGG_DAILY_ID_EGG_DAILY.put(eggDaily.getEggDailyID(), eggDaily);
@@ -420,57 +409,6 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
     }
 
 
-    /*@Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main, menu);
-
-        // Associate searchable configuration with the SearchView
-        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        searchView = (SearchView) menu.findItem(R.id.action_search)
-                .getActionView();
-        searchView.setSearchableInfo(searchManager
-                .getSearchableInfo(getComponentName()));
-        searchView.setMaxWidth(Integer.MAX_VALUE);
-
-        // listening to search query text change
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                // filter recycler view when query submitted
-                //eggWeightLossAdapter.getFilter().filter(query);
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String query) {
-                // filter recycler view when text is changed
-                //eggWeightLossAdapter.getFilter().filter(query);
-                return false;
-            }
-        });
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        super.onOptionsItemSelected(item);
-
-        switch (item.getItemId()) {
-            case R.id.action_search:
-                return true;
-
-            default:
-                try {
-                    Common common = new Common();
-                    common.menuOptions(item, getApplicationContext(), this);
-                } catch (Exception e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-                return true;
-        }
-    }
-*/
 
     @Override
     public void onBackPressed() {
@@ -520,46 +458,11 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
             public void onClick(View view) {
                 //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 //       .setAction("Action", null).show();
-                startActivityForResult(new Intent(WeightLossListActivity.this,
-                       AddWeightLossActivity.class).putExtra("eggDailyAdd", eggDailyList.get(0)),100);
+                //startActivityForResult(new Intent(WeightLossListActivity.this,AddWeightLossActivity.class).putExtra("eggDailyAdd", eggDailyList.get(0)),100);
+                startActivityForResult(new Intent(WeightLossListActivity.this,AddWeightLossActivity.class).putExtra("eggBatch",eggBatch),100);
 
             }
         });
-
-
-
-        /*
-        check_box_rejected_egg.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-              @Override
-              public void onCheckedChanged(CompoundButton buttonView,boolean isChecked) {
-                  rejectedEgg = 1;
-                  Integer position = EGG_DAILY_LIST_POS_STATIC;
-                  //eggWiseDatabse.getEggDailyDao().updateEggDaily__RejectedEgg(rejectedEgg, eggDailyList.);
-
-              }
-          }
-        );*/
-
-        /*searchView = (SearchView) findViewById(R.id.search_view);
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String text) {
-                return false;
-            }
-
-           @Override
-            public boolean onQueryTextChange(String newText) {
-               CharSequence = newText;
-                eggWeightLossAdapter.getFilter().filter(newText);
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(CharSequence text) {
-                eggWeightLossAdapter.getFilter().filter(text);
-                return false;
-            }
-        });*/
 
         recyclerViewWeightLossList = findViewById(R.id.recycler_view_weight_loss_list);
         recyclerViewWeightLossList.setLayoutManager(new LinearLayoutManager(WeightLossListActivity.this));
@@ -625,16 +528,31 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
                     public void onClick(DialogInterface dialogInterface, int i) {
                         switch (i){
                             case 0:
-                                EGG_DAILY_ID_STATIC = eggDailyListOnClick.get(pos).getEggDailyID();
-                                eggDailyOnClick = HASHMAP_EGG_DAILY_ID_EGG_DAILY.get(EGG_DAILY_ID_STATIC);
-                                eggWiseDatabse.getEggDailyDao().deleteEggDaily(eggDailyOnClick);
-                                eggDailyList.remove(EGG_DAILY_ID_STATIC);
+                                if (HASHMAP_EGG_DAILY_ID_EGG_DAILY.size() > 0) {
+                                    EGG_DAILY_ID_STATIC = eggDailyListOnClick.get(pos).getEggDailyID();
+                                    eggDailyOnClick = HASHMAP_EGG_DAILY_ID_EGG_DAILY.get(EGG_DAILY_ID_STATIC);
+                                    eggDailyList.remove(EGG_DAILY_ID_STATIC);
+                                } else {
+                                    EGG_DAILY_ID_STATIC = eggDailyListOnClick.get(pos).getEggDailyID();
+                                    eggDailyOnClick = eggDailyListOnClick.get(pos);
+                                    eggDailyList.remove(pos);
+                                }
+                                try {
+                                    eggWiseDatabse.getEggDailyDao().deleteEggDaily(eggDailyOnClick);
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
                                 listVisibility();
+                                initializeViews();
+                                displayList();
                                 break;
                             case 1:
-
-                                EGG_DAILY_ID_STATIC = eggDailyListOnClick.get(pos).getEggDailyID();
-                                eggDailyOnClick = HASHMAP_EGG_DAILY_ID_EGG_DAILY.get(EGG_DAILY_ID_STATIC);
+                                if (HASHMAP_EGG_DAILY_ID_EGG_DAILY.size() > 0) {
+                                    EGG_DAILY_ID_STATIC = eggDailyListOnClick.get(pos).getEggDailyID();
+                                    eggDailyOnClick = HASHMAP_EGG_DAILY_ID_EGG_DAILY.get(EGG_DAILY_ID_STATIC);
+                                } else {
+                                    eggDailyOnClick =  eggDailyListOnClick.get(pos);
+                                }
                                 BATCH_LABEL = eggDailyListOnClick.get(pos).getBatchLabel();
                                 startActivityForResult(
                                         new Intent(WeightLossListActivity.this,
@@ -697,6 +615,7 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
 
         @Override
         protected List<EggDaily> doInBackground(Void... voids) {
+            //EGG_BATCH_ID = 0L;
             List<EggDaily> returnEggDaily = null;
             if (activityReference.get()!=null) {
                 //return activityReference.get().eggWiseDatabse.getEggDailyDao().getEggDaily_BatchEggDay(EGG_BATCH_ID);
@@ -779,7 +698,7 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
                 eggDailyListPostEx.get(index).setEggWeightAverageCurrent(EGG_WEIGHT_AVG_CURRENT);
                 eggDailyListPostEx.get(index).setEggWeightAverageDay0(EGG_WEIGHT_AVG_DAY_0);
 
-                ACTUAL_WEIGHT_LOSS_PERCENT = 100 * ((EGG_WEIGHT_AVG_DAY_0 - EGG_WEIGHT_AVG_CURRENT) / EGG_WEIGHT_AVG_DAY_0);
+                ACTUAL_WEIGHT_LOSS_PERCENT = 100D * ((EGG_WEIGHT_AVG_DAY_0 - EGG_WEIGHT_AVG_CURRENT) / EGG_WEIGHT_AVG_DAY_0);
 
                 READING_DAY_NUMBER = (eggDailyListPostEx.get(index).getReadingDayNumber());
                 TARGET_WEIGHT_LOSS_INTEGER = eggDailyListPostEx.get(index).getTargetWeightLossInteger();

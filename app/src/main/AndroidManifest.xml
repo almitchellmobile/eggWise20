@@ -16,7 +16,7 @@
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".EggWiseMainActivity"
-            android:label="@string/title_activity_egg_wise_maine"
+            android:label="@string/title_activity_egg_wise_main"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -26,6 +26,7 @@
         </activity>
         <activity
             android:name=".AddEggBatchActivity"
+
             android:label="@string/title_activity_add_batch"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
@@ -74,6 +75,7 @@
         <activity
             android:name=".AddWeightLossActivity"
             android:label="@string/title_activity_add_weight_loss"
+
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".WeightLossListActivity"

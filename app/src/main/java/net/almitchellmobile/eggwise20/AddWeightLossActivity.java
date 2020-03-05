@@ -1,5 +1,6 @@
 package net.almitchellmobile.eggwise20;
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -36,14 +37,7 @@ import androidx.core.text.HtmlCompat;
 public class AddWeightLossActivity extends AppCompatActivity {
 
     SharedPreferences sharedpreferences;
-    /*public static String PREF_TEMPERATURE_ENTERED_IN = "";
-    public static String PREF_HUMIDITY_MEASURED_WITH = "";
-    public static String PREF_WEIGHT_ENTERED_IN = "";
 
-    public static Integer PREF_DAYS_TO_HATCHER_BEFORE_HATCHING = 3;
-    public static Float PREF_DEFAULT_WEIGHT_LOSS_PRECENTAGE= 0.0F;
-    public static Float PREF_WARN_WEIGHT_DEVIATION_PERCENTAGE = 0.0F;
-    public static Integer PREF_DEFAULT_WEIGHT_LOSS_INTEGER = 0;*/
 
     public static final String mypreference = "mypref";
 
@@ -58,7 +52,8 @@ public class AddWeightLossActivity extends AppCompatActivity {
             et_weight_loss_comment;
     private Button button_save_add_weight_loss,
             button_save_list_weight_loss,
-            button_cancel,
+            button_cancel_list_batch,
+            button_cancel_list_eggs,
             button_reading_date_lookup;
 
     com.google.android.material.floatingactionbutton.FloatingActionButton fab_add_save_weight_loss,
@@ -104,6 +99,7 @@ public class AddWeightLossActivity extends AppCompatActivity {
 
     DatePickerDialog.OnDateSetListener readingDateDatePickerDialog;
 
+    @SuppressLint("RestrictedApi")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -153,6 +149,7 @@ public class AddWeightLossActivity extends AppCompatActivity {
         }
 
         fab_add_save_weight_loss = findViewById(R.id.fab_add_save_weight_loss);
+
         button_reading_date_lookup = findViewById(R.id.button_reading_date_lookup);
         et_reading_day_number = findViewById(R.id.et_reading_day_number);
         et_reading_date = findViewById(R.id.et_reading_date);
@@ -171,12 +168,19 @@ public class AddWeightLossActivity extends AppCompatActivity {
                 try {
                     if(validateRequiredFields()) {
                         updateInsertEggDaily();
+                        setResult(eggDaily,"insert_add_next");
+
+                        /*Intent intent1 = new Intent(AddWeightLossActivity.this, WeightLossListActivity.class);
+                        intent1.putExtra("eggBatch", eggBatch);
+                        intent1.putExtra("eggDaily", eggDaily);
+                        startActivity(intent1);*/
                     }
                 } catch (java.text.ParseException e) {
                     e.printStackTrace();
                 }
             }
         });
+        fab_add_save_weight_loss.setVisibility(View.GONE);
 
 
         DatePickerDialog.OnDateSetListener getDateDatePickerDialog = new
@@ -272,10 +276,7 @@ public class AddWeightLossActivity extends AppCompatActivity {
                         updateInsertEggDaily();
                         setResult( eggDaily, "insert_or_update_list");
                         Toast.makeText(AddWeightLossActivity.this, "Egg Label:  " + et_egg_label.getText().toString()  + " Saved!", Toast.LENGTH_SHORT).show();
-                       /* Intent intent1 = new Intent(AddWeightLossActivity.this, WeightLossListActivity.class);
-                        intent1.putExtra("eggBatch", eggBatch);
-                        intent1.putExtra("eggDaily", eggDaily);
-                        startActivity(intent1);*/
+
                     }
                 } catch (java.text.ParseException e) {
                     e.printStackTrace();
@@ -306,9 +307,9 @@ public class AddWeightLossActivity extends AppCompatActivity {
         });
         //button_save_add_weight_loss.setVisibility(View.GONE);
 
-        button_cancel = findViewById(R.id.button_cancel);
-        button_cancel.setText("Cancel/List Batch");
-        button_cancel.setOnClickListener(new View.OnClickListener() {
+        button_cancel_list_batch = findViewById(R.id.button_cancel_list_batch);
+        button_cancel_list_batch.setText("Cancel/List Batch");
+        button_cancel_list_batch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent1 = new Intent(AddWeightLossActivity.this, EggBatchListActivity.class);
@@ -316,13 +317,25 @@ public class AddWeightLossActivity extends AppCompatActivity {
             }
         });
 
+        button_cancel_list_eggs = findViewById(R.id.button_cancel_list_eggs);
+        button_cancel_list_eggs.setText("Cancel/List Eggs");
+        button_cancel_list_eggs.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent1 = new Intent(AddWeightLossActivity.this, WeightLossListActivity.class);
+                startActivity(intent1);
+            }
+        });
+
+
         getEggBatchData();
 
         eggDaily = null;
         if (getIntent().getSerializableExtra("eggDailyAdd") != null) {
             eggDaily = (EggDaily) getIntent().getSerializableExtra("eggDailyAdd");
             update = false;
-            //eggBatchID = eggDaily.getEggBatchID();
+            getSupportActionBar().setTitle("Add Egg Weight for Batch: " + batchLabel);
+            eggBatchID = eggDaily.getEggBatchID();
             et_egg_label.setText(eggDaily.getEggLabel());
             et_reading_date.setText(eggDaily.getReadingDate());
             et_reading_day_number.setText(eggDaily.getReadingDayNumber().toString());
@@ -332,8 +345,9 @@ public class AddWeightLossActivity extends AppCompatActivity {
         } else if (getIntent().getSerializableExtra("eggDailyUpdate") != null) {
             eggDaily = (EggDaily) getIntent().getSerializableExtra("eggDailyUpdate");
             update = true;
+            getSupportActionBar().setTitle("Update Egg Weight for Batch: " + batchLabel);
             eggLabel = eggDaily.getEggLabel();
-            //eggBatchID = eggDaily.getEggBatchID();
+            eggBatchID = eggDaily.getEggBatchID();
             readingDate = eggDaily.getReadingDate();
             readingDayNumber = eggDaily.getReadingDayNumber();
             eggWeight = eggDaily.getEggWeight();
@@ -346,7 +360,7 @@ public class AddWeightLossActivity extends AppCompatActivity {
             button_save_add_weight_loss.setText("Update");
         }
         if ( eggDaily!=null ){
-            getSupportActionBar().setTitle("Update Egg Weight Batch: " + batchLabel);
+            //getSupportActionBar().setTitle("Update Egg Weight for Batch: " + batchLabel);
 
             batchLabel = eggDaily.getBatchLabel();
             eggBatchID = eggDaily.getEggBatchID();
@@ -399,7 +413,7 @@ public class AddWeightLossActivity extends AppCompatActivity {
 
             batchLabel = eggBatch.getBatchLabel();
             eggBatchID = eggBatch.getEggBatchID();
-            getSupportActionBar().setTitle("Weight Loss Batch: " + batchLabel);
+            //getSupportActionBar().setTitle("Add Egg Weight for Batch: " + batchLabel);
 
             setDate = eggBatch.getSetDate();
             incubatorName = eggBatch.getIncubatorName();
@@ -486,29 +500,27 @@ public class AddWeightLossActivity extends AppCompatActivity {
 
     private void updateInsertEggDaily() throws java.text.ParseException {
 
-
-
         if (update){
             try {
-            eggDaily.setBatchLabel(batchLabel);
-            eggDaily.setSetDate(setDate);
-            eggDaily.setIncubatorName(incubatorName);
+                eggDaily.setBatchLabel(batchLabel);
+                eggDaily.setSetDate(setDate);
+                eggDaily.setIncubatorName(incubatorName);
 
-            eggDaily.setNumberOfEggsRemaining(numberOfEggsRemaining);
-            eggDaily.setIncubationDays(incubationDays);
-            eggDaily.setTargetWeightLossInteger(targetWeightLossInteger);
+                eggDaily.setNumberOfEggsRemaining(numberOfEggsRemaining);
+                eggDaily.setIncubationDays(incubationDays);
+                eggDaily.setTargetWeightLossInteger(targetWeightLossInteger);
 
-            eggDaily.setEggLabel(eggLabel);
-            eggDaily.setEggWeight(eggWeight);
-            eggDaily.setReadingDate(readingDate);
-            eggDaily.setReadingDayNumber(readingDayNumber);
-            eggDaily.setEggDailyComment(eggDailyComment);
+                eggDaily.setEggLabel(eggLabel);
+                eggDaily.setEggWeight(eggWeight);
+                eggDaily.setReadingDate(readingDate);
+                eggDaily.setReadingDayNumber(readingDayNumber);
+                eggDaily.setEggDailyComment(eggDailyComment);
 
-                eggWiseDatabse.getEggDailyDao().updateEggDaily((eggDaily));
-                //setResult(eggDaily,2);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+                    eggWiseDatabse.getEggDailyDao().updateEggDaily((eggDaily));
+                    //setResult(eggDaily,2);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
         }else {
             try {
             eggDaily = new EggDaily(settingID, eggBatchID, batchLabel, eggLabel, readingDate,
