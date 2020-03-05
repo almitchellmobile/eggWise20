@@ -1,21 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    android:scrollbars="horizontal|vertical"
     tools:context=".AddWeightLossActivity"
     tools:showIn="@layout/activity_add_weight_loss">
 
-
-    <!--<TextView
-        android:id="@+id/text_batch_label"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true" />-->
+        android:layout_height="match_parent">
 
-    <com.google.android.material.textfield.TextInputLayout
+
+        <TextView
+            android:id="@+id/text_batch_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+
+            />
+
+        <!--<com.google.android.material.textfield.TextInputLayout
         android:id="@+id/text_egg_batch_label_egg_weight"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
@@ -27,104 +33,118 @@
             android:hint="@string/egg_batch_label"
             android:inputType="text"
             android:singleLine="true" />
-    </com.google.android.material.textfield.TextInputLayout>
+    </com.google.android.material.textfield.TextInputLayout>-->
 
-    <TextView
-        android:id="@+id/text_number_of_eggs_remaining"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/text_egg_batch_label_egg_weight" />
-
-    <TextView
-        android:id="@+id/text_set_date"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/text_number_of_eggs_remaining" />
-
-    <TextView
-        android:id="@+id/text_incubator_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/text_set_date" />
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/text_egg_label"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/text_incubator_name">
-        <AutoCompleteTextView
-            android:id="@+id/et_egg_label"
+        <TextView
+            android:id="@+id/text_number_of_eggs_remaining"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/egg_label"
-            android:inputType="text"
-            android:singleLine="true" />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:layout_below="@id/text_batch_label" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/text_egg_weight"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/text_egg_label">
-        <AutoCompleteTextView
-            android:id="@+id/et_egg_weight"
+        <TextView
+            android:id="@+id/text_set_date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Egg Weight "
-            android:inputType="text"
-            android:singleLine="true" />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:layout_below="@id/text_number_of_eggs_remaining" />
 
-    <Button
-        android:id="@+id/button_reading_date_lookup"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/text_egg_weight"
-        android:text="Get Date" />
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/text_reading_day_number"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/button_reading_date_lookup">
-        <AutoCompleteTextView
-            android:id="@+id/et_reading_day_number"
+        <TextView
+            android:id="@+id/text_incubator_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Reading Day"
-            android:inputType="text"
-            android:singleLine="true"/>
-    </com.google.android.material.textfield.TextInputLayout>
+            android:layout_below="@id/text_set_date" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/text_reading_date"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/text_reading_day_number">
-        <AutoCompleteTextView
-            android:id="@+id/et_reading_date"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/text_egg_label"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/reading_date"
-            android:inputType="text"
-            android:singleLine="true" />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:layout_below="@id/text_incubator_name">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/text_weight_loss_comment"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/text_reading_date">
-        <AutoCompleteTextView
-            android:id="@+id/et_weight_loss_comment"
+            <AutoCompleteTextView
+                android:id="@+id/et_egg_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/egg_label"
+                android:inputType="text"
+                android:singleLine="true"
+                android:imeOptions="actionNext"
+                android:nextFocusDown="@+id/et_egg_weight"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/text_egg_weight"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Comment"
-            android:inputType="text"
-            android:singleLine="true" />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:layout_below="@id/text_egg_label">
+
+            <AutoCompleteTextView
+                android:id="@+id/et_egg_weight"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Egg Weight "
+                android:inputType="numberDecimal"
+                android:imeOptions="actionNext"
+                android:nextFocusDown="@+id/et_reading_day_number"
+                android:singleLine="true" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/button_reading_date_lookup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/text_egg_weight"
+            android:text="Get Date" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/text_reading_day_number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/button_reading_date_lookup">
+
+            <AutoCompleteTextView
+                android:id="@+id/et_reading_day_number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Reading Day"
+                android:inputType="number"
+                android:imeOptions="actionNext"
+                android:nextFocusDown="@+id/et_reading_date"
+                android:singleLine="true" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/text_reading_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/text_reading_day_number">
+
+            <AutoCompleteTextView
+                android:id="@+id/et_reading_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/reading_date"
+                android:inputType="date"
+                android:imeOptions="actionNext"
+                android:nextFocusDown="@+id/et_weight_loss_comment"
+                android:singleLine="true" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/text_weight_loss_comment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/text_reading_date">
+
+            <AutoCompleteTextView
+                android:id="@+id/et_weight_loss_comment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Comment"
+                android:inputType="text"
+                android:imeOptions="actionDone"
+                android:singleLine="true" />
+        </com.google.android.material.textfield.TextInputLayout>
 
 
-
-
-</RelativeLayout>
+    </RelativeLayout>
+</ScrollView>

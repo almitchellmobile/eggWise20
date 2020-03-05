@@ -74,12 +74,10 @@ public class Common {
 
 
                 case R.id.exit_eggwise:
-                    /*Intent startMain = new Intent(Intent.ACTION_MAIN);
-                    startMain.addCategory(Intent.CATEGORY_HOME);
-                    //startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startMain.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    act.startActivity(startMain);*/
-                    act.finish();
+                    Intent intent4 = new Intent(act, EggWiseMainActivity.class);
+                    intent4.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    intent4.putExtra("EXIT", true);
+                    act.startActivity(intent4);
                     break;
 
             }

@@ -34,38 +34,42 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 
-        android:layout_gravity="bottom"
-        android:orientation="horizontal">
+
+        android:layout_gravity="bottom|right"
+
+        android:orientation="vertical">
 
         <Button
             android:id="@+id/button_save_add_weight_loss"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="Save / Add Next" />
+
+            android:layout_gravity="right"
+            android:text="Save/Add Next" />
 
         <Button
             android:id="@+id/button_save_list_weight_loss"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="Save / Return" />
+
+            android:layout_gravity="right"
+            android:text="Save/Return" />
 
         <Button
             android:id="@+id/button_cancel_list_batch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:layout_gravity="right"
             android:text="Cancel/List Batch" />
 
         <Button
             android:id="@+id/button_cancel_list_eggs"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:layout_gravity="right"
             android:text="Cancel/List Eggs" />
     </LinearLayout>
 

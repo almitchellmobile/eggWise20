@@ -5,7 +5,6 @@ import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.icu.text.SimpleDateFormat;
 import android.icu.util.Calendar;
 import android.os.AsyncTask;
@@ -46,7 +45,7 @@ public class AddWeightLossActivity extends AppCompatActivity {
 
     private TextView text_number_of_eggs_remaining,
             text_incubator_name,
-            text_set_date;
+            text_set_date, text_batch_label;
     private AutoCompleteTextView et_egg_label,
             et_reading_date,
             et_reading_day_number,
@@ -141,20 +140,23 @@ public class AddWeightLossActivity extends AppCompatActivity {
             Common.PREF_WARN_WEIGHT_DEVIATION_PERCENTAGE = 0.0F;
         }
 
-        //et_batch_label_add_egg_weight = findViewById(R.id.et_batch_label_add_egg_weight);
-        arrayListBatchLabel.addAll(eggWiseDatabse.getEggDailyDao().getEggDaily_AllBatchLabels());
+
+
+
+        /*arrayListBatchLabel.addAll(eggWiseDatabse.getEggDailyDao().getEggDaily_AllBatchLabels());
         adapterBatchLabel  = new ArrayAdapter<String>
                 (AddWeightLossActivity.this, android.R.layout.select_dialog_item, arrayListBatchLabel);
         et_batch_label_add_egg_weight = (AutoCompleteTextView) findViewById(R.id.et_batch_label_add_egg_weight);
         et_batch_label_add_egg_weight.setThreshold(1);//will start working from first character
         et_batch_label_add_egg_weight.setAdapter(adapterBatchLabel);//setting the adapter data into the AutoCompleteTextView
         et_batch_label_add_egg_weight.setTextColor(Color.BLACK);
-
+*/
 
         text_number_of_eggs_remaining = findViewById(R.id.text_number_of_eggs_remaining);
         text_incubator_name = findViewById(R.id.text_incubator_name);
         text_set_date = findViewById(R.id.text_set_date);
 
+        text_batch_label = findViewById(R.id.text_batch_label);
         et_egg_label = findViewById(R.id.et_egg_label);
         et_egg_weight = findViewById(R.id.et_egg_weight);
         if (Common.PREF_WEIGHT_ENTERED_IN.toString().trim().length() != 0) {
@@ -383,8 +385,8 @@ public class AddWeightLossActivity extends AppCompatActivity {
             numberOfEggsRemaining = eggDaily.getNumberOfEggsRemaining();
             targetWeightLossInteger = eggDaily.getTargetWeightLossInteger();
             incubationDays = eggDaily.getIncubationDays();
-
-            et_batch_label_add_egg_weight.setText(eggDaily.getBatchLabel());
+            text_batch_label.setText(parseHTMLBold("<B>Batch Label:</B> " + eggDaily.getBatchLabel()));
+            //et_batch_label_add_egg_weight.setText(eggDaily.getBatchLabel());
             text_set_date.setText(parseHTMLBold("<B>Set Date:</B> " + eggDaily.getSetDate()));
             text_incubator_name.setText(parseHTMLBold("<B>Incubator Name:</B> " + eggDaily.getIncubatorName()));
             text_number_of_eggs_remaining.setText(parseHTMLBold("<B>Number Of Eggs Remaining:</B> " + eggDaily.getNumberOfEggsRemaining()));
@@ -434,7 +436,8 @@ public class AddWeightLossActivity extends AppCompatActivity {
             numberOfEggsRemaining = eggBatch.getNumberOfEggs();
             targetWeightLossInteger = eggBatch.getTargetWeightLoss();
             incubationDays = eggBatch.getIncubationDays();
-            et_batch_label_add_egg_weight.setText(parseHTMLBold("<B>Batch Label:</B> " + eggBatch.getBatchLabel()));
+            text_batch_label.setText(parseHTMLBold("<B>Batch Label:</B> " + eggBatch.getBatchLabel()));
+            //et_batch_label_add_egg_weight.setText(parseHTMLBold("<B>Batch Label:</B> " + eggBatch.getBatchLabel()));
             text_set_date.setText(parseHTMLBold("<B>Set Date:</B> " + eggBatch.getSetDate()));
             text_incubator_name.setText(parseHTMLBold("<B>Incubator Name:</B> " + eggBatch.getIncubatorName()));
             text_number_of_eggs_remaining.setText(parseHTMLBold("<B>Number Of Eggs Remaining:</B> " + eggBatch.getNumberOfEggs()));
