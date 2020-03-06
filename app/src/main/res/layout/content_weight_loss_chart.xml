@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_margin="@dimen/fab_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".WeightLossChartActivity"
     tools:showIn="@layout/activity_weight_loss_chart">
@@ -11,7 +12,7 @@
     <com.jjoe64.graphview.GraphView
         android:id="@+id/graph"
         android:layout_width="match_parent"
-        android:layout_height="200dip"
+        android:layout_height="match_parent"
         app:layout_constraintRight_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

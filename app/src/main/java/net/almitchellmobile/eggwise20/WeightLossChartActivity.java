@@ -160,11 +160,11 @@ public class WeightLossChartActivity extends AppCompatActivity {
 
         if ( (eggBatch = (EggBatch) getIntent().getSerializableExtra("eggBatch"))!=null ){
             EGG_BATCH_ID = eggBatch.getEggBatchID();
-            EGG_LABEL = eggBatch.getBatchLabel();
+            BATCH_LABEL = eggBatch.getBatchLabel();
             TRACKING_OPTION = eggBatch.getTrackingOption();
             returnEggBatchListActivity = EggBatchListActivity.class;
             //returnActivity = "EggBatchListActivity";
-            getSupportActionBar().setTitle("Weight Loss Chart Batch: " + BATCH_LABEL);
+            getSupportActionBar().setTitle("Weight Loss Chart for Batch " + BATCH_LABEL);
             displayChart();
         } else {
             eggDaily = null;
@@ -175,7 +175,7 @@ public class WeightLossChartActivity extends AppCompatActivity {
                 TRACKING_OPTION = eggBatch.getTrackingOption();
                 returnWeightLossListActivity = WeightLossListActivity.class;
                 //returnActivity = "WeightLossListActivity";
-                getSupportActionBar().setTitle("Weight Loss Chart Batch: " + BATCH_LABEL);
+                getSupportActionBar().setTitle("Weight Loss Chart for Batch " + BATCH_LABEL);
                 //createWeightLossChart();
                 displayChart();
             }

@@ -6,71 +6,37 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/radialback3"
-
     tools:context=".AddWeightLossActivity"
     >
+
     <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="wrap_content">
 
     <com.google.android.material.appbar.AppBarLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:theme="@style/AppTheme.AppBarOverlay">
-
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar_add_weight_loss"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:background="?attr/colorPrimary"
-                app:popupTheme="@style/AppTheme.PopupOverlay" />
-
-        </com.google.android.material.appbar.AppBarLayout>
-
-
-        <include layout="@layout/content_add_weight_loss_rl" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
+        android:id="@+id/appBarLayout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar_add_weight_loss"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+    </com.google.android.material.appbar.AppBarLayout>
 
 
-        android:layout_gravity="bottom|right"
-
-        android:orientation="vertical">
-
-        <Button
-            android:id="@+id/button_save_add_weight_loss"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-
-            android:layout_gravity="right"
-            android:text="Save/Add Next" />
-
-        <Button
-            android:id="@+id/button_save_list_weight_loss"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-
-            android:layout_gravity="right"
-            android:text="Save/Return" />
-
-        <Button
-            android:id="@+id/button_cancel_list_batch"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:text="Cancel/List Batch" />
-
-        <Button
-            android:id="@+id/button_cancel_list_eggs"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:text="Cancel/List Eggs" />
+        <include
+            android:id="@+id/include"
+            layout="@layout/content_add_weight_loss_rl" />
     </LinearLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -80,7 +46,5 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
         app:srcCompat="@android:drawable/ic_menu_save" />
-
-
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

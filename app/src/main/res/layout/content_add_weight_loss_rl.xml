@@ -4,22 +4,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_margin="@dimen/fab_margin"
     android:scrollbars="horizontal|vertical"
     tools:context=".AddWeightLossActivity"
     tools:showIn="@layout/activity_add_weight_loss">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/text_batch_label"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-
-            />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <!--<com.google.android.material.textfield.TextInputLayout
         android:id="@+id/text_egg_batch_label_egg_weight"
@@ -39,51 +38,55 @@
             android:id="@+id/text_number_of_eggs_remaining"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/text_batch_label" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text_batch_label" />
 
         <TextView
             android:id="@+id/text_set_date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/text_number_of_eggs_remaining" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text_number_of_eggs_remaining" />
 
         <TextView
             android:id="@+id/text_incubator_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/text_set_date" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text_set_date" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/text_egg_label"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/text_incubator_name">
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text_incubator_name">
 
             <AutoCompleteTextView
                 android:id="@+id/et_egg_label"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/egg_label"
-                android:inputType="text"
-                android:singleLine="true"
                 android:imeOptions="actionNext"
+                android:inputType="text"
                 android:nextFocusDown="@+id/et_egg_weight"
-                />
+                android:singleLine="true" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/text_egg_weight"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/text_egg_label">
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text_egg_label">
 
             <AutoCompleteTextView
                 android:id="@+id/et_egg_weight"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Egg Weight "
-                android:inputType="numberDecimal"
                 android:imeOptions="actionNext"
+                android:inputType="numberDecimal"
                 android:nextFocusDown="@+id/et_reading_day_number"
                 android:singleLine="true" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -92,22 +95,24 @@
             android:id="@+id/button_reading_date_lookup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/text_egg_weight"
-            android:text="Get Date" />
+            android:text="Get Date"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text_egg_weight" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/text_reading_day_number"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/button_reading_date_lookup">
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/button_reading_date_lookup">
 
             <AutoCompleteTextView
                 android:id="@+id/et_reading_day_number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Reading Day"
-                android:inputType="number"
                 android:imeOptions="actionNext"
+                android:inputType="number"
                 android:nextFocusDown="@+id/et_reading_date"
                 android:singleLine="true" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -116,15 +121,16 @@
             android:id="@+id/text_reading_date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/text_reading_day_number">
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text_reading_day_number">
 
             <AutoCompleteTextView
                 android:id="@+id/et_reading_date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/reading_date"
-                android:inputType="date"
                 android:imeOptions="actionNext"
+                android:inputType="date"
                 android:nextFocusDown="@+id/et_weight_loss_comment"
                 android:singleLine="true" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -133,18 +139,50 @@
             android:id="@+id/text_weight_loss_comment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/text_reading_date">
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text_reading_date">
 
             <AutoCompleteTextView
                 android:id="@+id/et_weight_loss_comment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Comment"
-                android:inputType="text"
                 android:imeOptions="actionDone"
+                android:inputType="text"
                 android:singleLine="true" />
         </com.google.android.material.textfield.TextInputLayout>
 
+        <Button
+            android:id="@+id/button_save_add_weight_loss"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Save/Add Next"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text_weight_loss_comment" />
 
-    </RelativeLayout>
+        <Button
+            android:id="@+id/button_save_list_weight_loss"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Save/Return"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/button_save_add_weight_loss" />
+
+        <Button
+            android:id="@+id/button_cancel_list_batch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cancel/List Batch"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/button_save_add_weight_loss" />
+
+        <Button
+            android:id="@+id/button_cancel_list_eggs"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cancel/List Eggs"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/button_cancel_list_batch" />
+
+    </LinearLayout>
 </ScrollView>

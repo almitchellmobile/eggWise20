@@ -7,7 +7,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
@@ -223,7 +222,7 @@ public class EggWeightLossAdapter extends RecyclerView.Adapter <EggWeightLossAda
 
         TextView tv_egg_weight_line1;
         TextView tv_egg_weight_title1;
-        CheckBox check_box_rejected_egg;
+        //CheckBox check_box_rejected_egg;
         CardView cv_egg_weight;
 
         public BeanHolder(@NonNull View itemView) {
@@ -232,8 +231,8 @@ public class EggWeightLossAdapter extends RecyclerView.Adapter <EggWeightLossAda
             tv_egg_weight_title1 = itemView.findViewById(R.id.tv_egg_weight_title1);
             cv_egg_weight = itemView.findViewById(R.id.cv_egg_weight);
             tv_egg_weight_line1  = itemView.findViewById(R.id.tv_egg_weight_line1);
-            check_box_rejected_egg = itemView.findViewById(R.id.check_box_rejected_egg);
-            check_box_rejected_egg.setVisibility(View.GONE);
+            //check_box_rejected_egg = itemView.findViewById(R.id.check_box_rejected_egg);
+            //check_box_rejected_egg.setVisibility(View.GONE);
             itemView.setOnClickListener(this);
         }
 
