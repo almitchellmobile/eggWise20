@@ -1,6 +1,7 @@
 package net.almitchellmobile.eggwise20;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
@@ -163,6 +164,14 @@ public class ConfigurationOptionsActivity extends AppCompatActivity {
         super.onOptionsItemSelected(item);
 
         switch (item.getItemId()) {
+            case R.id.send_feedback:
+                final Intent _Intent = new Intent(android.content.Intent.ACTION_SEND);
+                _Intent.setType("text/html");
+                _Intent.putExtra(android.content.Intent.EXTRA_EMAIL, "almitchellmobile@gmail.com");
+                _Intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "eggWISE Mobile - User Feedback");
+                _Intent.putExtra(android.content.Intent.EXTRA_TEXT, Common.getExtraText(this));
+                startActivity(Intent.createChooser(_Intent, "Send feedback"));
+                return true;
 
             default:
                 try {

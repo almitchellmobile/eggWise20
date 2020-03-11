@@ -2,21 +2,20 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="net.almitchellmobile.eggwise20">
 
-
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:name=".App"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/eggwise_master_icon4"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <activity
             android:name=".FeedbackActivity"
             android:label="@string/title_activity_feedback"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".EggWiseMainActivity"
             android:label="@string/title_activity_egg_wise_main"
@@ -29,7 +28,6 @@
         </activity>
         <activity
             android:name=".AddEggBatchActivity"
-
             android:label="@string/title_activity_add_batch"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
@@ -37,11 +35,13 @@
             android:label="@string/title_activity_egg_batch_list"
             android:theme="@style/AppTheme.NoActionBar">
 
-            <!--<intent-filter>
+            <!--
+            <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>-->
+            </intent-filter>
+            -->
 
         </activity>
         <activity
@@ -63,7 +63,7 @@
         </activity>
         <activity
             android:name=".ConfigurationOptionsActivity"
-            android:label="@string/title_activity_configuration_options"
+            android:label="Settings"
             android:theme="@style/AppTheme.NoActionBar">
 
             <!--
@@ -77,18 +77,19 @@
         <activity
             android:name=".AddWeightLossActivity"
             android:label="@string/title_activity_add_weight_loss"
-
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".WeightLossListActivity"
             android:label="@string/title_activity_weight_loss_list"
             android:theme="@style/AppTheme.NoActionBar">
 
-           <!-- <intent-filter>
+            <!--
+            <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>-->
+            </intent-filter>
+            -->
 
         </activity>
         <activity

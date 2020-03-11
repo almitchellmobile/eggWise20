@@ -291,7 +291,7 @@ public class AddWeightLossActivity extends AppCompatActivity {
                     if(validateRequiredFields()) {
                         updateInsertEggDaily();
                         setResult( eggDaily, "insert_or_update_list");
-                        Toast.makeText(AddWeightLossActivity.this, "Egg Label:  " + et_egg_label.getText().toString()  + " Saved!", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(AddWeightLossActivity.this, "Egg Label:  " + et_egg_label.getText().toString()  + " Saved!", Toast.LENGTH_SHORT).show();
 
                     }
                 } catch (java.text.ParseException e) {
@@ -339,6 +339,8 @@ public class AddWeightLossActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent1 = new Intent(AddWeightLossActivity.this, WeightLossListActivity.class);
+                intent1.putExtra("eggBatch", eggBatch);
+                intent1.putExtra("eggDaily", eggDaily);
                 startActivity(intent1);
             }
         });
@@ -355,9 +357,10 @@ public class AddWeightLossActivity extends AppCompatActivity {
             et_egg_label.setText(eggDaily.getEggLabel());
             et_reading_date.setText(eggDaily.getReadingDate());
             et_reading_day_number.setText(eggDaily.getReadingDayNumber().toString());
+            readingDayNumber = eggDaily.getReadingDayNumber();
             et_egg_weight.setText(eggDaily.getEggWeight().toString());
             et_weight_loss_comment.setText(eggDaily.eggDailyComment);
-            button_save_add_weight_loss.setText("Save / Add Next");
+            button_save_add_weight_loss.setText("Save/Add Next");
         } else if (getIntent().getSerializableExtra("eggDailyUpdate") != null) {
             eggDaily = (EggDaily) getIntent().getSerializableExtra("eggDailyUpdate");
             update = true;
@@ -373,7 +376,7 @@ public class AddWeightLossActivity extends AppCompatActivity {
             et_reading_day_number.setText(readingDayNumber.toString());
             et_egg_weight.setText(eggWeight.toString());
             et_weight_loss_comment.setText(eggDailyComment);
-            button_save_add_weight_loss.setText("Update");
+            button_save_add_weight_loss.setText("Update/Add Next");
         }
         if ( eggDaily!=null ){
             //getSupportActionBar().setTitle("Update Egg Weight for Batch: " + batchLabel);
@@ -406,6 +409,14 @@ public class AddWeightLossActivity extends AppCompatActivity {
         super.onOptionsItemSelected(item);
 
         switch (item.getItemId()) {
+            case R.id.send_feedback:
+                final Intent _Intent = new Intent(android.content.Intent.ACTION_SEND);
+                _Intent.setType("text/html");
+                _Intent.putExtra(android.content.Intent.EXTRA_EMAIL, "almitchellmobile@gmail.com");
+                _Intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "eggWISE Mobile - User Feedback");
+                _Intent.putExtra(android.content.Intent.EXTRA_TEXT, Common.getExtraText(this));
+                startActivity(Intent.createChooser(_Intent, "Send feedback"));
+                return true;
 
             default:
                 try {
@@ -464,7 +475,7 @@ public class AddWeightLossActivity extends AppCompatActivity {
         }
         if (!(et_reading_date.getText().toString().length() == 0)) {
             readingDate = et_reading_date.getText().toString();
-            //readingDayNumber = common.computeReadingDateNumber(setDate,et_reading_date.getText().toString());
+            readingDayNumber = common.computeReadingDateNumber(setDate,et_reading_date.getText().toString());
         } else {
             et_reading_date.setHint("Please enter Reading Date.");
             et_reading_date.setError("Reading Date is required.");
@@ -567,7 +578,7 @@ public class AddWeightLossActivity extends AppCompatActivity {
         //        .putExtra("eggBatch", eggBatch));
 
         System.out.println("eggDaily: " + eggDaily.toString());
-        finish();
+        //finish();
 
 
 

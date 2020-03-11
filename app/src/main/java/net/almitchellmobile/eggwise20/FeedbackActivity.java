@@ -26,6 +26,11 @@ public class FeedbackActivity extends AppCompatActivity {
         });*/
 
 
+        sendFeedback();
+
+    }
+
+    public void sendFeedback() {
         String extraText = "";
         String versionName = "";
         int versionCode = 0;
@@ -41,17 +46,16 @@ public class FeedbackActivity extends AppCompatActivity {
         extraText = "Version Name: " + versionName + ", Version Code: " + versionCode + ".";
 
 
-        final Intent _Intent = new Intent(android.content.Intent.ACTION_SEND);
+        final Intent _Intent = new Intent(Intent.ACTION_SEND);
         _Intent.setType("text/html");
-        _Intent.putExtra(android.content.Intent.EXTRA_EMAIL, "almitchellmobile@gmail.com");
-        _Intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "eggWISE Mobile - User Feedback");
-        _Intent.putExtra(android.content.Intent.EXTRA_TEXT, extraText);
+        _Intent.putExtra(Intent.EXTRA_EMAIL, "almitchellmobile@gmail.com");
+        _Intent.putExtra(Intent.EXTRA_SUBJECT, "eggWISE Mobile - User Feedback");
+        _Intent.putExtra(Intent.EXTRA_TEXT, extraText);
         startActivity(Intent.createChooser(_Intent, "Send feedback"));
 
         Intent intent2 = new Intent(FeedbackActivity.this,
                 EggWiseMainActivity.class);
         intent2.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
     }
 
 }

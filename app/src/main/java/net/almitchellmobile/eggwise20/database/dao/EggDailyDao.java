@@ -40,6 +40,14 @@ public interface EggDailyDao {
     @Query(sqlSelectAllBatchLabels)
     List<String> getEggDaily_AllBatchLabels();
 
+    String sqlRejectedEggCount = "SELECT Count(DISTINCT EggLabel) RejectedEggCount FROM "+
+            Constants.TABLE_NAME_EGG_DAILY +
+            " WHERE EggBatchID = :eggBatchID " +
+            " AND RejectedEgg = 1 " +
+            " GROUP BY EggBatchID, BatchLabel ";
+    @Query(sqlRejectedEggCount)
+    Integer getEggDaily_CountRejectedEggs(Long eggBatchID);
+
     String sqlSelectSumSingle = "SELECT SUM(EggWeight) EggWeightSum FROM "+
             Constants.TABLE_NAME_EGG_DAILY +
             " WHERE EggBatchID = :eggBatchID " +
@@ -150,10 +158,6 @@ public interface EggDailyDao {
             "WHERE EggBatchID = :eggBatchID AND EggLabel Like :eggLabel" ;
     @Query(sqlUpdateEggDaily_RejectedEgg)
     void updateEggDaily_RejectedEgg(Integer rejectedEgg, Long eggBatchID, String eggLabel);
-
-
-
-
 
 
     /*

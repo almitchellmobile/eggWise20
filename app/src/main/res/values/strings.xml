@@ -1,7 +1,7 @@
 <resources>
 
 
-    <string name="app_name">eggWise 2.0</string>
+    <string name="app_name">eggWise Mobile 2.0</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">eggWise Mobile Brinsea Products Inc.</string>
@@ -33,7 +33,7 @@
     <string name="link_almitchell"><a href="http://www.almitchellmobile.net">Developed by AL Mitchell Mobile: http://www.almitchellmobile.net</a></string>
     <string name="link_almitchell_brinsea"><a href="http://www.almitchellmobile.net">Developed for Brinsea Products Inc. http://www.brinsea.com</a><a href="http://http://www.brinsea.com">by AL Mitchell: <br></br>http://www.almitchellmobile.net </a></string>
     <string name="by_line_almitchell">Developed by AL Mitchell http://www.almitchellmobile.net</string>
-    <string name="by_line_almitchell1">Developed by AL Mitchell AL Mitchell Mobile</string>
+    <string name="by_line_almitchell1">Developed by AL Mitchell</string>
     <string name="by_line_almitchell2">http://www.almitchellmobile.net</string>
     <string name="title_activity_add_incubator">Add Incubator </string>
     <string name="title_activity_incubator_list">Incubator List </string>
@@ -44,7 +44,8 @@
     <string name="species_name">Species Name</string>
     <string name="common_name">Common Name</string>
     <string name="incubator_name">Incubator Name</string>
-    <string name="set_date">Set Date</string>    <string name="hatch_date">Hatch Date</string>
+    <string name="set_date">Set Date</string>
+    <string name="hatch_date">Hatch Date</string>
     <string name="location">Location</string>
     <string name="desired_weight_loss">Desired Weight Loss</string>
     <string name="track_entire_batch">Track Entire Batch</string>
@@ -69,8 +70,11 @@
         <item>By Day DESC, By Egg ASC</item>
         <item>By Day DESC, By Egg DESC</item>
     </string-array>
-    <string name="title_activity_egg_wise_main">eggWise 2.0 Mobile</string>
+    <string name="title_activity_egg_wise_main">eggWise Mobile 2.0</string>
     <string name="title_activity_feedback">Feedback</string>
+    <string name="title_activity_on_boarding">OnBoardingActivity</string>
+    <string name="tab_text_1">Tab 1</string>
+    <string name="tab_text_2">Tab 2</string>
 
 
 </resources>

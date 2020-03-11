@@ -149,7 +149,7 @@ public class WeightLossChartActivity extends AppCompatActivity {
         }
 
         graphWeightLoss = (GraphView) findViewById(R.id.graph);
-        graphWeightLoss.setTitle("Target Weight Loss vs Actual Weight Loss");
+        graphWeightLoss.setTitle("Target Weight vs Actual Weight");
         graphWeightLoss.setTitleTextSize(60);
         graphWeightLoss.getGridLabelRenderer().setHorizontalAxisTitle("Weigh Day");
         graphWeightLoss.getGridLabelRenderer().setVerticalAxisTitle("Weight Loss Percentage");
@@ -211,6 +211,14 @@ public class WeightLossChartActivity extends AppCompatActivity {
         super.onOptionsItemSelected(item);
 
         switch (item.getItemId()) {
+            case R.id.send_feedback:
+                final Intent _Intent = new Intent(android.content.Intent.ACTION_SEND);
+                _Intent.setType("text/html");
+                _Intent.putExtra(android.content.Intent.EXTRA_EMAIL, "almitchellmobile@gmail.com");
+                _Intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "eggWISE Mobile - User Feedback");
+                _Intent.putExtra(android.content.Intent.EXTRA_TEXT, Common.getExtraText(this));
+                startActivity(Intent.createChooser(_Intent, "Send feedback"));
+                return true;
 
             default:
                 try {

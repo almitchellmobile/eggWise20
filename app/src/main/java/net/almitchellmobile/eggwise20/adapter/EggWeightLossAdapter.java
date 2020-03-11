@@ -34,6 +34,8 @@ public class EggWeightLossAdapter extends RecyclerView.Adapter <EggWeightLossAda
     public static String PREF_HUMIDITY_MEASURED_WITH = "";
     public static String PREF_WEIGHT_ENTERED_IN = "";
 
+    public static Integer NUMBER_OF_REJECTED_EGGS = 0;
+
     public static Integer PREF_DAYS_TO_HATCHER_BEFORE_HATCHING = 3;
     public static Double PREF_DEFAULT_WEIGHT_LOSS_PRECENTAGE= 0.0D;
     public static Double PREF_WARN_WEIGHT_DEVIATION_PERCENTAGE = 0.0D;
@@ -61,7 +63,7 @@ public class EggWeightLossAdapter extends RecyclerView.Adapter <EggWeightLossAda
 
     public Integer eggsRemaining = -1;
     public Integer numberOfEggs = 0;
-    public Integer sumEggsLost = 0;
+    //public Integer numberOfRejectedEggs = 0;
     public Integer previousReadingDayNumber = 0;
     public Double previousEggWeightAverage = 0.0;
     public Double eggWeightAverage = 0.0;
@@ -95,12 +97,13 @@ public class EggWeightLossAdapter extends RecyclerView.Adapter <EggWeightLossAda
     Common common;
 
 
-    public EggWeightLossAdapter(List<EggDaily> eggDailyList, Context context, EggWiseDatabse eggWiseDatabse) {
+    public EggWeightLossAdapter(List<EggDaily> eggDailyList, Context context, Integer numberOfRejectedEggs) {
         layoutInflater = LayoutInflater.from(context);
         this.eggDailyList = eggDailyList;
         this.context = context;
         this.onEggWeightItemClick = (OnEggWeightItemClick) context;
-        this.eggWiseDatabse = eggWiseDatabse;
+        //this.eggWiseDatabse = eggWiseDatabse;
+        this.NUMBER_OF_REJECTED_EGGS = numberOfRejectedEggs;
         common = new Common();
         sharedpreferences = context.getSharedPreferences(mypreference,
                 Context.MODE_PRIVATE);
@@ -170,7 +173,7 @@ public class EggWeightLossAdapter extends RecyclerView.Adapter <EggWeightLossAda
 
             //line1 = "<B>Label:</B> " + common.blankIfNullString(eggDailyList.get(position).getEggLabel()) +
             line1 = "<B>Weight:</B> " + common.zeroIfNullDouble(eggDailyList.get(position).getEggWeight()) +
-                    ", <B># Remaining:</B> " + common.zeroIfNullInteger(eggDailyList.get(position).getNumberOfEggsRemaining()) +
+                    ", <B># Remaining:</B> " + common.zeroIfNullInteger(eggDailyList.get(position).getNumberOfEggsRemaining() - NUMBER_OF_REJECTED_EGGS) +
                     ", <B>Set Date:</B> " + common.blankIfNullString(eggDailyList.get(position).getSetDate()) +
                     ", <B>Incubator:</B> " + common.blankIfNullString(eggDailyList.get(position).getIncubatorName()) +
                     ", <B>Reading Date:</B> " + common.blankIfNullString(eggDailyList.get(position).getReadingDate()) +

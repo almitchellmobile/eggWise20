@@ -2,7 +2,10 @@ package net.almitchellmobile.eggwise20.util;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.ParseException;
+import android.os.Build;
+import android.provider.CalendarContract;
 import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -40,6 +43,23 @@ public class Common {
     public Common() {
     }
 
+    public static String getExtraText(Context ctx) {
+
+        String extraText = "";
+        String versionName = "";
+        int versionCode = 0;
+        try {
+            versionName = ctx.getPackageManager().getPackageInfo(ctx.getPackageName(), 0).versionName;
+            versionCode = ctx.getPackageManager().getPackageInfo(ctx.getPackageName(), 0).versionCode;
+        } catch (PackageManager.NameNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        extraText = "Version Name: " + versionName + ", Version Code: " + versionCode + ".";
+
+        return extraText;
+    }
+
     public void menuOptions (MenuItem item, Context ctx, AppCompatActivity act) {
 
         try {
@@ -72,6 +92,33 @@ public class Common {
                     act.startActivity(intent3);
                     break;
 
+                case R.id.create_alert:
+                    if (Build.VERSION.SDK_INT >= 14) {
+                        //Calendar beginTime = null;
+                        //Calendar endTime = null;
+                        Calendar cal = Calendar.getInstance();
+                        Intent intent6 = new Intent(Intent.ACTION_INSERT)
+                                .setData(CalendarContract.Events.CONTENT_URI)
+                                .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, cal.getTimeInMillis())
+                                .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, cal.getTimeInMillis()+60*60*1000)
+                                .putExtra(CalendarContract.Events.TITLE, "")
+                                .putExtra(CalendarContract.Events.DESCRIPTION, "")
+                                .putExtra(CalendarContract.Events.EVENT_LOCATION, "")
+                                .putExtra(CalendarContract.Events.AVAILABILITY, CalendarContract.Events.AVAILABILITY_BUSY)
+                                .putExtra(Intent.EXTRA_EMAIL, "");
+                        act.startActivity(intent6);
+                    } else {
+                        Calendar cal = Calendar.getInstance();
+                        Intent intent7 = new Intent(Intent.ACTION_EDIT);
+                        intent7.setType("vnd.android.cursor.item/event");
+                        intent7.putExtra("beginTime", cal.getTimeInMillis());
+                        intent7.putExtra("allDay", true);
+                        intent7.putExtra("rrule", "");
+                        intent7.putExtra("endTime", cal.getTimeInMillis()+60*60*1000);
+                        intent7.putExtra("title", "");
+                        act.startActivity(intent7);
+                    }
+                    break;
 
                 case R.id.exit_eggwise:
                     Intent intent4 = new Intent(act, EggWiseMainActivity.class);
@@ -86,6 +133,34 @@ public class Common {
             e.printStackTrace();
         }
     }
+
+    /*public void sendFeedback() {
+        String extraText = "";
+        String versionName = "";
+        int versionCode = 0;
+
+        try {
+            versionName = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
+            versionCode = getPackageManager().getPackageInfo(getPackageName(), 0).versionCode;
+        } catch (PackageManager.NameNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        extraText = "Version Name: " + versionName + ", Version Code: " + versionCode + ".";
+
+
+        final Intent _Intent = new Intent(Intent.ACTION_SEND);
+        _Intent.setType("text/html");
+        _Intent.putExtra(Intent.EXTRA_EMAIL, "almitchellmobile@gmail.com");
+        _Intent.putExtra(Intent.EXTRA_SUBJECT, "eggWISE Mobile - User Feedback");
+        _Intent.putExtra(Intent.EXTRA_TEXT, extraText);
+        ctx.startActivity(Intent.createChooser(_Intent, "Send feedback"));
+
+        Intent intent2 = new Intent(FeedbackActivity.this,
+                EggWiseMainActivity.class);
+        intent2.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+    }*/
 
     public static int convertDoubleToInteger(double valueIn) {
         double data = valueIn;

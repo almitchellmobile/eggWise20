@@ -79,7 +79,7 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
     public static DecimalFormat df = new DecimalFormat("00.00");
 
     private SearchView searchView;
-    FloatingActionButton fab_weight_loss_rejects_visibility, fab_add_weight_loss;
+    FloatingActionButton fab_weight_loss_rejects_visibility, fab_add_weight_loss_list;
     private TextView tv_empty_weight_loss_message;
     private RecyclerView recyclerViewWeightLossList;
     private EggWiseDatabse eggWiseDatabse;
@@ -100,6 +100,7 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
 
     public Long settingID = 0L;
     public EggDaily eggDaily = null;
+    Integer numberOfRejectedEggs = 0;
 
     public String eggLabel = "";
     public String readingDate = "";
@@ -395,6 +396,14 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
         super.onOptionsItemSelected(item);
 
         switch (item.getItemId()) {
+            case R.id.send_feedback:
+                final Intent _Intent = new Intent(android.content.Intent.ACTION_SEND);
+                _Intent.setType("text/html");
+                _Intent.putExtra(android.content.Intent.EXTRA_EMAIL, "almitchellmobile@gmail.com");
+                _Intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "eggWISE Mobile - User Feedback");
+                _Intent.putExtra(android.content.Intent.EXTRA_TEXT, Common.getExtraText(this));
+                startActivity(Intent.createChooser(_Intent, "Send feedback"));
+                return true;
 
             default:
                 try {
@@ -421,7 +430,7 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
     }
 
     private void displayList(){
-        eggWiseDatabse = EggWiseDatabse.getInstance(WeightLossListActivity.this);
+        //eggWiseDatabse = EggWiseDatabse.getInstance(WeightLossListActivity.this);
         new WeightLossListActivity.RetrieveTask(this).execute();
 
     }
@@ -452,22 +461,26 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
             }
         });
 
-        fab_add_weight_loss = (FloatingActionButton) findViewById(R.id.fab_add_weight_loss);
-        fab_add_weight_loss.setOnClickListener(new View.OnClickListener() {
+        fab_add_weight_loss_list = (FloatingActionButton) findViewById(R.id.fab_add_weight_loss_list);
+        fab_add_weight_loss_list.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                //       .setAction("Action", null).show();
-                //startActivityForResult(new Intent(WeightLossListActivity.this,AddWeightLossActivity.class).putExtra("eggDailyAdd", eggDailyList.get(0)),100);
-                startActivityForResult(new Intent(WeightLossListActivity.this,AddWeightLossActivity.class).putExtra("eggBatch",eggBatch),100);
+                startActivity(new Intent(WeightLossListActivity.this,AddWeightLossActivity.class).putExtra("eggDailyAdd", eggDailyList.get(0))
+                        .putExtra("eggBatch",eggBatch));
 
             }
         });
 
+        eggWiseDatabse = EggWiseDatabse.getInstance(WeightLossListActivity.this);
+        numberOfRejectedEggs = eggWiseDatabse.getEggDailyDao().getEggDaily_CountRejectedEggs(EGG_BATCH_ID);
+        if (numberOfRejectedEggs == null) {
+            numberOfRejectedEggs = 0;
+        }
+
         recyclerViewWeightLossList = findViewById(R.id.recycler_view_weight_loss_list);
         recyclerViewWeightLossList.setLayoutManager(new LinearLayoutManager(WeightLossListActivity.this));
         eggDailyList = new ArrayList<>();
-        eggWeightLossAdapter = new EggWeightLossAdapter(eggDailyList,  WeightLossListActivity.this, eggWiseDatabse);
+        eggWeightLossAdapter = new EggWeightLossAdapter(eggDailyList,  WeightLossListActivity.this, numberOfRejectedEggs);
         recyclerViewWeightLossList.setAdapter(eggWeightLossAdapter);
 
         //RoomExplorer.show(WeightLossListActivity.this, EggWiseDatabse.class, "EggWiseDB.db");
@@ -589,6 +602,8 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
                                     eggWiseDatabse.getEggDailyDao().updateEggDaily_RejectedEgg(rejectedEgg,
                                             eggDailyOnClick.getEggBatchID(), eggDailyOnClick.getEggLabel());
                                 }
+                                //Integer numberOfRejectedEggs = eggWiseDatabse.getEggDailyDao().getEggDaily_CountRejectedEggs(eggDailyOnClick.getEggBatchID());
+                                //numberOfEggsRemaining = eggDailyOnClick.getNumberOfEggsRemaining() - numberOfRejectedEggs;
                                 //eggWeightLossAdapter.notifyDataSetChanged();
                                 //listVisibility();
                                 resetFilters();
@@ -642,11 +657,14 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
         @Override
         protected void onPostExecute(List<EggDaily> eggDailyListPostEx) {
 
+            //Integer numberOfEggsRemaining = 0;
+
             if (eggDailyListPostEx!=null && eggDailyListPostEx.size()>0 ){
 
                 if (HIDE_REJECTS) {
                     List<EggDaily> eggDailyListTemp = new ArrayList<>();
                     for (int i = 0; i < eggDailyListPostEx.size(); i++) {
+
                         if (eggDailyListPostEx.get(i).getRejectedEgg() == 0  ) {
                             eggDailyListTemp.add(eggDailyListPostEx.get(i));
                         }
@@ -654,6 +672,8 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
                     eggDailyListPostEx.clear();
                     eggDailyListPostEx.addAll(eggDailyListTemp);
                 }
+
+
 
 
                 computeAveragesAndPercents(eggDailyListPostEx);
@@ -675,6 +695,9 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
             EGG_LABEL = "";
             for (index = 0; index < eggDailyListPostEx.size(); index++) {
 
+                //Integer rejectedEggCount = activityReference.get().eggWiseDatabse.getEggDailyDao().getEggDaily_CountRejectedEggs(EGG_BATCH_ID);
+                //Integer numberOfEggsRemaining =  eggDailyListPostEx.get(index).getNumberOfEggsRemaining() - rejectedEggCount;
+                //eggDailyListPostEx.get(index).setNumberOfEggsRemaining(numberOfEggsRemaining);
 
 
                 READING_DAY_NUMBER = eggDailyListPostEx.get(index).getReadingDayNumber();

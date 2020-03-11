@@ -26,6 +26,10 @@
         app:showAsAction="always"
         app:actionViewClass="android.widget.SearchView" />-->
 
+    <item android:id="@+id/create_alert"
+        android:title="Create Alert" />
+
+
     <item android:id="@+id/exit_eggwise"
         android:title="Exit eggWise" />
 </menu>
