@@ -13,7 +13,7 @@
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
+            android:id="@+id/toolbar_egg_wise_main"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
@@ -30,12 +30,12 @@
     </ScrollView>
 
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+   <!-- <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabEggWiseMain"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
-        app:srcCompat="@android:drawable/ic_dialog_email" />
+        app:srcCompat="@android:drawable/ic_dialog_email" />-->
 
 </LinearLayout>

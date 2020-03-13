@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.icu.text.DecimalFormat;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.SpannableStringBuilder;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -28,20 +29,16 @@ import java.util.List;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt;
+import uk.co.samuelwall.materialtaptargetprompt.extras.focals.RectanglePromptFocal;
 
 public class EggBatchListActivity extends AppCompatActivity implements EggBatchAdapter.OnEggBatchItemClick{
 
     SharedPreferences sharedpreferences;
-   /* public static String PREF_TEMPERATURE_ENTERED_IN = "";
-    public static String PREF_HUMIDITY_MEASURED_WITH = "";
-    public static String PREF_WEIGHT_ENTERED_IN = "";
-
-    public static Integer PREF_DAYS_TO_HATCHER_BEFORE_HATCHING = 3;
-    public static Float PREF_DEFAULT_WEIGHT_LOSS_PRECENTAGE= 0.0F;
-    public static Float PREF_WARN_WEIGHT_DEVIATION_PERCENTAGE = 0.0F;
-    public static Integer PREF_DEFAULT_WEIGHT_LOSS_INTEGER = 0;*/
+    MaterialTapTargetPrompt mFabPrompt;
 
     public static final String mypreference = "mypref";
 
@@ -70,6 +67,8 @@ public class EggBatchListActivity extends AppCompatActivity implements EggBatchA
     private int pos;
     Toolbar toolbar_egg_batch_list;
     SearchView searchView;
+    FloatingActionButton fabEggBatchList;
+    int itemIndex = 0;
 
     Common common;
 
@@ -111,6 +110,57 @@ public class EggBatchListActivity extends AppCompatActivity implements EggBatchA
 
         initializeViews();
         displayList();
+
+        //showFabPrompt();
+
+        //showEggBatchListItemPrompt();
+    }
+
+    public void showEggBatchListItemPrompt()
+    {
+
+        new MaterialTapTargetPrompt.Builder(EggBatchListActivity.this)
+                .setTarget(eggBatchList.indexOf(eggBatchList.get(itemIndex)))
+                .setPrimaryText("List item")
+                .setSecondaryText("This is targeting a list item")
+                .setPromptFocal(new RectanglePromptFocal())
+                .show();
+        if (itemIndex == eggBatchList.size())
+        {
+            itemIndex = 0;
+        }
+    }
+
+    public void showFabPrompt()
+    {
+        if (mFabPrompt != null)
+        {
+            return;
+        }
+        SpannableStringBuilder secondaryText = new SpannableStringBuilder("Tap the plus sign to continue.");
+        //secondaryText.setSpan(new ForegroundColorSpan(ContextCompat.getColor(this, R.color.colorAccent)), 0, 30, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+        SpannableStringBuilder primaryText = new SpannableStringBuilder("Enter your first egg batch.");
+        //primaryText.setSpan(new BackgroundColorSpan(ContextCompat.getColor(this, R.color.colorAccent)), 0, 40, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+        mFabPrompt = new MaterialTapTargetPrompt.Builder(EggBatchListActivity.this)
+                .setTarget(findViewById(R.id.fab_egg_batch_list))
+                .setFocalPadding(R.dimen.dp40)
+                .setPrimaryText(primaryText)
+                .setSecondaryText(secondaryText)
+                .setBackButtonDismissEnabled(true)
+                .setAnimationInterpolator(new FastOutSlowInInterpolator())
+                .setPromptStateChangeListener((prompt, state) -> {
+                    if (state == MaterialTapTargetPrompt.STATE_FOCAL_PRESSED
+                            || state == MaterialTapTargetPrompt.STATE_NON_FOCAL_PRESSED)
+                    {
+                        mFabPrompt = null;
+                        //Do something such as storing a value so that this prompt is never shown again
+                    }
+                })
+                .create();
+        if (mFabPrompt != null)
+        {
+            mFabPrompt.show();
+        }
     }
 
     @Override
@@ -146,56 +196,6 @@ public class EggBatchListActivity extends AppCompatActivity implements EggBatchA
         }
     }
 
-    /*@Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main, menu);
-
-        // Associate searchable configuration with the SearchView
-        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        searchView = (SearchView) menu.findItem(R.id.action_search)
-                .getActionView();
-        searchView.setSearchableInfo(searchManager
-                .getSearchableInfo(getComponentName()));
-        searchView.setMaxWidth(Integer.MAX_VALUE);
-
-        // listening to search query text change
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                // filter recycler view when query submitted
-                eggBatchAdapter.getFilter().filter(query);
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String query) {
-                // filter recycler view when text is changed
-                eggBatchAdapter.getFilter().filter(query);
-                return false;
-            }
-        });
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        super.onOptionsItemSelected(item);
-
-        switch (item.getItemId()) {
-            case R.id.action_search:
-                return true;
-
-            default:
-                try {
-                    Common common = new Common();
-                    common.menuOptions(item, getApplicationContext(), this);
-                } catch (Exception e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-                return true;
-        }
-    }*/
 
 
     @Override
@@ -209,34 +209,14 @@ public class EggBatchListActivity extends AppCompatActivity implements EggBatchA
     }
 
 
-    /*@Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        super.onOptionsItemSelected(item);
-
-        switch (item.getItemId()) {
-
-            default:
-                try {
-                    Common common = new Common();
-                    common.menuOptions(item, getApplicationContext(), this);
-                } catch (Exception e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-                return true;
-        }
-    }*/
 
     private void displayList(){
         eggWiseDatabse = EggWiseDatabse.getInstance(EggBatchListActivity.this);
         new EggBatchListActivity.RetrieveTask(this).execute();
+        //if (eggBatchList.size() > 0) {
+        //    showEggBatchListItemPrompt();
+        //}
     }
 
     public static Double zeroIfNull(Double valueIn) {
@@ -273,11 +253,14 @@ public class EggBatchListActivity extends AppCompatActivity implements EggBatchA
                 // hides empty text view
                 activityReference.get().textViewMsg.setVisibility(View.GONE);
                 activityReference.get().eggBatchAdapter.notifyDataSetChanged();
+                activityReference.get().showEggBatchListItemPrompt();
+
             }
         }
 
         private void computeAveragesAndPercents() {
 
+            //EGG_BATCH_ID = 0l;
             List<EggDaily> eggDailyListPostEx = activityReference.get().eggWiseDatabse.getEggDailyDao().getEggDaily_BatchEggDay_Day_ASC_LABEL_ASC(EGG_BATCH_ID);
 
             Integer index = 0;
@@ -338,7 +321,7 @@ public class EggBatchListActivity extends AppCompatActivity implements EggBatchA
         toolbar_egg_batch_list = (Toolbar) findViewById(R.id.toolbar_egg_batch_list);
         setSupportActionBar(toolbar_egg_batch_list);
         textViewMsg =  (TextView) findViewById(R.id.tv_empty_egg_batches1);
-        FloatingActionButton fabEggBatchList = (FloatingActionButton) findViewById(R.id.fab_egg_batch_list);
+        fabEggBatchList = (FloatingActionButton) findViewById(R.id.fab_egg_batch_list);
         fabEggBatchList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -4,4 +4,11 @@
     <color name="colorPrimaryDark">#000000</color>
     <color name="colorAccent">#808080</color>
     <color name="shadow">#d0d8dc</color>
+
+    <color name="colorAccentPromptBackground">#F4FF4081</color>
+
+    <color name="green_200">#68EFAD</color>
+    <color name="orange_200">#FFCC80</color>
+
+    <color name="gray_300">#E0E0E0</color>
 </resources>
