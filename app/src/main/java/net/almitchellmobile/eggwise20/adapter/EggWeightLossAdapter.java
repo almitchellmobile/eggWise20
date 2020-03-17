@@ -223,10 +223,10 @@ public class EggWeightLossAdapter extends RecyclerView.Adapter <EggWeightLossAda
 
     public class BeanHolder extends RecyclerView.ViewHolder implements View.OnClickListener, Filterable {
 
-        TextView tv_egg_weight_line1;
-        TextView tv_egg_weight_title1;
+        public TextView tv_egg_weight_line1;
+        public TextView tv_egg_weight_title1;
         //CheckBox check_box_rejected_egg;
-        CardView cv_egg_weight;
+        public CardView cv_egg_weight;
 
         public BeanHolder(@NonNull View itemView) {
             super(itemView);

@@ -2,6 +2,7 @@ package net.almitchellmobile.eggwise20.util;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.ParseException;
 import android.os.Build;
@@ -38,6 +39,16 @@ public class Common {
     public static Float PREF_DEFAULT_WEIGHT_LOSS_PRECENTAGE= 0.0F;
     public static Float PREF_WARN_WEIGHT_DEVIATION_PERCENTAGE = 0.0F;
 
+    public static Boolean COMPLETED_ONBOARDING_PREF_EGG_WISE_MAIN = false;
+    public static Boolean COMPLETED_ONBOARDING_PREF_ADD_WEIGHT_LOSS = false;
+    public static Boolean COMPLETED_ONBOARDING_PREF_WEIGHT_LOSS_LIST = false;
+    public static Boolean COMPLETED_ONBOARDING_PREF_ADD_BATCH = false;
+    public static Boolean COMPLETED_ONBOARDING_PREF_BATCH_LIST = false;
+    public static Boolean COMPLETED_ONBOARDING_PREF_ALL = false;
+    public static Boolean SET_UP_ONBOARDING_PREF = false;
+
+    public static SharedPreferences sharedpreferences;
+    public static SharedPreferences.Editor editor;
     public static final String mypreference = "mypref";
 
     public Common() {
@@ -69,6 +80,16 @@ public class Common {
                             EggBatchListActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     act.startActivity(intent);
+                    break;
+                case R.id.quick_start:
+                    sharedpreferences = act.getSharedPreferences(mypreference,Context.MODE_PRIVATE);
+                    editor = sharedpreferences.edit();
+                    editor.putBoolean("COMPLETED_ONBOARDING_PREF_SET_UP", false);
+                    editor.commit();
+                    Intent intent4 = new Intent(ctx,
+                            EggWiseMainActivity.class);
+                    intent4.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    act.startActivity(intent4);
                     break;
                 case R.id.settings:
                     Intent intent1 = new Intent(ctx,
@@ -121,10 +142,10 @@ public class Common {
                     break;
 
                 case R.id.exit_eggwise:
-                    Intent intent4 = new Intent(act, EggWiseMainActivity.class);
-                    intent4.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    intent4.putExtra("EXIT", true);
-                    act.startActivity(intent4);
+                    Intent intent6 = new Intent(act, EggWiseMainActivity.class);
+                    intent6.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    intent6.putExtra("EXIT", true);
+                    act.startActivity(intent6);
                     break;
 
             }

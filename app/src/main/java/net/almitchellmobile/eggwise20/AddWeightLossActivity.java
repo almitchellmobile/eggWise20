@@ -9,6 +9,7 @@ import android.icu.text.SimpleDateFormat;
 import android.icu.util.Calendar;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.SpannableStringBuilder;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -35,13 +36,15 @@ import java.util.Locale;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.text.HtmlCompat;
+import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
+import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt;
 
 public class AddWeightLossActivity extends AppCompatActivity {
 
-    SharedPreferences sharedpreferences;
-
-
+    public static SharedPreferences sharedpreferences;
+    public static SharedPreferences.Editor editor;
     public static final String mypreference = "mypref";
+
 
     private TextView text_number_of_eggs_remaining,
             text_incubator_name,
@@ -63,7 +66,7 @@ public class AddWeightLossActivity extends AppCompatActivity {
     com.google.android.material.floatingactionbutton.FloatingActionButton fab_add_save_weight_loss,
             fab_reading_date_lookup;
 
-
+    MaterialTapTargetPrompt mFabPrompt;
     private EggWiseDatabse eggWiseDatabse;
     private EggDaily eggDaily;
     private EggBatch eggBatch;
@@ -114,8 +117,8 @@ public class AddWeightLossActivity extends AppCompatActivity {
         eggWiseDatabse = EggWiseDatabse.getInstance(AddWeightLossActivity.this);
         myCalendar = Calendar.getInstance();
 
-        sharedpreferences = getSharedPreferences(mypreference,
-                Context.MODE_PRIVATE);
+        sharedpreferences = getSharedPreferences(mypreference,Context.MODE_PRIVATE);
+        editor = sharedpreferences.edit();
 
         Common.PREF_TEMPERATURE_ENTERED_IN = sharedpreferences.getString("temperature_entered_in", "");
         Common.PREF_HUMIDITY_MEASURED_WITH = sharedpreferences.getString("humidity_measured_with", "");
@@ -139,18 +142,6 @@ public class AddWeightLossActivity extends AppCompatActivity {
         } else {
             Common.PREF_WARN_WEIGHT_DEVIATION_PERCENTAGE = 0.0F;
         }
-
-
-
-
-        /*arrayListBatchLabel.addAll(eggWiseDatabse.getEggDailyDao().getEggDaily_AllBatchLabels());
-        adapterBatchLabel  = new ArrayAdapter<String>
-                (AddWeightLossActivity.this, android.R.layout.select_dialog_item, arrayListBatchLabel);
-        et_batch_label_add_egg_weight = (AutoCompleteTextView) findViewById(R.id.et_batch_label_add_egg_weight);
-        et_batch_label_add_egg_weight.setThreshold(1);//will start working from first character
-        et_batch_label_add_egg_weight.setAdapter(adapterBatchLabel);//setting the adapter data into the AutoCompleteTextView
-        et_batch_label_add_egg_weight.setTextColor(Color.BLACK);
-*/
 
         text_number_of_eggs_remaining = findViewById(R.id.text_number_of_eggs_remaining);
         text_incubator_name = findViewById(R.id.text_incubator_name);
@@ -394,6 +385,46 @@ public class AddWeightLossActivity extends AppCompatActivity {
             text_incubator_name.setText(parseHTMLBold("<B>Incubator Name:</B> " + eggDaily.getIncubatorName()));
             text_number_of_eggs_remaining.setText(parseHTMLBold("<B>Number Of Eggs Remaining:</B> " + eggDaily.getNumberOfEggsRemaining()));
 
+        }
+
+        if (!sharedpreferences.getBoolean("COMPLETED_ONBOARDING_PREF_WEIGHT_LOSS_LIST_1", false)) {
+            // The user hasn't seen the OnboardingSupportFragment yet, so show it
+            showFabPrompt();
+            editor.putBoolean("COMPLETED_ONBOARDING_PREF_WEIGHT_LOSS_LIST_1", true);
+            editor.commit();
+        }
+    }
+
+    public void showFabPrompt()
+    {
+        if (mFabPrompt != null)
+        {
+            return;
+        }
+        SpannableStringBuilder secondaryText = new SpannableStringBuilder("Tap the save button to save your egg.");
+        //secondaryText.setSpan(new ForegroundColorSpan(ContextCompat.getColor(this, R.color.colorAccent)), 0, 30, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+        SpannableStringBuilder primaryText = new SpannableStringBuilder("Save your egg.");
+        //primaryText.setSpan(new BackgroundColorSpan(ContextCompat.getColor(this, R.color.colorAccent)), 0, 40, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+        mFabPrompt = new MaterialTapTargetPrompt.Builder(AddWeightLossActivity.this)
+                .setTarget(findViewById(R.id.fab_add_save_weight_loss))
+                .setFocalPadding(R.dimen.dp40)
+                .setBackgroundColour(getResources().getColor(R.color.colorAccent))
+                .setPrimaryText(primaryText)
+                .setSecondaryText(secondaryText)
+                .setBackButtonDismissEnabled(true)
+                .setAnimationInterpolator(new FastOutSlowInInterpolator())
+                .setPromptStateChangeListener((prompt, state) -> {
+                    if (state == MaterialTapTargetPrompt.STATE_FOCAL_PRESSED
+                            || state == MaterialTapTargetPrompt.STATE_NON_FOCAL_PRESSED)
+                    {
+                        mFabPrompt = null;
+                        //Do something such as storing a value so that this prompt is never shown again
+                    }
+                })
+                .create();
+        if (mFabPrompt != null)
+        {
+            mFabPrompt.show();
         }
     }
 

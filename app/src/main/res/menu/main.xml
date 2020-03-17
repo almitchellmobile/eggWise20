@@ -29,6 +29,9 @@
     <item android:id="@+id/create_alert"
         android:title="Create Alert" />
 
+    <item android:id="@+id/quick_start"
+        android:title="Quick Start" />
+
 
     <item android:id="@+id/exit_eggwise"
         android:title="Exit eggWise" />

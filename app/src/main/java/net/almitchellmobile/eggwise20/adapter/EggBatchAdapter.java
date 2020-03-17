@@ -134,10 +134,10 @@ public class EggBatchAdapter extends RecyclerView.Adapter<EggBatchAdapter.BeanHo
 
     public class BeanHolder extends RecyclerView.ViewHolder implements View.OnClickListener, Filterable {
 
-        TextView  tv_egg_batch_title1;
-        TextView tv_egg_batch_line1, tv_egg_label, number_of_eggs, tv_common_name, tv_incubator, tv_set_date, tv_hatch_date,
+        public TextView  tv_egg_batch_title1;
+        public TextView tv_egg_batch_line1, tv_egg_label, number_of_eggs, tv_common_name, tv_incubator, tv_set_date, tv_hatch_date,
                 tv_location, tv_weight_loss_racking, tv_desired_weight_loss;
-        CardView cv_egg_batch;
+        public CardView cv_egg_batch;
         public BeanHolder(View itemView) {
             super(itemView);
             itemView.setOnClickListener(this);

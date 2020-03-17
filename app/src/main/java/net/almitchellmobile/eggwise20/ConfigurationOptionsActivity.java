@@ -30,20 +30,9 @@ public class ConfigurationOptionsActivity extends AppCompatActivity {
             et_warn_weight_deviation_percentage;
 
     SharedPreferences sharedpreferences;
-
-    /*
-    public static String PREF_TEMPERATURE_ENTERED_IN = "";
-    public static String PREF_HUMIDITY_MEASURED_WITH = "";
-    public static String PREF_WEIGHT_ENTERED_IN = "";
-
-    public static Integer PREF_DAYS_TO_HATCHER_BEFORE_HATCHING = 3;
-
-    public static Integer PREF_DEFAULT_WEIGHT_LOSS_PERCENT_INTEGER = 3;
-
-    public static Float PREF_DEFAULT_WEIGHT_LOSS_PRECENTAGE= 0.0F;
-    public static Float PREF_WARN_WEIGHT_DEVIATION_PERCENTAGE = 0.0F;*/
-
+    SharedPreferences.Editor editor;
     public static final String mypreference = "mypref";
+
     String prefValue = "";
 
     Common common;
@@ -55,6 +44,7 @@ public class ConfigurationOptionsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_configuration_options);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         fab_configuration_options = findViewById(R.id.fab_configuration_options);
         fab_configuration_options.setOnClickListener(new View.OnClickListener() {
@@ -100,6 +90,12 @@ public class ConfigurationOptionsActivity extends AppCompatActivity {
 
         Common.PREF_DEFAULT_WEIGHT_LOSS_PRECENTAGE= 0.0F;
         Common.PREF_WARN_WEIGHT_DEVIATION_PERCENTAGE = 0.0F;
+
+        Common.COMPLETED_ONBOARDING_PREF_EGG_WISE_MAIN = false;
+        Common.COMPLETED_ONBOARDING_PREF_ADD_WEIGHT_LOSS = false;
+        Common.COMPLETED_ONBOARDING_PREF_WEIGHT_LOSS_LIST = false;
+        Common.COMPLETED_ONBOARDING_PREF_ADD_BATCH = false;
+        Common.COMPLETED_ONBOARDING_PREF_BATCH_LIST = false;
 
         sharedpreferences = getSharedPreferences(mypreference,
                 Context.MODE_PRIVATE);

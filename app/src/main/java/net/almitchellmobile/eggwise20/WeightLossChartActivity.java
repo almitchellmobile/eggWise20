@@ -36,16 +36,8 @@ import androidx.recyclerview.widget.RecyclerView;
 public class WeightLossChartActivity extends AppCompatActivity {
 
 
-    SharedPreferences sharedpreferences;
-   /* public static String PREF_TEMPERATURE_ENTERED_IN = "";
-    public static String PREF_HUMIDITY_MEASURED_WITH = "";
-    public static String PREF_WEIGHT_ENTERED_IN = "";
-
-    public static Integer PREF_DAYS_TO_HATCHER_BEFORE_HATCHING = 3;
-    public static Float PREF_DEFAULT_WEIGHT_LOSS_PRECENTAGE= 0.0F;
-    public static Float PREF_WARN_WEIGHT_DEVIATION_PERCENTAGE = 0.0F;
-    public static Integer PREF_DEFAULT_WEIGHT_LOSS_INTEGER = 0;*/
-
+    public static SharedPreferences sharedpreferences;
+    public static SharedPreferences.Editor editor;
     public static final String mypreference = "mypref";
 
     public static String BATCH_LABEL = "";

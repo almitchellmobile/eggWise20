@@ -9,6 +9,7 @@ import android.icu.text.SimpleDateFormat;
 import android.icu.util.Calendar;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.SpannableStringBuilder;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -37,19 +38,13 @@ import java.util.Locale;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
+import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt;
 
 public class AddEggBatchActivity extends AppCompatActivity {
 
-    SharedPreferences sharedpreferences;
-   /* public static String PREF_TEMPERATURE_ENTERED_IN = "";
-    public static String PREF_HUMIDITY_MEASURED_WITH = "";
-    public static String PREF_WEIGHT_ENTERED_IN = "";
-
-    public static Integer PREF_DAYS_TO_HATCHER_BEFORE_HATCHING = 3;
-    public static Integer PREF_DEFAULT_WEIGHT_LOSS_INTEGER = 0;
-    public static Float PREF_WARN_WEIGHT_DEVIATION_PERCENTAGE = 0.0F;
-    public static Float PREF_DEFAULT_WEIGHT_LOSS_PRECENTAGE = 0.0F;*/
-
+    public static SharedPreferences sharedpreferences;
+    public static SharedPreferences.Editor editor;
     public static final String mypreference = "mypref";
 
     AutoCompleteTextView et_batch_label, et_number_of_eggs, et_species_name, et_common_name,
@@ -65,6 +60,7 @@ public class AddEggBatchActivity extends AppCompatActivity {
     RadioButton rb_track_specific_eggs;
 
     public EggWiseDatabse eggWiseDatabse;
+    MaterialTapTargetPrompt mFabPrompt;
 
     private EggBatch eggBatch;
     String batchLabel = "";
@@ -131,6 +127,7 @@ public class AddEggBatchActivity extends AppCompatActivity {
         eggWiseDatabse = EggWiseDatabse.getInstance(AddEggBatchActivity.this);
 
         sharedpreferences = getSharedPreferences(mypreference,Context.MODE_PRIVATE);
+        editor = sharedpreferences.edit();
 
         Common.PREF_TEMPERATURE_ENTERED_IN = sharedpreferences.getString("temperature_entered_in", "");
         Common.PREF_HUMIDITY_MEASURED_WITH = sharedpreferences.getString("humidity_measured_with", "");
@@ -390,6 +387,47 @@ public class AddEggBatchActivity extends AppCompatActivity {
 
         });
 
+        //showFabPrompt();
+        if (!sharedpreferences.getBoolean("COMPLETED_ONBOARDING_PREF_ADD_BATCH_1", false)) {
+                // The user hasn't seen the OnboardingSupportFragment yet, so show it
+            showFabPrompt();
+            editor.putBoolean("COMPLETED_ONBOARDING_PREF_ADD_BATCH_1", true);
+            editor.commit();
+        }
+
+    }
+
+    public void showFabPrompt()
+    {
+        if (mFabPrompt != null)
+        {
+            return;
+        }
+        SpannableStringBuilder secondaryText = new SpannableStringBuilder("Tap the save button to save your batch.");
+        //secondaryText.setSpan(new ForegroundColorSpan(ContextCompat.getColor(this, R.color.colorAccent)), 0, 30, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+        SpannableStringBuilder primaryText = new SpannableStringBuilder("Save your egg batch.");
+        //primaryText.setSpan(new BackgroundColorSpan(ContextCompat.getColor(this, R.color.colorAccent)), 0, 40, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+        mFabPrompt = new MaterialTapTargetPrompt.Builder(AddEggBatchActivity.this)
+                .setTarget(findViewById(R.id.fab_add_save_egg_batch))
+                .setFocalPadding(R.dimen.dp40)
+                .setBackgroundColour(getResources().getColor(R.color.colorAccent))
+                .setPrimaryText(primaryText)
+                .setSecondaryText(secondaryText)
+                .setBackButtonDismissEnabled(true)
+                .setAnimationInterpolator(new FastOutSlowInInterpolator())
+                .setPromptStateChangeListener((prompt, state) -> {
+                    if (state == MaterialTapTargetPrompt.STATE_FOCAL_PRESSED
+                            || state == MaterialTapTargetPrompt.STATE_NON_FOCAL_PRESSED)
+                    {
+                        mFabPrompt = null;
+                        //Do something such as storing a value so that this prompt is never shown again
+                    }
+                })
+                .create();
+        if (mFabPrompt != null)
+        {
+            mFabPrompt.show();
+        }
     }
 
     @Override

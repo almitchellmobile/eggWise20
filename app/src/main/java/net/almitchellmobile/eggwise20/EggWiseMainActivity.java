@@ -1,6 +1,8 @@
 package net.almitchellmobile.eggwise20;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -23,6 +25,10 @@ import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt;
 
 public class EggWiseMainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
+    public static SharedPreferences sharedpreferences;
+    public static SharedPreferences.Editor editor;
+    public static final String mypreference = "mypref";
+
     Button buttonLinkBrinsea, buttonLinkBrinseaFacebook, button_show_overflow_prompt;
     Toolbar toolbarEggWiseMain;
     MaterialTapTargetPrompt mFabPrompt;
@@ -31,6 +37,7 @@ public class EggWiseMainActivity extends AppCompatActivity implements Navigation
     public static Toolbar tb;
     public static View child;
     public static ActionMenuView actionMenuView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,14 +82,52 @@ public class EggWiseMainActivity extends AppCompatActivity implements Navigation
             }
         });
 
+        sharedpreferences = getSharedPreferences(mypreference,Context.MODE_PRIVATE);
+        editor = sharedpreferences.edit();
 
-        eggWiseQuickStart1();
+        if (!sharedpreferences.getBoolean("COMPLETED_ONBOARDING_PREF_SET_UP", false)) {
+
+            editor.putBoolean("COMPLETED_ONBOARDING_PREF_EGG_WISE_MAIN", false);
+            editor.putBoolean("COMPLETED_ONBOARDING_PREF_ADD_WEIGHT_LOSS_1", false);
+            editor.putBoolean("COMPLETED_ONBOARDING_PREF_ADD_WEIGHT_LOSS_2", false);
+            editor.putBoolean("COMPLETED_ONBOARDING_PREF_WEIGHT_LOSS_LIST_1", false);
+            editor.putBoolean("COMPLETED_ONBOARDING_PREF_WEIGHT_LOSS_LIST_2", false);
+            editor.putBoolean("COMPLETED_ONBOARDING_PREF_ADD_BATCH_1", false);
+            editor.putBoolean("COMPLETED_ONBOARDING_PREF_ADD_BATCH_2", false);
+            editor.putBoolean("COMPLETED_ONBOARDING_PREF_BATCH_LIST_1", false);
+            editor.putBoolean("COMPLETED_ONBOARDING_PREF_BATCH_LIST_2", false);
+            editor.putBoolean("COMPLETED_ONBOARDING_PREF_ALL", false);
+            editor.putBoolean("COMPLETED_ONBOARDING_PREF_SET_UP", false);
+
+            editor.putString("humidity_measured_with", Common.PREF_HUMIDITY_MEASURED_WITH);
+            editor.putString("weight_entered_in", Common.PREF_WEIGHT_ENTERED_IN);
+
+            editor.putInt("days_to_hatcher_before_hatching", Common.PREF_DAYS_TO_HATCHER_BEFORE_HATCHING);
+            editor.putFloat("default_weight_loss_percentage", Common.PREF_DEFAULT_WEIGHT_LOSS_PRECENTAGE);
+            editor.putFloat("warn_weight_deviation_percentage", Common.PREF_WARN_WEIGHT_DEVIATION_PERCENTAGE);
+
+            editor.putBoolean("COMPLETED_ONBOARDING_PREF_SET_UP", true);
+
+            editor.commit();
+
+        }
+
+        //eggWiseQuickStart1();
+
+        if (!sharedpreferences.getBoolean("COMPLETED_ONBOARDING_PREF_EGG_WISE_MAIN", false)) {
+            // The user hasn't seen the OnboardingSupportFragment yet, so show it
+            eggWiseQuickStart1();
+            editor.putBoolean("COMPLETED_ONBOARDING_PREF_EGG_WISE_MAIN", true);
+            editor.commit();
+        }
+
     }
 
     private void eggWiseQuickStart1() {
         final MaterialTapTargetPrompt.Builder tapTargetPromptBuilder = new MaterialTapTargetPrompt.Builder(this)
-                .setPrimaryText("Start here")
-                .setSecondaryText("Tap on the menu button and select the Egg Batch Management option.")
+                .setPrimaryText("Quick Start Tour")
+                .setSecondaryText("Tap on the menu button (here) and select the Egg Batch Management option.")
+                .setBackgroundColour(getResources().getColor(R.color.colorAccent))
                 .setAnimationInterpolator(new FastOutSlowInInterpolator())
                 .setMaxTextWidth(R.dimen.tap_target_menu_max_width)
                 .setIcon(R.drawable.ic_more_vert);

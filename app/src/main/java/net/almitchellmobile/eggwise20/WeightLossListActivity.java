@@ -7,9 +7,11 @@ import android.content.SharedPreferences;
 import android.icu.text.DecimalFormat;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.SpannableStringBuilder;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -17,6 +19,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.SearchView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -40,16 +43,19 @@ import java.util.List;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt;
 
 public class WeightLossListActivity extends AppCompatActivity implements EggWeightLossAdapter.OnEggWeightItemClick {
 
-    SharedPreferences sharedpreferences;
-
+    public static SharedPreferences sharedpreferences;
+    public static SharedPreferences.Editor editor;
     public static final String mypreference = "mypref";
-    public static Boolean HIDE_REJECTS = true;
 
+    MaterialTapTargetPrompt mFabPrompt;
+    public static Boolean HIDE_REJECTS = true;
     public static String ORDER_BY_COLUMNS = " ReadingDayNumber ASC, EggLabel ASC";
     public static Integer ORDER_BY_SELECTION = 0;
 
@@ -95,6 +101,7 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
     Boolean toggleButtonState;
     Button btn_filter_weight_loss_apply, btn_filter_weight_loss_reset;
     Spinner spinnerSortBy;
+    public com.google.android.material.card.MaterialCardView cv_egg_weight;
 
     public static CheckBox check_box_rejected_egg;
 
@@ -113,6 +120,7 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
     public Integer numberOfEggsRemaining = 0;
     public Integer numberOfEggs = 0;
     public Integer rejectedEgg = 0;
+    private LinearLayoutManager mLinearLayoutManager;
 
     Common common;
 
@@ -125,7 +133,8 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
         toolbar_weight_loss_list.inflateMenu(R.menu.main);
         setSupportActionBar(toolbar_weight_loss_list);
 
-        sharedpreferences = getSharedPreferences(mypreference, Context.MODE_PRIVATE);
+        sharedpreferences = getSharedPreferences(mypreference,Context.MODE_PRIVATE);
+        editor = sharedpreferences.edit();
 
         Common.PREF_TEMPERATURE_ENTERED_IN = sharedpreferences.getString("temperature_entered_in", "");
         Common.PREF_HUMIDITY_MEASURED_WITH = sharedpreferences.getString("humidity_measured_with", "");
@@ -314,6 +323,89 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
 
         initializeViews();
         displayList();
+        if (!sharedpreferences.getBoolean("COMPLETED_ONBOARDING_PREF_WEIGHT_LOSS_LIST_1", false)) {
+            // The user hasn't seen the OnboardingSupportFragment yet, so show it
+            showFabPrompt();
+            editor.putBoolean("COMPLETED_ONBOARDING_PREF_WEIGHT_LOSS_LIST_1", true);
+            editor.commit();
+        }
+    }
+
+    private void showWeightLossSubMenuPrompt() {
+        new MaterialTapTargetPrompt.Builder(this)
+                .setTarget(recyclerViewWeightLossList)
+                .setPrimaryText("Egg Weight Loss Sub-Menu")
+                .setSecondaryText("Click on a list item to open the egg weight loss sub-menu.")
+                .setBackgroundColour(getResources().getColor(R.color.colorAccent))
+                .setAnimationInterpolator(new FastOutSlowInInterpolator())
+                .show();
+    }
+
+    public void showFabPrompt()
+    {
+        if (mFabPrompt != null)
+        {
+            return;
+        }
+        SpannableStringBuilder secondaryText = new SpannableStringBuilder("Tap the plus sign to continue.");
+        //secondaryText.setSpan(new ForegroundColorSpan(ContextCompat.getColor(this, R.color.colorAccent)), 0, 30, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+        SpannableStringBuilder primaryText = new SpannableStringBuilder("Enter your first egg weight.");
+        //primaryText.setSpan(new BackgroundColorSpan(ContextCompat.getColor(this, R.color.colorAccent)), 0, 40, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+        mFabPrompt = new MaterialTapTargetPrompt.Builder(WeightLossListActivity.this)
+                .setTarget(findViewById(R.id.fab_add_weight_loss_list))
+                .setFocalPadding(R.dimen.dp40)
+                .setBackgroundColour(getResources().getColor(R.color.colorAccent))
+                .setPrimaryText(primaryText)
+                .setSecondaryText(secondaryText)
+                .setBackButtonDismissEnabled(true)
+                .setAnimationInterpolator(new FastOutSlowInInterpolator())
+                .setPromptStateChangeListener((prompt, state) -> {
+                    if (state == MaterialTapTargetPrompt.STATE_FOCAL_PRESSED
+                            || state == MaterialTapTargetPrompt.STATE_NON_FOCAL_PRESSED)
+                    {
+                        mFabPrompt = null;
+                        //Do something such as storing a value so that this prompt is never shown again
+                    }
+                })
+                .create();
+        if (mFabPrompt != null)
+        {
+            mFabPrompt.show();
+        }
+    }
+
+    private void showWeightLossListItemPrompt(LinearLayoutManager mLinearLayoutManager_local) {
+        // The example below uses a RecyclerView with LinearLayoutManager
+        final LinearLayout card = (LinearLayout) mLinearLayoutManager_local.findViewByPosition(0);
+        // Check that the view exists for the item
+        if (card != null)
+        {
+            final EggWeightLossAdapter.BeanHolder viewHolder = (EggWeightLossAdapter.BeanHolder) recyclerViewWeightLossList.getChildViewHolder(card);
+            new MaterialTapTargetPrompt.Builder(WeightLossListActivity.this)
+                    .setTarget(viewHolder.cv_egg_weight)
+                    //.setClipToView(card.getChildAt(0))
+                    .setPrimaryText("Egg Batch Sub-Menu")
+                    .setSecondaryText("Click on the flashing circle to open the egg batch sub-menu.")
+                    .setBackgroundColour(getResources().getColor(R.color.colorAccent))
+                    .setAnimationInterpolator(new FastOutSlowInInterpolator())
+                    .show();
+        }
+    }
+
+    private void showWeightLossListListItemPrompt() {
+        // The example below uses a RecyclerView with LinearLayoutManager
+        final LinearLayout card = (LinearLayout) mLinearLayoutManager.findViewByPosition(0);
+        // Check that the view exists for the item
+        if (card != null)
+        {
+            final EggWeightLossAdapter.BeanHolder viewHolder = (EggWeightLossAdapter.BeanHolder) recyclerViewWeightLossList.getChildViewHolder(card);
+            new MaterialTapTargetPrompt.Builder(WeightLossListActivity.this)
+                    .setTarget(viewHolder.cv_egg_weight)
+                    //.setClipToView(card.getChildAt(0))
+                    .setPrimaryText(R.string.example_card_card_title)
+                    .setSecondaryText(R.string.example_card_card_description)
+                    .show();
+        }
     }
 
     private void resetFilters() {
@@ -465,11 +557,17 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
         fab_add_weight_loss_list.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(WeightLossListActivity.this,AddWeightLossActivity.class).putExtra("eggDailyAdd", eggDailyList.get(0))
-                        .putExtra("eggBatch",eggBatch));
+                if (eggDailyList.size() > 0) {
+                    startActivity(new Intent(WeightLossListActivity.this, AddWeightLossActivity.class).putExtra("eggDailyAdd", eggDailyList.get(0))
+                            .putExtra("eggBatch", eggBatch));
+                } else {
+                    startActivity(new Intent(WeightLossListActivity.this, AddWeightLossActivity.class));
+                }
 
             }
         });
+
+        cv_egg_weight = findViewById(R.id.cv_egg_weight);
 
         eggWiseDatabse = EggWiseDatabse.getInstance(WeightLossListActivity.this);
         numberOfRejectedEggs = eggWiseDatabse.getEggDailyDao().getEggDaily_CountRejectedEggs(EGG_BATCH_ID);
@@ -478,13 +576,31 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
         }
 
         recyclerViewWeightLossList = findViewById(R.id.recycler_view_weight_loss_list);
-        recyclerViewWeightLossList.setLayoutManager(new LinearLayoutManager(WeightLossListActivity.this));
+        mLinearLayoutManager = new LinearLayoutManager(WeightLossListActivity.this);
+        recyclerViewWeightLossList.setLayoutManager(mLinearLayoutManager);
         eggDailyList = new ArrayList<>();
         eggWeightLossAdapter = new EggWeightLossAdapter(eggDailyList,  WeightLossListActivity.this, numberOfRejectedEggs);
         recyclerViewWeightLossList.setAdapter(eggWeightLossAdapter);
+        recyclerViewWeightLossList.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener()
+        {
+            @Override
+            public void onGlobalLayout()
+            {
+                final LinearLayout card = (LinearLayout) mLinearLayoutManager.findViewByPosition(0);
+                // Check that the view exists for the item
+                if (card != null) {
+                    //showEggBatchListItemPrompt1(mLinearLayoutManager);
+                    if (!sharedpreferences.getBoolean("COMPLETED_ONBOARDING_PREF_WEIGHT_LOSS_LIST_2", false)) {
+                        // The user hasn't seen the OnboardingSupportFragment yet, so show it
+                        showWeightLossListItemPrompt(mLinearLayoutManager);
+                        editor.putBoolean("COMPLETED_ONBOARDING_PREF_WEIGHT_LOSS_LIST_2", true);
+                        editor.commit();
+                    }
+                    recyclerViewWeightLossList.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                }
+            }
+        });
 
-        //RoomExplorer.show(WeightLossListActivity.this, EggWiseDatabse.class, "EggWiseDB.db");
-        //Stetho.initializeWithDefaults(this);
     }
 
     public static void hideSoftKeyboard (AppCompatActivity activity, View view)
@@ -536,7 +652,7 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
 
         new AlertDialog.Builder(WeightLossListActivity.this)
                 .setTitle("Select Options")
-                .setItems(new String[]{"Delete", "Update", "Weight Loss Chart", "Reject/Restore Egg"}, new DialogInterface.OnClickListener() {
+                .setItems(new String[]{"Delete", "Update", "Weight Loss Chart", "Reject/Restore Egg", "Cancel"}, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         switch (i){
@@ -608,6 +724,9 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
                                 //listVisibility();
                                 resetFilters();
                                 initializeViews();
+                                displayList();
+                                break;
+                            case 4:
                                 displayList();
                                 break;
                         }
@@ -684,6 +803,8 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
                 activityReference.get().EGG_DAILY_LIST_STATIC.addAll(eggDailyListPostEx);
                 // hides empty text view
                 activityReference.get().tv_empty_weight_loss_message.setVisibility(View.GONE);
+
+
                 activityReference.get().eggWeightLossAdapter.notifyDataSetChanged();
             }
         }
@@ -762,7 +883,18 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
         if (eggDailyList.size() == 0){ // no item to display
             if (tv_empty_weight_loss_message.getVisibility() == View.GONE)
                 emptyMsgVisibility = View.VISIBLE;
+
+            if (!sharedpreferences.getBoolean("COMPLETED_ONBOARDING_PREF_WEIGHT_LOSS_LIST_1", false)) {
+                // The user hasn't seen the OnboardingSupportFragment yet, so show it
+                showFabPrompt();
+                editor.putBoolean("COMPLETED_ONBOARDING_PREF_WEIGHT_LOSS_LIST_1", true);
+                editor.commit();
+            }
+
         }
+       /* else {
+            showEggBatchSubMenuPrompt();
+        }*/
         tv_empty_weight_loss_message.setVisibility(emptyMsgVisibility);
         eggWeightLossAdapter.notifyDataSetChanged();
     }
