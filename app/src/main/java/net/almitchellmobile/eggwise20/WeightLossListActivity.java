@@ -52,7 +52,7 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
 
     public static SharedPreferences sharedpreferences;
     public static SharedPreferences.Editor editor;
-    public static final String mypreference = "mypref";
+    public static final String mypreference = "mypreference";
 
     MaterialTapTargetPrompt mFabPrompt;
     public static Boolean HIDE_REJECTS = true;
@@ -132,6 +132,16 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
         Toolbar toolbar_weight_loss_list = findViewById(R.id.toolbar_weight_loss_list);
         toolbar_weight_loss_list.inflateMenu(R.menu.main);
         setSupportActionBar(toolbar_weight_loss_list);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        toolbar_weight_loss_list.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(WeightLossListActivity.this, EggBatchListActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
 
         sharedpreferences = getSharedPreferences(mypreference,Context.MODE_PRIVATE);
         editor = sharedpreferences.edit();
@@ -488,6 +498,11 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
         super.onOptionsItemSelected(item);
 
         switch (item.getItemId()) {
+            case android.R.id.home:
+                Intent intent = new Intent(WeightLossListActivity.this, EggBatchListActivity.class);
+                startActivity(intent);
+                finish();
+                return true;
             case R.id.send_feedback:
                 final Intent _Intent = new Intent(android.content.Intent.ACTION_SEND);
                 _Intent.setType("text/html");

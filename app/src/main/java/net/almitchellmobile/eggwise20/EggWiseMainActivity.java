@@ -27,7 +27,7 @@ public class EggWiseMainActivity extends AppCompatActivity implements Navigation
 
     public static SharedPreferences sharedpreferences;
     public static SharedPreferences.Editor editor;
-    public static final String mypreference = "mypref";
+    public static final String mypreference = "mypreference";
 
     Button buttonLinkBrinsea, buttonLinkBrinseaFacebook, button_show_overflow_prompt;
     Toolbar toolbarEggWiseMain;
@@ -99,20 +99,19 @@ public class EggWiseMainActivity extends AppCompatActivity implements Navigation
             editor.putBoolean("COMPLETED_ONBOARDING_PREF_ALL", false);
             editor.putBoolean("COMPLETED_ONBOARDING_PREF_SET_UP", false);
 
-            editor.putString("humidity_measured_with", Common.PREF_HUMIDITY_MEASURED_WITH);
-            editor.putString("weight_entered_in", Common.PREF_WEIGHT_ENTERED_IN);
+            editor.putString("humidity_measured_with", "Humidity %");
+            editor.putString("weight_entered_in", "Grams");
+            editor.putString("temperature_entered_in", "Celsius");
 
-            editor.putInt("days_to_hatcher_before_hatching", Common.PREF_DAYS_TO_HATCHER_BEFORE_HATCHING);
-            editor.putFloat("default_weight_loss_percentage", Common.PREF_DEFAULT_WEIGHT_LOSS_PRECENTAGE);
-            editor.putFloat("warn_weight_deviation_percentage", Common.PREF_WARN_WEIGHT_DEVIATION_PERCENTAGE);
+            editor.putInt("days_to_hatcher_before_hatching", 3);
+            editor.putFloat("default_weight_loss_percentage", 13.0F);
+            editor.putFloat("warn_weight_deviation_percentage", 0.5F);
 
             editor.putBoolean("COMPLETED_ONBOARDING_PREF_SET_UP", true);
 
             editor.commit();
 
         }
-
-        //eggWiseQuickStart1();
 
         if (!sharedpreferences.getBoolean("COMPLETED_ONBOARDING_PREF_EGG_WISE_MAIN", false)) {
             // The user hasn't seen the OnboardingSupportFragment yet, so show it
@@ -126,7 +125,7 @@ public class EggWiseMainActivity extends AppCompatActivity implements Navigation
     private void eggWiseQuickStart1() {
         final MaterialTapTargetPrompt.Builder tapTargetPromptBuilder = new MaterialTapTargetPrompt.Builder(this)
                 .setPrimaryText("Quick Start Tour")
-                .setSecondaryText("Tap on the menu button (here) and select the Egg Batch Management option.")
+                .setSecondaryText("Tap on the menu button and select the Egg Batch Management option.")
                 .setBackgroundColour(getResources().getColor(R.color.colorAccent))
                 .setAnimationInterpolator(new FastOutSlowInInterpolator())
                 .setMaxTextWidth(R.dimen.tap_target_menu_max_width)

@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/home"
-        android:title="Home"
+        android:id="@+id/egg_wise_main"
+        android:title="eggWise Main"
         />
 
     <item
@@ -30,7 +30,7 @@
         android:title="Create Alert" />
 
     <item android:id="@+id/quick_start"
-        android:title="Quick Start" />
+        android:title="Quick Start Tour" />
 
 
     <item android:id="@+id/exit_eggwise"

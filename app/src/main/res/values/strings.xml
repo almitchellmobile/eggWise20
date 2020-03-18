@@ -5,7 +5,7 @@
     <string name="overflow_unavailable">Overflow unavailable</string>
     <string name="action_tick">Positive action</string>
 
-    <string name="app_name">eggWise Mobile 2.0</string>
+    <string name="app_name">eggWise 2.0</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">eggWise Mobile Brinsea Products Inc.</string>
@@ -74,7 +74,7 @@
         <item>By Day DESC, By Egg ASC</item>
         <item>By Day DESC, By Egg DESC</item>
     </string-array>
-    <string name="title_activity_egg_wise_main">eggWise Mobile 2.0</string>
+    <string name="title_activity_egg_wise_main">eggWise 2.0</string>
     <string name="title_activity_feedback">Feedback</string>
     <string name="title_activity_on_boarding">OnBoardingActivity</string>
     <string name="tab_text_1">Tab 1</string>
@@ -83,7 +83,6 @@
     <string name="menu_prompt_title">Just how you want it</string>
     <string name="menu_prompt_description">Tap the menu icon to switch accounts, change settings &amp; more</string>
     <string name="menu_prompt_content_description">This is an example of the accessibility content description, tap to exit. Tap the menu icon to switch accounts, change settings &amp; more</string>
-
 
 
     <string name="search_prompt_title">Search your emails</string>

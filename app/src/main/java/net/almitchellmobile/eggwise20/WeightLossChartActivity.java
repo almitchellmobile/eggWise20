@@ -38,7 +38,7 @@ public class WeightLossChartActivity extends AppCompatActivity {
 
     public static SharedPreferences sharedpreferences;
     public static SharedPreferences.Editor editor;
-    public static final String mypreference = "mypref";
+    public static final String mypreference = "mypreference";
 
     public static String BATCH_LABEL = "";
     public static Long EGG_BATCH_ID = 0L;
@@ -113,6 +113,7 @@ public class WeightLossChartActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Weight Loss Chart");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         sharedpreferences = getSharedPreferences(mypreference,
                 Context.MODE_PRIVATE);
@@ -203,6 +204,11 @@ public class WeightLossChartActivity extends AppCompatActivity {
         super.onOptionsItemSelected(item);
 
         switch (item.getItemId()) {
+            case android.R.id.home:
+                Intent intent = new Intent(WeightLossChartActivity.this, EggBatchListActivity.class);
+                startActivity(intent);
+                finish();
+                return true;
             case R.id.send_feedback:
                 final Intent _Intent = new Intent(android.content.Intent.ACTION_SEND);
                 _Intent.setType("text/html");

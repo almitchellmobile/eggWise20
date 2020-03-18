@@ -5,6 +5,7 @@ import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.icu.text.SimpleDateFormat;
 import android.icu.util.Calendar;
 import android.os.AsyncTask;
@@ -20,6 +21,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,7 +45,7 @@ public class AddWeightLossActivity extends AppCompatActivity {
 
     public static SharedPreferences sharedpreferences;
     public static SharedPreferences.Editor editor;
-    public static final String mypreference = "mypref";
+    public static final String mypreference = "mypreference";
 
 
     private TextView text_number_of_eggs_remaining,
@@ -105,6 +107,8 @@ public class AddWeightLossActivity extends AppCompatActivity {
     android.icu.text.SimpleDateFormat sdf;;
 
     DatePickerDialog.OnDateSetListener readingDateDatePickerDialog;
+    LinearLayout ll_egg_weight_buttons;
+    LinearLayout ll_add_egg_weight;
 
     @SuppressLint("RestrictedApi")
     @Override
@@ -113,6 +117,7 @@ public class AddWeightLossActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_weight_loss);
         Toolbar toolbar_add_weight_loss = findViewById(R.id.toolbar_add_weight_loss);
         setSupportActionBar(toolbar_add_weight_loss);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         eggWiseDatabse = EggWiseDatabse.getInstance(AddWeightLossActivity.this);
         myCalendar = Calendar.getInstance();
@@ -143,6 +148,16 @@ public class AddWeightLossActivity extends AppCompatActivity {
             Common.PREF_WARN_WEIGHT_DEVIATION_PERCENTAGE = 0.0F;
         }
 
+        /*ll_add_egg_weight = (LinearLayout) findViewById(R.id.ll_add_egg_weight);
+
+        ll_egg_weight_buttons =  (LinearLayout) findViewById(R.id.ll_egg_weight_buttons);
+        if (isTablet(AddWeightLossActivity.this)) {
+            ll_egg_weight_buttons.setOrientation(LinearLayout.VERTICAL);
+        } else {
+            ll_egg_weight_buttons.setOrientation(LinearLayout.HORIZONTAL);
+        }*/
+
+
         text_number_of_eggs_remaining = findViewById(R.id.text_number_of_eggs_remaining);
         text_incubator_name = findViewById(R.id.text_incubator_name);
         text_set_date = findViewById(R.id.text_set_date);
@@ -155,12 +170,27 @@ public class AddWeightLossActivity extends AppCompatActivity {
             et_egg_weight.setHint(hintStringValue);
         }
 
-        fab_add_save_weight_loss = findViewById(R.id.fab_add_save_weight_loss);
+
 
         button_reading_date_lookup = findViewById(R.id.button_reading_date_lookup);
         et_reading_day_number = findViewById(R.id.et_reading_day_number);
         et_reading_date = findViewById(R.id.et_reading_date);
         et_weight_loss_comment = findViewById(R.id.et_weight_loss_comment);
+        et_weight_loss_comment.setOnTouchListener(new View.OnTouchListener() {
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if(event.getAction() == MotionEvent.ACTION_DOWN) {
+                    if (!sharedpreferences.getBoolean("COMPLETED_ONBOARDING_PREF_WEIGHT_LOSS_LIST_1", false)) {
+                        // The user hasn't seen the OnboardingSupportFragment yet, so show it
+                        showFabPrompt();
+                        editor.putBoolean("COMPLETED_ONBOARDING_PREF_WEIGHT_LOSS_LIST_1", true);
+                        editor.commit();
+                    }
+                }
+                return false;
+            }
+        });
 
         et_egg_label.setSelectAllOnFocus(true);
         et_reading_date.setSelectAllOnFocus(true);
@@ -168,7 +198,7 @@ public class AddWeightLossActivity extends AppCompatActivity {
         et_egg_weight.setSelectAllOnFocus(true);
         et_weight_loss_comment.setSelectAllOnFocus(true);
 
-
+        fab_add_save_weight_loss = findViewById(R.id.fab_add_save_weight_loss);
         fab_add_save_weight_loss.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -187,7 +217,7 @@ public class AddWeightLossActivity extends AppCompatActivity {
                 }
             }
         });
-        fab_add_save_weight_loss.setVisibility(View.GONE);
+        //fab_add_save_weight_loss.setVisibility(View.GONE);
 
 
         DatePickerDialog.OnDateSetListener getDateDatePickerDialog = new
@@ -387,12 +417,18 @@ public class AddWeightLossActivity extends AppCompatActivity {
 
         }
 
-        if (!sharedpreferences.getBoolean("COMPLETED_ONBOARDING_PREF_WEIGHT_LOSS_LIST_1", false)) {
+        /*if (!sharedpreferences.getBoolean("COMPLETED_ONBOARDING_PREF_WEIGHT_LOSS_LIST_1", false)) {
             // The user hasn't seen the OnboardingSupportFragment yet, so show it
             showFabPrompt();
             editor.putBoolean("COMPLETED_ONBOARDING_PREF_WEIGHT_LOSS_LIST_1", true);
             editor.commit();
-        }
+        }*/
+    }
+
+    public static boolean isTablet(Context context) {
+        return (context.getResources().getConfiguration().screenLayout
+                & Configuration.SCREENLAYOUT_SIZE_MASK)
+                >= Configuration.SCREENLAYOUT_SIZE_LARGE;
     }
 
     public void showFabPrompt()
@@ -401,7 +437,7 @@ public class AddWeightLossActivity extends AppCompatActivity {
         {
             return;
         }
-        SpannableStringBuilder secondaryText = new SpannableStringBuilder("Tap the save button to save your egg.");
+        SpannableStringBuilder secondaryText = new SpannableStringBuilder("Enter your egg weight details and tap the save button to save your egg information.");
         //secondaryText.setSpan(new ForegroundColorSpan(ContextCompat.getColor(this, R.color.colorAccent)), 0, 30, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
         SpannableStringBuilder primaryText = new SpannableStringBuilder("Save your egg.");
         //primaryText.setSpan(new BackgroundColorSpan(ContextCompat.getColor(this, R.color.colorAccent)), 0, 40, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
@@ -440,6 +476,11 @@ public class AddWeightLossActivity extends AppCompatActivity {
         super.onOptionsItemSelected(item);
 
         switch (item.getItemId()) {
+            case android.R.id.home:
+                Intent intent = new Intent(AddWeightLossActivity.this, WeightLossListActivity.class);
+                startActivity(intent);
+                finish();
+                return true;
             case R.id.send_feedback:
                 final Intent _Intent = new Intent(android.content.Intent.ACTION_SEND);
                 _Intent.setType("text/html");

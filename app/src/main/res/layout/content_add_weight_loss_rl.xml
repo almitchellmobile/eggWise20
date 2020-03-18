@@ -10,6 +10,7 @@
     tools:showIn="@layout/activity_add_weight_loss">
 
     <LinearLayout
+        android:id="@+id/ll_add_egg_weight"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
@@ -152,38 +153,69 @@
                 android:singleLine="true" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <Button
-            android:id="@+id/button_save_add_weight_loss"
+        <com.google.android.flexbox.FlexboxLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:flexWrap="wrap">
+
+            <Button
+                android:id="@+id/button_save_add_weight_loss"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Save/Add Next" />
+
+            <Button
+                android:id="@+id/button_save_list_weight_loss"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Save/Return" />
+
+
+            <Button
+                android:id="@+id/button_cancel_list_eggs"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cancel/List Eggs" />
+
+            <Button
+                android:id="@+id/button_cancel_list_batch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cancel/List Batch" />
+
+        </com.google.android.flexbox.FlexboxLayout>
+
+        <!--<LinearLayout
+            android:id="@+id/ll_egg_weight_buttons"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Save/Add Next"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/text_weight_loss_comment" />
+            android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/button_save_list_weight_loss"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Save/Return"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/button_save_add_weight_loss" />
+            <Button
+                android:id="@+id/button_save_add_weight_loss"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Save/Add Next" />
+
+            <Button
+                android:id="@+id/button_save_list_weight_loss"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Save/Return" />
 
 
-        <Button
-            android:id="@+id/button_cancel_list_eggs"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Cancel/List Eggs"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/button_save_list_weight_loss" />
+            <Button
+                android:id="@+id/button_cancel_list_eggs"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cancel/List Eggs" />
 
-        <Button
-            android:id="@+id/button_cancel_list_batch"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Cancel/List Batch"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/button_cancel_list_eggs" />
+            <Button
+                android:id="@+id/button_cancel_list_batch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cancel/List Batch" />
+        </LinearLayout>-->
 
     </LinearLayout>
 </ScrollView>

@@ -29,9 +29,9 @@ public class ConfigurationOptionsActivity extends AppCompatActivity {
     AutoCompleteTextView et_days_to_hatcher_before_hatching, et_default_weight_loss_percentage,
             et_warn_weight_deviation_percentage;
 
-    SharedPreferences sharedpreferences;
-    SharedPreferences.Editor editor;
-    public static final String mypreference = "mypref";
+    public static SharedPreferences sharedpreferences;
+    public static SharedPreferences.Editor editor;
+    public static final String mypreference = "mypreference";
 
     String prefValue = "";
 
@@ -80,16 +80,16 @@ public class ConfigurationOptionsActivity extends AppCompatActivity {
         et_warn_weight_deviation_percentage =  findViewById(R.id.et_warn_weight_deviation_percentage);
         et_warn_weight_deviation_percentage.setSelectAllOnFocus(true);
 
-        Common.PREF_TEMPERATURE_ENTERED_IN = "";
-        Common.PREF_HUMIDITY_MEASURED_WITH = "";
-        Common.PREF_WEIGHT_ENTERED_IN = "";
+        Common.PREF_TEMPERATURE_ENTERED_IN = "Celsius";
+        Common.PREF_HUMIDITY_MEASURED_WITH = "Wet Bulb";
+        Common.PREF_WEIGHT_ENTERED_IN = "Grams";
 
         Common.PREF_DAYS_TO_HATCHER_BEFORE_HATCHING = 3;
 
         Common.PREF_DEFAULT_WEIGHT_LOSS_PERCENT_INTEGER = 3;
 
-        Common.PREF_DEFAULT_WEIGHT_LOSS_PRECENTAGE= 0.0F;
-        Common.PREF_WARN_WEIGHT_DEVIATION_PERCENTAGE = 0.0F;
+        Common.PREF_DEFAULT_WEIGHT_LOSS_PRECENTAGE= 13.0F;
+        Common.PREF_WARN_WEIGHT_DEVIATION_PERCENTAGE = 0.5F;
 
         Common.COMPLETED_ONBOARDING_PREF_EGG_WISE_MAIN = false;
         Common.COMPLETED_ONBOARDING_PREF_ADD_WEIGHT_LOSS = false;
@@ -160,6 +160,11 @@ public class ConfigurationOptionsActivity extends AppCompatActivity {
         super.onOptionsItemSelected(item);
 
         switch (item.getItemId()) {
+            case android.R.id.home:
+                Intent intent = new Intent(ConfigurationOptionsActivity.this, EggWiseMainActivity.class);
+                startActivity(intent);
+                finish();
+                return true;
             case R.id.send_feedback:
                 final Intent _Intent = new Intent(android.content.Intent.ACTION_SEND);
                 _Intent.setType("text/html");

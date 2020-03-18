@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.icu.text.SimpleDateFormat;
 import android.icu.util.Calendar;
@@ -45,7 +46,7 @@ public class AddEggBatchActivity extends AppCompatActivity {
 
     public static SharedPreferences sharedpreferences;
     public static SharedPreferences.Editor editor;
-    public static final String mypreference = "mypref";
+    public static final String mypreference = "mypreference";
 
     AutoCompleteTextView et_batch_label, et_number_of_eggs, et_species_name, et_common_name,
             et_incubator_name, et_set_date, et_hatch_date,
@@ -123,6 +124,7 @@ public class AddEggBatchActivity extends AppCompatActivity {
         Toolbar toolbar_add_egg_batch = findViewById(R.id.toolbar_add_egg_batch);
         setSupportActionBar(toolbar_add_egg_batch);
         getSupportActionBar().setTitle("Add Egg Batch");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         eggWiseDatabse = EggWiseDatabse.getInstance(AddEggBatchActivity.this);
 
@@ -397,6 +399,12 @@ public class AddEggBatchActivity extends AppCompatActivity {
 
     }
 
+    public static boolean isTablet(Context context) {
+        return (context.getResources().getConfiguration().screenLayout
+                & Configuration.SCREENLAYOUT_SIZE_MASK)
+                >= Configuration.SCREENLAYOUT_SIZE_LARGE;
+    }
+
     public void showFabPrompt()
     {
         if (mFabPrompt != null)
@@ -442,6 +450,11 @@ public class AddEggBatchActivity extends AppCompatActivity {
         super.onOptionsItemSelected(item);
 
         switch (item.getItemId()) {
+            case android.R.id.home:
+                Intent intent = new Intent(AddEggBatchActivity.this, EggBatchListActivity.class);
+                startActivity(intent);
+                finish();
+                return true;
             case R.id.send_feedback:
                 final Intent _Intent = new Intent(android.content.Intent.ACTION_SEND);
                 _Intent.setType("text/html");

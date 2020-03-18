@@ -41,7 +41,7 @@ public class EggBatchListActivity extends AppCompatActivity implements EggBatchA
 
     public static SharedPreferences sharedpreferences;
     public static SharedPreferences.Editor editor;
-    public static final String mypreference = "mypref";
+    public static final String mypreference = "mypreference";
 
     MaterialTapTargetPrompt mFabPrompt;
 
@@ -91,6 +91,7 @@ public class EggBatchListActivity extends AppCompatActivity implements EggBatchA
         setContentView(R.layout.activity_egg_batch_list);
         toolbar_egg_batch_list = findViewById(R.id.toolbar_egg_batch_list);
         setSupportActionBar(toolbar_egg_batch_list);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         common = new Common();
 
@@ -100,25 +101,25 @@ public class EggBatchListActivity extends AppCompatActivity implements EggBatchA
         Common.PREF_TEMPERATURE_ENTERED_IN = sharedpreferences.getString("temperature_entered_in", "");
         Common.PREF_HUMIDITY_MEASURED_WITH = sharedpreferences.getString("humidity_measured_with", "");
         Common.PREF_WEIGHT_ENTERED_IN = sharedpreferences.getString("weight_entered_in", "");
-        if (sharedpreferences.contains("days_to_hatcher_before_hatching")) {
+        //if (sharedpreferences.contains("days_to_hatcher_before_hatching")) {
             Common.PREF_DAYS_TO_HATCHER_BEFORE_HATCHING = sharedpreferences.getInt("days_to_hatcher_before_hatching", 3);
-        } else {
-            Common.PREF_DAYS_TO_HATCHER_BEFORE_HATCHING = 0;
-        }
-        if (sharedpreferences.contains("default_weight_loss_percentage")) {
+        //} else {
+        //    Common.PREF_DAYS_TO_HATCHER_BEFORE_HATCHING = 0;
+        //}
+        //if (sharedpreferences.contains("default_weight_loss_percentage")) {
             Common.PREF_DEFAULT_WEIGHT_LOSS_PRECENTAGE = sharedpreferences.getFloat("default_weight_loss_percentage", 13.0F);
             //double data = PREF_DEFAULT_WEIGHT_LOSS_PRECENTAGE;
             //int value = (int)data;
             Common.PREF_DEFAULT_WEIGHT_LOSS_INTEGER = Common.convertDoubleToInteger(Common.PREF_DEFAULT_WEIGHT_LOSS_PRECENTAGE);
-        } else {
-            Common.PREF_DEFAULT_WEIGHT_LOSS_PRECENTAGE = 13.0F;
-            Common.PREF_DEFAULT_WEIGHT_LOSS_INTEGER = 13;
-        }
-        if (sharedpreferences.contains("warn_weight_deviation_percentage")) {
+        //} else {
+        //    Common.PREF_DEFAULT_WEIGHT_LOSS_PRECENTAGE = 13.0F;
+        //    Common.PREF_DEFAULT_WEIGHT_LOSS_INTEGER = 13;
+        //}
+        //if (sharedpreferences.contains("warn_weight_deviation_percentage")) {
             Common.PREF_WARN_WEIGHT_DEVIATION_PERCENTAGE = sharedpreferences.getFloat("warn_weight_deviation_percentage", 0.5F);
-        } else {
-            Common.PREF_WARN_WEIGHT_DEVIATION_PERCENTAGE = 0.0F;
-        }
+        //} else {
+        //    Common.PREF_WARN_WEIGHT_DEVIATION_PERCENTAGE = 0.0F;
+        //}
 
         initializeViews();
         displayList();
@@ -138,7 +139,7 @@ public class EggBatchListActivity extends AppCompatActivity implements EggBatchA
         new MaterialTapTargetPrompt.Builder(this)
                 .setTarget(recyclerViewEggBatchList)
                 .setPrimaryText("Egg Batch Sub-Menu")
-                .setSecondaryText("Click on the flashing circle to open the egg batch sub-menu.")
+                .setSecondaryText("Tap on the flashing circle to open the egg batch sub-menu.")
                 .setBackgroundColour(getResources().getColor(R.color.colorAccent))
                 .setAnimationInterpolator(new FastOutSlowInInterpolator())
                 .show();
@@ -152,9 +153,9 @@ public class EggBatchListActivity extends AppCompatActivity implements EggBatchA
         {
             return;
         }
-        SpannableStringBuilder secondaryText = new SpannableStringBuilder("Tap the plus sign to continue.");
+        SpannableStringBuilder primaryText = new SpannableStringBuilder("Add Egg Batch.");
+        SpannableStringBuilder secondaryText = new SpannableStringBuilder("Tap the plus sign to add a batch.");
         //secondaryText.setSpan(new ForegroundColorSpan(ContextCompat.getColor(this, R.color.colorAccent)), 0, 30, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
-        SpannableStringBuilder primaryText = new SpannableStringBuilder("Enter your first egg batch.");
         //primaryText.setSpan(new BackgroundColorSpan(ContextCompat.getColor(this, R.color.colorAccent)), 0, 40, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
         mFabPrompt = new MaterialTapTargetPrompt.Builder(EggBatchListActivity.this)
                 .setTarget(findViewById(R.id.fab_egg_batch_list))
@@ -191,6 +192,11 @@ public class EggBatchListActivity extends AppCompatActivity implements EggBatchA
         super.onOptionsItemSelected(item);
 
         switch (item.getItemId()) {
+            case android.R.id.home:
+                Intent intent = new Intent(EggBatchListActivity.this, EggWiseMainActivity.class);
+                startActivity(intent);
+                finish();
+                return true;
             case R.id.send_feedback:
                 final Intent _Intent = new Intent(android.content.Intent.ACTION_SEND);
                 _Intent.setType("text/html");

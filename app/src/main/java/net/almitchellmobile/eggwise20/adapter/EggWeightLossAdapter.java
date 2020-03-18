@@ -2,6 +2,7 @@ package net.almitchellmobile.eggwise20.adapter;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -29,7 +30,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class EggWeightLossAdapter extends RecyclerView.Adapter <EggWeightLossAdapter.BeanHolder>  {
 
-    SharedPreferences sharedpreferences;
     public static String PREF_TEMPERATURE_ENTERED_IN = "";
     public static String PREF_HUMIDITY_MEASURED_WITH = "";
     public static String PREF_WEIGHT_ENTERED_IN = "";
@@ -40,10 +40,9 @@ public class EggWeightLossAdapter extends RecyclerView.Adapter <EggWeightLossAda
     public static Double PREF_DEFAULT_WEIGHT_LOSS_PRECENTAGE= 0.0D;
     public static Double PREF_WARN_WEIGHT_DEVIATION_PERCENTAGE = 0.0D;
 
-    public static final String mypreference = "mypref";
-
-    //private List<Contact> contactList;
-    //private List<Contact> contactListFiltered;
+    public static SharedPreferences sharedpreferences;
+    public static SharedPreferences.Editor editor;
+    public static final String mypreference = "mypreference";
 
     private List<EggDaily> eggDailyList;
     private List<EggDaily> eggDailyListFiltered;
@@ -177,13 +176,23 @@ public class EggWeightLossAdapter extends RecyclerView.Adapter <EggWeightLossAda
                     ", <B>Set Date:</B> " + common.blankIfNullString(eggDailyList.get(position).getSetDate()) +
                     ", <B>Incubator:</B> " + common.blankIfNullString(eggDailyList.get(position).getIncubatorName()) +
                     ", <B>Reading Date:</B> " + common.blankIfNullString(eggDailyList.get(position).getReadingDate()) +
-                    ", <B>Comment:</B> " + common.blankIfNullString(eggDailyList.get(position).getEggDailyComment()) +
-                    "<br>***<br>" +
-                    //"<B>Weight Sum:</B> " + String.format(Locale.getDefault(),"%.1f",eggDailyList.get(position).getEggWeightSum()) +
-                    "<B>Weight Avg:</B> " + String.format(Locale.getDefault(),"%.2f",eggDailyList.get(position).getEggWeightAverageCurrent()) +
-                    ", <B>Actual Loss %:</B> " + String.format(Locale.getDefault(),"%.2f",eggDailyList.get(position).getActualWeightLossPercent()) +
-                    ", <B>Target Loss %:</B> " + String.format(Locale.getDefault(),"%.2f",eggDailyList.get(position).getTargetWeightLossPercent()) +
-                    ", <B>% Deviation:</B> " + String.format(Locale.getDefault(),"%.2f",Math.abs(eggDailyList.get(position).getWeightLossDeviation()));
+                    ", <B>Comment:</B> " + common.blankIfNullString(eggDailyList.get(position).getEggDailyComment());
+            if (isTablet(context)) {
+                line1 += "<br>|||<br>" +
+                        "<B> Weight Sum:</B> " + String.format(Locale.getDefault(), "%.1f", eggDailyList.get(position).getEggWeightSum()) +
+                        ", <B>Weight Avg:</B> " + String.format(Locale.getDefault(), "%.2f", eggDailyList.get(position).getEggWeightAverageCurrent()) +
+                        ", <B>Actual Loss %:</B> " + String.format(Locale.getDefault(), "%.2f", eggDailyList.get(position).getActualWeightLossPercent()) +
+                        ", <B>Target Loss %:</B> " + String.format(Locale.getDefault(), "%.2f", eggDailyList.get(position).getTargetWeightLossPercent()) +
+                        ", <B>% Deviation:</B> " + String.format(Locale.getDefault(), "%.2f", Math.abs(eggDailyList.get(position).getWeightLossDeviation()));
+
+            } else {
+                line1 += "<br>===<br>" +
+                        "<B>Weight Sum:</B> " + String.format(Locale.getDefault(), "%.1f", eggDailyList.get(position).getEggWeightSum()) +
+                        ", <B>Weight Avg:</B> " + String.format(Locale.getDefault(), "%.2f", eggDailyList.get(position).getEggWeightAverageCurrent()) +
+                        ", <B>Actual Loss %:</B> " + String.format(Locale.getDefault(), "%.2f", eggDailyList.get(position).getActualWeightLossPercent()) +
+                        ", <B>Target Loss %:</B> " + String.format(Locale.getDefault(), "%.2f", eggDailyList.get(position).getTargetWeightLossPercent()) +
+                        ", <B>% Deviation:</B> " + String.format(Locale.getDefault(), "%.2f", Math.abs(eggDailyList.get(position).getWeightLossDeviation()));
+            }
 
             if (eggDailyList.get(position).getRejectedEgg() == 1) {
                 holder.cv_egg_weight.setBackgroundColor(Color.RED);
@@ -219,6 +228,12 @@ public class EggWeightLossAdapter extends RecyclerView.Adapter <EggWeightLossAda
     public void filterEggDailyList(ArrayList<EggDaily> eggDailyListFiltered) {
         this.eggDailyList = eggDailyListFiltered;
         notifyDataSetChanged();
+    }
+
+    public static boolean isTablet(Context context) {
+        return (context.getResources().getConfiguration().screenLayout
+                & Configuration.SCREENLAYOUT_SIZE_MASK)
+                >= Configuration.SCREENLAYOUT_SIZE_LARGE;
     }
 
     public class BeanHolder extends RecyclerView.ViewHolder implements View.OnClickListener, Filterable {

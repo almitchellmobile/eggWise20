@@ -27,17 +27,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class Common {
 
-    public static String PREF_TEMPERATURE_ENTERED_IN = "";
-    public static String PREF_HUMIDITY_MEASURED_WITH = "";
-    public static String PREF_WEIGHT_ENTERED_IN = "";
-
+    public static String PREF_TEMPERATURE_ENTERED_IN = "Celsius";
+    public static String PREF_HUMIDITY_MEASURED_WITH = "Humidity %";
+    public static String PREF_WEIGHT_ENTERED_IN = "Grams";
     public static Integer PREF_DAYS_TO_HATCHER_BEFORE_HATCHING = 3;
-
     public static Integer PREF_DEFAULT_WEIGHT_LOSS_PERCENT_INTEGER = 3;
     public static Integer PREF_DEFAULT_WEIGHT_LOSS_INTEGER = 3;
-
-    public static Float PREF_DEFAULT_WEIGHT_LOSS_PRECENTAGE= 0.0F;
-    public static Float PREF_WARN_WEIGHT_DEVIATION_PERCENTAGE = 0.0F;
+    public static Float PREF_DEFAULT_WEIGHT_LOSS_PRECENTAGE= 13.0F;
+    public static Float PREF_WARN_WEIGHT_DEVIATION_PERCENTAGE = 0.5F;
 
     public static Boolean COMPLETED_ONBOARDING_PREF_EGG_WISE_MAIN = false;
     public static Boolean COMPLETED_ONBOARDING_PREF_ADD_WEIGHT_LOSS = false;
@@ -49,7 +46,7 @@ public class Common {
 
     public static SharedPreferences sharedpreferences;
     public static SharedPreferences.Editor editor;
-    public static final String mypreference = "mypref";
+    public static final String mypreference = "mypreference";
 
     public Common() {
     }

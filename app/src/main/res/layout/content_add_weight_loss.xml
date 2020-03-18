@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ll_add_egg_weight"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="@dimen/fab_margin"
@@ -13,97 +14,97 @@
     <TextView
         android:id="@+id/text_batch_label"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-         />
+        android:layout_height="wrap_content" />
 
     <TextView
         android:id="@+id/text_number_of_eggs_remaining"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-         />
+        android:layout_height="wrap_content" />
 
     <TextView
         android:id="@+id/text_set_date"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-         />
+        android:layout_height="wrap_content" />
 
     <TextView
         android:id="@+id/text_incubator_name"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-         />
+        android:layout_height="wrap_content" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/text_egg_label"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <AutoCompleteTextView
-            android:inputType="text"
             android:id="@+id/et_egg_label"
-            android:hint="@string/egg_label"
-            android:singleLine="true"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:hint="@string/egg_label"
+            android:inputType="text"
+            android:singleLine="true" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/text_egg_weight"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <AutoCompleteTextView
-            android:inputType="text"
             android:id="@+id/et_egg_weight"
-            android:hint="@string/egg_weight"
-            android:singleLine="true"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:hint="@string/egg_weight"
+            android:inputType="text"
+            android:singleLine="true" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-       android:id="@+id/text_reading_day_number"
-       android:layout_width="match_parent"
-       android:layout_height="wrap_content">
-       <AutoCompleteTextView
-           android:inputType="text"
-           android:id="@+id/et_reading_day_number"
-           android:hint="Reading Day"
-           android:singleLine="true"
-           android:layout_width="match_parent"
-           android:layout_height="wrap_content" />
-   </com.google.android.material.textfield.TextInputLayout>
+        android:id="@+id/text_reading_day_number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <AutoCompleteTextView
+            android:id="@+id/et_reading_day_number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Reading Day"
+            android:inputType="text"
+            android:singleLine="true" />
+    </com.google.android.material.textfield.TextInputLayout>
 
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/text_reading_date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <AutoCompleteTextView
-            android:inputType="text"
             android:id="@+id/et_reading_date"
-            android:hint="@string/reading_date"
-            android:singleLine="true"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:hint="@string/reading_date"
+            android:inputType="text"
+            android:singleLine="true" />
     </com.google.android.material.textfield.TextInputLayout>
-
-
 
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/text_weight_loss_comment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <AutoCompleteTextView
-            android:inputType="text"
             android:id="@+id/et_weight_loss_comment"
-            android:hint="Comment"
-            android:singleLine="true"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:hint="Comment"
+            android:inputType="text"
+            android:singleLine="true" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <LinearLayout
+        android:id="@+id/ll_egg_weight_buttons"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"

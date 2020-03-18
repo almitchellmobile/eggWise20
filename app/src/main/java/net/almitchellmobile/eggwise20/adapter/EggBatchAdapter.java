@@ -1,6 +1,7 @@
 package net.almitchellmobile.eggwise20.adapter;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +23,10 @@ import androidx.core.text.HtmlCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class EggBatchAdapter extends RecyclerView.Adapter<EggBatchAdapter.BeanHolder> implements Filterable {
+
+    public static SharedPreferences sharedpreferences;
+    public static SharedPreferences.Editor editor;
+    public static final String mypreference = "mypreference";
 
     private List<EggBatch> listEggBatch;
     private List<EggBatch> listEggBatchFiltered;
