@@ -39,7 +39,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.text.HtmlCompat;
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
+import androidx.interpolator.view.animation.LinearOutSlowInInterpolator;
 import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt;
+import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetSequence;
 
 public class AddWeightLossActivity extends AppCompatActivity {
 
@@ -176,7 +178,8 @@ public class AddWeightLossActivity extends AppCompatActivity {
         et_reading_day_number = findViewById(R.id.et_reading_day_number);
         et_reading_date = findViewById(R.id.et_reading_date);
         et_weight_loss_comment = findViewById(R.id.et_weight_loss_comment);
-        et_weight_loss_comment.setOnTouchListener(new View.OnTouchListener() {
+
+        /*et_weight_loss_comment.setOnTouchListener(new View.OnTouchListener() {
 
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -190,7 +193,7 @@ public class AddWeightLossActivity extends AppCompatActivity {
                 }
                 return false;
             }
-        });
+        });*/
 
         et_egg_label.setSelectAllOnFocus(true);
         et_reading_date.setSelectAllOnFocus(true);
@@ -217,7 +220,7 @@ public class AddWeightLossActivity extends AppCompatActivity {
                 }
             }
         });
-        //fab_add_save_weight_loss.setVisibility(View.GONE);
+        fab_add_save_weight_loss.setVisibility(View.GONE);
 
 
         DatePickerDialog.OnDateSetListener getDateDatePickerDialog = new
@@ -417,18 +420,46 @@ public class AddWeightLossActivity extends AppCompatActivity {
 
         }
 
-        /*if (!sharedpreferences.getBoolean("COMPLETED_ONBOARDING_PREF_WEIGHT_LOSS_LIST_1", false)) {
+        if (!sharedpreferences.getBoolean("COMPLETED_ONBOARDING_PREF_WEIGHT_LOSS_LIST_1", false)) {
             // The user hasn't seen the OnboardingSupportFragment yet, so show it
-            showFabPrompt();
+            showSequence(et_reading_day_number);
             editor.putBoolean("COMPLETED_ONBOARDING_PREF_WEIGHT_LOSS_LIST_1", true);
             editor.commit();
-        }*/
+        }
     }
 
     public static boolean isTablet(Context context) {
         return (context.getResources().getConfiguration().screenLayout
                 & Configuration.SCREENLAYOUT_SIZE_MASK)
                 >= Configuration.SCREENLAYOUT_SIZE_LARGE;
+    }
+
+    public void showSequence(View view) {
+
+        new MaterialTapTargetSequence()
+                .addPrompt(new MaterialTapTargetPrompt.Builder(AddWeightLossActivity.this)
+                        .setTarget(findViewById(R.id.et_reading_day_number))
+                        .setBackgroundColour(getResources().getColor(R.color.colorAccent))
+                        .setPrimaryText("Step 1")
+                        .setSecondaryText("Enter your egg weight details.")
+                        .setFocalPadding(R.dimen.dp40)
+                        .create(), 8000)
+                .addPrompt(new MaterialTapTargetPrompt.Builder(AddWeightLossActivity.this)
+                        .setTarget(findViewById(R.id.button_save_add_weight_loss))
+                        .setBackgroundColour(getResources().getColor(R.color.colorAccent))
+                        .setPrimaryText("Step 2")
+                        .setSecondaryText("Tap one of the save buttons, to save your egg information.")
+                        .setFocalPadding(R.dimen.dp40)
+                        .create(), 8000)
+                .addPrompt(new MaterialTapTargetPrompt.Builder(AddWeightLossActivity.this)
+                        .setTarget(findViewById(R.id.button_cancel_list_eggs))
+                        .setBackgroundColour(getResources().getColor(R.color.colorAccent))
+                        .setPrimaryText(" or Cancel and Return")
+                        .setSecondaryText("Tap one of the cancel buttons, to return to batch list or egg list.")
+                        .setAnimationInterpolator(new LinearOutSlowInInterpolator())
+                        .setFocalPadding(R.dimen.dp40)
+                        .create(), 8000)
+                .show();
     }
 
     public void showFabPrompt()

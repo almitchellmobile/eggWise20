@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Color;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -125,7 +124,7 @@ public class EggWeightLossAdapter extends RecyclerView.Adapter <EggWeightLossAda
 
 
         try {
-            Log.e("bind", "onBindViewHolder: "+ eggDailyList.get(position));
+            //Log.e("bind", "onBindViewHolder: "+ eggDailyList.get(position));
 
             /*holder.check_box_rejected_egg.setOnClickListener(new View.OnClickListener() {
                 @Override

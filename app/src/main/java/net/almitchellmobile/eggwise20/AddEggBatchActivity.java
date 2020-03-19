@@ -40,7 +40,9 @@ import java.util.Locale;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
+import androidx.interpolator.view.animation.LinearOutSlowInInterpolator;
 import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt;
+import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetSequence;
 
 public class AddEggBatchActivity extends AppCompatActivity {
 
@@ -392,7 +394,8 @@ public class AddEggBatchActivity extends AppCompatActivity {
         //showFabPrompt();
         if (!sharedpreferences.getBoolean("COMPLETED_ONBOARDING_PREF_ADD_BATCH_1", false)) {
                 // The user hasn't seen the OnboardingSupportFragment yet, so show it
-            showFabPrompt();
+            //showFabPrompt();
+            showSequence(et_batch_label);
             editor.putBoolean("COMPLETED_ONBOARDING_PREF_ADD_BATCH_1", true);
             editor.commit();
         }
@@ -403,6 +406,28 @@ public class AddEggBatchActivity extends AppCompatActivity {
         return (context.getResources().getConfiguration().screenLayout
                 & Configuration.SCREENLAYOUT_SIZE_MASK)
                 >= Configuration.SCREENLAYOUT_SIZE_LARGE;
+    }
+
+    public void showSequence(View view) {
+
+        new MaterialTapTargetSequence()
+                .addPrompt(new MaterialTapTargetPrompt.Builder(AddEggBatchActivity.this)
+                        .setTarget(findViewById(R.id.et_batch_label))
+                        .setBackgroundColour(getResources().getColor(R.color.colorAccent))
+                        .setAnimationInterpolator(new LinearOutSlowInInterpolator())
+                        .setPrimaryText("Step 1")
+                        .setSecondaryText("Enter your egg batch details.")
+                        .setFocalPadding(R.dimen.dp40)
+                        .create(), 8000)
+                .addPrompt(new MaterialTapTargetPrompt.Builder(AddEggBatchActivity.this)
+                        .setTarget(findViewById(R.id.fab_add_save_egg_batch))
+                        .setBackgroundColour(getResources().getColor(R.color.colorAccent))
+                        .setPrimaryText("Step 2")
+                        .setSecondaryText("Tap the save button to save your batch.")
+                        .setAnimationInterpolator(new LinearOutSlowInInterpolator())
+                        .setFocalPadding(R.dimen.dp40)
+                    .create(), 8000)
+                .show();
     }
 
     public void showFabPrompt()
