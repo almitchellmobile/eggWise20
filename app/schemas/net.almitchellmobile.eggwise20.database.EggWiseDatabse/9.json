@@ -1,0 +1,829 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 9,
+    "identityHash": "a08fda74380fd80ebfacc6df7c804e47",
+    "entities": [
+      {
+        "tableName": "Incubators",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`incubatorId` INTEGER PRIMARY KEY AUTOINCREMENT, `IncubatorName` TEXT, `MFGModel` TEXT, `NumberOfEggs` INTEGER)",
+        "fields": [
+          {
+            "fieldPath": "incubatorId",
+            "columnName": "incubatorId",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "incubatorName",
+            "columnName": "IncubatorName",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "mfgModel",
+            "columnName": "MFGModel",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "numberOfEggs",
+            "columnName": "NumberOfEggs",
+            "affinity": "INTEGER",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "incubatorId"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "BatchLoss",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`batchLossID` INTEGER PRIMARY KEY AUTOINCREMENT, `SettingID` INTEGER, `BatchLabel` TEXT, `IncubatorName` TEXT, `EggLossCount` INTEGER, `NumberOfEggs` INTEGER, `BatchlossComment` TEXT, `ReadingDate` TEXT, `ReadingTime` TEXT)",
+        "fields": [
+          {
+            "fieldPath": "batchLossID",
+            "columnName": "batchLossID",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "settingID",
+            "columnName": "SettingID",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "batchLabel",
+            "columnName": "BatchLabel",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "incubatorName",
+            "columnName": "IncubatorName",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "eggLossCount",
+            "columnName": "EggLossCount",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "numberOfEggs",
+            "columnName": "NumberOfEggs",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "batchlossComment",
+            "columnName": "BatchlossComment",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "readingDate",
+            "columnName": "ReadingDate",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "readingTime",
+            "columnName": "ReadingTime",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "batchLossID"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "Breeders",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`breederID` INTEGER PRIMARY KEY AUTOINCREMENT, `BirdsName` TEXT, `SpeciesID` INTEGER, `Gender` TEXT, `AcquiredFrom` TEXT, `HatchDate` TEXT, `CaptiveBreed` INTEGER, `BuildingLocation` TEXT, `PenLocation` TEXT, `NaturalMate` TEXT, `RearedBy` TEXT, `LeftLegBand` TEXT, `RightLegBand` TEXT, `ISISNumber` TEXT, `StudBookNumber` TEXT, `MicroChipNumber` TEXT, `ReaderType` TEXT, `UserDefined1` TEXT, `UserDefined2` TEXT, `AquiredOn` TEXT, `PublishedOn` TEXT, `CommonName` TEXT)",
+        "fields": [
+          {
+            "fieldPath": "breederID",
+            "columnName": "breederID",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "birdsName",
+            "columnName": "BirdsName",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "speciesID",
+            "columnName": "SpeciesID",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "gender",
+            "columnName": "Gender",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "acquiredFrom",
+            "columnName": "AcquiredFrom",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "hatchDate",
+            "columnName": "HatchDate",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "captiveBreed",
+            "columnName": "CaptiveBreed",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "buildingLocation",
+            "columnName": "BuildingLocation",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "penLocation",
+            "columnName": "PenLocation",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "naturalMate",
+            "columnName": "NaturalMate",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "rearedBy",
+            "columnName": "RearedBy",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "leftLegBand",
+            "columnName": "LeftLegBand",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "rightLegBand",
+            "columnName": "RightLegBand",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "isisNumber",
+            "columnName": "ISISNumber",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "studBookNumber",
+            "columnName": "StudBookNumber",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "microChipNumber",
+            "columnName": "MicroChipNumber",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "readerType",
+            "columnName": "ReaderType",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "userDefined1",
+            "columnName": "UserDefined1",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "userDefined2",
+            "columnName": "UserDefined2",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "aquiredOn",
+            "columnName": "AquiredOn",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "publishedOn",
+            "columnName": "PublishedOn",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "commonName",
+            "columnName": "CommonName",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "breederID"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "EggDaily",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`eggDailyID` INTEGER PRIMARY KEY AUTOINCREMENT, `settingID` INTEGER, `BatchLabel` TEXT, `EggLabel` TEXT, `ReadingDate` TEXT, `SetDate` TEXT, `ReadingDayNumber` INTEGER, `EggWeight` REAL, `EggWeightAverage` REAL, `EggDailyComment` TEXT, `IncubatorName` TEXT, `NumberOfEggsRemaining` INTEGER, `EggWeightSum` REAL)",
+        "fields": [
+          {
+            "fieldPath": "eggDailyID",
+            "columnName": "eggDailyID",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "settingID",
+            "columnName": "settingID",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "batchLabel",
+            "columnName": "BatchLabel",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "eggLabel",
+            "columnName": "EggLabel",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "readingDate",
+            "columnName": "ReadingDate",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "setDate",
+            "columnName": "SetDate",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "readingDayNumber",
+            "columnName": "ReadingDayNumber",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "eggWeight",
+            "columnName": "EggWeight",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "eggWeightAverage",
+            "columnName": "EggWeightAverage",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "eggDailyComment",
+            "columnName": "EggDailyComment",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "incubatorName",
+            "columnName": "IncubatorName",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "numberOfEggsRemaining",
+            "columnName": "NumberOfEggsRemaining",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "eggWeightSum",
+            "columnName": "EggWeightSum",
+            "affinity": "REAL",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "eggDailyID"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "EggSetting",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`eggSettingID` INTEGER PRIMARY KEY AUTOINCREMENT, `EggLabel` TEXT, `Disposition` TEXT, `MotherID` INTEGER, `MotherName` TEXT, `FatherID` INTEGER, `FatherName` TEXT, `SpeciesID` INTEGER, `SpeciesName` TEXT, `EggHeight` REAL, `EggBreadth` REAL, `LayDate` TEXT, `SetDate` TEXT, `IncubatorID` INTEGER, `IncubatorName` TEXT, `Location` TEXT, `HatchDate` TEXT, `LossAtPIP` REAL, `NewestLayDate` TEXT, `OldestLayDate` TEXT, `SettingType` TEXT, `NumberOfEggs` INTEGER, `PIPDate` REAL, `TrackingOption` INTEGER, `ReminderHatchDate` TEXT, `ReminderIncubatorSetting` INTEGER, `ReminderIncubatorWater` INTEGER, `ReminderEggCandeling` INTEGER, `ReminderEggTurning` INTEGER, `DesiredWeightLoss` REAL, `CommonName` TEXT)",
+        "fields": [
+          {
+            "fieldPath": "eggSettingID",
+            "columnName": "eggSettingID",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "eggLabel",
+            "columnName": "EggLabel",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "disposition",
+            "columnName": "Disposition",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "motherID",
+            "columnName": "MotherID",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "motherName",
+            "columnName": "MotherName",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "fatherID",
+            "columnName": "FatherID",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "fatherName",
+            "columnName": "FatherName",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "speciesID",
+            "columnName": "SpeciesID",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "speciesName",
+            "columnName": "SpeciesName",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "eggHeight",
+            "columnName": "EggHeight",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "eggBreadth",
+            "columnName": "EggBreadth",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "layDate",
+            "columnName": "LayDate",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "setDate",
+            "columnName": "SetDate",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "incubatorID",
+            "columnName": "IncubatorID",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "incubatorName",
+            "columnName": "IncubatorName",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "location",
+            "columnName": "Location",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "hatchDate",
+            "columnName": "HatchDate",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "lossAtPIP",
+            "columnName": "LossAtPIP",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "newestLayDate",
+            "columnName": "NewestLayDate",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "oldestLayDate",
+            "columnName": "OldestLayDate",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "settingType",
+            "columnName": "SettingType",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "numberOfEggs",
+            "columnName": "NumberOfEggs",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "pipDate",
+            "columnName": "PIPDate",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "trackingOption",
+            "columnName": "TrackingOption",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "reminderHatchDate",
+            "columnName": "ReminderHatchDate",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "reminderIncubatorSetting",
+            "columnName": "ReminderIncubatorSetting",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "reminderIncubatorWater",
+            "columnName": "ReminderIncubatorWater",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "reminderEggCandeling",
+            "columnName": "ReminderEggCandeling",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "reminderEggTurning",
+            "columnName": "ReminderEggTurning",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "desiredWeightLoss",
+            "columnName": "DesiredWeightLoss",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "commonName",
+            "columnName": "CommonName",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "eggSettingID"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "EggBatch",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`eggBatchID` INTEGER PRIMARY KEY AUTOINCREMENT, `BatchLabel` TEXT, `NumberOfEggs` INTEGER, `SpeciesID` INTEGER, `SpeciesName` TEXT, `CommonName` TEXT, `LayDate` TEXT, `SetDate` TEXT, `HatchDate` TEXT, `IncubatorID` INTEGER, `IncubatorName` TEXT, `Location` TEXT, `TrackingOption` INTEGER, `IncubatorSettings` TEXT, `Temperature` REAL, `IncubationDays` INTEGER, `NumberOfEggsHatched` INTEGER, `TargetWeightLossPercent` INTEGER)",
+        "fields": [
+          {
+            "fieldPath": "eggBatchID",
+            "columnName": "eggBatchID",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "batchLabel",
+            "columnName": "BatchLabel",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "numberOfEggs",
+            "columnName": "NumberOfEggs",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "speciesID",
+            "columnName": "SpeciesID",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "speciesName",
+            "columnName": "SpeciesName",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "commonName",
+            "columnName": "CommonName",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "layDate",
+            "columnName": "LayDate",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "setDate",
+            "columnName": "SetDate",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "hatchDate",
+            "columnName": "HatchDate",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "incubatorID",
+            "columnName": "IncubatorID",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "incubatorName",
+            "columnName": "IncubatorName",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "location",
+            "columnName": "Location",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "trackingOption",
+            "columnName": "TrackingOption",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "incubatorSettings",
+            "columnName": "IncubatorSettings",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "temperature",
+            "columnName": "Temperature",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "incubationDays",
+            "columnName": "IncubationDays",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "numberOfEggsHatched",
+            "columnName": "NumberOfEggsHatched",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "targetWeightLossPercent",
+            "columnName": "TargetWeightLossPercent",
+            "affinity": "INTEGER",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "eggBatchID"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "IncubatorDaily",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`incubatorDailyID` INTEGER PRIMARY KEY AUTOINCREMENT, `IncubatorID` TEXT, `EggLabel` TEXT, `ReadingDate` TEXT, `Temperature` REAL, `Humidity` REAL, `ReadingTime` TEXT, `IncubatorDailyComment` TEXT)",
+        "fields": [
+          {
+            "fieldPath": "incubatorDailyID",
+            "columnName": "incubatorDailyID",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "incubatorID",
+            "columnName": "IncubatorID",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "eggLabel",
+            "columnName": "EggLabel",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "readingDate",
+            "columnName": "ReadingDate",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "temperature",
+            "columnName": "Temperature",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "humidity",
+            "columnName": "Humidity",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "readingTime",
+            "columnName": "ReadingTime",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "incubatorDailyComment",
+            "columnName": "IncubatorDailyComment",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "incubatorDailyID"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "Options",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`optionID` INTEGER PRIMARY KEY AUTOINCREMENT, `OptionName` TEXT, `OptionValue` TEXT)",
+        "fields": [
+          {
+            "fieldPath": "optionID",
+            "columnName": "optionID",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "optionName",
+            "columnName": "OptionName",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "optionValue",
+            "columnName": "OptionValue",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "optionID"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "Taxon",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`speciesID` INTEGER PRIMARY KEY AUTOINCREMENT, `SpeciesName` TEXT, `UserName` TEXT, `CommonName` TEXT, `IncubationDays` TEXT, `EggSize` REAL, `PublishedOn` TEXT)",
+        "fields": [
+          {
+            "fieldPath": "speciesID",
+            "columnName": "speciesID",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "speciesName",
+            "columnName": "SpeciesName",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "userName",
+            "columnName": "UserName",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "commonName",
+            "columnName": "CommonName",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "incubationDays",
+            "columnName": "IncubationDays",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "eggSize",
+            "columnName": "EggSize",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "publishedOn",
+            "columnName": "PublishedOn",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "speciesID"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"a08fda74380fd80ebfacc6df7c804e47\")"
+    ]
+  }
+}
