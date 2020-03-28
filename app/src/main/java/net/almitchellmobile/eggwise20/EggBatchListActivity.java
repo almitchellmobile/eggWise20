@@ -124,6 +124,8 @@ public class EggBatchListActivity extends AppCompatActivity implements EggBatchA
         initializeViews();
         displayList();
 
+
+
         /*if (!sharedpreferences.getBoolean("COMPLETED_ONBOARDING_PREF_BATCH_LIST_1", false)) {
             // The user hasn't seen the OnboardingSupportFragment yet, so show it
             showFabPrompt();
@@ -131,13 +133,43 @@ public class EggBatchListActivity extends AppCompatActivity implements EggBatchA
             editor.commit();
         }*/
 
-        if (!sharedpreferences.getBoolean("COMPLETED_ONBOARDING_PREF_BATCH_LIST_2", false)) {
+        //showSequenceManual(findViewById(R.id.fab_egg_batch_list));
+
+        /*if (!sharedpreferences.getBoolean("COMPLETED_ONBOARDING_PREF_BATCH_LIST_2", false)) {
             // The user hasn't seen the OnboardingSupportFragment yet, so show it
-            showSequence(findViewById(R.id.fab_egg_batch_list));
+            showSequenceManual(findViewById(R.id.fab_egg_batch_list));
             editor.putBoolean("COMPLETED_ONBOARDING_PREF_BATCH_LIST_2", true);
             editor.commit();
-        }
+        }*/
 
+    }
+
+    public void showSequenceManual(View view) {
+
+        new MaterialTapTargetSequence()
+                .addPrompt(new MaterialTapTargetPrompt.Builder(EggBatchListActivity.this)
+                        .setTarget(findViewById(R.id.fab_egg_batch_list))
+                        .setBackgroundColour(getResources().getColor(R.color.colorAccent))
+                        .setPrimaryText("Add Egg Batch.")
+                        .setSecondaryText("To add a batch, tap the plus sign. Tap the blinking circle to continue.")
+                        .setFocalPadding(R.dimen.dp40)
+                        .create())
+                /*.addPrompt(new MaterialTapTargetPrompt.Builder(EggBatchListActivity.this)
+                        .setTarget(findViewById(R.id.button_save_add_weight_loss))
+                        .setBackgroundColour(getResources().getColor(R.color.colorAccent))
+                        .setPrimaryText("Save Egg Batch")
+                        .setSecondaryText("Tap the save button to continue.")
+                        .setFocalPadding(R.dimen.dp40)
+                        .create())*/
+                .addPrompt(new MaterialTapTargetPrompt.Builder(EggBatchListActivity.this)
+                        .setTarget(recyclerViewEggBatchList)
+                        .setFocalPadding(R.dimen.dp40)
+                        .setPrimaryText("Egg Batch Sub-Menu")
+                        .setSecondaryText("Tap a batch list item to open the sub-menu. Tap the blinking circle to continue.")
+                        .setBackgroundColour(getResources().getColor(R.color.colorAccent))
+                        .setAnimationInterpolator(new FastOutSlowInInterpolator())
+                        .create())
+                .show();
     }
 
     public void showSequence(View view) {
@@ -341,9 +373,13 @@ public class EggBatchListActivity extends AppCompatActivity implements EggBatchA
                 activityReference.get().textViewMsg.setVisibility(View.GONE);
                 activityReference.get().eggBatchAdapter.notifyDataSetChanged();
 
+                activityReference.get().showEggBatchSubMenuPrompt();
 
-
+            } else {
+                activityReference.get().showFabPrompt();
             }
+
+
         }
 
         private void computeAveragesAndPercents() {
@@ -492,7 +528,7 @@ public class EggBatchListActivity extends AppCompatActivity implements EggBatchA
     public void onEggBatchClick(final int pos) {
         new AlertDialog.Builder(EggBatchListActivity.this)
                 .setTitle("Select Options")
-                .setItems(new String[]{"Delete", "Update", "Enter Weight Loss", "List Weight Loss", "Weight Loss Chart", "Cancel"}, new DialogInterface.OnClickListener() {
+                .setItems(new String[]{"Delete", "Update", "Enter Weight", "List Weights", "Weight Loss Chart", "Cancel"}, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         switch (i){
@@ -548,12 +584,12 @@ public class EggBatchListActivity extends AppCompatActivity implements EggBatchA
             if (eggBatchList.size() == 0) { // no item to display
                 if (textViewMsg.getVisibility() == View.GONE) {
                     emptyMsgVisibility = View.VISIBLE;
-                    if (!sharedpreferences.getBoolean("COMPLETED_ONBOARDING_PREF_BATCH_LIST_1", false)) {
+                    /*if (!sharedpreferences.getBoolean("COMPLETED_ONBOARDING_PREF_BATCH_LIST_1", false)) {
                         // The user hasn't seen the OnboardingSupportFragment yet, so show it
                         showFabPrompt();
                         editor.putBoolean("COMPLETED_ONBOARDING_PREF_BATCH_LIST_1", true);
                         editor.commit();
-                    }
+                    }*/
                 }
 
             }

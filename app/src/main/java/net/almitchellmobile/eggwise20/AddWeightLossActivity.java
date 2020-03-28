@@ -10,12 +10,16 @@ import android.icu.text.SimpleDateFormat;
 import android.icu.util.Calendar;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.InputType;
 import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -37,11 +41,14 @@ import java.util.Locale;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.core.text.HtmlCompat;
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
 import androidx.interpolator.view.animation.LinearOutSlowInInterpolator;
 import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt;
 import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetSequence;
+
+import static android.util.TypedValue.TYPE_NULL;
 
 public class AddWeightLossActivity extends AppCompatActivity {
 
@@ -76,6 +83,9 @@ public class AddWeightLossActivity extends AppCompatActivity {
     private EggBatch eggBatch;
     private boolean update;
     private String hintStringValue = "";
+
+    SpannableStringBuilder secondaryText;
+    ForegroundColorSpan foregroundColorSpan;
 
     Long eggDailyID = 0L;
     Long settingID = 0L;
@@ -163,7 +173,6 @@ public class AddWeightLossActivity extends AppCompatActivity {
         text_number_of_eggs_remaining = findViewById(R.id.text_number_of_eggs_remaining);
         text_incubator_name = findViewById(R.id.text_incubator_name);
         text_set_date = findViewById(R.id.text_set_date);
-
         text_batch_label = findViewById(R.id.text_batch_label);
         et_egg_label = findViewById(R.id.et_egg_label);
         et_egg_weight = findViewById(R.id.et_egg_weight);
@@ -175,6 +184,8 @@ public class AddWeightLossActivity extends AppCompatActivity {
 
 
         button_reading_date_lookup = findViewById(R.id.button_reading_date_lookup);
+        button_reading_date_lookup.setText("Set Reading Date");
+
         et_reading_day_number = findViewById(R.id.et_reading_day_number);
         et_reading_date = findViewById(R.id.et_reading_date);
         et_weight_loss_comment = findViewById(R.id.et_weight_loss_comment);
@@ -200,6 +211,13 @@ public class AddWeightLossActivity extends AppCompatActivity {
         et_reading_day_number.setSelectAllOnFocus(true);
         et_egg_weight.setSelectAllOnFocus(true);
         et_weight_loss_comment.setSelectAllOnFocus(true);
+
+        et_egg_label.setInputType(InputType.TYPE_CLASS_TEXT);
+        et_reading_day_number.setInputType(InputType.TYPE_CLASS_NUMBER);
+        et_reading_date.setInputType(InputType.TYPE_CLASS_TEXT);
+        et_egg_weight.setInputType(InputType.TYPE_CLASS_TEXT);
+        et_weight_loss_comment.setInputType(InputType.TYPE_CLASS_TEXT);
+
 
         fab_add_save_weight_loss = findViewById(R.id.fab_add_save_weight_loss);
         fab_add_save_weight_loss.setOnClickListener(new View.OnClickListener() {
@@ -370,6 +388,8 @@ public class AddWeightLossActivity extends AppCompatActivity {
         });
 
 
+
+
         getEggBatchData();
 
         eggDaily = null;
@@ -420,18 +440,148 @@ public class AddWeightLossActivity extends AppCompatActivity {
 
         }
 
-        if (!sharedpreferences.getBoolean("COMPLETED_ONBOARDING_PREF_WEIGHT_LOSS_LIST_1", false)) {
+        //showReadingDayPrompt();
+        //showSequenceManual(et_reading_day_number);
+
+        /*if (!sharedpreferences.getBoolean("COMPLETED_ONBOARDING_PREF_WEIGHT_LOSS_LIST_1", false)) {
             // The user hasn't seen the OnboardingSupportFragment yet, so show it
-            showSequence(et_reading_day_number);
+            showSequenceManual(et_reading_day_number);
             editor.putBoolean("COMPLETED_ONBOARDING_PREF_WEIGHT_LOSS_LIST_1", true);
             editor.commit();
-        }
+        }*/
     }
 
     public static boolean isTablet(Context context) {
         return (context.getResources().getConfiguration().screenLayout
                 & Configuration.SCREENLAYOUT_SIZE_MASK)
                 >= Configuration.SCREENLAYOUT_SIZE_LARGE;
+    }
+
+    public void showSequenceManual(View view) {
+
+        //((InputMethodManager) getSystemService(AppCompatActivity.INPUT_METHOD_SERVICE))
+        //        .toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0);
+        et_reading_day_number.setInputType(TYPE_NULL);
+        et_reading_date.setInputType(TYPE_NULL);
+        et_egg_weight.setInputType(TYPE_NULL);
+        et_egg_label.setInputType(TYPE_NULL);
+        et_weight_loss_comment.setInputType(TYPE_NULL);
+
+        SpannableStringBuilder secondaryText1 = new SpannableStringBuilder(
+                "Tap this button to set the reading date and the reading day. Tap here to continue.");
+        ForegroundColorSpan foregroundColour1 = new ForegroundColorSpan(
+                ContextCompat.getColor(this,R.color.green_200));
+        secondaryText1.setSpan(foregroundColour1, 65, 69, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+
+        SpannableStringBuilder secondaryText2 = new SpannableStringBuilder(
+                "Or enter the reading day and the reading date will be calculated when you tap the egg weight field. Tap here to continue.");
+        ForegroundColorSpan foregroundColour2 = new ForegroundColorSpan(
+                ContextCompat.getColor(this,R.color.green_200));
+        secondaryText2.setSpan(foregroundColour2, 104, 108, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+
+        SpannableStringBuilder secondaryText3 = new SpannableStringBuilder(
+                "Enter an egg label. Tap here to continue.");
+        ForegroundColorSpan foregroundColour3 = new ForegroundColorSpan(
+                ContextCompat.getColor(this,R.color.green_200));
+        secondaryText3.setSpan(foregroundColour3, 24, 28, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+
+        SpannableStringBuilder secondaryText4 = new SpannableStringBuilder(
+                "Enter the egg weight. Tap here to continue.");
+        ForegroundColorSpan foregroundColour4 = new ForegroundColorSpan(
+                ContextCompat.getColor(this,R.color.green_200));
+        secondaryText4.setSpan(foregroundColour4, 26, 30, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+
+        SpannableStringBuilder secondaryText5 = new SpannableStringBuilder(
+                "Enter an optional comment. Tap here to continue.");
+        ForegroundColorSpan foregroundColour5 = new ForegroundColorSpan(
+                ContextCompat.getColor(this,R.color.green_200));
+        secondaryText5.setSpan(foregroundColour5, 31, 35, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+
+        SpannableStringBuilder secondaryText6 = new SpannableStringBuilder(
+                "Tap one of the save buttons, to save your egg weight information. Tap here to continue.");
+        ForegroundColorSpan foregroundColour6 = new ForegroundColorSpan(
+                ContextCompat.getColor(this,R.color.green_200));
+        secondaryText6.setSpan(foregroundColour6, 70, 74, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+
+        SpannableStringBuilder secondaryText7 = new SpannableStringBuilder(
+                "Tap one of the cancel buttons, to cancel and return to the batch list or egg list. Tap here to finish.");
+        ForegroundColorSpan foregroundColour7 = new ForegroundColorSpan(
+                ContextCompat.getColor(this,R.color.green_200));
+        secondaryText7.setSpan(foregroundColour7, 87, 91, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+
+        new MaterialTapTargetSequence()
+                .addPrompt(new MaterialTapTargetPrompt.Builder(AddWeightLossActivity.this)
+                        .setTarget(findViewById(R.id.button_reading_date_lookup))
+                        .setBackgroundColour(ContextCompat.getColor(this,R.color.colorAccent))
+                        .setPrimaryText("Set Reading Date")
+                        .setFocalPadding(R.dimen.dp40)
+                        .setSecondaryText(secondaryText1)
+                        .create())
+                .addPrompt(new MaterialTapTargetPrompt.Builder(AddWeightLossActivity.this)
+                        .setTarget(findViewById(R.id.et_reading_day_number))
+                        .setBackgroundColour(ContextCompat.getColor(this,R.color.colorAccent))
+                        .setPrimaryText("Enter Reading Day")
+                        .setSecondaryText(secondaryText2)
+                        .setFocalPadding(R.dimen.dp40)
+                        .create())
+                .addPrompt(new MaterialTapTargetPrompt.Builder(AddWeightLossActivity.this)
+                        .setTarget(findViewById(R.id.et_egg_label))
+                        .setBackgroundColour(ContextCompat.getColor(this,R.color.colorAccent))
+                        .setPrimaryText("Enter Egg Label")
+                        .setSecondaryText(secondaryText3)
+                        .setFocalPadding(R.dimen.dp40)
+                        .create())
+                .addPrompt(new MaterialTapTargetPrompt.Builder(AddWeightLossActivity.this)
+                        .setTarget(findViewById(R.id.et_egg_weight))
+                        .setBackgroundColour(ContextCompat.getColor(this,R.color.colorAccent))
+                        .setPrimaryText("Enter Egg Weight")
+                        .setSecondaryText(secondaryText4)
+                        .setFocalPadding(R.dimen.dp40)
+                        .create())
+                .addPrompt(new MaterialTapTargetPrompt.Builder(AddWeightLossActivity.this)
+                        .setTarget(findViewById(R.id.et_weight_loss_comment))
+                        .setBackgroundColour(ContextCompat.getColor(this,R.color.colorAccent))
+                        .setPrimaryText("Enter Comment")
+                        .setSecondaryText(secondaryText5)
+                        .setFocalPadding(R.dimen.dp40)
+                        .create())
+                .addPrompt(new MaterialTapTargetPrompt.Builder(AddWeightLossActivity.this)
+                        .setTarget(findViewById(R.id.button_save_add_weight_loss))
+                        .setBackgroundColour(ContextCompat.getColor(this,R.color.colorAccent))
+                        .setPrimaryText("Save Details")
+                        .setSecondaryText(secondaryText6)
+                        .setFocalPadding(R.dimen.dp40)
+                        .create())
+                .addPrompt(new MaterialTapTargetPrompt.Builder(AddWeightLossActivity.this)
+                        .setTarget(findViewById(R.id.button_cancel_list_eggs))
+                        .setBackgroundColour(ContextCompat.getColor(this,R.color.colorAccent))
+                        .setPrimaryText(" or Cancel and Return")
+                        .setSecondaryText(secondaryText7)
+                        .setAnimationInterpolator(new LinearOutSlowInInterpolator())
+                        .setPromptStateChangeListener((prompt, state) -> {
+                            if (state == MaterialTapTargetPrompt.STATE_FOCAL_PRESSED
+                                    || state == MaterialTapTargetPrompt.STATE_NON_FOCAL_PRESSED)
+                            {
+                                //mFabPrompt = null;
+                                //Do something such as storing a value so that this prompt is never shown again
+                                //et_reading_day_number.setInputType(InputType.TYPE_CLASS_TEXT);
+                                //et_egg_weight.setInputType(InputType.TYPE_CLASS_TEXT);
+                                ((InputMethodManager) getSystemService(AppCompatActivity.INPUT_METHOD_SERVICE))
+                                        .toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0);
+                                et_reading_day_number.setInputType(InputType.TYPE_CLASS_NUMBER);
+                                et_reading_date.setInputType(InputType.TYPE_CLASS_TEXT);
+                                et_egg_weight.setInputType(InputType.TYPE_CLASS_NUMBER);
+                                et_egg_label.setInputType(InputType.TYPE_CLASS_TEXT);
+                                et_weight_loss_comment.setInputType(InputType.TYPE_CLASS_TEXT);
+                                button_reading_date_lookup.setFocusable(true);
+                            }
+                        })
+                        .setFocalPadding(R.dimen.dp40)
+                        .create())
+                .show();
+        //et_reading_day_number.setShowSoftInputOnFocus(true);
+        //et_egg_weight.setShowSoftInputOnFocus(true);
+
     }
 
     public void showSequence(View view) {
@@ -462,6 +612,70 @@ public class AddWeightLossActivity extends AppCompatActivity {
                 .show();
     }
 
+    public void showReadingDayPrompt()
+    {
+        if (mFabPrompt != null)
+        {
+            return;
+        }
+        ((InputMethodManager) getSystemService(AppCompatActivity.INPUT_METHOD_SERVICE))
+                .toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0);
+        mFabPrompt = new MaterialTapTargetPrompt.Builder(AddWeightLossActivity.this)
+                .setTarget(findViewById(R.id.et_reading_day_number))
+                .setFocalPadding(R.dimen.dp40)
+                .setBackgroundColour(getResources().getColor(R.color.colorAccent))
+                .setPrimaryText("Enter Reading Day")
+                .setSecondaryText("Enter the reading day and the reading date will be calculated from the Set Date when you tap the egg weight field. Tap the circle to continue.")
+                .setBackButtonDismissEnabled(true)
+                .setAnimationInterpolator(new FastOutSlowInInterpolator())
+                .setPromptStateChangeListener((prompt, state) -> {
+                    if (state == MaterialTapTargetPrompt.STATE_FOCAL_PRESSED
+                            || state == MaterialTapTargetPrompt.STATE_NON_FOCAL_PRESSED)
+                    {
+                        mFabPrompt = null;
+                        ((InputMethodManager) getSystemService(AppCompatActivity.INPUT_METHOD_SERVICE))
+                                .toggleSoftInput(0, InputMethodManager.HIDE_IMPLICIT_ONLY);
+                        showWeightPrompt();
+                    }
+                })
+                .create();
+        if (mFabPrompt != null)
+        {
+            mFabPrompt.show();
+        }
+    }
+
+    public void showWeightPrompt()
+    {
+        if (mFabPrompt != null)
+        {
+            return;
+        }
+        ((InputMethodManager) getSystemService(AppCompatActivity.INPUT_METHOD_SERVICE))
+                .toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0);
+        mFabPrompt = new MaterialTapTargetPrompt.Builder(AddWeightLossActivity.this)
+                .setTarget(findViewById(R.id.et_egg_weight))
+                .setFocalPadding(R.dimen.dp40)
+                .setBackgroundColour(getResources().getColor(R.color.colorAccent))
+                .setPrimaryText("Enter Egg Weight")
+                .setSecondaryText("Enter the egg weight and optional comment. Tap the circle to continue.")
+                .setBackButtonDismissEnabled(true)
+                .setAnimationInterpolator(new FastOutSlowInInterpolator())
+                .setPromptStateChangeListener((prompt, state) -> {
+                    if (state == MaterialTapTargetPrompt.STATE_FOCAL_PRESSED
+                            || state == MaterialTapTargetPrompt.STATE_NON_FOCAL_PRESSED)
+                    {
+                        mFabPrompt = null;
+                        //Do something such as storing a value so that this prompt is never shown again
+                    }
+                })
+                .create();
+        if (mFabPrompt != null)
+        {
+            mFabPrompt.show();
+        }
+    }
+
     public void showFabPrompt()
     {
         if (mFabPrompt != null)
@@ -469,7 +683,7 @@ public class AddWeightLossActivity extends AppCompatActivity {
             return;
         }
         SpannableStringBuilder secondaryText = new SpannableStringBuilder("Enter your egg weight details and tap the save button to save your egg information.");
-        //secondaryText.setSpan(new ForegroundColorSpan(ContextCompat.getColor(this, R.color.colorAccent)), 0, 30, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+        secondaryText.setSpan(new ForegroundColorSpan(ContextCompat.getColor(this, R.color.colorAccent)), 0, 30, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
         SpannableStringBuilder primaryText = new SpannableStringBuilder("Save your egg.");
         //primaryText.setSpan(new BackgroundColorSpan(ContextCompat.getColor(this, R.color.colorAccent)), 0, 40, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
         mFabPrompt = new MaterialTapTargetPrompt.Builder(AddWeightLossActivity.this)

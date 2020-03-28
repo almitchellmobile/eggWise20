@@ -10,7 +10,10 @@ import android.icu.text.SimpleDateFormat;
 import android.icu.util.Calendar;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.InputType;
 import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -39,6 +42,7 @@ import java.util.Locale;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
 import androidx.interpolator.view.animation.LinearOutSlowInInterpolator;
 import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt;
@@ -195,6 +199,15 @@ public class AddEggBatchActivity extends AppCompatActivity {
 
         et_location = findViewById(R.id.et_location);
         et_location.setSelectAllOnFocus(true);
+
+        et_batch_label.setInputType(InputType.TYPE_CLASS_TEXT);
+        et_species_name.setInputType(InputType.TYPE_CLASS_TEXT);
+        et_common_name.setInputType(InputType.TYPE_CLASS_TEXT);
+        et_incubator_name.setInputType(InputType.TYPE_CLASS_TEXT);
+        et_number_of_eggs.setInputType(InputType.TYPE_CLASS_NUMBER);
+        et_set_date.setInputType(InputType.TYPE_CLASS_TEXT);
+        et_hatch_date.setInputType(InputType.TYPE_CLASS_TEXT);
+        et_location.setInputType(InputType.TYPE_CLASS_TEXT);
 
         rg_track_weight_loss = findViewById(R.id.rg_track_weight_loss);
         rb_track_entire_batch = findViewById(R.id.rb_track_entire_batch);
@@ -391,14 +404,15 @@ public class AddEggBatchActivity extends AppCompatActivity {
 
         });
 
-        //showFabPrompt();
-        if (!sharedpreferences.getBoolean("COMPLETED_ONBOARDING_PREF_ADD_BATCH_1", false)) {
+        showSequenceManual(et_batch_label);
+
+        /*if (!sharedpreferences.getBoolean("COMPLETED_ONBOARDING_PREF_ADD_BATCH_1", false)) {
                 // The user hasn't seen the OnboardingSupportFragment yet, so show it
             //showFabPrompt();
-            showSequence(et_batch_label);
+            showSequenceManual(et_batch_label);
             editor.putBoolean("COMPLETED_ONBOARDING_PREF_ADD_BATCH_1", true);
             editor.commit();
-        }
+        }*/
 
     }
 
@@ -406,6 +420,41 @@ public class AddEggBatchActivity extends AppCompatActivity {
         return (context.getResources().getConfiguration().screenLayout
                 & Configuration.SCREENLAYOUT_SIZE_MASK)
                 >= Configuration.SCREENLAYOUT_SIZE_LARGE;
+    }
+
+    public void showSequenceManual(View view) {
+
+        SpannableStringBuilder secondaryText = new SpannableStringBuilder(
+                "Begin here by entering your egg batch details. Tap here to continue.");
+        ForegroundColorSpan foregroundColour = new ForegroundColorSpan(
+                ContextCompat.getColor(this,R.color.green_200));
+        secondaryText.setSpan(foregroundColour, 51, 56, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+
+        SpannableStringBuilder secondaryText2 = new SpannableStringBuilder(
+                "After entering your egg batch details, tap the save button to save your batch. Tap here to continue.");
+        ForegroundColorSpan foregroundColour2 = new ForegroundColorSpan(
+                ContextCompat.getColor(this,R.color.green_200));
+        secondaryText2.setSpan(foregroundColour2, 83, 87, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+
+
+        new MaterialTapTargetSequence()
+                .addPrompt(new MaterialTapTargetPrompt.Builder(AddEggBatchActivity.this)
+                        .setTarget(findViewById(R.id.et_batch_label))
+                        .setBackgroundColour(ContextCompat.getColor(this,R.color.colorAccent))
+                        .setAnimationInterpolator(new LinearOutSlowInInterpolator())
+                        .setPrimaryText("Add Egg Batch")
+                        .setSecondaryText(secondaryText)
+                        .setFocalPadding(R.dimen.dp40)
+                        .create())
+                .addPrompt(new MaterialTapTargetPrompt.Builder(AddEggBatchActivity.this)
+                        .setTarget(findViewById(R.id.fab_add_save_egg_batch))
+                        .setBackgroundColour(ContextCompat.getColor(this,R.color.colorAccent))
+                        .setPrimaryText("Save Egg Batch")
+                        .setSecondaryText(secondaryText2)
+                        .setAnimationInterpolator(new LinearOutSlowInInterpolator())
+                        .setFocalPadding(R.dimen.dp40)
+                        .create())
+                .show();
     }
 
     public void showSequence(View view) {

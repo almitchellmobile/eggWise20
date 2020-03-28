@@ -30,40 +30,42 @@
              />
 
         <com.google.android.flexbox.FlexboxLayout
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/fl_weight_loss_list"
             app:flexWrap="wrap"
             app:alignItems="stretch"
             app:alignContent="stretch" >
+
             <EditText
                 android:id="@+id/et_weight_loss_filter_day"
-                android:layout_width="50dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:hint="Filter Day" />
 
             <ToggleButton
                 android:id="@+id/toggle_btn_and_or"
-                android:layout_width="50dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checked="true"
                 android:textOff="Or"
                 android:textOn="And" />
+
             <EditText
                 android:id="@+id/et_weight_loss_filter_label"
-                android:layout_width="75dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:hint="Filter Label" />
+
             <Button
                 android:id="@+id/btn_filter_weight_loss_apply"
-                android:layout_width="50dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Apply" />
+
             <Button
                 android:id="@+id/btn_filter_weight_loss_reset"
-                android:layout_width="50dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Reset" />
         </com.google.android.flexbox.FlexboxLayout>

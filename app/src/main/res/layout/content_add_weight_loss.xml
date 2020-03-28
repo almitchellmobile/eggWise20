@@ -103,12 +103,13 @@
             android:singleLine="true" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <LinearLayout
-        android:id="@+id/ll_egg_weight_buttons"
+    <com.google.android.flexbox.FlexboxLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:orientation="horizontal">
+        android:layout_height="match_parent"
+        android:id="@+id/fl_weight_loss_list"
+        app:flexWrap="wrap"
+        app:alignItems="stretch"
+        app:alignContent="stretch" >
 
         <Button
             android:id="@+id/button_save_add_weight_loss"
@@ -130,7 +131,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="Return" />
-    </LinearLayout>
+    </com.google.android.flexbox.FlexboxLayout>
 
 
 </LinearLayout>
