@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="@dimen/fab_margin"
+    android:scrollbars="horizontal|vertical"
+    tools:context=".AddWeightLossActivity"
+    tools:showIn="@layout/activity_add_weight_loss">
+
+    <LinearLayout
+        android:id="@+id/ll_add_egg_weight"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <com.google.android.flexbox.FlexboxLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:flexWrap="wrap">
+
+            <TextView
+                android:id="@+id/text_batch_label"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <!--<com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/text_egg_batch_label_egg_weight"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true">
+            <AutoCompleteTextView
+                android:id="@+id/et_batch_label_add_egg_weight"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:hint="@string/egg_batch_label"
+                android:inputType="text"
+                android:singleLine="true" />
+        </com.google.android.material.textfield.TextInputLayout>-->
+
+            <TextView
+                android:id="@+id/text_number_of_eggs_remaining"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                 />
+
+            <TextView
+                android:id="@+id/text_set_date"
+               android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                 />
+
+            <TextView
+                android:id="@+id/text_incubator_name"
+               android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                 />
+
+            <Button
+                android:id="@+id/button_reading_date_lookup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Get Reading Date"
+                />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/text_reading_day_number"
+               android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                >
+
+                <AutoCompleteTextView
+                    android:id="@+id/et_reading_day_number"
+                   android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:hint="Reading Day"
+                    android:imeOptions="actionNext"
+                    android:inputType="number"
+                    android:nextFocusDown="@+id/et_reading_date"
+                    android:singleLine="true" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/text_reading_date"
+               android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                >
+
+                <AutoCompleteTextView
+                    android:id="@+id/et_reading_date"
+                   android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/reading_date"
+                    android:imeOptions="actionNext"
+                    android:inputType="date"
+                    android:nextFocusDown="@+id/et_weight_loss_comment"
+                    android:singleLine="true" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/text_egg_label"
+               android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                >
+
+                <AutoCompleteTextView
+                    android:id="@+id/et_egg_label"
+                   android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/egg_label"
+                    android:imeOptions="actionNext"
+                    android:inputType="text"
+                    android:nextFocusDown="@+id/et_egg_weight"
+                    android:singleLine="true" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/text_egg_weight"
+               android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                >
+
+                <AutoCompleteTextView
+                    android:id="@+id/et_egg_weight"
+                   android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:hint="Egg Weight "
+                    android:imeOptions="actionNext"
+                    android:inputType="numberDecimal"
+                    android:nextFocusDown="@+id/et_reading_day_number"
+                    android:singleLine="true" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/text_weight_loss_comment"
+               android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                >
+
+                <AutoCompleteTextView
+                    android:id="@+id/et_weight_loss_comment"
+                   android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:hint="Comment"
+                    android:imeOptions="actionDone"
+                    android:inputType="text"
+                    android:singleLine="true" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </com.google.android.flexbox.FlexboxLayout>
+
+        <com.google.android.flexbox.FlexboxLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:flexWrap="wrap">
+
+            <Button
+                android:id="@+id/button_save_add_weight_loss"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Save/Add Next" />
+
+            <Button
+                android:id="@+id/button_save_list_weight_loss"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Save/Return" />
+
+
+            <Button
+                android:id="@+id/button_cancel_list_eggs"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cancel/List Eggs" />
+
+            <Button
+                android:id="@+id/button_cancel_list_batch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cancel/List Batch" />
+
+        </com.google.android.flexbox.FlexboxLayout>
+
+    </LinearLayout>
+</ScrollView>

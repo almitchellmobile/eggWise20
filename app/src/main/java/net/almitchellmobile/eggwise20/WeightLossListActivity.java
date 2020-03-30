@@ -13,6 +13,7 @@ import android.text.style.ForegroundColorSpan;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -338,24 +339,13 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
         initializeViews();
         displayList();
 
-        /*if (!sharedpreferences.getBoolean("COMPLETED_ONBOARDING_PREF_WEIGHT_LOSS_LIST_1", false)) {
-            // The user hasn't seen the OnboardingSupportFragment yet, so show it
-            //showFabPrompt();
-            editor.putBoolean("COMPLETED_ONBOARDING_PREF_WEIGHT_LOSS_LIST_1", true);
-            editor.commit();
-        }*/
-
-        showSequenceManual(spinnerSortBy);
-
+        //showSequenceManual();
         /*if (!sharedpreferences.getBoolean("COMPLETED_ONBOARDING_PREF_WEIGHT_LOSS_LIST_2", false)) {
             // The user hasn't seen the OnboardingSupportFragment yet, so show it
-            showSequence(spinnerSortBy);
+            showSequenceManual();
             editor.putBoolean("COMPLETED_ONBOARDING_PREF_WEIGHT_LOSS_LIST_2", true);
             editor.commit();
         }*/
-
-        //setSecondarytText();
-
 
     }
 
@@ -368,118 +358,128 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
         return secondaryText1;
     }
 
-    public void showSequenceManual(View view) {
+    public void showSequenceManual() {
 
         new MaterialTapTargetSequence()
                 .addPrompt(new MaterialTapTargetPrompt.Builder(WeightLossListActivity.this)
                         .setTarget(findViewById(R.id.spinnerSortBy))
-                        .setBackgroundColour(getResources().getColor(R.color.colorAccent))
+                        .setBackgroundColour(ContextCompat.getColor(this,R.color.colorAccent))
                         .setAnimationInterpolator(new LinearOutSlowInInterpolator())
                         .setPrimaryText("To Sort the List")
-                        .setSecondaryText(setSecondarytText("This dropdown is used to sort the list. Tap here to continue.", 45, 49))
+                        .setSecondaryText(setSecondarytText("This dropdown is used to sort the list. Tap here to continue.", 44, 48))
                         .setFocalPadding(R.dimen.dp40)
                         .create())
                 .addPrompt(new MaterialTapTargetPrompt.Builder(WeightLossListActivity.this)
                         .setTarget(findViewById(R.id.et_weight_loss_filter_day))
-                        .setBackgroundColour(getResources().getColor(R.color.colorAccent))
+                        .setBackgroundColour(ContextCompat.getColor(this,R.color.colorAccent))
                         .setPrimaryText("Filter by Day")
-                        .setSecondaryText(setSecondarytText("To filter by reading day, enter a reading day here. Tap here to continue.", 57, 61))
+                        .setSecondaryText(setSecondarytText("To filter by reading day, enter a reading day number. Tap here to continue.", 58, 62))
                         .setAnimationInterpolator(new LinearOutSlowInInterpolator())
                         .setFocalPadding(R.dimen.dp40)
                         .create())
                 .addPrompt(new MaterialTapTargetPrompt.Builder(WeightLossListActivity.this)
                         .setTarget(findViewById(R.id.et_weight_loss_filter_label))
-                        .setBackgroundColour(getResources().getColor(R.color.colorAccent))
+                        .setBackgroundColour(ContextCompat.getColor(this,R.color.colorAccent))
                         .setPrimaryText("Filter by Egg Label")
-                        .setSecondaryText(setSecondarytText("To filter by egg label, enter a lable value here. Tap here to continue.", 55, 59))
+                        .setSecondaryText(setSecondarytText("To filter by egg label, enter a lable value here. Tap here to continue.", 54, 58))
                         .setAnimationInterpolator(new LinearOutSlowInInterpolator())
                         .setFocalPadding(R.dimen.dp40)
                         .create())
                 .addPrompt(new MaterialTapTargetPrompt.Builder(WeightLossListActivity.this)
                         .setTarget(findViewById(R.id.toggle_btn_and_or))
-                        .setBackgroundColour(getResources().getColor(R.color.colorAccent))
+                        .setBackgroundColour(ContextCompat.getColor(this,R.color.colorAccent))
                         .setPrimaryText("AND or OR Filter Values")
-                        .setSecondaryText(setSecondarytText("To 'AND' or 'OR' these values, click this button. Tap here to continue.", 55, 59))
+                        .setSecondaryText(setSecondarytText("To 'AND' or 'OR' these values, click this button. Tap here to continue.", 54, 58))
                         .setAnimationInterpolator(new LinearOutSlowInInterpolator())
                         .setFocalPadding(R.dimen.dp40)
                         .create())
                 .addPrompt(new MaterialTapTargetPrompt.Builder(WeightLossListActivity.this)
                         .setTarget(findViewById(R.id.btn_filter_weight_loss_apply))
-                        .setBackgroundColour(getResources().getColor(R.color.colorAccent))
+                        .setBackgroundColour(ContextCompat.getColor(this,R.color.colorAccent))
                         .setPrimaryText("Apply Filter")
-                        .setSecondaryText(setSecondarytText("To apply the filter, click this button. Tap here to continue.", 45, 49))
+                        .setSecondaryText(setSecondarytText("To apply the filter, click this button. Tap here to continue.", 44, 48))
                         .setAnimationInterpolator(new LinearOutSlowInInterpolator())
                         .setFocalPadding(R.dimen.dp40)
                         .create())
                 .addPrompt(new MaterialTapTargetPrompt.Builder(WeightLossListActivity.this)
                         .setTarget(findViewById(R.id.btn_filter_weight_loss_reset))
-                        .setBackgroundColour(getResources().getColor(R.color.colorAccent))
+                        .setBackgroundColour(ContextCompat.getColor(this,R.color.colorAccent))
                         .setPrimaryText("Reset Filter")
-                        .setSecondaryText(setSecondarytText("To reset the filter, click this button.Tap here to continue.", 44, 48))
+                        .setSecondaryText(setSecondarytText("To reset the filter, click this button.Tap here to continue.", 43, 47))
                         .setAnimationInterpolator(new LinearOutSlowInInterpolator())
                         .setFocalPadding(R.dimen.dp40)
                         .create())
                 .addPrompt(new MaterialTapTargetPrompt.Builder(WeightLossListActivity.this)
                         .setTarget(findViewById(R.id.fab_add_weight_loss_list))
-                        .setBackgroundColour(getResources().getColor(R.color.colorAccent))
+                        .setBackgroundColour(ContextCompat.getColor(this,R.color.colorAccent))
                         .setPrimaryText("Add Egg Weights")
-                        .setSecondaryText(setSecondarytText("Tap the plus sign to add weight loss details. Tap here to continue.", 51, 55))
+                        .setSecondaryText(setSecondarytText("Tap the plus sign to add weight loss details. Tap here to continue.", 50, 54))
                         .setAnimationInterpolator(new LinearOutSlowInInterpolator())
                         .setFocalPadding(R.dimen.dp40)
                         .create())
                 .addPrompt(new MaterialTapTargetPrompt.Builder(WeightLossListActivity.this)
                         .setTarget(findViewById(R.id.fab_weight_loss_reject_visibility))
-                        .setBackgroundColour(getResources().getColor(R.color.colorAccent))
+                        .setBackgroundColour(ContextCompat.getColor(this,R.color.colorAccent))
                         .setPrimaryText("Show/Hide Rejected Eggs")
-                        .setSecondaryText(setSecondarytText("Tap the visibility button to show/hide rejected eggs. Tap here to continue.", 59, 63))
+                        .setSecondaryText(setSecondarytText("Tap the visibility button to show/hide rejected eggs. Tap here to continue.", 58, 62))
                         .setAnimationInterpolator(new LinearOutSlowInInterpolator())
                         .setFocalPadding(R.dimen.dp40)
+                        .setPromptStateChangeListener((prompt, state) -> {
+                            if (state == MaterialTapTargetPrompt.STATE_FOCAL_PRESSED
+                                    || state == MaterialTapTargetPrompt.STATE_NON_FOCAL_PRESSED)
+                            {
+                                mFabPrompt = null;
+                                //Do something such as storing a value so that this prompt is never shown again
+                                // User has pressed the prompt target
+                                showWeightLossListItemPrompt(mLinearLayoutManager);
+                            }
+                        })
                         .create())
-                .addPrompt(new MaterialTapTargetPrompt.Builder(WeightLossListActivity.this)
+                /*.addPrompt(new MaterialTapTargetPrompt.Builder(WeightLossListActivity.this)
                         .setTarget(recyclerViewWeightLossList)
                         .setFocalPadding(R.dimen.dp40)
                         .setPrimaryText("Weight Loss Batch Sub-Menu")
-                        .setSecondaryText(setSecondarytText("Tap an egg weight list item to open the weight Loss sub-menu. Tap here to finish.", 67, 71))
-                        .setBackgroundColour(getResources().getColor(R.color.colorAccent))
+                        .setSecondaryText(setSecondarytText("Tap an egg weight list item to open the weight Loss sub-menu. Tap here to finish.", 66, 70))
+                        .setBackgroundColour(ContextCompat.getColor(this,R.color.colorAccent))
                         .setAnimationInterpolator(new FastOutSlowInInterpolator())
-                        .create())
+                        .create())*/
                 .show();
     }
 
 
-    public void showSequence(View view) {
+    public void xxxshowSequence(View view) {
 
         new MaterialTapTargetSequence()
             .addPrompt(new MaterialTapTargetPrompt.Builder(WeightLossListActivity.this)
                     .setTarget(findViewById(R.id.spinnerSortBy))
-                    .setBackgroundColour(getResources().getColor(R.color.colorAccent))
-                    .setAnimationInterpolator(new LinearOutSlowInInterpolator())
+                    .setBackgroundColour(ContextCompat.getColor(this,R.color.colorAccent))
+                    .setAnimationInterpolator(new FastOutSlowInInterpolator())
                     .setPrimaryText("To Sort the List")
                     .setSecondaryText("This dropdown is used to sort the list.")
                     .setFocalPadding(R.dimen.dp40)
                     .create(), 8000)
             .addPrompt(new MaterialTapTargetPrompt.Builder(WeightLossListActivity.this)
                     .setTarget(findViewById(R.id.fl_weight_loss_list))
-                    .setBackgroundColour(getResources().getColor(R.color.colorAccent))
+                    .setBackgroundColour(ContextCompat.getColor(this,R.color.colorAccent))
                     .setPrimaryText("To Filter the List")
                     .setSecondaryText("These controls are used to filter the list.")
-                    .setAnimationInterpolator(new LinearOutSlowInInterpolator())
+                    .setAnimationInterpolator(new FastOutSlowInInterpolator())
                     .setFocalPadding(R.dimen.dp40)
                     .create(), 8000)
             .addPrompt(new MaterialTapTargetPrompt.Builder(WeightLossListActivity.this)
                     .setTarget(findViewById(R.id.fab_add_weight_loss_list))
-                    .setBackgroundColour(getResources().getColor(R.color.colorAccent))
+                    .setBackgroundColour(ContextCompat.getColor(this,R.color.colorAccent))
                     .setPrimaryText("To Add Egg Weights")
                     .setSecondaryText("Tap the plus sign to add weight loss details.")
-                    .setAnimationInterpolator(new LinearOutSlowInInterpolator())
+                    .setAnimationInterpolator(new FastOutSlowInInterpolator())
                     .setFocalPadding(R.dimen.dp40)
                     .create(), 8000)
             .addPrompt(new MaterialTapTargetPrompt.Builder(WeightLossListActivity.this)
                     .setTarget(findViewById(R.id.fab_weight_loss_reject_visibility))
-                    .setBackgroundColour(getResources().getColor(R.color.colorAccent))
+                    .setBackgroundColour(ContextCompat.getColor(this,R.color.colorAccent))
                     .setPrimaryText("To Show/Hide Rejected Eggs")
                     .setSecondaryText("Tap the visibility button to show/hide rejected eggs.")
-                    .setAnimationInterpolator(new LinearOutSlowInInterpolator())
+                    .setAnimationInterpolator(new FastOutSlowInInterpolator())
                     .setFocalPadding(R.dimen.dp40)
                     .create(), 8000)
             .addPrompt(new MaterialTapTargetPrompt.Builder(WeightLossListActivity.this)
@@ -487,29 +487,25 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
                     .setFocalPadding(R.dimen.dp40)
                     .setPrimaryText("To Open the Weight Loss Batch Sub-Menu")
                     .setSecondaryText("Tap a egg weight list item to open the weight Loss sub-menu. Tap to continue.")
-                    .setBackgroundColour(getResources().getColor(R.color.colorAccent))
+                    .setBackgroundColour(ContextCompat.getColor(this,R.color.colorAccent))
                     .setAnimationInterpolator(new FastOutSlowInInterpolator())
             .create())
 
         .show();
     }
 
-    public void showFabPrompt()
+    public void showAddWeightsPrompt()
     {
         if (mFabPrompt != null)
         {
             return;
         }
-        SpannableStringBuilder secondaryText = new SpannableStringBuilder("Tap the plus sign to continue.");
-        //secondaryText.setSpan(new ForegroundColorSpan(ContextCompat.getColor(this, R.color.colorAccent)), 0, 30, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
-        SpannableStringBuilder primaryText = new SpannableStringBuilder("Enter your first egg weight.");
-        //primaryText.setSpan(new BackgroundColorSpan(ContextCompat.getColor(this, R.color.colorAccent)), 0, 40, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
         mFabPrompt = new MaterialTapTargetPrompt.Builder(WeightLossListActivity.this)
                 .setTarget(findViewById(R.id.fab_add_weight_loss_list))
                 .setFocalPadding(R.dimen.dp40)
-                .setBackgroundColour(getResources().getColor(R.color.colorAccent))
-                .setPrimaryText(primaryText)
-                .setSecondaryText(secondaryText)
+                .setBackgroundColour(ContextCompat.getColor(this,R.color.colorAccent))
+                .setPrimaryText("Add Egg Weights")
+                .setSecondaryText(setSecondarytText("Tap the plus sign to add egg weights. Tap here to continue.", 42, 46))
                 .setBackButtonDismissEnabled(true)
                 .setAnimationInterpolator(new FastOutSlowInInterpolator())
                 .setPromptStateChangeListener((prompt, state) -> {
@@ -534,7 +530,7 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
                 .setFocalPadding(R.dimen.dp40)
                 .setPrimaryText("Egg Batch Sub-Menu")
                 .setSecondaryText("Tap on the flashing circle to open the egg batch sub-menu.")
-                .setBackgroundColour(getResources().getColor(R.color.colorAccent))
+                .setBackgroundColour(ContextCompat.getColor(this,R.color.colorAccent))
                 .setAnimationInterpolator(new FastOutSlowInInterpolator())
                 .setPromptStateChangeListener((prompt, state) -> {
                     if (state == MaterialTapTargetPrompt.STATE_FOCAL_PRESSED
@@ -543,7 +539,7 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
                         mFabPrompt = null;
                         //Do something such as storing a value so that this prompt is never shown again
                         // User has pressed the prompt target
-                        showWeightLossListItemPrompt(mLinearLayoutManager);
+                        //showWeightLossListItemPrompt(mLinearLayoutManager);
                     }
                 })
                 .create();
@@ -559,14 +555,14 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
         // Check that the view exists for the item
         if (card != null)
         {
-            showEggBatchSubMenuPrompt();
+            //showEggBatchSubMenuPrompt();
 
-            /*final EggWeightLossAdapter.BeanHolder viewHolder = (EggWeightLossAdapter.BeanHolder) recyclerViewWeightLossList.getChildViewHolder(card);
+            final EggWeightLossAdapter.BeanHolder viewHolder = (EggWeightLossAdapter.BeanHolder) recyclerViewWeightLossList.getChildViewHolder(card);
             mFabPrompt = new MaterialTapTargetPrompt.Builder(WeightLossListActivity.this)
                     .setTarget(viewHolder.cv_egg_weight)
-                    .setPrimaryText("Egg Batch Sub-Menu")
-                    .setSecondaryText("Click on the flashing circle to open the egg batch sub-menu.")
-                    .setBackgroundColour(getResources().getColor(R.color.colorAccent))
+                    .setPrimaryText("Weight Loss Sub-Menu")
+                    .setSecondaryText("Click on the flashing circle to open the weight loss sub-menu.")
+                    .setBackgroundColour(ContextCompat.getColor(this,R.color.colorAccent))
                     .setAnimationInterpolator(new FastOutSlowInInterpolator())
                     .setFocalPadding(R.dimen.dp40)
                     .setPromptStateChangeListener((prompt, state) -> {
@@ -576,7 +572,7 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
                             mFabPrompt = null;
                             //Do something such as storing a value so that this prompt is never shown again
                             // User has pressed the prompt target
-                            showSequence(spinnerSortBy);
+                            //showSequence(spinnerSortBy);
                         }
                     })
 
@@ -584,7 +580,7 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
             if (mFabPrompt != null)
             {
                 mFabPrompt.show();
-            }*/
+            }
         }
     }
 
@@ -711,6 +707,11 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
     private void displayList(){
         //eggWiseDatabse = EggWiseDatabse.getInstance(WeightLossListActivity.this);
         new WeightLossListActivity.RetrieveTask(this).execute();
+        if (!sharedpreferences.getBoolean("COMPLETED_ONBOARDING_PREF_WEIGHT_LOSS_LIST_1", false)) {
+            showAddWeightsPrompt();
+            editor.putBoolean("COMPLETED_ONBOARDING_PREF_WEIGHT_LOSS_LIST_1", true);
+            editor.commit();
+        }
 
     }
 
@@ -769,7 +770,7 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
         eggWeightLossAdapter = new EggWeightLossAdapter(eggDailyList,  WeightLossListActivity.this, numberOfRejectedEggs);
         recyclerViewWeightLossList.setAdapter(eggWeightLossAdapter);
 
-        /*recyclerViewWeightLossList.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener()
+        recyclerViewWeightLossList.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener()
         {
             @Override
             public void onGlobalLayout()
@@ -778,16 +779,23 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
                 // Check that the view exists for the item
                 if (card != null) {
                     //showEggBatchListItemPrompt1(mLinearLayoutManager);
-                    //if (!sharedpreferences.getBoolean("COMPLETED_ONBOARDING_PREF_WEIGHT_LOSS_LIST_2", false)) {
+                    /*if (!sharedpreferences.getBoolean("COMPLETED_ONBOARDING_PREF_WEIGHT_LOSS_LIST_2", false)) {
                         // The user hasn't seen the OnboardingSupportFragment yet, so show it
                         showWeightLossListItemPrompt(mLinearLayoutManager);
                         editor.putBoolean("COMPLETED_ONBOARDING_PREF_WEIGHT_LOSS_LIST_2", true);
                         editor.commit();
-                    //}
+                    }*/
+
+                    if (!sharedpreferences.getBoolean("COMPLETED_ONBOARDING_PREF_WEIGHT_LOSS_LIST_2", false)) {
+                        // The user hasn't seen the OnboardingSupportFragment yet, so show it
+                        showSequenceManual();
+                        editor.putBoolean("COMPLETED_ONBOARDING_PREF_WEIGHT_LOSS_LIST_2", true);
+                        editor.commit();
+                    }
                     recyclerViewWeightLossList.getViewTreeObserver().removeOnGlobalLayoutListener(this);
                 }
             }
-        });*/
+        });
 
     }
 
@@ -963,9 +971,6 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
 
         @Override
         protected void onPostExecute(List<EggDaily> eggDailyListPostEx) {
-
-            //Integer numberOfEggsRemaining = 0;
-
             if (eggDailyListPostEx!=null && eggDailyListPostEx.size()>0 ){
 
                 if (HIDE_REJECTS) {
@@ -980,9 +985,6 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
                     eggDailyListPostEx.addAll(eggDailyListTemp);
                 }
 
-
-
-
                 computeAveragesAndPercents(eggDailyListPostEx);
 
                 activityReference.get().eggDailyList.clear();
@@ -992,9 +994,14 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
                 // hides empty text view
                 activityReference.get().tv_empty_weight_loss_message.setVisibility(View.GONE);
                 activityReference.get().eggWeightLossAdapter.notifyDataSetChanged();
-                activityReference.get().showSequenceManual(activityReference.get().spinnerSortBy);
+
             } else {
-                activityReference.get().showSequenceManual(activityReference.get().spinnerSortBy);
+                //activityReference.get().showAddWeightsPrompt();
+                if (!sharedpreferences.getBoolean("COMPLETED_ONBOARDING_PREF_WEIGHT_LOSS_LIST_1", false)) {
+                    activityReference.get().showAddWeightsPrompt();
+                    editor.putBoolean("COMPLETED_ONBOARDING_PREF_WEIGHT_LOSS_LIST_1", true);
+                    editor.commit();
+                }
             }
         }
 
@@ -1074,14 +1081,19 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
                 emptyMsgVisibility = View.VISIBLE;
             /*if (!sharedpreferences.getBoolean("COMPLETED_ONBOARDING_PREF_WEIGHT_LOSS_LIST_1", false)) {
                 // The user hasn't seen the OnboardingSupportFragment yet, so show it
-                showFabPrompt();
+                showAddWeightsPrompt();
                 editor.putBoolean("COMPLETED_ONBOARDING_PREF_WEIGHT_LOSS_LIST_1", true);
                 editor.commit();
             }*/
+        } else {
+            /*if (!sharedpreferences.getBoolean("COMPLETED_ONBOARDING_PREF_WEIGHT_LOSS_LIST_2", false)) {
+                // The user hasn't seen the OnboardingSupportFragment yet, so show it
+                showSequenceManual();
+                editor.putBoolean("COMPLETED_ONBOARDING_PREF_WEIGHT_LOSS_LIST_2", true);
+                editor.commit();
+            }*/
         }
-       /* else {
-            showEggBatchSubMenuPrompt();
-        }*/
+
         tv_empty_weight_loss_message.setVisibility(emptyMsgVisibility);
         eggWeightLossAdapter.notifyDataSetChanged();
     }

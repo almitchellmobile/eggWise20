@@ -28,7 +28,7 @@
 
         </com.google.android.material.appbar.AppBarLayout>
 
-        <include layout="@layout/content_add_egg_batch_rl" />
+        <include layout="@layout/content_add_egg_batch_flex_layout" />
     </LinearLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

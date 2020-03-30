@@ -404,15 +404,15 @@ public class AddEggBatchActivity extends AppCompatActivity {
 
         });
 
-        showSequenceManual(et_batch_label);
+        //showSequenceManual();
 
-        /*if (!sharedpreferences.getBoolean("COMPLETED_ONBOARDING_PREF_ADD_BATCH_1", false)) {
+        if (!sharedpreferences.getBoolean("COMPLETED_ONBOARDING_PREF_ADD_BATCH_1", false)) {
                 // The user hasn't seen the OnboardingSupportFragment yet, so show it
             //showFabPrompt();
-            showSequenceManual(et_batch_label);
+            showSequenceManual();
             editor.putBoolean("COMPLETED_ONBOARDING_PREF_ADD_BATCH_1", true);
             editor.commit();
-        }*/
+        }
 
     }
 
@@ -422,9 +422,18 @@ public class AddEggBatchActivity extends AppCompatActivity {
                 >= Configuration.SCREENLAYOUT_SIZE_LARGE;
     }
 
-    public void showSequenceManual(View view) {
+    private SpannableStringBuilder setSecondarytText(String secondaryText, Integer textStart, Integer textEnd) {
+        SpannableStringBuilder secondaryText1 = new SpannableStringBuilder(
+                secondaryText);
+        ForegroundColorSpan foregroundColour1 = new ForegroundColorSpan(
+                ContextCompat.getColor(this,R.color.green_200));
+        secondaryText1.setSpan(foregroundColour1, textStart, textEnd, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+        return secondaryText1;
+    }
 
-        SpannableStringBuilder secondaryText = new SpannableStringBuilder(
+    public void showSequenceManual() {
+
+        /*SpannableStringBuilder secondaryText = new SpannableStringBuilder(
                 "Begin here by entering your egg batch details. Tap here to continue.");
         ForegroundColorSpan foregroundColour = new ForegroundColorSpan(
                 ContextCompat.getColor(this,R.color.green_200));
@@ -434,7 +443,7 @@ public class AddEggBatchActivity extends AppCompatActivity {
                 "After entering your egg batch details, tap the save button to save your batch. Tap here to continue.");
         ForegroundColorSpan foregroundColour2 = new ForegroundColorSpan(
                 ContextCompat.getColor(this,R.color.green_200));
-        secondaryText2.setSpan(foregroundColour2, 83, 87, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+        secondaryText2.setSpan(foregroundColour2, 83, 87, Spanned.SPAN_INCLUSIVE_INCLUSIVE);*/
 
 
         new MaterialTapTargetSequence()
@@ -442,15 +451,15 @@ public class AddEggBatchActivity extends AppCompatActivity {
                         .setTarget(findViewById(R.id.et_batch_label))
                         .setBackgroundColour(ContextCompat.getColor(this,R.color.colorAccent))
                         .setAnimationInterpolator(new LinearOutSlowInInterpolator())
-                        .setPrimaryText("Add Egg Batch")
-                        .setSecondaryText(secondaryText)
+                        .setPrimaryText("Step 1 - Add Egg Batch")
+                        .setSecondaryText(setSecondarytText("Begin here by entering your egg batch details. Tap here to continue.", 51, 56))
                         .setFocalPadding(R.dimen.dp40)
                         .create())
                 .addPrompt(new MaterialTapTargetPrompt.Builder(AddEggBatchActivity.this)
                         .setTarget(findViewById(R.id.fab_add_save_egg_batch))
                         .setBackgroundColour(ContextCompat.getColor(this,R.color.colorAccent))
-                        .setPrimaryText("Save Egg Batch")
-                        .setSecondaryText(secondaryText2)
+                        .setPrimaryText("Step 2 - Save Egg Batch")
+                        .setSecondaryText(setSecondarytText("After entering your egg batch details, tap the save button to save your batch. Tap here to continue.", 83, 87))
                         .setAnimationInterpolator(new LinearOutSlowInInterpolator())
                         .setFocalPadding(R.dimen.dp40)
                         .create())

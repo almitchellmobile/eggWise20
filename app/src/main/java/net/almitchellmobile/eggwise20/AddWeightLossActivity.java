@@ -44,7 +44,6 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.core.text.HtmlCompat;
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
-import androidx.interpolator.view.animation.LinearOutSlowInInterpolator;
 import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt;
 import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetSequence;
 
@@ -160,15 +159,6 @@ public class AddWeightLossActivity extends AppCompatActivity {
             Common.PREF_WARN_WEIGHT_DEVIATION_PERCENTAGE = 0.0F;
         }
 
-        /*ll_add_egg_weight = (LinearLayout) findViewById(R.id.ll_add_egg_weight);
-
-        ll_egg_weight_buttons =  (LinearLayout) findViewById(R.id.ll_egg_weight_buttons);
-        if (isTablet(AddWeightLossActivity.this)) {
-            ll_egg_weight_buttons.setOrientation(LinearLayout.VERTICAL);
-        } else {
-            ll_egg_weight_buttons.setOrientation(LinearLayout.HORIZONTAL);
-        }*/
-
 
         text_number_of_eggs_remaining = findViewById(R.id.text_number_of_eggs_remaining);
         text_incubator_name = findViewById(R.id.text_incubator_name);
@@ -180,7 +170,6 @@ public class AddWeightLossActivity extends AppCompatActivity {
             hintStringValue = "Egg Weight (" + Common.PREF_WEIGHT_ENTERED_IN + ")";
             et_egg_weight.setHint(hintStringValue);
         }
-
 
 
         button_reading_date_lookup = findViewById(R.id.button_reading_date_lookup);
@@ -387,9 +376,6 @@ public class AddWeightLossActivity extends AppCompatActivity {
             }
         });
 
-
-
-
         getEggBatchData();
 
         eggDaily = null;
@@ -441,14 +427,14 @@ public class AddWeightLossActivity extends AppCompatActivity {
         }
 
         //showReadingDayPrompt();
-        //showSequenceManual(et_reading_day_number);
+        //showSequenceManual();
 
-        /*if (!sharedpreferences.getBoolean("COMPLETED_ONBOARDING_PREF_WEIGHT_LOSS_LIST_1", false)) {
+        if (!sharedpreferences.getBoolean("COMPLETED_ONBOARDING_PREF_WEIGHT_LOSS_LIST_1", false)) {
             // The user hasn't seen the OnboardingSupportFragment yet, so show it
-            showSequenceManual(et_reading_day_number);
+            showSequenceManual();
             editor.putBoolean("COMPLETED_ONBOARDING_PREF_WEIGHT_LOSS_LIST_1", true);
             editor.commit();
-        }*/
+        }
     }
 
     public static boolean isTablet(Context context) {
@@ -457,7 +443,7 @@ public class AddWeightLossActivity extends AppCompatActivity {
                 >= Configuration.SCREENLAYOUT_SIZE_LARGE;
     }
 
-    public void showSequenceManual(View view) {
+    public void showSequenceManual() {
 
         //((InputMethodManager) getSystemService(AppCompatActivity.INPUT_METHOD_SERVICE))
         //        .toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0);
@@ -516,6 +502,7 @@ public class AddWeightLossActivity extends AppCompatActivity {
                         .setPrimaryText("Set Reading Date")
                         .setFocalPadding(R.dimen.dp40)
                         .setSecondaryText(secondaryText1)
+                        .setAnimationInterpolator(new FastOutSlowInInterpolator())
                         .create())
                 .addPrompt(new MaterialTapTargetPrompt.Builder(AddWeightLossActivity.this)
                         .setTarget(findViewById(R.id.et_reading_day_number))
@@ -523,12 +510,14 @@ public class AddWeightLossActivity extends AppCompatActivity {
                         .setPrimaryText("Enter Reading Day")
                         .setSecondaryText(secondaryText2)
                         .setFocalPadding(R.dimen.dp40)
+                        .setAnimationInterpolator(new FastOutSlowInInterpolator())
                         .create())
                 .addPrompt(new MaterialTapTargetPrompt.Builder(AddWeightLossActivity.this)
                         .setTarget(findViewById(R.id.et_egg_label))
                         .setBackgroundColour(ContextCompat.getColor(this,R.color.colorAccent))
                         .setPrimaryText("Enter Egg Label")
                         .setSecondaryText(secondaryText3)
+                        .setAnimationInterpolator(new FastOutSlowInInterpolator())
                         .setFocalPadding(R.dimen.dp40)
                         .create())
                 .addPrompt(new MaterialTapTargetPrompt.Builder(AddWeightLossActivity.this)
@@ -536,6 +525,7 @@ public class AddWeightLossActivity extends AppCompatActivity {
                         .setBackgroundColour(ContextCompat.getColor(this,R.color.colorAccent))
                         .setPrimaryText("Enter Egg Weight")
                         .setSecondaryText(secondaryText4)
+                        .setAnimationInterpolator(new FastOutSlowInInterpolator())
                         .setFocalPadding(R.dimen.dp40)
                         .create())
                 .addPrompt(new MaterialTapTargetPrompt.Builder(AddWeightLossActivity.this)
@@ -543,6 +533,7 @@ public class AddWeightLossActivity extends AppCompatActivity {
                         .setBackgroundColour(ContextCompat.getColor(this,R.color.colorAccent))
                         .setPrimaryText("Enter Comment")
                         .setSecondaryText(secondaryText5)
+                        .setAnimationInterpolator(new FastOutSlowInInterpolator())
                         .setFocalPadding(R.dimen.dp40)
                         .create())
                 .addPrompt(new MaterialTapTargetPrompt.Builder(AddWeightLossActivity.this)
@@ -550,6 +541,7 @@ public class AddWeightLossActivity extends AppCompatActivity {
                         .setBackgroundColour(ContextCompat.getColor(this,R.color.colorAccent))
                         .setPrimaryText("Save Details")
                         .setSecondaryText(secondaryText6)
+                        .setAnimationInterpolator(new FastOutSlowInInterpolator())
                         .setFocalPadding(R.dimen.dp40)
                         .create())
                 .addPrompt(new MaterialTapTargetPrompt.Builder(AddWeightLossActivity.this)
@@ -557,7 +549,7 @@ public class AddWeightLossActivity extends AppCompatActivity {
                         .setBackgroundColour(ContextCompat.getColor(this,R.color.colorAccent))
                         .setPrimaryText(" or Cancel and Return")
                         .setSecondaryText(secondaryText7)
-                        .setAnimationInterpolator(new LinearOutSlowInInterpolator())
+                        .setAnimationInterpolator(new FastOutSlowInInterpolator())
                         .setPromptStateChangeListener((prompt, state) -> {
                             if (state == MaterialTapTargetPrompt.STATE_FOCAL_PRESSED
                                     || state == MaterialTapTargetPrompt.STATE_NON_FOCAL_PRESSED)
@@ -593,6 +585,7 @@ public class AddWeightLossActivity extends AppCompatActivity {
                         .setPrimaryText("Step 1")
                         .setSecondaryText("Enter your egg weight details.")
                         .setFocalPadding(R.dimen.dp40)
+                        .setAnimationInterpolator(new FastOutSlowInInterpolator())
                         .create(), 8000)
                 .addPrompt(new MaterialTapTargetPrompt.Builder(AddWeightLossActivity.this)
                         .setTarget(findViewById(R.id.button_save_add_weight_loss))
@@ -600,13 +593,14 @@ public class AddWeightLossActivity extends AppCompatActivity {
                         .setPrimaryText("Step 2")
                         .setSecondaryText("Tap one of the save buttons, to save your egg information.")
                         .setFocalPadding(R.dimen.dp40)
+                        .setAnimationInterpolator(new FastOutSlowInInterpolator())
                         .create(), 8000)
                 .addPrompt(new MaterialTapTargetPrompt.Builder(AddWeightLossActivity.this)
                         .setTarget(findViewById(R.id.button_cancel_list_eggs))
                         .setBackgroundColour(getResources().getColor(R.color.colorAccent))
                         .setPrimaryText(" or Cancel and Return")
                         .setSecondaryText("Tap one of the cancel buttons, to return to batch list or egg list.")
-                        .setAnimationInterpolator(new LinearOutSlowInInterpolator())
+                        .setAnimationInterpolator(new FastOutSlowInInterpolator())
                         .setFocalPadding(R.dimen.dp40)
                         .create(), 8000)
                 .show();
@@ -723,6 +717,9 @@ public class AddWeightLossActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
                 Intent intent = new Intent(AddWeightLossActivity.this, WeightLossListActivity.class);
+                if (eggBatchID != null) {
+                    WeightLossListActivity.EGG_BATCH_ID = eggBatchID;
+                }
                 startActivity(intent);
                 finish();
                 return true;

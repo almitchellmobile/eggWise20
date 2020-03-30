@@ -36,7 +36,7 @@
 
         <include
             android:id="@+id/include"
-            layout="@layout/content_add_weight_loss_rl" />
+            layout="@layout/content_add_weight_loss_flex_layout" />
     </LinearLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

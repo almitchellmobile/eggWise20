@@ -85,6 +85,22 @@ public class EggWiseMainActivity extends AppCompatActivity implements Navigation
         sharedpreferences = getSharedPreferences(mypreference,Context.MODE_PRIVATE);
         editor = sharedpreferences.edit();
 
+
+        //editor.putBoolean("COMPLETED_ONBOARDING_PREF_SET_UP", false);
+        //editor.commit();
+
+        /*editor.putBoolean("COMPLETED_ONBOARDING_PREF_EGG_WISE_MAIN", true);
+        editor.putBoolean("COMPLETED_ONBOARDING_PREF_ADD_WEIGHT_LOSS_1", true);
+        editor.putBoolean("COMPLETED_ONBOARDING_PREF_ADD_WEIGHT_LOSS_2", true);
+        editor.putBoolean("COMPLETED_ONBOARDING_PREF_WEIGHT_LOSS_LIST_1", true);
+        editor.putBoolean("COMPLETED_ONBOARDING_PREF_WEIGHT_LOSS_LIST_2", true);
+        editor.putBoolean("COMPLETED_ONBOARDING_PREF_ADD_BATCH_1", true);
+        editor.putBoolean("COMPLETED_ONBOARDING_PREF_ADD_BATCH_2", true);
+        editor.putBoolean("COMPLETED_ONBOARDING_PREF_BATCH_LIST_1", true);
+        editor.putBoolean("COMPLETED_ONBOARDING_PREF_BATCH_LIST_2", true);
+        editor.putBoolean("COMPLETED_ONBOARDING_PREF_ALL", true);
+        editor.putBoolean("COMPLETED_ONBOARDING_PREF_SET_UP", true);*/
+
         if (!sharedpreferences.getBoolean("COMPLETED_ONBOARDING_PREF_SET_UP", false)) {
 
             editor.putBoolean("COMPLETED_ONBOARDING_PREF_EGG_WISE_MAIN", false);
