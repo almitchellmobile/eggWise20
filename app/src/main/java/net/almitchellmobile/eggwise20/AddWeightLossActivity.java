@@ -204,7 +204,7 @@ public class AddWeightLossActivity extends AppCompatActivity {
         et_egg_label.setInputType(InputType.TYPE_CLASS_TEXT);
         et_reading_day_number.setInputType(InputType.TYPE_CLASS_NUMBER);
         et_reading_date.setInputType(InputType.TYPE_CLASS_TEXT);
-        et_egg_weight.setInputType(InputType.TYPE_CLASS_TEXT);
+        et_egg_weight.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
         et_weight_loss_comment.setInputType(InputType.TYPE_CLASS_TEXT);
 
 
@@ -562,7 +562,7 @@ public class AddWeightLossActivity extends AppCompatActivity {
                                         .toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0);
                                 et_reading_day_number.setInputType(InputType.TYPE_CLASS_NUMBER);
                                 et_reading_date.setInputType(InputType.TYPE_CLASS_TEXT);
-                                et_egg_weight.setInputType(InputType.TYPE_CLASS_NUMBER);
+                                et_egg_weight.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
                                 et_egg_label.setInputType(InputType.TYPE_CLASS_TEXT);
                                 et_weight_loss_comment.setInputType(InputType.TYPE_CLASS_TEXT);
                                 button_reading_date_lookup.setFocusable(true);
