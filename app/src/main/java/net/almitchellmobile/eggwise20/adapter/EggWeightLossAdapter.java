@@ -177,17 +177,17 @@ public class EggWeightLossAdapter extends RecyclerView.Adapter <EggWeightLossAda
                     ", <B>Reading Date:</B> " + common.blankIfNullString(eggDailyList.get(position).getReadingDate()) +
                     ", <B>Comment:</B> " + common.blankIfNullString(eggDailyList.get(position).getEggDailyComment());
             if (isTablet(context)) {
-                line1 += "<br>|||<br>" +
-                        "<B> Weight Sum:</B> " + String.format(Locale.getDefault(), "%.1f", eggDailyList.get(position).getEggWeightSum()) +
-                        ", <B>Weight Avg:</B> " + String.format(Locale.getDefault(), "%.2f", eggDailyList.get(position).getEggWeightAverageCurrent()) +
+                line1 += "<br>===<br>" +
+                        //"<B> Weight Sum:</B> " + String.format(Locale.getDefault(), "%.1f", eggDailyList.get(position).getEggWeightSum()) +
+                        "<B>Weight Avg:</B> " + String.format(Locale.getDefault(), "%.2f", eggDailyList.get(position).getEggWeightAverageCurrent()) +
                         ", <B>Actual Loss %:</B> " + String.format(Locale.getDefault(), "%.2f", eggDailyList.get(position).getActualWeightLossPercent()) +
                         ", <B>Target Loss %:</B> " + String.format(Locale.getDefault(), "%.2f", eggDailyList.get(position).getTargetWeightLossPercent()) +
                         ", <B>% Deviation:</B> " + String.format(Locale.getDefault(), "%.2f", Math.abs(eggDailyList.get(position).getWeightLossDeviation()));
 
             } else {
                 line1 += "<br>===<br>" +
-                        "<B>Weight Sum:</B> " + String.format(Locale.getDefault(), "%.1f", eggDailyList.get(position).getEggWeightSum()) +
-                        ", <B>Weight Avg:</B> " + String.format(Locale.getDefault(), "%.2f", eggDailyList.get(position).getEggWeightAverageCurrent()) +
+                        //"<B>Weight Sum:</B> " + String.format(Locale.getDefault(), "%.1f", eggDailyList.get(position).getEggWeightSum()) +
+                        "<B>Weight Avg:</B> " + String.format(Locale.getDefault(), "%.2f", eggDailyList.get(position).getEggWeightAverageCurrent()) +
                         ", <B>Actual Loss %:</B> " + String.format(Locale.getDefault(), "%.2f", eggDailyList.get(position).getActualWeightLossPercent()) +
                         ", <B>Target Loss %:</B> " + String.format(Locale.getDefault(), "%.2f", eggDailyList.get(position).getTargetWeightLossPercent()) +
                         ", <B>% Deviation:</B> " + String.format(Locale.getDefault(), "%.2f", Math.abs(eggDailyList.get(position).getWeightLossDeviation()));
