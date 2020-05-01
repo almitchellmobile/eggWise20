@@ -6,8 +6,8 @@ android:layout_width="match_parent"
 android:layout_height="match_parent"
     android:layout_margin="@dimen/fab_margin"
 app:layout_behavior="@string/appbar_scrolling_view_behavior"
-tools:context=".ConfigurationOptionsActivity"
-tools:showIn="@layout/activity_configuration_options"
+tools:context=".SettingsActivity"
+tools:showIn="@layout/activity_settings"
 android:paddingBottom="@dimen/activity_vertical_margin"
 android:paddingLeft="@dimen/activity_horizontal_margin"
 android:paddingRight="@dimen/activity_horizontal_margin"
@@ -48,14 +48,16 @@ android:paddingTop="@dimen/activity_vertical_margin" >
             android:text="Temperature Entered In"
             android:textStyle="bold" />
         <RadioButton
-            android:id="@+id/rb_celsius"
+            android:id="@+id/rb_celcius"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Celsius" />
+            android:text="Celcius" />
+
         <RadioButton
             android:id="@+id/rb_fahrenheit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:checked="true"
             android:text="Fahrenheit" />
     </RadioGroup>
 
@@ -77,10 +79,12 @@ android:paddingTop="@dimen/activity_vertical_margin" >
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Wet Bulb" />
+
         <RadioButton
             android:id="@+id/rb_relative_humidity_percentage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:checked="true"
             android:text="Humidity %" />
     </RadioGroup>
 
@@ -102,10 +106,12 @@ android:paddingTop="@dimen/activity_vertical_margin" >
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Grams" />
+
         <RadioButton
             android:id="@+id/rb_ounces"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:checked="true"
             android:text="Ounces" />
     </RadioGroup>
 
@@ -120,6 +126,7 @@ android:paddingTop="@dimen/activity_vertical_margin" >
             android:layout_height="wrap_content"
             android:hint="Days To Hatcher Before Hatching"
             android:inputType="text"
+            android:text="3"
             android:singleLine="true" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -133,6 +140,7 @@ android:paddingTop="@dimen/activity_vertical_margin" >
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Default Weight Loss Percentage"
+            android:text="13"
             android:inputType="text"
             android:singleLine="true" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -147,6 +155,7 @@ android:paddingTop="@dimen/activity_vertical_margin" >
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Warn If Weight Deviates By This % "
+            android:text="0.5"
             android:inputType="text"
             android:singleLine="true" />
     </com.google.android.material.textfield.TextInputLayout>

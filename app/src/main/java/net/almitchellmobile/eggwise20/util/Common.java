@@ -11,7 +11,7 @@ import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import net.almitchellmobile.eggwise20.ConfigurationOptionsActivity;
+import net.almitchellmobile.eggwise20.SettingsActivity;
 import net.almitchellmobile.eggwise20.EggBatchListActivity;
 import net.almitchellmobile.eggwise20.EggWiseMainActivity;
 import net.almitchellmobile.eggwise20.FeedbackActivity;
@@ -27,9 +27,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class Common {
 
-    public static String PREF_TEMPERATURE_ENTERED_IN = "Celsius";
+    public static String PREF_TEMPERATURE_ENTERED_IN = "Fahrenheit";
     public static String PREF_HUMIDITY_MEASURED_WITH = "Humidity %";
-    public static String PREF_WEIGHT_ENTERED_IN = "Grams";
+    public static String PREF_WEIGHT_ENTERED_IN = "Ounces";
     public static Integer PREF_DAYS_TO_HATCHER_BEFORE_HATCHING = 3;
     public static Integer PREF_DEFAULT_WEIGHT_LOSS_PERCENT_INTEGER = 3;
     public static Integer PREF_DEFAULT_WEIGHT_LOSS_INTEGER = 3;
@@ -90,7 +90,7 @@ public class Common {
                     break;
                 case R.id.settings:
                     Intent intent1 = new Intent(ctx,
-                            ConfigurationOptionsActivity.class);
+                            SettingsActivity.class);
                     intent1.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     //intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                     act.startActivity(intent1);

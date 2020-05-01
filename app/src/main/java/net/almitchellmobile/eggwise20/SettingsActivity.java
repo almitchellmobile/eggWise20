@@ -17,14 +17,14 @@ import net.almitchellmobile.eggwise20.util.Common;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-public class ConfigurationOptionsActivity extends AppCompatActivity {
+public class SettingsActivity extends AppCompatActivity {
 
 
 
     //Button btn_save, btn_retrieve, btn_clear;
     com.google.android.material.floatingactionbutton.FloatingActionButton fab_configuration_options;
     RadioGroup rg_temperature_entered_in, rg_humidity_measured_with, rg_weight_entered_in;
-    RadioButton rb_celsius, rb_fahrenheit, rb_wet_bulb_readings, rb_relative_humidity_percentage,
+    RadioButton rb_celcius, rb_fahrenheit, rb_wet_bulb_readings, rb_relative_humidity_percentage,
             rb_grams, rb_ounces;
     AutoCompleteTextView et_days_to_hatcher_before_hatching, et_default_weight_loss_percentage,
             et_warn_weight_deviation_percentage;
@@ -41,7 +41,7 @@ public class ConfigurationOptionsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_configuration_options);
+        setContentView(R.layout.activity_settings);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -51,7 +51,7 @@ public class ConfigurationOptionsActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 savePrefrences();
-                Toast.makeText(ConfigurationOptionsActivity.this, "Preferences saved!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(SettingsActivity.this, "Preferences saved!", Toast.LENGTH_SHORT).show();
             }
 
         });
@@ -64,7 +64,7 @@ public class ConfigurationOptionsActivity extends AppCompatActivity {
         rg_humidity_measured_with  =  findViewById(R.id.rg_humidity_measured_with);
         rg_weight_entered_in  =  findViewById(R.id.rg_weight_entered_in);
 
-        rb_celsius =  findViewById(R.id.rb_celsius);
+        rb_celcius =  findViewById(R.id.rb_celcius);
         rb_fahrenheit  =  findViewById(R.id.rb_fahrenheit);
         rb_wet_bulb_readings =  findViewById(R.id.rb_wet_bulb_readings);
         rb_relative_humidity_percentage =  findViewById(R.id.rb_relative_humidity_percentage);
@@ -80,9 +80,9 @@ public class ConfigurationOptionsActivity extends AppCompatActivity {
         et_warn_weight_deviation_percentage =  findViewById(R.id.et_warn_weight_deviation_percentage);
         et_warn_weight_deviation_percentage.setSelectAllOnFocus(true);
 
-        Common.PREF_TEMPERATURE_ENTERED_IN = "Celsius";
-        Common.PREF_HUMIDITY_MEASURED_WITH = "Wet Bulb";
-        Common.PREF_WEIGHT_ENTERED_IN = "Grams";
+        /*Common.PREF_TEMPERATURE_ENTERED_IN = "Fahrenheit";
+        Common.PREF_HUMIDITY_MEASURED_WITH = "Humidity %";
+        Common.PREF_WEIGHT_ENTERED_IN = "Ounces";
 
         Common.PREF_DAYS_TO_HATCHER_BEFORE_HATCHING = 3;
 
@@ -100,25 +100,25 @@ public class ConfigurationOptionsActivity extends AppCompatActivity {
         sharedpreferences = getSharedPreferences(mypreference,
                 Context.MODE_PRIVATE);
 
-        prefValue = sharedpreferences.getString("temperature_entered_in", "Celsius");
-        if (prefValue.compareToIgnoreCase("Celsius") == 0) {
-            rb_celsius.setChecked(true);
-        } else {
+        prefValue = sharedpreferences.getString("temperature_entered_in", "Fahrenheit");
+        if (prefValue.compareToIgnoreCase("Fahrenheit") == 0) {
             rb_fahrenheit.setChecked(true);
+        } else {
+            rb_celcius.setChecked(true);
         }
 
-        prefValue = sharedpreferences.getString("humidity_measured_with", "Wet Bulb");
-        if (prefValue.compareToIgnoreCase("Wet Bulb") == 0) {
-            rb_wet_bulb_readings.setChecked(true);
-        } else {
+        prefValue = sharedpreferences.getString("humidity_measured_with", "Humidity %");
+        if (prefValue.compareToIgnoreCase("Humidity %") == 0) {
             rb_relative_humidity_percentage.setChecked(true);
+        } else {
+            rb_wet_bulb_readings.setChecked(true);
         }
 
-        prefValue = sharedpreferences.getString("weight_entered_in", "Grams");
-        if (prefValue.compareToIgnoreCase("Grams") == 0) {
-            rb_grams.setChecked(true);
-        } else {
+        prefValue = sharedpreferences.getString("weight_entered_in", "Ounces");
+        if (prefValue.compareToIgnoreCase("Ounces") == 0) {
             rb_ounces.setChecked(true);
+        } else {
+            rb_grams.setChecked(true);
         }
 
         if (sharedpreferences.contains("days_to_hatcher_before_hatching")) {
@@ -137,16 +137,18 @@ public class ConfigurationOptionsActivity extends AppCompatActivity {
             et_warn_weight_deviation_percentage.setText("0.5");
         }
 
+         */
+
     }
 
-    private void getTemperaturePref() {
-        String prefValue = sharedpreferences.getString("temperature_entered_in", "Celsius");
-        if (prefValue.compareToIgnoreCase("Celsius") == 0) {
-            rb_celsius.setChecked(true);
+    /*private void getTemperaturePref() {
+        String prefValue = sharedpreferences.getString("temperature_entered_in", "Fahrenheit");
+        if (prefValue.compareToIgnoreCase("Celcius") == 0) {
+            rb_celcius.setChecked(true);
         } else {
             rb_fahrenheit.setChecked(true);
         }
-    }
+    }*/
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -161,7 +163,7 @@ public class ConfigurationOptionsActivity extends AppCompatActivity {
 
         switch (item.getItemId()) {
             case android.R.id.home:
-                Intent intent = new Intent(ConfigurationOptionsActivity.this, EggWiseMainActivity.class);
+                Intent intent = new Intent(SettingsActivity.this, EggWiseMainActivity.class);
                 startActivity(intent);
                 finish();
                 return true;
@@ -188,9 +190,12 @@ public class ConfigurationOptionsActivity extends AppCompatActivity {
 
     public Boolean savePrefrences() {
 
+        sharedpreferences = getSharedPreferences(mypreference,
+                Context.MODE_PRIVATE);
+
         Integer checkedTemperatureEnteredIn =  rg_temperature_entered_in.getCheckedRadioButtonId();
-        if (rb_celsius.getId() == checkedTemperatureEnteredIn) {
-            Common.PREF_TEMPERATURE_ENTERED_IN = rb_celsius.getText().toString();
+        if (rb_celcius.getId() == checkedTemperatureEnteredIn) {
+            Common.PREF_TEMPERATURE_ENTERED_IN = rb_celcius.getText().toString();
         } else {
             Common.PREF_TEMPERATURE_ENTERED_IN = rb_fahrenheit.getText().toString();
         }
@@ -254,10 +259,10 @@ public class ConfigurationOptionsActivity extends AppCompatActivity {
                 Context.MODE_PRIVATE);
 
         String prefValue = sharedpreferences.getString("temperature_entered_in", null);
-        if (prefValue.toLowerCase().contains("celsius")) {
-            rb_celsius.setChecked(true);
-        } else {
+        if (prefValue.toLowerCase().contains("fahrenheit")) {
             rb_fahrenheit.setChecked(true);
+        } else {
+            rb_celcius.setChecked(true);
         }
 
         prefValue = sharedpreferences.getString("humidity_measured_with", null);
@@ -268,10 +273,10 @@ public class ConfigurationOptionsActivity extends AppCompatActivity {
         }
 
         prefValue = sharedpreferences.getString("weight_entered_in", null);
-        if (prefValue.toLowerCase().contains("grams")) {
-            rb_grams.setChecked(true);
-        } else {
+        if (prefValue.toLowerCase().contains("ounces")) {
             rb_ounces.setChecked(true);
+        } else {
+            rb_grams.setChecked(true);
         }
 
         et_days_to_hatcher_before_hatching.setText(sharedpreferences.getString("days_to_hatcher_before_hatching", null));

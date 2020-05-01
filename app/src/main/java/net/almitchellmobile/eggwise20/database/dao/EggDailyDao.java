@@ -16,22 +16,22 @@ import androidx.room.Update;
 @Dao
 public interface EggDailyDao {
     String sqlSelectOrderBy1 = "SELECT * FROM "+ Constants.TABLE_NAME_EGG_DAILY +
-            " WHERE EggBatchID = :eggBatchID ORDER BY ReadingDayNumber ASC, EggLabel ASC";
+            " WHERE EggBatchID = :eggBatchID ORDER BY ReadingDayNumber ASC, LENGTH(EggLabel) ASC, EggLabel ASC";
     @Query(sqlSelectOrderBy1)
     List<EggDaily> getEggDaily_BatchEggDay_Day_ASC_LABEL_ASC(Long eggBatchID);
 
     String sqlSelectOrderBy2 = "SELECT * FROM "+ Constants.TABLE_NAME_EGG_DAILY +
-            " WHERE EggBatchID = :eggBatchID  ORDER BY ReadingDayNumber DESC, EggLabel ASC";
+            " WHERE EggBatchID = :eggBatchID  ORDER BY ReadingDayNumber DESC, LENGTH(EggLabel) ASC, EggLabel ASC";
     @Query(sqlSelectOrderBy2)
     List<EggDaily> getEggDaily_BatchEggDay_Day_DESC_Label_ASC(Long eggBatchID);
 
     String sqlSelectOrderBy3 = "SELECT * FROM "+ Constants.TABLE_NAME_EGG_DAILY +
-            " WHERE EggBatchID = :eggBatchID  ORDER BY ReadingDayNumber ASC, EggLabel DESC";
+            " WHERE EggBatchID = :eggBatchID  ORDER BY ReadingDayNumber ASC, LENGTH(EggLabel) DESC, EggLabel DESC";
     @Query(sqlSelectOrderBy3)
     List<EggDaily> getEggDaily_BatchEggDay_Day_ASC_Label_DESC(Long eggBatchID);
 
     String sqlSelectOrderBy4 = "SELECT * FROM "+ Constants.TABLE_NAME_EGG_DAILY +
-            " WHERE EggBatchID = :eggBatchID  ORDER BY ReadingDayNumber DESC, EggLabel DESC";
+            " WHERE EggBatchID = :eggBatchID  ORDER BY ReadingDayNumber DESC, LENGTH(EggLabel) DESC, EggLabel DESC";
     @Query(sqlSelectOrderBy4)
     List<EggDaily> getEggDaily_BatchEggDay_Day_DESC_Label_DESC(Long eggBatchID);
 

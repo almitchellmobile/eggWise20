@@ -204,7 +204,8 @@ public class AddWeightLossActivity extends AppCompatActivity {
         et_egg_label.setInputType(InputType.TYPE_CLASS_TEXT);
         et_reading_day_number.setInputType(InputType.TYPE_CLASS_NUMBER);
         et_reading_date.setInputType(InputType.TYPE_CLASS_TEXT);
-        et_egg_weight.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
+        //et_egg_weight.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
+        et_egg_weight.setRawInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED | InputType.TYPE_NUMBER_FLAG_DECIMAL);
         et_weight_loss_comment.setInputType(InputType.TYPE_CLASS_TEXT);
 
 
@@ -384,12 +385,19 @@ public class AddWeightLossActivity extends AppCompatActivity {
             update = false;
             getSupportActionBar().setTitle("Add Egg Weight for Batch: " + batchLabel);
             eggBatchID = eggDaily.getEggBatchID();
-            et_egg_label.setText(eggDaily.getEggLabel());
-            et_reading_date.setText(eggDaily.getReadingDate());
-            et_reading_day_number.setText(eggDaily.getReadingDayNumber().toString());
-            readingDayNumber = eggDaily.getReadingDayNumber();
-            et_egg_weight.setText(eggDaily.getEggWeight().toString());
-            et_weight_loss_comment.setText(eggDaily.eggDailyComment);
+            //et_egg_label.setText(eggDaily.getEggLabel());
+            //if (!readingDate.isEmpty()) {
+
+                        et_reading_date.setText(eggDaily.getReadingDate());
+                readingDate = eggDaily.getReadingDate();
+                et_reading_day_number.setText(eggDaily.getReadingDayNumber().toString());
+                readingDayNumber = eggDaily.getReadingDayNumber();
+
+            //}
+            //et_reading_day_number.setText(eggDaily.getReadingDayNumber().toString());
+            //readingDayNumber = eggDaily.getReadingDayNumber();
+            //et_egg_weight.setText(eggDaily.getEggWeight().toString());
+            //et_weight_loss_comment.setText(eggDaily.eggDailyComment);
             button_save_add_weight_loss.setText("Save/Add Next");
         } else if (getIntent().getSerializableExtra("eggDailyUpdate") != null) {
             eggDaily = (EggDaily) getIntent().getSerializableExtra("eggDailyUpdate");
@@ -562,7 +570,8 @@ public class AddWeightLossActivity extends AppCompatActivity {
                                         .toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0);
                                 et_reading_day_number.setInputType(InputType.TYPE_CLASS_NUMBER);
                                 et_reading_date.setInputType(InputType.TYPE_CLASS_TEXT);
-                                et_egg_weight.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
+                                //et_egg_weight.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
+                                et_egg_weight.setRawInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED | InputType.TYPE_NUMBER_FLAG_DECIMAL);
                                 et_egg_label.setInputType(InputType.TYPE_CLASS_TEXT);
                                 et_weight_loss_comment.setInputType(InputType.TYPE_CLASS_TEXT);
                                 button_reading_date_lookup.setFocusable(true);

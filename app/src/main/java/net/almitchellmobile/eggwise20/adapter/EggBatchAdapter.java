@@ -67,12 +67,12 @@ public class EggBatchAdapter extends RecyclerView.Adapter<EggBatchAdapter.BeanHo
                 ", <B>Species Name:</B> " + listEggBatch.get(position).getSpeciesName() +
                 ", <B>Incubator Name:</B> " + listEggBatch.get(position).getIncubatorName() +
                 ", <B>Set Date:</B> " + listEggBatch.get(position).getSetDate() +
-                ", <B>Hatch Date:</B> " + listEggBatch.get(position).getHatchDate() +
                 ", <B>Location:</B> " + listEggBatch.get(position).getLocation() +
-                ", <B>Incubator Settings:</B> " + listEggBatch.get(position).getIncubatorSettings() +
+                ", <B>Incubator Humidity:</B> " + listEggBatch.get(position).getIncubatorSettings() +
                 ", <B>Incubator Temperature:</B> " + listEggBatch.get(position).getTemperature().toString() +
                 ", <B>Incubation Days:</B> " + listEggBatch.get(position).getIncubationDays().toString() +
                 ", <B>Number Of Eggs Hatched:</B> " + listEggBatch.get(position).getNumberOfEggsHatched().toString() +
+                ", <B>Hatch Date:</B> " + listEggBatch.get(position).getHatchDate() +
                 ", <B>Target Weight Loss %:</B> " + listEggBatch.get(position).getTargetWeightLoss().toString() +
                 ", <B>Tracking Option:</B> ";
                 if (listEggBatch.get(position).getTrackingOption() == 1) {

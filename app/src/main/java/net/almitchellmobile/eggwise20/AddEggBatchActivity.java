@@ -117,7 +117,7 @@ public class AddEggBatchActivity extends AppCompatActivity {
 
     RelativeLayout rl_egg_batch;
 
-    String[] incubatorSettingsValues = {"Relative Humidity Percentage", "Wet Bulb Readings"};
+    String[] incubatorSettingsValues = {"Humidity %", "Wet Bulb"};
     ArrayAdapter<String> adapterIncubatorSettings;
     ArrayList<String> batchLabels = new ArrayList<>();
 
@@ -137,28 +137,13 @@ public class AddEggBatchActivity extends AppCompatActivity {
         sharedpreferences = getSharedPreferences(mypreference,Context.MODE_PRIVATE);
         editor = sharedpreferences.edit();
 
-        Common.PREF_TEMPERATURE_ENTERED_IN = sharedpreferences.getString("temperature_entered_in", "");
-        Common.PREF_HUMIDITY_MEASURED_WITH = sharedpreferences.getString("humidity_measured_with", "");
-        Common.PREF_WEIGHT_ENTERED_IN = sharedpreferences.getString("weight_entered_in", "");
-        if (sharedpreferences.contains("days_to_hatcher_before_hatching")) {
-            Common.PREF_DAYS_TO_HATCHER_BEFORE_HATCHING = sharedpreferences.getInt("days_to_hatcher_before_hatching", 3);
-        } else {
-            Common.PREF_DAYS_TO_HATCHER_BEFORE_HATCHING = 0;
-        }
-        if (sharedpreferences.contains("default_weight_loss_percentage")) {
-            Common.PREF_DEFAULT_WEIGHT_LOSS_PRECENTAGE = sharedpreferences.getFloat("default_weight_loss_percentage", 13.0F);
-            //double data = PREF_DEFAULT_WEIGHT_LOSS_PRECENTAGE;
-            //int value = (int)data;
-            Common.PREF_DEFAULT_WEIGHT_LOSS_INTEGER = Common.convertDoubleToInteger(Common.PREF_DEFAULT_WEIGHT_LOSS_PRECENTAGE);
-        } else {
-            Common.PREF_DEFAULT_WEIGHT_LOSS_PRECENTAGE = 13.0F;
-            Common.PREF_DEFAULT_WEIGHT_LOSS_INTEGER = 13;
-        }
-        if (sharedpreferences.contains("warn_weight_deviation_percentage")) {
-            Common.PREF_WARN_WEIGHT_DEVIATION_PERCENTAGE = sharedpreferences.getFloat("warn_weight_deviation_percentage", 0.5F);
-        } else {
-            Common.PREF_WARN_WEIGHT_DEVIATION_PERCENTAGE = 0.0F;
-        }
+        Common.PREF_TEMPERATURE_ENTERED_IN = sharedpreferences.getString("temperature_entered_in", "Fahrenheit");
+        Common.PREF_HUMIDITY_MEASURED_WITH = sharedpreferences.getString("humidity_measured_with", "Humidity %");
+        Common.PREF_WEIGHT_ENTERED_IN = sharedpreferences.getString("weight_entered_in", "Ounces");
+        Common.PREF_DAYS_TO_HATCHER_BEFORE_HATCHING = sharedpreferences.getInt("days_to_hatcher_before_hatching", 3);
+        Common.PREF_DEFAULT_WEIGHT_LOSS_PRECENTAGE = sharedpreferences.getFloat("default_weight_loss_percentage", 13.0F);
+        Common.PREF_DEFAULT_WEIGHT_LOSS_INTEGER = Common.convertDoubleToInteger(Common.PREF_DEFAULT_WEIGHT_LOSS_PRECENTAGE);
+        Common.PREF_WARN_WEIGHT_DEVIATION_PERCENTAGE = sharedpreferences.getFloat("warn_weight_deviation_percentage", 0.5F);
 
         rl_egg_batch  = findViewById(R.id.rl_egg_batch);
 
