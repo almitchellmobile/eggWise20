@@ -1,13 +1,14 @@
 apply plugin: 'com.android.application'
 
 android {
+    viewBinding.enabled = true
     compileSdkVersion 28
     defaultConfig {
         applicationId "net.almitchellmobile.eggwise20"
         minSdkVersion 26
         targetSdkVersion 28
-        versionCode 20
-        versionName "2.0"
+        versionCode 21
+        versionName "2.1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         javaCompileOptions {
             annotationProcessorOptions {
