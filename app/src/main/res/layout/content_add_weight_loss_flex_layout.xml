@@ -128,7 +128,7 @@
                     android:layout_height="wrap_content"
                     android:hint="Egg Weight "
                     android:imeOptions="actionNext"
-                    
+
                     android:nextFocusDown="@+id/et_reading_day_number"
                     android:singleLine="true" />
             </com.google.android.material.textfield.TextInputLayout>

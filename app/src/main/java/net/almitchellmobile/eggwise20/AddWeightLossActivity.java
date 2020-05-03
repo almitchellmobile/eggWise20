@@ -216,12 +216,12 @@ public class AddWeightLossActivity extends AppCompatActivity {
                 try {
                     if(validateRequiredFields()) {
                         updateInsertEggDaily();
-                        setResult(eggDaily,"insert_add_next");
+                        //setResult(eggDaily,"add_new_egg");
 
-                        /*Intent intent1 = new Intent(AddWeightLossActivity.this, WeightLossListActivity.class);
+                        Intent intent1 = new Intent(AddWeightLossActivity.this, WeightLossListActivity.class);
                         intent1.putExtra("eggBatch", eggBatch);
-                        intent1.putExtra("eggDaily", eggDaily);
-                        startActivity(intent1);*/
+                        //intent1.putExtra("eggDaily", eggDaily);
+                        startActivity(intent1);
                     }
                 } catch (java.text.ParseException e) {
                     e.printStackTrace();
@@ -915,6 +915,11 @@ public class AddWeightLossActivity extends AppCompatActivity {
             Intent intent1 = new Intent(AddWeightLossActivity.this, WeightLossListActivity.class);
             intent1.putExtra("eggBatch", eggBatch);
             intent1.putExtra("eggDaily", eggDaily);
+            startActivity(intent1);
+        } else if (flag.equalsIgnoreCase("add_new_egg")){ // Update record
+            Intent intent1 = new Intent(AddWeightLossActivity.this, WeightLossListActivity.class);
+            intent1.putExtra("eggBatch", eggBatch);
+            //intent1.putExtra("eggDaily", eggDaily);
             startActivity(intent1);
         }
 
