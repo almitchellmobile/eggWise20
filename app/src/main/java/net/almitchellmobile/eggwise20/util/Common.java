@@ -33,8 +33,8 @@ public class Common {
     public static Integer PREF_DAYS_TO_HATCHER_BEFORE_HATCHING = 3;
     public static Integer PREF_DEFAULT_WEIGHT_LOSS_PERCENT_INTEGER = 3;
     public static Integer PREF_DEFAULT_WEIGHT_LOSS_INTEGER = 3;
-    public static Float PREF_DEFAULT_WEIGHT_LOSS_PRECENTAGE= 13.0F;
-    public static Float PREF_WARN_WEIGHT_DEVIATION_PERCENTAGE = 0.5F;
+    public static Double PREF_DEFAULT_WEIGHT_LOSS_PRECENTAGE= 13.0D;
+    public static Double PREF_WARN_WEIGHT_DEVIATION_PERCENTAGE = 0.5D;
 
     public static Boolean COMPLETED_ONBOARDING_PREF_EGG_WISE_MAIN = false;
     public static Boolean COMPLETED_ONBOARDING_PREF_ADD_WEIGHT_LOSS = false;

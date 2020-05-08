@@ -14,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewTreeObserver;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SearchView;
@@ -39,7 +40,6 @@ import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt;
-import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetSequence;
 
 public class EggBatchListActivity extends AppCompatActivity implements EggBatchAdapter.OnEggBatchItemClick{
 
@@ -67,6 +67,8 @@ public class EggBatchListActivity extends AppCompatActivity implements EggBatchA
     public static DecimalFormat df = new DecimalFormat("00.00");
 
     public com.google.android.material.card.MaterialCardView cv_egg_batch;
+    public Button btn_add_new_batch_1;
+
     private TextView textViewMsg;
     private RecyclerView recyclerViewEggBatchList;
     private EggWiseDatabse eggWiseDatabse;
@@ -75,7 +77,8 @@ public class EggBatchListActivity extends AppCompatActivity implements EggBatchA
     private int pos;
     Toolbar toolbar_egg_batch_list;
     SearchView searchView;
-    FloatingActionButton fabEggBatchList;
+    FloatingActionButton fab_egg_batch_list_1;
+
     int itemIndex = 0;
     public LinearLayoutManager mLinearLayoutManager;
     LinearLayout card;
@@ -106,9 +109,10 @@ public class EggBatchListActivity extends AppCompatActivity implements EggBatchA
         Common.PREF_HUMIDITY_MEASURED_WITH = sharedpreferences.getString("humidity_measured_with", "Humidity %");
         Common.PREF_WEIGHT_ENTERED_IN = sharedpreferences.getString("weight_entered_in", "Ounces");
         Common.PREF_DAYS_TO_HATCHER_BEFORE_HATCHING = sharedpreferences.getInt("days_to_hatcher_before_hatching", 3);
-        Common.PREF_DEFAULT_WEIGHT_LOSS_PRECENTAGE = sharedpreferences.getFloat("default_weight_loss_percentage", 13.0F);
+        Common.PREF_DEFAULT_WEIGHT_LOSS_PRECENTAGE = Double.valueOf(sharedpreferences.getFloat("default_weight_loss_percentage", 13.0F));
         Common.PREF_DEFAULT_WEIGHT_LOSS_INTEGER = Common.convertDoubleToInteger(Common.PREF_DEFAULT_WEIGHT_LOSS_PRECENTAGE);
-        Common.PREF_WARN_WEIGHT_DEVIATION_PERCENTAGE = sharedpreferences.getFloat("warn_weight_deviation_percentage", 0.5F);
+        Common.PREF_WARN_WEIGHT_DEVIATION_PERCENTAGE = Double.valueOf(sharedpreferences.getFloat("warn_weight_deviation_percentage", 0.5F));
+
 
 
         initializeViews();
@@ -134,7 +138,7 @@ public class EggBatchListActivity extends AppCompatActivity implements EggBatchA
     }
 
 
-    public void showSequenceManual(LinearLayoutManager mLinearLayoutManager_local) {
+   /* public void showSequenceManual(LinearLayoutManager mLinearLayoutManager_local) {
 
         new MaterialTapTargetSequence()
                 .addPrompt(new MaterialTapTargetPrompt.Builder(EggBatchListActivity.this)
@@ -155,25 +159,10 @@ public class EggBatchListActivity extends AppCompatActivity implements EggBatchA
                         .create())
                 .show();
 
-        /*
-        final LinearLayout card = (LinearLayout) mLinearLayoutManager_local.findViewByPosition(0);
-        // Check that the view exists for the item
-        if (card != null)
-        {
-            final EggBatchAdapter.BeanHolder viewHolder = (EggBatchAdapter.BeanHolder) recyclerViewEggBatchList.getChildViewHolder(card);
-            new MaterialTapTargetPrompt.Builder(EggBatchListActivity.this)
-                    .setTarget(viewHolder.cv_egg_batch)
-                    //.setClipToView(card.getChildAt(0))
-                    .setPrimaryText("Egg Batch Sub-Menu")
-                    .setSecondaryText(setSecondarytText("Tap a batch list item to open the sub-menu. Tap here to continue.", 48, 52))
-                    .setBackgroundColour(ContextCompat.getColor(this,R.color.colorAccent))
-                    .setAnimationInterpolator(new FastOutSlowInInterpolator())
-                    .show();
 
-        }*/
-    }
+    }*/
 
-    public void showSequence(View view) {
+    /*public void showSequence(View view) {
 
         new MaterialTapTargetSequence()
                 .addPrompt(new MaterialTapTargetPrompt.Builder(EggBatchListActivity.this)
@@ -202,36 +191,8 @@ public class EggBatchListActivity extends AppCompatActivity implements EggBatchA
                         .create())
 
                 .show();
-    }
+    }*/
 
-    /*public void showSequence(View view) {
-
-        new MaterialTapTargetSequence()
-                .addPrompt(new MaterialTapTargetPrompt.Builder(EggBatchListActivity.this)
-                        .setTarget(findViewById(R.id.fab_egg_batch_list))
-                        .setBackgroundColour(ContextCompat.getColor(this,R.color.colorAccent))
-                        .setPrimaryText("Add Egg Batch.")
-                        .setSecondaryText("Tap the plus sign to add a batch.")
-                        .setFocalPadding(R.dimen.dp40)
-                        .create(), 8000)
-                .addPrompt(new MaterialTapTargetPrompt.Builder(EggBatchListActivity.this)
-                        .setTarget(findViewById(R.id.button_save_add_weight_loss))
-                        .setBackgroundColour(ContextCompat.getColor(this,R.color.colorAccent))
-                        .setPrimaryText("Step 2")
-                        .setSecondaryText("Tap one of the save buttons, to save your egg information.")
-                        .setFocalPadding(R.dimen.dp40)
-                        .create(), 8000)
-                .addPrompt(new MaterialTapTargetPrompt.Builder(EggBatchListActivity.this)
-                        .setTarget(findViewById(R.id.button_cancel_list_eggs))
-                        .setBackgroundColour(ContextCompat.getColor(this,R.color.colorAccent))
-                        .setPrimaryText(" or Cancel and Return")
-                        .setSecondaryText("Tap one of the cancel buttons, to return to batch list or egg list.")
-                        .setAnimationInterpolator(new LinearOutSlowInInterpolator())
-                        .setFocalPadding(R.dimen.dp40)
-                        .create(), 8000)
-                .show();
-    }
-*/
 
     private void showEggBatchSubMenuPrompt() {
 
@@ -254,7 +215,7 @@ public class EggBatchListActivity extends AppCompatActivity implements EggBatchA
             return;
         }
         mFabPrompt = new MaterialTapTargetPrompt.Builder(EggBatchListActivity.this)
-                .setTarget(findViewById(R.id.fab_egg_batch_list))
+                .setTarget(findViewById(R.id.fab_egg_batch_list_1))
                 .setFocalPadding(R.dimen.dp40)
                 .setPrimaryText("Add Egg Batch.")
                 //.setSecondaryText(setSecondarytText("Tap the plus sign to add a batch. Tap here to continue.", 38, 42))
@@ -331,6 +292,9 @@ public class EggBatchListActivity extends AppCompatActivity implements EggBatchA
 
 
     private void displayList(){
+
+
+
         eggWiseDatabse = EggWiseDatabse.getInstance(EggBatchListActivity.this);
         new EggBatchListActivity.RetrieveTask(this).execute();
         if (!sharedpreferences.getBoolean("COMPLETED_ONBOARDING_PREF_BATCH_LIST_1", false)) {
@@ -339,6 +303,7 @@ public class EggBatchListActivity extends AppCompatActivity implements EggBatchA
             editor.putBoolean("COMPLETED_ONBOARDING_PREF_BATCH_LIST_1", true);
             editor.commit();
         }
+
 
     }
 
@@ -454,8 +419,9 @@ public class EggBatchListActivity extends AppCompatActivity implements EggBatchA
         toolbar_egg_batch_list = (Toolbar) findViewById(R.id.toolbar_egg_batch_list);
         setSupportActionBar(toolbar_egg_batch_list);
         textViewMsg = (TextView) findViewById(R.id.tv_empty_egg_batches1);
-        fabEggBatchList = (FloatingActionButton) findViewById(R.id.fab_egg_batch_list);
-        fabEggBatchList.setOnClickListener(new View.OnClickListener() {
+
+        fab_egg_batch_list_1 =  findViewById(R.id.fab_egg_batch_list_1);
+        fab_egg_batch_list_1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
@@ -465,6 +431,17 @@ public class EggBatchListActivity extends AppCompatActivity implements EggBatchA
             }
         });
         cv_egg_batch = findViewById(R.id.cv_egg_batch);
+
+       /* btn_add_new_batch_1 = findViewById(R.id.btn_add_new_batch_1);
+        btn_add_new_batch_1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivityForResult(new Intent(EggBatchListActivity.this, AddEggBatchActivity.class), 100);
+            }
+        });*/
+
+
+
         recyclerViewEggBatchList = findViewById(R.id.recycler_view_egg_batch_list);
         mLinearLayoutManager = new LinearLayoutManager(EggBatchListActivity.this);
         recyclerViewEggBatchList.setLayoutManager(mLinearLayoutManager);
@@ -491,6 +468,8 @@ public class EggBatchListActivity extends AppCompatActivity implements EggBatchA
                 }
             }
         });
+
+
 
     }
 
@@ -597,12 +576,7 @@ public class EggBatchListActivity extends AppCompatActivity implements EggBatchA
                 }
 
             } else {
-                /*if (!sharedpreferences.getBoolean("COMPLETED_ONBOARDING_PREF_BATCH_LIST_2", false)) {
-                    // The user hasn't seen the OnboardingSupportFragment yet, so show it
-                    showSequenceManual(mLinearLayoutManager);
-                    editor.putBoolean("COMPLETED_ONBOARDING_PREF_BATCH_LIST_2", true);
-                    editor.commit();
-                }*/
+
             }
             textViewMsg.setVisibility(emptyMsgVisibility);
             eggBatchAdapter.notifyDataSetChanged();

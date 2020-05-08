@@ -33,7 +33,6 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-
         <include
             android:id="@+id/include"
             layout="@layout/content_add_weight_loss_flex_layout" />
@@ -43,8 +42,9 @@
         android:id="@+id/fab_add_save_weight_loss"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/fab_margin"
+        android:layout_gravity="right|top"
+        android:layout_marginTop="6dp"
+        android:layout_marginRight="80dp"
         app:srcCompat="@android:drawable/ic_menu_save" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -29,15 +29,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class EggWeightLossAdapter extends RecyclerView.Adapter <EggWeightLossAdapter.BeanHolder>  {
 
-    public static String PREF_TEMPERATURE_ENTERED_IN = "";
-    public static String PREF_HUMIDITY_MEASURED_WITH = "";
-    public static String PREF_WEIGHT_ENTERED_IN = "";
-
     public static Integer NUMBER_OF_REJECTED_EGGS = 0;
-
-    public static Integer PREF_DAYS_TO_HATCHER_BEFORE_HATCHING = 3;
-    public static Double PREF_DEFAULT_WEIGHT_LOSS_PRECENTAGE= 0.0D;
-    public static Double PREF_WARN_WEIGHT_DEVIATION_PERCENTAGE = 0.0D;
 
     public static SharedPreferences sharedpreferences;
     public static SharedPreferences.Editor editor;
@@ -106,9 +98,9 @@ public class EggWeightLossAdapter extends RecyclerView.Adapter <EggWeightLossAda
         sharedpreferences = context.getSharedPreferences(mypreference,
                 Context.MODE_PRIVATE);
         if (sharedpreferences.contains("warn_weight_deviation_percentage")) {
-            PREF_WARN_WEIGHT_DEVIATION_PERCENTAGE = Double.valueOf(sharedpreferences.getFloat("warn_weight_deviation_percentage", 0.5F));
+            Common.PREF_WARN_WEIGHT_DEVIATION_PERCENTAGE = Double.valueOf(sharedpreferences.getFloat("warn_weight_deviation_percentage", 0.5F));
         } else {
-            PREF_WARN_WEIGHT_DEVIATION_PERCENTAGE = 0.5D;
+            Common.PREF_WARN_WEIGHT_DEVIATION_PERCENTAGE = 0.5D;
         }
     }
 
@@ -124,45 +116,19 @@ public class EggWeightLossAdapter extends RecyclerView.Adapter <EggWeightLossAda
 
 
         try {
-            //Log.e("bind", "onBindViewHolder: "+ eggDailyList.get(position));
-
-            /*holder.check_box_rejected_egg.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    //int pos = holder.getAdapterPosition();
-                    //ChoiceItem currentItem = mChoice.get(pos);
-                    if(holder.check_box_rejected_egg.isChecked() && eggDailyList.get(position).getRejectedEgg() == 0){
-                        //reject this egg
-                        eggDailyList.get(position).setRejectedEgg(1);
-                        rejectedEgg = eggDailyList.get(position).getRejectedEgg();
-                        eggWiseDatabse.getEggDailyDao().updateEggDaily_RejectedEgg(rejectedEgg,
-                                eggDailyList.get(position).getEggBatchID(), eggDailyList.get(position).getEggLabel());
-                        //notifyDataSetChanged();
-                    }else if(!holder.check_box_rejected_egg.isChecked() && eggDailyList.get(position).getRejectedEgg() == 1){
-                        //unreject this egg
-                        eggDailyList.get(position).setRejectedEgg(0);
-                        rejectedEgg = eggDailyList.get(position).getRejectedEgg();
-                        eggWiseDatabse.getEggDailyDao().updateEggDaily_RejectedEgg(rejectedEgg,
-                                eggDailyList.get(position).getEggBatchID(), eggDailyList.get(position).getEggLabel());
-                        //notifyDataSetChanged();
-                    }
-                }
-            });*/
-
-            /*if (eggDailyList.get(position).getRejectedEgg() == 1) {
-                holder.check_box_rejected_egg.setChecked(true);
-            } else {
-                holder.check_box_rejected_egg.setChecked(false);
-            }*/
-
 
             CharSequence styledTextTitle = "";
             CharSequence styledText = "";
 
-
-
             currentTitle = "<B>Day: " + common.zeroIfNullInteger(eggDailyList.get(position).getReadingDayNumber())  + "</B>, " +
                     "<B>Egg: " + eggDailyList.get(position).getEggLabel() + "</B>";
+            if (eggDailyList.get(position).getRejectedEgg() == 1) {
+                //holder.cv_egg_weight.setCardBackgroundColor(Color.RED);
+                holder.tv_egg_weight_title1.setTextColor(Color.RED);
+                currentTitle += "  <B>+++ REJECTED EGG +++</B>";
+            } else {
+                //holder.cv_egg_weight.setCardBackgroundColor(Color.TRANSPARENT);
+            }
             styledTextTitle = HtmlCompat.fromHtml(currentTitle, HtmlCompat.FROM_HTML_MODE_LEGACY);
             holder.tv_egg_weight_title1.setText(styledTextTitle);
 
@@ -182,7 +148,7 @@ public class EggWeightLossAdapter extends RecyclerView.Adapter <EggWeightLossAda
                         "<B>Weight Avg:</B> " + String.format(Locale.getDefault(), "%.2f", eggDailyList.get(position).getEggWeightAverageCurrent()) +
                         ", <B>Actual Loss %:</B> " + String.format(Locale.getDefault(), "%.2f", eggDailyList.get(position).getActualWeightLossPercent()) +
                         ", <B>Target Loss %:</B> " + String.format(Locale.getDefault(), "%.2f", eggDailyList.get(position).getTargetWeightLossPercent()) +
-                        ", <B>% Deviation:</B> " + String.format(Locale.getDefault(), "%.2f", Math.abs(eggDailyList.get(position).getWeightLossDeviation()));
+                        ", <B>% Deviation:</B> " + String.format(Locale.getDefault(), "%.2f", eggDailyList.get(position).getWeightLossDeviation());
 
             } else {
                 line1 += "<br>===<br>" +
@@ -190,24 +156,30 @@ public class EggWeightLossAdapter extends RecyclerView.Adapter <EggWeightLossAda
                         "<B>Weight Avg:</B> " + String.format(Locale.getDefault(), "%.2f", eggDailyList.get(position).getEggWeightAverageCurrent()) +
                         ", <B>Actual Loss %:</B> " + String.format(Locale.getDefault(), "%.2f", eggDailyList.get(position).getActualWeightLossPercent()) +
                         ", <B>Target Loss %:</B> " + String.format(Locale.getDefault(), "%.2f", eggDailyList.get(position).getTargetWeightLossPercent()) +
-                        ", <B>% Deviation:</B> " + String.format(Locale.getDefault(), "%.2f", Math.abs(eggDailyList.get(position).getWeightLossDeviation()));
+                        ", <B>% Deviation:</B> " + String.format(Locale.getDefault(), "%.2f", eggDailyList.get(position).getWeightLossDeviation());
             }
 
-            if (eggDailyList.get(position).getRejectedEgg() == 1) {
-                holder.cv_egg_weight.setBackgroundColor(Color.RED);
-            } else {
+            //if (eggDailyList.get(position).getRejectedEgg() == 1) {
+            //    holder.cv_egg_weight.setBackgroundColor(Color.RED);
+            //} else {
                 if (eggDailyList.get(position).getWeightLossDeviation() != null) {
-                    if (eggDailyList.get(position).getWeightLossDeviation() > PREF_WARN_WEIGHT_DEVIATION_PERCENTAGE) {
-                        line1 += "<br>***<br>";
-                        line1 += "*** Warning: Actual Weight deviates beyond Target Weight by ";
-                        line1 += (String.format(Locale.getDefault(), "%.2f", Math.abs(eggDailyList.get(position).getWeightLossDeviation()))) + " percent. ***";
-                        //holder.cv_egg_weight.setBackgroundColor(Color.parseColor("#ecc317"));
-                        holder.cv_egg_weight.setBackgroundColor(Color.YELLOW);
+                    if (Math.abs(eggDailyList.get(position).getWeightLossDeviation()) > Math.abs(Common.PREF_WARN_WEIGHT_DEVIATION_PERCENTAGE)) {
+                        if (eggDailyList.get(position).getWeightLossDeviation() > Common.PREF_WARN_WEIGHT_DEVIATION_PERCENTAGE) {
+                            line1 += "<br>===<br>";
+                            line1 += "*** Warning: Actual weight loss is greater than target by ";
+                            line1 += (String.format(Locale.getDefault(), "%.2f", eggDailyList.get(position).getWeightLossDeviation())) + " percent, increase humidity. ";
+                        } else if (eggDailyList.get(position).getWeightLossDeviation() < Common.PREF_WARN_WEIGHT_DEVIATION_PERCENTAGE) {
+                            line1 += "<br>===<br>";
+                            line1 += "*** Warning: Actual weight loss is less than target by ";
+                            line1 += (String.format(Locale.getDefault(), "%.2f", eggDailyList.get(position).getWeightLossDeviation())) + " percent, reduce humidity. ";
+                        }
+                        line1 += "Warn deviation amount = " + Common.PREF_WARN_WEIGHT_DEVIATION_PERCENTAGE + ". ***";
+                        holder.cv_egg_weight.setCardBackgroundColor(Color.YELLOW);
                     } else {
-                        //holder.cv_egg_weight.setBackgroundColor(Color.parseColor("@android:color/transparent"));
+                        holder.cv_egg_weight.setCardBackgroundColor(Color.TRANSPARENT);
                     }
                 }
-            }
+            //}
 
 
             styledText = HtmlCompat.fromHtml(line1, HtmlCompat.FROM_HTML_MODE_LEGACY);

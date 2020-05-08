@@ -155,7 +155,7 @@ public interface EggDailyDao {
 
     String sqlUpdateEggDaily_RejectedEgg = "Update " + Constants.TABLE_NAME_EGG_DAILY + "  " +
             "SET RejectedEgg = :rejectedEgg " +
-            "WHERE EggBatchID = :eggBatchID AND EggLabel Like :eggLabel" ;
+            "WHERE EggBatchID = :eggBatchID AND EggLabel == (:eggLabel)  " ;
     @Query(sqlUpdateEggDaily_RejectedEgg)
     void updateEggDaily_RejectedEgg(Integer rejectedEgg, Long eggBatchID, String eggLabel);
 

@@ -169,7 +169,7 @@
                 android:text="Save/Return" />
 
 
-            <Button
+           <Button
                 android:id="@+id/button_cancel_list_eggs"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -180,6 +180,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Cancel/List Batch" />
+
+
 
         </com.google.android.flexbox.FlexboxLayout>
 

@@ -80,75 +80,8 @@ public class SettingsActivity extends AppCompatActivity {
         et_warn_weight_deviation_percentage =  findViewById(R.id.et_warn_weight_deviation_percentage);
         et_warn_weight_deviation_percentage.setSelectAllOnFocus(true);
 
-        /*Common.PREF_TEMPERATURE_ENTERED_IN = "Fahrenheit";
-        Common.PREF_HUMIDITY_MEASURED_WITH = "Humidity %";
-        Common.PREF_WEIGHT_ENTERED_IN = "Ounces";
-
-        Common.PREF_DAYS_TO_HATCHER_BEFORE_HATCHING = 3;
-
-        Common.PREF_DEFAULT_WEIGHT_LOSS_PERCENT_INTEGER = 3;
-
-        Common.PREF_DEFAULT_WEIGHT_LOSS_PRECENTAGE= 13.0F;
-        Common.PREF_WARN_WEIGHT_DEVIATION_PERCENTAGE = 0.5F;
-
-        Common.COMPLETED_ONBOARDING_PREF_EGG_WISE_MAIN = false;
-        Common.COMPLETED_ONBOARDING_PREF_ADD_WEIGHT_LOSS = false;
-        Common.COMPLETED_ONBOARDING_PREF_WEIGHT_LOSS_LIST = false;
-        Common.COMPLETED_ONBOARDING_PREF_ADD_BATCH = false;
-        Common.COMPLETED_ONBOARDING_PREF_BATCH_LIST = false;
-
-        sharedpreferences = getSharedPreferences(mypreference,
-                Context.MODE_PRIVATE);
-
-        prefValue = sharedpreferences.getString("temperature_entered_in", "Fahrenheit");
-        if (prefValue.compareToIgnoreCase("Fahrenheit") == 0) {
-            rb_fahrenheit.setChecked(true);
-        } else {
-            rb_celcius.setChecked(true);
-        }
-
-        prefValue = sharedpreferences.getString("humidity_measured_with", "Humidity %");
-        if (prefValue.compareToIgnoreCase("Humidity %") == 0) {
-            rb_relative_humidity_percentage.setChecked(true);
-        } else {
-            rb_wet_bulb_readings.setChecked(true);
-        }
-
-        prefValue = sharedpreferences.getString("weight_entered_in", "Ounces");
-        if (prefValue.compareToIgnoreCase("Ounces") == 0) {
-            rb_ounces.setChecked(true);
-        } else {
-            rb_grams.setChecked(true);
-        }
-
-        if (sharedpreferences.contains("days_to_hatcher_before_hatching")) {
-            et_days_to_hatcher_before_hatching.setText(String.valueOf(sharedpreferences.getInt("days_to_hatcher_before_hatching", 3)));
-        } else {
-            et_days_to_hatcher_before_hatching.setText("3");
-        }
-        if (sharedpreferences.contains("default_weight_loss_percentage")) {
-            et_default_weight_loss_percentage.setText(String.valueOf(sharedpreferences.getFloat("default_weight_loss_percentage", 13.0F)));
-        } else {
-            et_default_weight_loss_percentage.setText("13.0");
-        }
-        if (sharedpreferences.contains("warn_weight_deviation_percentage")) {
-            et_warn_weight_deviation_percentage.setText(String.valueOf(sharedpreferences.getFloat("warn_weight_deviation_percentage", 0.5F)));
-        } else {
-            et_warn_weight_deviation_percentage.setText("0.5");
-        }
-
-         */
-
     }
 
-    /*private void getTemperaturePref() {
-        String prefValue = sharedpreferences.getString("temperature_entered_in", "Fahrenheit");
-        if (prefValue.compareToIgnoreCase("Celcius") == 0) {
-            rb_celcius.setChecked(true);
-        } else {
-            rb_fahrenheit.setChecked(true);
-        }
-    }*/
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -221,7 +154,7 @@ public class SettingsActivity extends AppCompatActivity {
             return false;
         }
         if (!(et_default_weight_loss_percentage.getText().toString().length() == 0)) {
-            Common.PREF_DEFAULT_WEIGHT_LOSS_PRECENTAGE = Float.parseFloat(et_default_weight_loss_percentage.getText().toString());
+            Common.PREF_DEFAULT_WEIGHT_LOSS_PRECENTAGE = Double.valueOf(et_default_weight_loss_percentage.getText().toString());
         } else {
             et_default_weight_loss_percentage.setHint("Please enter Default Weight Loss.");
             et_default_weight_loss_percentage.setError("Default Weight Loss is required.");
@@ -229,10 +162,10 @@ public class SettingsActivity extends AppCompatActivity {
             return false;
         }
         if (!(et_warn_weight_deviation_percentage.getText().toString().length() == 0)) {
-            Common.PREF_WARN_WEIGHT_DEVIATION_PERCENTAGE = Float.parseFloat(et_warn_weight_deviation_percentage.getText().toString());
+            Common.PREF_WARN_WEIGHT_DEVIATION_PERCENTAGE = Double.valueOf(et_warn_weight_deviation_percentage.getText().toString());
         } else {
-            et_warn_weight_deviation_percentage.setHint("Please enter Warn If Weight Deviates By %.");
-            et_warn_weight_deviation_percentage.setError("Warn If Weight Deviates By % is required.");
+            et_warn_weight_deviation_percentage.setHint("Please enter Warn if Weight Deviates By %.");
+            et_warn_weight_deviation_percentage.setError("Warn if Weight Deviates By % is required.");
             et_warn_weight_deviation_percentage.requestFocus();
             return false;
         }
@@ -243,8 +176,8 @@ public class SettingsActivity extends AppCompatActivity {
         editor.putString("weight_entered_in", Common.PREF_WEIGHT_ENTERED_IN);
 
         editor.putInt("days_to_hatcher_before_hatching", Common.PREF_DAYS_TO_HATCHER_BEFORE_HATCHING);
-        editor.putFloat("default_weight_loss_percentage", Common.PREF_DEFAULT_WEIGHT_LOSS_PRECENTAGE);
-        editor.putFloat("warn_weight_deviation_percentage", Common.PREF_WARN_WEIGHT_DEVIATION_PERCENTAGE);
+        editor.putFloat("default_weight_loss_percentage", Float.valueOf(Common.PREF_DEFAULT_WEIGHT_LOSS_PRECENTAGE.toString()));
+        editor.putFloat("warn_weight_deviation_percentage", Float.valueOf(Common.PREF_WARN_WEIGHT_DEVIATION_PERCENTAGE.toString()));
 
         editor.commit();
 

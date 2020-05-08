@@ -8,12 +8,12 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.jjoe64.graphview.DefaultLabelFormatter;
 import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.LegendRenderer;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 import com.jjoe64.graphview.series.PointsGraphSeries;
@@ -84,12 +84,6 @@ public class WeightLossChartActivity extends AppCompatActivity {
 
     public  static NumberFormat numberFormat;
 
-    //DataPoint dataPoint;
-    //public  static DataPoint[] dataPointsTargetWeightLoss = new DataPoint[0];
-    //public  static DataPoint[] dataPointsActualWeightLoss = new DataPoint[0];
-    //public  static LineGraphSeries<DataPoint> lineGraphSeriesActualWeightLoss = new LineGraphSeries<DataPoint>(dataPointsActualWeightLoss);
-    //public  static LineGraphSeries<DataPoint> lineGraphSeriesTargetWeightLoss = new LineGraphSeries<DataPoint>(dataPointsTargetWeightLoss);
-
     public static ArrayList<String> y_axis_TARGET_WEIGHT_LOSS_PERCENT_STRING = new ArrayList<String>();
     public static ArrayList<String> y_axis_ACTUAL_WEIGHT_LOSS_PERCENT_STRING = new ArrayList<String>();
     public static ArrayList<Integer> x_axis_READING_DAY = new ArrayList<Integer>();
@@ -127,25 +121,28 @@ public class WeightLossChartActivity extends AppCompatActivity {
             Common.PREF_DAYS_TO_HATCHER_BEFORE_HATCHING = 0;
         }
         if (sharedpreferences.contains("default_weight_loss_percentage")) {
-            Common.PREF_DEFAULT_WEIGHT_LOSS_PRECENTAGE = sharedpreferences.getFloat("default_weight_loss_percentage", 13.0F);
+            Common.PREF_DEFAULT_WEIGHT_LOSS_PRECENTAGE = Double.valueOf(sharedpreferences.getFloat("default_weight_loss_percentage", 13.0F));
             //double data = PREF_DEFAULT_WEIGHT_LOSS_PRECENTAGE;
             //int value = (int)data;
             Common.PREF_DEFAULT_WEIGHT_LOSS_INTEGER = Common.convertDoubleToInteger(Common.PREF_DEFAULT_WEIGHT_LOSS_PRECENTAGE);
         } else {
-            Common.PREF_DEFAULT_WEIGHT_LOSS_PRECENTAGE = 13.0F;
+            Common.PREF_DEFAULT_WEIGHT_LOSS_PRECENTAGE = 13.0D;
             Common.PREF_DEFAULT_WEIGHT_LOSS_INTEGER = 13;
         }
         if (sharedpreferences.contains("warn_weight_deviation_percentage")) {
-            Common.PREF_WARN_WEIGHT_DEVIATION_PERCENTAGE = sharedpreferences.getFloat("warn_weight_deviation_percentage", 0.5F);
+            Common.PREF_WARN_WEIGHT_DEVIATION_PERCENTAGE = Double.valueOf(sharedpreferences.getFloat("warn_weight_deviation_percentage", 0.5F));
         } else {
-            Common.PREF_WARN_WEIGHT_DEVIATION_PERCENTAGE = 0.0F;
+            Common.PREF_WARN_WEIGHT_DEVIATION_PERCENTAGE = 0.0D;
         }
 
         graphWeightLoss = (GraphView) findViewById(R.id.graph);
         graphWeightLoss.setTitle("Target Weight vs Actual Weight");
         graphWeightLoss.setTitleTextSize(60);
-        graphWeightLoss.getGridLabelRenderer().setHorizontalAxisTitle("Weigh Day");
-        graphWeightLoss.getGridLabelRenderer().setVerticalAxisTitle("Weight Loss Percentage");
+        graphWeightLoss.getGridLabelRenderer().setHorizontalAxisTitle("Incubation Period (days)");
+        graphWeightLoss.getGridLabelRenderer().setHorizontalAxisTitleTextSize(50);
+        String verticalAxixTitle1 = "Average Egg Weight (" + Common.PREF_WEIGHT_ENTERED_IN + ") ";
+        graphWeightLoss.getGridLabelRenderer().setVerticalAxisTitle(verticalAxixTitle1);
+        graphWeightLoss.getGridLabelRenderer().setVerticalAxisTitleTextSize(50);
 
         //TRACKING_OPTION = 1;
         //BATCH_LABEL = "b1";
@@ -174,7 +171,7 @@ public class WeightLossChartActivity extends AppCompatActivity {
             }
         }
 
-        fabWeightLossChart = findViewById(R.id.fabWeightLossChart);
+        /*fabWeightLossChart = findViewById(R.id.fabWeightLossChart);
         fabWeightLossChart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -188,7 +185,8 @@ public class WeightLossChartActivity extends AppCompatActivity {
                 startActivity(intent2);
                 finish();
             }
-        });
+        });*/
+
 
     }
 
@@ -327,13 +325,15 @@ public class WeightLossChartActivity extends AppCompatActivity {
 
                 Integer dataPointIndex = 0;
                 previousReadingDayNumber = -1;
+                //Measured weight loss (Y axis)
                 dataPointsActualWeightLossAT = new DataPoint[countUniqueReadingDays]; // declare an array of DataPoint objects with the same size as your list
                 for (index = 0; index <eggDailyListPostEx.size(); index++) {
                     if (previousReadingDayNumber != eggDailyListPostEx.get(index).readingDayNumber) {
                         // add new DataPoint object to the array for each of your list entries
                         if (dataPointIndex < countUniqueReadingDays) {
                             dataPointsActualWeightLossAT[dataPointIndex] = new DataPoint(Common.round(eggDailyListPostEx.get(index).readingDayNumber, 2),
-                                    Common.round(eggDailyListPostEx.get(index).getActualWeightLossPercent(), 2));
+                                    //Common.round(eggDailyListPostEx.get(index).getActualWeightLossPercent(), 2));
+                                Common.round(eggDailyListPostEx.get(index).getEggWeightAverageCurrent(), 2));
                             dataPointIndex +=1;
                         }
                     }
@@ -350,38 +350,45 @@ public class WeightLossChartActivity extends AppCompatActivity {
                 dataPointsTargetWeightLossAT = new DataPoint[incubationDays]; // declare an array of DataPoint objects with the same size as your list
                 for (index = 0; index < incubationDays; index++) {
                     TARGET_WEIGHT_LOSS_PERCENT = ((Double.valueOf(TARGET_WEIGHT_LOSS_INTEGER) * Double.valueOf(dataPointIndex) )/ Double.valueOf(INCUBATION_DAYS));
+                    Double expectedWeight = EGG_WEIGHT_AVG_DAY_0 * (TARGET_WEIGHT_LOSS_PERCENT / 100);
+                    Double targetWeightLoss = (EGG_WEIGHT_AVG_DAY_0 - expectedWeight);
+                    //dataPointsTargetWeightLossAT[dataPointIndex] = new DataPoint(Common.round(dataPointIndex, 1),
+                    //        Common.round(TARGET_WEIGHT_LOSS_PERCENT, 1));
                     dataPointsTargetWeightLossAT[dataPointIndex] = new DataPoint(Common.round(dataPointIndex, 2),
-                            Common.round(TARGET_WEIGHT_LOSS_PERCENT, 2));
+                            Common.round(targetWeightLoss, 2));
+                            //Common.round(TARGET_WEIGHT_LOSS_INTEGER, 0));
                     dataPointIndex +=1;
                 }
 
                 try {
 
-                    lineGraphSeriesActualWeightLossAT = new LineGraphSeries<DataPoint>(dataPointsActualWeightLossAT);
-                    lineGraphSeriesActualWeightLossAT.setDrawDataPoints(true);
-                    lineGraphSeriesActualWeightLossAT.setColor(Color.YELLOW);
-                    //lineGraphSeriesActualWeightLossAT.setDrawDataPoints(true);
-                    //lineGraphSeriesActualWeightLossAT.setDrawAsPath(false);
-                    //lineGraphSeriesActualWeightLossAT.isDrawDataPoints();
-                    //lineGraphSeriesActualWeightLossAT.isDrawAsPath();
 
 
                     lineGraphSeriesTargetWeightLossAT = new LineGraphSeries<DataPoint>(dataPointsTargetWeightLossAT);
                     lineGraphSeriesTargetWeightLossAT.setDrawDataPoints(true);
                     lineGraphSeriesTargetWeightLossAT.setColor(Color.BLACK);
+                    lineGraphSeriesTargetWeightLossAT.setTitle("Target Weight Loss");
 
-                    graphWeightLossAT.addSeries(lineGraphSeriesActualWeightLossAT);
+                    lineGraphSeriesActualWeightLossAT = new LineGraphSeries<DataPoint>(dataPointsActualWeightLossAT);
+                    lineGraphSeriesActualWeightLossAT.setDrawDataPoints(true);
+                    lineGraphSeriesActualWeightLossAT.setColor(Color.YELLOW);
+                    lineGraphSeriesActualWeightLossAT.setTitle("Actual Weight Loss");
+
                     graphWeightLossAT.addSeries(lineGraphSeriesTargetWeightLossAT);
+                    graphWeightLossAT.addSeries(lineGraphSeriesActualWeightLossAT);
 
 
-                    graphWeightLossAT.getViewport().setMinX(0.00);
+
+                    //graphWeightLossAT.getViewport().setMinX(0.00);
                     graphWeightLossAT.getViewport().setMaxX(INCUBATION_DAYS);
-                    graphWeightLossAT.getViewport().setMinY(0.00);
+                    //graphWeightLossAT.getViewport().setMinY(0.00);
                     //Double targetWeightLossPercentage = Double.valueOf(TARGET_WEIGHT_LOSS_INTEGER)/Double.valueOf(100);
                     graphWeightLossAT.getViewport().setMaxY(TARGET_WEIGHT_LOSS_INTEGER);
+                    graphWeightLossAT.getLegendRenderer().setVisible(true);
+                    graphWeightLossAT.getLegendRenderer().setAlign(LegendRenderer.LegendAlign.TOP);
 
-                    graphWeightLossAT.getViewport().setYAxisBoundsManual(true);
-                    graphWeightLossAT.getViewport().setXAxisBoundsManual(true);
+                    //graphWeightLossAT.getViewport().setYAxisBoundsManual(true);
+                    //graphWeightLossAT.getViewport().setXAxisBoundsManual(true);
 
                     //numberFormat = NumberFormat.getInstance();
                     //numberFormat.setMinimumFractionDigits(2);

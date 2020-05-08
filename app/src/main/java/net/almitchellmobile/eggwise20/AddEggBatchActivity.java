@@ -43,7 +43,6 @@ import java.util.Locale;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
-import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
 import androidx.interpolator.view.animation.LinearOutSlowInInterpolator;
 import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt;
 import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetSequence;
@@ -59,7 +58,7 @@ public class AddEggBatchActivity extends AppCompatActivity {
             et_location, et_incubator_settings, et_temperature, et_incubation_days,
             et_number_of_eggs_hatched, et_target_weight_loss;
     CalendarView cv_set_date, cv_hatch_date;
-    Button button_save_add_egg_batch;
+    Button button_add_batch;
     com.google.android.material.floatingactionbutton.FloatingActionButton fab_add_save_egg_batch;
 
     RadioGroup rg_track_weight_loss;
@@ -141,14 +140,14 @@ public class AddEggBatchActivity extends AppCompatActivity {
         Common.PREF_HUMIDITY_MEASURED_WITH = sharedpreferences.getString("humidity_measured_with", "Humidity %");
         Common.PREF_WEIGHT_ENTERED_IN = sharedpreferences.getString("weight_entered_in", "Ounces");
         Common.PREF_DAYS_TO_HATCHER_BEFORE_HATCHING = sharedpreferences.getInt("days_to_hatcher_before_hatching", 3);
-        Common.PREF_DEFAULT_WEIGHT_LOSS_PRECENTAGE = sharedpreferences.getFloat("default_weight_loss_percentage", 13.0F);
+        Common.PREF_DEFAULT_WEIGHT_LOSS_PRECENTAGE = Double.valueOf(sharedpreferences.getFloat("default_weight_loss_percentage", 13.0F));
         Common.PREF_DEFAULT_WEIGHT_LOSS_INTEGER = Common.convertDoubleToInteger(Common.PREF_DEFAULT_WEIGHT_LOSS_PRECENTAGE);
-        Common.PREF_WARN_WEIGHT_DEVIATION_PERCENTAGE = sharedpreferences.getFloat("warn_weight_deviation_percentage", 0.5F);
+        Common.PREF_WARN_WEIGHT_DEVIATION_PERCENTAGE = Double.valueOf(sharedpreferences.getFloat("warn_weight_deviation_percentage", 0.5F));
 
         rl_egg_batch  = findViewById(R.id.rl_egg_batch);
 
-        fab_add_save_egg_batch = findViewById(R.id.fab_add_save_egg_batch);
-        fab_add_save_egg_batch.setOnClickListener(new View.OnClickListener() {
+        /*button_add_batch = findViewById(R.id.button_add_new_batch);
+        button_add_batch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 try {
@@ -159,7 +158,7 @@ public class AddEggBatchActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
             }
-        });
+        });*/
 
         et_batch_label = findViewById(R.id.et_batch_label);
         et_batch_label.setSelectAllOnFocus(true);
@@ -195,6 +194,19 @@ public class AddEggBatchActivity extends AppCompatActivity {
         et_location.setInputType(InputType.TYPE_CLASS_TEXT);
 
         rg_track_weight_loss = findViewById(R.id.rg_track_weight_loss);
+        rg_track_weight_loss.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
+        {
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch(checkedId){
+                    case R.id.rb_track_entire_batch:
+                        trackingOption = 1; //Track entire batch
+                        break;
+                    case R.id.rb_track_specific_eggs:
+                        trackingOption = 2; //Track specific eggs
+                        break;
+                }
+            }
+        });
         rb_track_entire_batch = findViewById(R.id.rb_track_entire_batch);
         // Batch tracking is default
         rb_track_entire_batch.setChecked(true);
@@ -232,8 +244,20 @@ public class AddEggBatchActivity extends AppCompatActivity {
             et_target_weight_loss.setHint(hintStringValue);
         }
 
-        button_save_add_egg_batch = findViewById(R.id.button_save_add_egg_batch);
-        button_save_add_egg_batch.setVisibility(View.GONE);
+        fab_add_save_egg_batch = findViewById(R.id.fab_add_save_egg_batch);
+        fab_add_save_egg_batch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try {
+                    if(validateRequiredFields()) {
+                        updateInsertEggBatch();
+                    }
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        //fab_add_save_egg_batch.setVisibility(View.GONE);
 
         if ( (eggBatch = (EggBatch) getIntent().getSerializableExtra("UpdateEggBatch"))!=null ){
             getSupportActionBar().setTitle("Update Egg Batch");
@@ -294,18 +318,7 @@ public class AddEggBatchActivity extends AppCompatActivity {
             //et_target_weight_loss.setText(PREF_DEFAULT_WEIGHT_LOSS_INTEGER.toString());
 
         }
-        button_save_add_egg_batch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                try {
-                    if(validateRequiredFields()) {
-                        updateInsertEggBatch();
-                    }
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
+
 
         et_set_date.setFocusable(true);
         DatePickerDialog.OnDateSetListener setDateDatePickerDialog = new
@@ -365,7 +378,12 @@ public class AddEggBatchActivity extends AppCompatActivity {
         });
 
 
-        rg_track_weight_loss.setOnClickListener(new View.OnClickListener() {
+
+
+
+
+
+        /*rg_track_weight_loss.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -387,9 +405,8 @@ public class AddEggBatchActivity extends AppCompatActivity {
                         trackWeightLossValue, Toast.LENGTH_SHORT).show();
             }
 
-        });
+        });*/
 
-        //showSequenceManual();
 
         if (!sharedpreferences.getBoolean("COMPLETED_ONBOARDING_PREF_ADD_BATCH_1", false)) {
                 // The user hasn't seen the OnboardingSupportFragment yet, so show it
@@ -451,60 +468,6 @@ public class AddEggBatchActivity extends AppCompatActivity {
                 .show();
     }
 
-    public void showSequence(View view) {
-
-        new MaterialTapTargetSequence()
-                .addPrompt(new MaterialTapTargetPrompt.Builder(AddEggBatchActivity.this)
-                        .setTarget(findViewById(R.id.et_batch_label))
-                        .setBackgroundColour(getResources().getColor(R.color.colorAccent))
-                        .setAnimationInterpolator(new LinearOutSlowInInterpolator())
-                        .setPrimaryText("Step 1")
-                        .setSecondaryText("Enter your egg batch details.")
-                        .setFocalPadding(R.dimen.dp40)
-                        .create(), 8000)
-                .addPrompt(new MaterialTapTargetPrompt.Builder(AddEggBatchActivity.this)
-                        .setTarget(findViewById(R.id.fab_add_save_egg_batch))
-                        .setBackgroundColour(getResources().getColor(R.color.colorAccent))
-                        .setPrimaryText("Step 2")
-                        .setSecondaryText("Tap the save button to save your batch.")
-                        .setAnimationInterpolator(new LinearOutSlowInInterpolator())
-                        .setFocalPadding(R.dimen.dp40)
-                    .create(), 8000)
-                .show();
-    }
-
-    public void showFabPrompt()
-    {
-        if (mFabPrompt != null)
-        {
-            return;
-        }
-        SpannableStringBuilder secondaryText = new SpannableStringBuilder("Tap the save button to save your batch.");
-        //secondaryText.setSpan(new ForegroundColorSpan(ContextCompat.getColor(this, R.color.colorAccent)), 0, 30, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
-        SpannableStringBuilder primaryText = new SpannableStringBuilder("Save your egg batch.");
-        //primaryText.setSpan(new BackgroundColorSpan(ContextCompat.getColor(this, R.color.colorAccent)), 0, 40, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
-        mFabPrompt = new MaterialTapTargetPrompt.Builder(AddEggBatchActivity.this)
-                .setTarget(findViewById(R.id.fab_add_save_egg_batch))
-                .setFocalPadding(R.dimen.dp40)
-                .setBackgroundColour(getResources().getColor(R.color.colorAccent))
-                .setPrimaryText(primaryText)
-                .setSecondaryText(secondaryText)
-                .setBackButtonDismissEnabled(true)
-                .setAnimationInterpolator(new FastOutSlowInInterpolator())
-                .setPromptStateChangeListener((prompt, state) -> {
-                    if (state == MaterialTapTargetPrompt.STATE_FOCAL_PRESSED
-                            || state == MaterialTapTargetPrompt.STATE_NON_FOCAL_PRESSED)
-                    {
-                        mFabPrompt = null;
-                        //Do something such as storing a value so that this prompt is never shown again
-                    }
-                })
-                .create();
-        if (mFabPrompt != null)
-        {
-            mFabPrompt.show();
-        }
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -554,9 +517,9 @@ public class AddEggBatchActivity extends AppCompatActivity {
         if (!(isEmptyField(et_common_name))) {
             commonName = et_common_name.getText().toString();
         }
-        if (isEmptyField(et_set_date)) {
-            setDate = "";
-        }
+        //if (isEmptyField(et_set_date)) {
+        //    setDate = "";
+        //}
         if (isEmptyField(et_hatch_date)) {
             hatchDate = "";
         }
@@ -593,16 +556,15 @@ public class AddEggBatchActivity extends AppCompatActivity {
                 eggBatch.setBatchLabel(batchLabel);
                 eggBatch.setSpeciesName(speciesName);
                 eggBatch.setCommonName(commonName);
-                eggBatch.setSpeciesID(null);
+                eggBatch.setSpeciesID(0L);
                 eggBatch.setLayDate(layDate);
                 eggBatch.setSetDate(setDate);
                 eggBatch.setHatchDate(hatchDate);
-                eggBatch.setIncubatorID(null);
+                eggBatch.setIncubatorID(0L);
                 eggBatch.setIncubatorName(incubatorName);
                 eggBatch.setLocation(location);
                 eggBatch.setNumberOfEggs(numberOfEggs);
                 eggBatch.setTrackingOption(trackingOption);
-
                 eggBatch.setIncubatorSettings(incubatorSettings);
                 eggBatch.setTemperature(temperature);
                 eggBatch.setIncubationDays(incubationDays);

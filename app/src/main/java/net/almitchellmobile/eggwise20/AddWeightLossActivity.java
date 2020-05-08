@@ -68,7 +68,7 @@ public class AddWeightLossActivity extends AppCompatActivity {
             button_save_list_weight_loss,
             button_cancel_list_batch,
             button_cancel_list_eggs,
-            button_reading_date_lookup;
+            button_reading_date_lookup, button_add_weight, button_show_hide_rejects;
 
     ArrayAdapter<String> adapterBatchLabel;
     ArrayList<String> arrayListBatchLabel = new ArrayList<>();
@@ -136,29 +136,13 @@ public class AddWeightLossActivity extends AppCompatActivity {
         sharedpreferences = getSharedPreferences(mypreference,Context.MODE_PRIVATE);
         editor = sharedpreferences.edit();
 
-        Common.PREF_TEMPERATURE_ENTERED_IN = sharedpreferences.getString("temperature_entered_in", "");
+        Common.PREF_TEMPERATURE_ENTERED_IN = sharedpreferences.getString("temperature_entered_in", "Fahrenheit");
         Common.PREF_HUMIDITY_MEASURED_WITH = sharedpreferences.getString("humidity_measured_with", "");
-        Common.PREF_WEIGHT_ENTERED_IN = sharedpreferences.getString("weight_entered_in", "");
-        if (sharedpreferences.contains("days_to_hatcher_before_hatching")) {
-            Common.PREF_DAYS_TO_HATCHER_BEFORE_HATCHING = sharedpreferences.getInt("days_to_hatcher_before_hatching", 3);
-        } else {
-            Common.PREF_DAYS_TO_HATCHER_BEFORE_HATCHING = 0;
-        }
-        if (sharedpreferences.contains("default_weight_loss_percentage")) {
-            Common.PREF_DEFAULT_WEIGHT_LOSS_PRECENTAGE = sharedpreferences.getFloat("default_weight_loss_percentage", 13.0F);
-            //double data = PREF_DEFAULT_WEIGHT_LOSS_PRECENTAGE;
-            //int value = (int)data;
-            Common.PREF_DEFAULT_WEIGHT_LOSS_INTEGER = Common.convertDoubleToInteger(Common.PREF_DEFAULT_WEIGHT_LOSS_PRECENTAGE);
-        } else {
-            Common.PREF_DEFAULT_WEIGHT_LOSS_PRECENTAGE = 13.0F;
-            Common.PREF_DEFAULT_WEIGHT_LOSS_INTEGER = 13;
-        }
-        if (sharedpreferences.contains("warn_weight_deviation_percentage")) {
-            Common.PREF_WARN_WEIGHT_DEVIATION_PERCENTAGE = sharedpreferences.getFloat("warn_weight_deviation_percentage", 0.5F);
-        } else {
-            Common.PREF_WARN_WEIGHT_DEVIATION_PERCENTAGE = 0.0F;
-        }
-
+        Common.PREF_WEIGHT_ENTERED_IN = sharedpreferences.getString("weight_entered_in", "Ounces");
+        Common.PREF_DAYS_TO_HATCHER_BEFORE_HATCHING = sharedpreferences.getInt("days_to_hatcher_before_hatching", 3);
+        Common.PREF_DEFAULT_WEIGHT_LOSS_PRECENTAGE = Double.valueOf(sharedpreferences.getFloat("default_weight_loss_percentage", 13.0F));
+        Common.PREF_DEFAULT_WEIGHT_LOSS_INTEGER = Common.convertDoubleToInteger(Common.PREF_DEFAULT_WEIGHT_LOSS_PRECENTAGE);
+        Common.PREF_WARN_WEIGHT_DEVIATION_PERCENTAGE = Double.valueOf(sharedpreferences.getFloat("warn_weight_deviation_percentage", 0.5F));
 
         text_number_of_eggs_remaining = findViewById(R.id.text_number_of_eggs_remaining);
         text_incubator_name = findViewById(R.id.text_incubator_name);
@@ -166,10 +150,10 @@ public class AddWeightLossActivity extends AppCompatActivity {
         text_batch_label = findViewById(R.id.text_batch_label);
         et_egg_label = findViewById(R.id.et_egg_label);
         et_egg_weight = findViewById(R.id.et_egg_weight);
-        if (Common.PREF_WEIGHT_ENTERED_IN.toString().trim().length() != 0) {
+        /*if (Common.PREF_WEIGHT_ENTERED_IN.toString().trim().length() != 0) {
             hintStringValue = "Egg Weight (" + Common.PREF_WEIGHT_ENTERED_IN + ")";
             et_egg_weight.setHint(hintStringValue);
-        }
+        }*/
 
 
         button_reading_date_lookup = findViewById(R.id.button_reading_date_lookup);
@@ -204,13 +188,14 @@ public class AddWeightLossActivity extends AppCompatActivity {
         et_egg_label.setInputType(InputType.TYPE_CLASS_TEXT);
         et_reading_day_number.setInputType(InputType.TYPE_CLASS_NUMBER);
         et_reading_date.setInputType(InputType.TYPE_CLASS_TEXT);
-        //et_egg_weight.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
+        String weightHint = "Egg Weight (" + Common.PREF_WEIGHT_ENTERED_IN + ") ";
+        et_egg_weight.setHint(weightHint);
         et_egg_weight.setRawInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED | InputType.TYPE_NUMBER_FLAG_DECIMAL);
         et_weight_loss_comment.setInputType(InputType.TYPE_CLASS_TEXT);
 
 
-        fab_add_save_weight_loss = findViewById(R.id.fab_add_save_weight_loss);
-        fab_add_save_weight_loss.setOnClickListener(new View.OnClickListener() {
+        /*button_add_weight  = findViewById(R.id.button_add_weight);
+        button_add_weight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 try {
@@ -228,7 +213,26 @@ public class AddWeightLossActivity extends AppCompatActivity {
                 }
             }
         });
-        fab_add_save_weight_loss.setVisibility(View.GONE);
+        button_add_weight.setVisibility(View.GONE);*/
+
+        fab_add_save_weight_loss = findViewById(R.id.fab_add_save_weight_loss);
+        fab_add_save_weight_loss.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try {
+                    if(validateRequiredFields()) {
+                        updateInsertEggDaily();
+                        Intent intent1 = new Intent(AddWeightLossActivity.this, WeightLossListActivity.class);
+                        intent1.putExtra("eggBatch", eggBatch);
+                        //intent1.putExtra("eggDaily", eggDaily);
+                        startActivity(intent1);
+                    }
+                } catch (java.text.ParseException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        //fab_add_save_weight_loss.setVisibility(View.GONE);
 
 
         DatePickerDialog.OnDateSetListener getDateDatePickerDialog = new
@@ -385,19 +389,12 @@ public class AddWeightLossActivity extends AppCompatActivity {
             update = false;
             getSupportActionBar().setTitle("Add Egg Weight for Batch: " + batchLabel);
             eggBatchID = eggDaily.getEggBatchID();
-            //et_egg_label.setText(eggDaily.getEggLabel());
-            //if (!readingDate.isEmpty()) {
+            et_reading_date.setText(eggDaily.getReadingDate());
+            readingDate = eggDaily.getReadingDate();
+            et_reading_day_number.setText(eggDaily.getReadingDayNumber().toString());
+            readingDayNumber = eggDaily.getReadingDayNumber();
+            et_egg_label.requestFocus();
 
-                        et_reading_date.setText(eggDaily.getReadingDate());
-                readingDate = eggDaily.getReadingDate();
-                et_reading_day_number.setText(eggDaily.getReadingDayNumber().toString());
-                readingDayNumber = eggDaily.getReadingDayNumber();
-
-            //}
-            //et_reading_day_number.setText(eggDaily.getReadingDayNumber().toString());
-            //readingDayNumber = eggDaily.getReadingDayNumber();
-            //et_egg_weight.setText(eggDaily.getEggWeight().toString());
-            //et_weight_loss_comment.setText(eggDaily.eggDailyComment);
             button_save_add_weight_loss.setText("Save/Add Next");
         } else if (getIntent().getSerializableExtra("eggDailyUpdate") != null) {
             eggDaily = (EggDaily) getIntent().getSerializableExtra("eggDailyUpdate");
