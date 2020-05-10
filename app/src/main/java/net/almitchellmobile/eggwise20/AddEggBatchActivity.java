@@ -116,10 +116,9 @@ public class AddEggBatchActivity extends AppCompatActivity {
 
     RelativeLayout rl_egg_batch;
 
-    String[] incubatorSettingsValues = {"Humidity %", "Wet Bulb"};
+    String[] incubatorSettingsValues = {"Humidity %", "Wet Bulb Reading"};
     ArrayAdapter<String> adapterIncubatorSettings;
     ArrayList<String> batchLabels = new ArrayList<>();
-
 
 
     @Override

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -56,29 +57,85 @@ public class SettingsActivity extends AppCompatActivity {
 
         });
 
-        //btn_save = findViewById(R.id.btn_save);
-        //btn_retrieve =  findViewById(R.id.btn_retrieve);
-        //btn_clear =  findViewById(R.id.btn_clear);
 
         rg_temperature_entered_in = findViewById(R.id.rg_temperature_entered_in);
-        rg_humidity_measured_with  =  findViewById(R.id.rg_humidity_measured_with);
-        rg_weight_entered_in  =  findViewById(R.id.rg_weight_entered_in);
-
         rb_celcius =  findViewById(R.id.rb_celcius);
         rb_fahrenheit  =  findViewById(R.id.rb_fahrenheit);
+        rg_temperature_entered_in.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
+        {
+            public void onCheckedChanged(RadioGroup rg_temperature_entered_in, int checkedId) {
+                switch(checkedId){
+                    case R.id.rb_celcius:
+                        Common.PREF_TEMPERATURE_ENTERED_IN = rb_celcius.getText().toString();
+                        break;
+                    case R.id.rb_fahrenheit:
+                        Common.PREF_TEMPERATURE_ENTERED_IN = rb_fahrenheit.getText().toString();
+                        break;
+                }
+            }
+        });
+
+        rg_humidity_measured_with  =  findViewById(R.id.rg_humidity_measured_with);
         rb_wet_bulb_readings =  findViewById(R.id.rb_wet_bulb_readings);
+        rb_wet_bulb_readings.setText("Wet Bulb Reading");
         rb_relative_humidity_percentage =  findViewById(R.id.rb_relative_humidity_percentage);
+        rb_relative_humidity_percentage.setText("Humidity %");
+        rg_humidity_measured_with.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
+        {
+            public void onCheckedChanged(RadioGroup rg_humidity_measured_with, int checkedId) {
+            switch(checkedId){
+                case R.id.rb_relative_humidity_percentage:
+                    Common.PREF_HUMIDITY_MEASURED_WITH = rb_relative_humidity_percentage.getText().toString();
+                    break;
+                case R.id.rb_wet_bulb_readings:
+                    Common.PREF_HUMIDITY_MEASURED_WITH = rb_wet_bulb_readings.getText().toString();
+                    break;
+            }
+        }
+        });
+
+        rg_weight_entered_in  =  findViewById(R.id.rg_weight_entered_in);
         rb_grams = findViewById(R.id.rb_grams);
         rb_ounces =  findViewById(R.id.rb_ounces);
+        rg_weight_entered_in.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
+        {
+            public void onCheckedChanged(RadioGroup rg_humidity_measured_with, int checkedId) {
+                switch(checkedId){
+                    case R.id.rb_grams:
+                        Common.PREF_WEIGHT_ENTERED_IN = rb_grams.getText().toString();
+                        break;
+                    case R.id.rb_ounces:
+                        Common.PREF_WEIGHT_ENTERED_IN = rb_ounces.getText().toString();
+                        break;
+                }
+            }
+        });
+
 
         et_days_to_hatcher_before_hatching =  findViewById(R.id.et_days_to_hatcher_before_hatching);
         et_days_to_hatcher_before_hatching.setSelectAllOnFocus(true);
+        et_days_to_hatcher_before_hatching.setInputType(InputType.TYPE_CLASS_NUMBER);
 
         et_default_weight_loss_percentage =  findViewById(R.id.et_default_weight_loss_percentage);
         et_default_weight_loss_percentage.setSelectAllOnFocus(true);
+        et_default_weight_loss_percentage.setRawInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED | InputType.TYPE_NUMBER_FLAG_DECIMAL);
 
         et_warn_weight_deviation_percentage =  findViewById(R.id.et_warn_weight_deviation_percentage);
         et_warn_weight_deviation_percentage.setSelectAllOnFocus(true);
+        et_warn_weight_deviation_percentage.setRawInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+
+       /* sharedpreferences = getSharedPreferences(mypreference,Context.MODE_PRIVATE);
+        editor = sharedpreferences.edit();
+
+        Common.PREF_TEMPERATURE_ENTERED_IN = sharedpreferences.getString("temperature_entered_in", "Fahrenheit");
+        Common.PREF_HUMIDITY_MEASURED_WITH = sharedpreferences.getString("humidity_measured_with", "Humidity %");
+        Common.PREF_WEIGHT_ENTERED_IN = sharedpreferences.getString("weight_entered_in", "Ounces");
+        Common.PREF_DAYS_TO_HATCHER_BEFORE_HATCHING = sharedpreferences.getInt("days_to_hatcher_before_hatching", 3);
+        Common.PREF_DEFAULT_WEIGHT_LOSS_PRECENTAGE = Double.valueOf(sharedpreferences.getFloat("default_weight_loss_percentage", 13.0F));
+        Common.PREF_DEFAULT_WEIGHT_LOSS_INTEGER = Common.convertDoubleToInteger(Common.PREF_DEFAULT_WEIGHT_LOSS_PRECENTAGE);
+        Common.PREF_WARN_WEIGHT_DEVIATION_PERCENTAGE = Double.valueOf(sharedpreferences.getFloat("warn_weight_deviation_percentage", 0.5F));*/
+
+        getPrefrences();
 
     }
 
@@ -126,24 +183,7 @@ public class SettingsActivity extends AppCompatActivity {
         sharedpreferences = getSharedPreferences(mypreference,
                 Context.MODE_PRIVATE);
 
-        Integer checkedTemperatureEnteredIn =  rg_temperature_entered_in.getCheckedRadioButtonId();
-        if (rb_celcius.getId() == checkedTemperatureEnteredIn) {
-            Common.PREF_TEMPERATURE_ENTERED_IN = rb_celcius.getText().toString();
-        } else {
-            Common.PREF_TEMPERATURE_ENTERED_IN = rb_fahrenheit.getText().toString();
-        }
-        Integer checkedHumidityMeasuredWith =  rg_humidity_measured_with.getCheckedRadioButtonId();
-        if (rb_relative_humidity_percentage.getId() == checkedHumidityMeasuredWith) {
-            Common.PREF_HUMIDITY_MEASURED_WITH = rb_relative_humidity_percentage.getText().toString();
-        } else {
-            Common.PREF_HUMIDITY_MEASURED_WITH = rb_wet_bulb_readings.getText().toString();
-        }
-        Integer checkedWeightEnteredIn =  rg_weight_entered_in.getCheckedRadioButtonId();
-        if (rb_grams.getId() == checkedWeightEnteredIn) {
-            Common.PREF_WEIGHT_ENTERED_IN = rb_grams.getText().toString();
-        } else {
-            Common.PREF_WEIGHT_ENTERED_IN = rb_ounces.getText().toString();
-        }
+
 
         if (!(et_days_to_hatcher_before_hatching.getText().toString().length() == 0)) {
             Common.PREF_DAYS_TO_HATCHER_BEFORE_HATCHING = Integer.parseInt(et_days_to_hatcher_before_hatching.getText().toString());
@@ -186,12 +226,12 @@ public class SettingsActivity extends AppCompatActivity {
 
 
 
-    public void getPrefrences(View view) {
+    public void getPrefrences() {
 
         sharedpreferences = getSharedPreferences(mypreference,
                 Context.MODE_PRIVATE);
 
-        String prefValue = sharedpreferences.getString("temperature_entered_in", null);
+        prefValue = sharedpreferences.getString("temperature_entered_in", null);
         if (prefValue.toLowerCase().contains("fahrenheit")) {
             rb_fahrenheit.setChecked(true);
         } else {
@@ -212,9 +252,17 @@ public class SettingsActivity extends AppCompatActivity {
             rb_grams.setChecked(true);
         }
 
-        et_days_to_hatcher_before_hatching.setText(sharedpreferences.getString("days_to_hatcher_before_hatching", null));
-        et_default_weight_loss_percentage.setText(sharedpreferences.getString("default_weight_loss_percentage", null));
-        et_warn_weight_deviation_percentage.setText(sharedpreferences.getString("warn_weight_deviation_percentage", null));
+        et_days_to_hatcher_before_hatching.setText(Integer.toString(sharedpreferences.getInt("days_to_hatcher_before_hatching", 0)));
+        et_default_weight_loss_percentage.setText(Float.toString(sharedpreferences.getFloat("default_weight_loss_percentage", 0.0F)));
+        et_warn_weight_deviation_percentage.setText(Float.toString(sharedpreferences.getFloat("warn_weight_deviation_percentage", 0.0F)));
+
+        Common.PREF_TEMPERATURE_ENTERED_IN = sharedpreferences.getString("temperature_entered_in", "Fahrenheit");
+        Common.PREF_HUMIDITY_MEASURED_WITH = sharedpreferences.getString("humidity_measured_with", "Humidity %");
+        Common.PREF_WEIGHT_ENTERED_IN = sharedpreferences.getString("weight_entered_in", "Ounces");
+        Common.PREF_DAYS_TO_HATCHER_BEFORE_HATCHING = sharedpreferences.getInt("days_to_hatcher_before_hatching", 3);
+        Common.PREF_DEFAULT_WEIGHT_LOSS_PRECENTAGE = Double.valueOf(sharedpreferences.getFloat("default_weight_loss_percentage", 13.0F));
+        Common.PREF_DEFAULT_WEIGHT_LOSS_INTEGER = Common.convertDoubleToInteger(Common.PREF_DEFAULT_WEIGHT_LOSS_PRECENTAGE);
+        Common.PREF_WARN_WEIGHT_DEVIATION_PERCENTAGE = Double.valueOf(sharedpreferences.getFloat("warn_weight_deviation_percentage", 0.5F));
     }
 
 }

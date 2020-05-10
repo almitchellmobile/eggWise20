@@ -371,7 +371,9 @@ public class WeightLossChartActivity extends AppCompatActivity {
 
                     lineGraphSeriesActualWeightLossAT = new LineGraphSeries<DataPoint>(dataPointsActualWeightLossAT);
                     lineGraphSeriesActualWeightLossAT.setDrawDataPoints(true);
-                    lineGraphSeriesActualWeightLossAT.setColor(Color.YELLOW);
+                    String eggWiseYellow = "#ECC317";
+                    lineGraphSeriesActualWeightLossAT.setColor(Color.parseColor(eggWiseYellow));
+                    //lineGraphSeriesActualWeightLossAT.setColor(Color.YELLOW);
                     lineGraphSeriesActualWeightLossAT.setTitle("Actual Weight Loss");
 
                     graphWeightLossAT.addSeries(lineGraphSeriesTargetWeightLossAT);

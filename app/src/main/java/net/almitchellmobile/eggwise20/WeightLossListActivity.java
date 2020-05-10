@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.icu.text.DecimalFormat;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.InputType;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
@@ -317,6 +318,7 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
         et_weight_loss_filter_day = (EditText) findViewById(R.id.et_weight_loss_filter_day);
         et_weight_loss_filter_day.setSelectAllOnFocus(true);
         et_weight_loss_filter_day.setFocusable(true);
+        et_weight_loss_filter_day.setInputType(InputType.TYPE_CLASS_NUMBER);
 
         /*et_weight_loss_filter_day.addTextChangedListener(new TextWatcher() {
             @Override
@@ -876,7 +878,7 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
 
         new AlertDialog.Builder(WeightLossListActivity.this)
                 .setTitle("Select Options")
-                .setItems(new String[]{"Delete", "Update", "Weight Loss Chart", "Reject/Restore Egg", "Cancel"}, new DialogInterface.OnClickListener() {
+                .setItems(new String[]{"Delete", "Update", "Display Weight Loss Chart", "Reject/Restore Egg", "Cancel"}, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         switch (i){
@@ -896,6 +898,7 @@ public class WeightLossListActivity extends AppCompatActivity implements EggWeig
                                     e.printStackTrace();
                                 }
                                 listVisibility();
+                                resetFilters();
                                 initializeViews();
                                 displayList();
                                 break;

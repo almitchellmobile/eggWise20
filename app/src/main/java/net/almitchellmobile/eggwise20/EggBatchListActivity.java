@@ -516,7 +516,7 @@ public class EggBatchListActivity extends AppCompatActivity implements EggBatchA
     public void onEggBatchClick(final int pos) {
         new AlertDialog.Builder(EggBatchListActivity.this)
                 .setTitle("Select Options")
-                .setItems(new String[]{"Delete", "Update", "Enter Egg Weight", "List Egg Weights", "Weight Loss Chart", "Cancel"}, new DialogInterface.OnClickListener() {
+                .setItems(new String[]{"Delete", "Update", "Enter Egg Weight", "List Egg Weights", "Display Weight Loss Chart", "Cancel"}, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         switch (i){

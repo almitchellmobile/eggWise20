@@ -10,9 +10,11 @@ import android.icu.text.SimpleDateFormat;
 import android.icu.util.Calendar;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.InputType;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
+import android.text.TextWatcher;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.Menu;
@@ -160,6 +162,31 @@ public class AddWeightLossActivity extends AppCompatActivity {
         button_reading_date_lookup.setText("Set Reading Date");
 
         et_reading_day_number = findViewById(R.id.et_reading_day_number);
+        et_reading_day_number.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // Do some thing now
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // Change the TextView background color
+                //tv.setBackgroundColor(Color.YELLOW);
+
+                // Get the EditText text and display it on TextView
+                //tv.setText(et.getText());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                // Do something at this time
+                //readingDayNumber = Integer.valueOf(et_reading_day_number.getText().toString());
+                if (!(et_reading_day_number.getText().toString().length() == 0)) {
+                    GetNewReadingDayNumber_ComputeReadingDate();
+                }
+            }
+        });
+
         et_reading_date = findViewById(R.id.et_reading_date);
         et_weight_loss_comment = findViewById(R.id.et_weight_loss_comment);
 
@@ -264,23 +291,7 @@ public class AddWeightLossActivity extends AppCompatActivity {
                     if (!(et_reading_day_number.getText().toString().length() == 0)) {
                         //Toast.makeText(getApplicationContext(), "Lost the focus", Toast.LENGTH_LONG).show();
                         try {
-                            readingDayNumber = Integer.parseInt(et_reading_day_number.getText().toString());
-
-                            String myFormat = "MM/dd/yyyy";
-                            sdf = new android.icu.text.SimpleDateFormat(myFormat, Locale.US);
-
-                            Calendar calendar = Calendar.getInstance();
-
-                            try {
-                                calendar.setTime(sdf.parse(setDate));
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            calendar.add(Calendar.DATE, Integer.parseInt(et_reading_day_number.getText().toString()));
-
-                            SimpleDateFormat sdf1 = new SimpleDateFormat(myFormat);
-                            readingDate = sdf1.format(calendar.getTime());
-                            et_reading_date.setText(readingDate);
+                            GetNewReadingDayNumber_ComputeReadingDate();
 
                         } catch (NumberFormatException e) {
                             e.printStackTrace();
@@ -440,6 +451,26 @@ public class AddWeightLossActivity extends AppCompatActivity {
             editor.putBoolean("COMPLETED_ONBOARDING_PREF_WEIGHT_LOSS_LIST_1", true);
             editor.commit();
         }
+    }
+
+    private void GetNewReadingDayNumber_ComputeReadingDate() {
+        readingDayNumber = Integer.parseInt(et_reading_day_number.getText().toString());
+
+        String myFormat = "MM/dd/yyyy";
+        sdf = new SimpleDateFormat(myFormat, Locale.US);
+
+        Calendar calendar = Calendar.getInstance();
+
+        try {
+            calendar.setTime(sdf.parse(setDate));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        calendar.add(Calendar.DATE, Integer.parseInt(et_reading_day_number.getText().toString()));
+
+        SimpleDateFormat sdf1 = new SimpleDateFormat(myFormat);
+        readingDate = sdf1.format(calendar.getTime());
+        et_reading_date.setText(readingDate);
     }
 
     public static boolean isTablet(Context context) {
