@@ -115,13 +115,13 @@ public class EggWiseMainActivity extends AppCompatActivity implements Navigation
             editor.putBoolean("COMPLETED_ONBOARDING_PREF_ALL", false);
             editor.putBoolean("COMPLETED_ONBOARDING_PREF_SET_UP", false);
 
-            editor.putString("humidity_measured_with", "Humidity %");
-            editor.putString("weight_entered_in", "Grams");
-            editor.putString("temperature_entered_in", "Celsius");
+            /*editor.putString("humidity_measured_with", "Humidity %");
+            editor.putString("weight_entered_in", "Ounces");
+            editor.putString("temperature_entered_in", "Fahrenheit");
 
             editor.putInt("days_to_hatcher_before_hatching", 3);
             editor.putFloat("default_weight_loss_percentage", 13.0F);
-            editor.putFloat("warn_weight_deviation_percentage", 0.5F);
+            editor.putFloat("warn_weight_deviation_percentage", 0.5F);*/
 
             editor.putBoolean("COMPLETED_ONBOARDING_PREF_SET_UP", true);
 

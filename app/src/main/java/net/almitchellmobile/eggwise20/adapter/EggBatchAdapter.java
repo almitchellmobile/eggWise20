@@ -47,7 +47,8 @@ public class EggBatchAdapter extends RecyclerView.Adapter<EggBatchAdapter.BeanHo
 
     @Override
     public EggBatchAdapter.BeanHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = layoutInflater.inflate(R.layout.list_item_egg_batch,parent,false);
+        //View view = layoutInflater.inflate(R.layout.list_item_egg_batch,parent,false);
+        View view = layoutInflater.inflate(R.layout.content_egg_batch_list,parent,false);
         return new EggBatchAdapter.BeanHolder(view);
     }
 
