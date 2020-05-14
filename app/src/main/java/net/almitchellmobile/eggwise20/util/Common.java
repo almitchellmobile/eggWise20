@@ -303,6 +303,18 @@ public class Common {
         return result;
     }
 
+    public static boolean isNumeric(String strNum) {
+        if (strNum == null) {
+            return false;
+        }
+        try {
+            double d = Double.parseDouble(strNum);
+        } catch (NumberFormatException nfe) {
+            return false;
+        }
+        return true;
+    }
+
     public  static Integer computeReadingDateNumber(String eggSetDate, String readingDate)
             throws java.text.ParseException {
         Integer readingDayNumber = 0;

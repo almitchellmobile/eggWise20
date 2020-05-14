@@ -231,30 +231,30 @@ public class SettingsActivity extends AppCompatActivity {
         sharedpreferences = getSharedPreferences(mypreference,
                 Context.MODE_PRIVATE);
 
-        prefValue = sharedpreferences.getString("temperature_entered_in", null);
+        prefValue = sharedpreferences.getString("temperature_entered_in", "Fahrenheit");
         if (prefValue.toLowerCase().contains("fahrenheit")) {
             rb_fahrenheit.setChecked(true);
         } else {
             rb_celcius.setChecked(true);
         }
 
-        prefValue = sharedpreferences.getString("humidity_measured_with", null);
-        if (prefValue.toLowerCase().contains("wet bulb readings")) {
-            rb_wet_bulb_readings.setChecked(true);
-        } else {
+        prefValue = sharedpreferences.getString("humidity_measured_with", "Humidity %");
+        if (prefValue.toLowerCase().contains("humidity")) {
             rb_relative_humidity_percentage.setChecked(true);
+        } else {
+            rb_wet_bulb_readings.setChecked(true);
         }
 
-        prefValue = sharedpreferences.getString("weight_entered_in", null);
+        prefValue = sharedpreferences.getString("weight_entered_in", "Ounces");
         if (prefValue.toLowerCase().contains("ounces")) {
             rb_ounces.setChecked(true);
         } else {
             rb_grams.setChecked(true);
         }
 
-        et_days_to_hatcher_before_hatching.setText(Integer.toString(sharedpreferences.getInt("days_to_hatcher_before_hatching", 0)));
-        et_default_weight_loss_percentage.setText(Float.toString(sharedpreferences.getFloat("default_weight_loss_percentage", 0.0F)));
-        et_warn_weight_deviation_percentage.setText(Float.toString(sharedpreferences.getFloat("warn_weight_deviation_percentage", 0.0F)));
+        et_days_to_hatcher_before_hatching.setText(Integer.toString(sharedpreferences.getInt("days_to_hatcher_before_hatching", 3)));
+        et_default_weight_loss_percentage.setText(Float.toString(sharedpreferences.getFloat("default_weight_loss_percentage", 13.0F)));
+        et_warn_weight_deviation_percentage.setText(Float.toString(sharedpreferences.getFloat("warn_weight_deviation_percentage", 0.5F)));
 
         Common.PREF_TEMPERATURE_ENTERED_IN = sharedpreferences.getString("temperature_entered_in", "Fahrenheit");
         Common.PREF_HUMIDITY_MEASURED_WITH = sharedpreferences.getString("humidity_measured_with", "Humidity %");

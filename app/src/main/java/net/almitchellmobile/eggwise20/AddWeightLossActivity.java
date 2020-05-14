@@ -15,6 +15,7 @@ import android.text.InputType;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextWatcher;
+import android.text.method.DigitsKeyListener;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.Menu;
@@ -217,7 +218,9 @@ public class AddWeightLossActivity extends AppCompatActivity {
         et_reading_date.setInputType(InputType.TYPE_CLASS_TEXT);
         String weightHint = "Egg Weight (" + Common.PREF_WEIGHT_ENTERED_IN + ") ";
         et_egg_weight.setHint(weightHint);
-        et_egg_weight.setRawInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+        //et_egg_weight.setRawInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+        et_egg_weight.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+        //et_egg_weight.setKeyListener(new CustomDigitsKeyListener(true,true));
         et_weight_loss_comment.setInputType(InputType.TYPE_CLASS_TEXT);
 
 
@@ -280,7 +283,9 @@ public class AddWeightLossActivity extends AppCompatActivity {
             public void onClick(View view) {
                 new DatePickerDialog(AddWeightLossActivity.this, getDateDatePickerDialog, myCalendar
                         .get(android.icu.util.Calendar.YEAR), myCalendar.get(android.icu.util.Calendar.MONTH),
-                        myCalendar.get(android.icu.util.Calendar.DAY_OF_MONTH)).show();            }
+                        myCalendar.get(android.icu.util.Calendar.DAY_OF_MONTH)).show();
+
+            }
         });
 
         et_reading_day_number.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -357,11 +362,8 @@ public class AddWeightLossActivity extends AppCompatActivity {
                     if(validateRequiredFields()) {
                         updateInsertEggDaily();
                         setResult(eggDaily,"insert_add_next");
-
-                   /* Intent intent1 = new Intent(AddWeightLossActivity.this, AddWeightLossActivity.class);
-                    intent1.putExtra("eggBatch", eggBatch);
-                    intent1.putExtra("eggDailyAdd", eggDaily);
-                    startActivity(intent1);*/
+                    } else {
+                        return;
                     }
                 } catch (java.text.ParseException e) {
                     e.printStackTrace();
@@ -599,7 +601,7 @@ public class AddWeightLossActivity extends AppCompatActivity {
                                 et_reading_day_number.setInputType(InputType.TYPE_CLASS_NUMBER);
                                 et_reading_date.setInputType(InputType.TYPE_CLASS_TEXT);
                                 //et_egg_weight.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
-                                et_egg_weight.setRawInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+                                et_egg_weight.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED | InputType.TYPE_NUMBER_FLAG_DECIMAL);
                                 et_egg_label.setInputType(InputType.TYPE_CLASS_TEXT);
                                 et_weight_loss_comment.setInputType(InputType.TYPE_CLASS_TEXT);
                                 button_reading_date_lookup.setFocusable(true);
@@ -814,25 +816,39 @@ public class AddWeightLossActivity extends AppCompatActivity {
             et_egg_label.setHint("Please enter Egg Label.");
             et_egg_label.setError("Egg Label is required.");
             et_egg_label.requestFocus();
-            return false;
+            //return false;
         }
+
+
         if (!(et_egg_weight.getText().toString().length() == 0)) {
-            eggWeight = Double.parseDouble(et_egg_weight.getText().toString());
+            if (Common.isNumeric(et_egg_weight.getText().toString())) {
+                eggWeight = Double.parseDouble(et_egg_weight.getText().toString());
+            } else {
+                et_egg_weight.setHint("Please enter Egg Weight.");
+                et_egg_weight.setError("Egg Weight is not a number: " + et_egg_weight.getText().toString());
+                et_egg_weight.requestFocus();
+            }
         } else {
             et_egg_weight.setHint("Please enter Egg Weight.");
             et_egg_weight.setError("Egg Weight is required.");
             et_egg_weight.requestFocus();
-            return false;
+            //return false;
         }
+
+
         if (!(et_reading_date.getText().toString().length() == 0)) {
             readingDate = et_reading_date.getText().toString();
-            readingDayNumber = common.computeReadingDateNumber(setDate,et_reading_date.getText().toString());
+            if (setDate.toString().length() == 0) {
+                setDate = eggBatch.getSetDate();
+            }
+            readingDayNumber = common.computeReadingDateNumber(setDate, et_reading_date.getText().toString());
         } else {
             et_reading_date.setHint("Please enter Reading Date.");
             et_reading_date.setError("Reading Date is required.");
             et_reading_date.requestFocus();
-            return false;
+            //return false;
         }
+
         eggDailyComment =  common.blankIfNullString(et_weight_loss_comment.getText().toString());
 
         return true;
@@ -986,6 +1002,21 @@ public class AddWeightLossActivity extends AppCompatActivity {
                 activityReference.get().finish();
             }
 
+        }
+    }
+
+    public class CustomDigitsKeyListener extends DigitsKeyListener
+    {
+        public CustomDigitsKeyListener() {
+            super(false, false);
+        }
+
+        public CustomDigitsKeyListener(boolean sign, boolean decimal) {
+            super(sign, decimal);
+        }
+
+        public int getInputType() {
+            return InputType.TYPE_NUMBER_FLAG_DECIMAL;
         }
     }
 

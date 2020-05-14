@@ -58,7 +58,7 @@ public class AddEggBatchActivity extends AppCompatActivity {
             et_location, et_incubator_settings, et_temperature, et_incubation_days,
             et_number_of_eggs_hatched, et_target_weight_loss;
     CalendarView cv_set_date, cv_hatch_date;
-    Button button_add_batch;
+    Button button_add_batch, button_set_date_lookup, button_hatch_date_lookup;
     com.google.android.material.floatingactionbutton.FloatingActionButton fab_add_save_egg_batch;
 
     RadioGroup rg_track_weight_loss;
@@ -158,6 +158,50 @@ public class AddEggBatchActivity extends AppCompatActivity {
                 }
             }
         });*/
+
+        DatePickerDialog.OnDateSetListener getSetDatePickerDialog = new
+                DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int monthOfYear,
+                                          int dayOfMonth) {
+                        // TODO Auto-generated method stub
+                        myCalendar.set(android.icu.util.Calendar.YEAR, year);
+                        myCalendar.set(android.icu.util.Calendar.MONTH, monthOfYear);
+                        myCalendar.set(android.icu.util.Calendar.DAY_OF_MONTH, dayOfMonth);
+                        updateSetDate();
+                    }
+                };
+        button_set_date_lookup  = (Button) findViewById(R.id.button_set_date_lookup);
+        button_set_date_lookup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new DatePickerDialog(AddEggBatchActivity.this, getSetDatePickerDialog, myCalendar
+                        .get(android.icu.util.Calendar.YEAR), myCalendar.get(android.icu.util.Calendar.MONTH),
+                        myCalendar.get(android.icu.util.Calendar.DAY_OF_MONTH)).show();
+            }
+        });
+
+        DatePickerDialog.OnDateSetListener getHatchDatePickerDialog = new
+                DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int monthOfYear,
+                                          int dayOfMonth) {
+                        // TODO Auto-generated method stub
+                        myCalendar.set(android.icu.util.Calendar.YEAR, year);
+                        myCalendar.set(android.icu.util.Calendar.MONTH, monthOfYear);
+                        myCalendar.set(android.icu.util.Calendar.DAY_OF_MONTH, dayOfMonth);
+                        updateHatchDate();
+                    }
+                };
+        button_hatch_date_lookup  = (Button) findViewById(R.id.button_hatch_date_lookup);
+        button_hatch_date_lookup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new DatePickerDialog(AddEggBatchActivity.this, getHatchDatePickerDialog, myCalendar
+                        .get(android.icu.util.Calendar.YEAR), myCalendar.get(android.icu.util.Calendar.MONTH),
+                        myCalendar.get(android.icu.util.Calendar.DAY_OF_MONTH)).show();
+            }
+        });
 
         et_batch_label = findViewById(R.id.et_batch_label);
         et_batch_label.setSelectAllOnFocus(true);
@@ -547,6 +591,30 @@ public class AddEggBatchActivity extends AppCompatActivity {
         if (!(isEmptyField(et_target_weight_loss))) {
             targetWeightLoss = Integer.parseInt(et_target_weight_loss.getText().toString());
         }
+    }
+
+    private void updateSetDate() {
+
+        myFormat = "MM/dd/yyyy"; //In which you need put here
+        sdf = new android.icu.text.SimpleDateFormat(myFormat, Locale.US);
+        //try {
+            setDate = sdf.format(myCalendar.getTime());
+            et_set_date.setText(sdf.format(myCalendar.getTime()));
+
+            //readingDayNumber = Common.computeReadingDateNumber(setDate,et_reading_date.getText().toString());
+            //et_reading_day_number.setText(readingDayNumber.toString());
+
+        //} catch (ParseException e) {
+        //    e.printStackTrace();
+        //}
+    }
+
+    private void updateHatchDate() {
+
+        myFormat = "MM/dd/yyyy"; //In which you need put here
+        sdf = new android.icu.text.SimpleDateFormat(myFormat, Locale.US);
+            hatchDate = sdf.format(myCalendar.getTime());
+            et_hatch_date.setText(sdf.format(myCalendar.getTime()));
     }
 
     private void updateInsertEggBatch() {

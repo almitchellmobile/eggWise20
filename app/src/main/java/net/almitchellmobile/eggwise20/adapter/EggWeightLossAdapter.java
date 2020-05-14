@@ -2,6 +2,7 @@ package net.almitchellmobile.eggwise20.adapter;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.view.LayoutInflater;
@@ -12,6 +13,7 @@ import android.widget.Filterable;
 import android.widget.TextView;
 
 import net.almitchellmobile.eggwise20.R;
+import net.almitchellmobile.eggwise20.WeightLossListActivity;
 import net.almitchellmobile.eggwise20.database.EggWiseDatabse;
 import net.almitchellmobile.eggwise20.database.model.EggDaily;
 import net.almitchellmobile.eggwise20.util.Common;
@@ -29,7 +31,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class EggWeightLossAdapter extends RecyclerView.Adapter <EggWeightLossAdapter.BeanHolder>  {
 
-    public static Integer NUMBER_OF_REJECTED_EGGS = 0;
+    //public static Integer NUMBER_OF_REJECTED_EGGS = 0;
 
     public static SharedPreferences sharedpreferences;
     public static SharedPreferences.Editor editor;
@@ -87,13 +89,13 @@ public class EggWeightLossAdapter extends RecyclerView.Adapter <EggWeightLossAda
     Common common;
 
 
-    public EggWeightLossAdapter(List<EggDaily> eggDailyList, Context context, Integer numberOfRejectedEggs) {
+    public EggWeightLossAdapter(List<EggDaily> eggDailyList, Context context) {
         layoutInflater = LayoutInflater.from(context);
         this.eggDailyList = eggDailyList;
         this.context = context;
         this.onEggWeightItemClick = (OnEggWeightItemClick) context;
         //this.eggWiseDatabse = eggWiseDatabse;
-        this.NUMBER_OF_REJECTED_EGGS = numberOfRejectedEggs;
+        //this.NUMBER_OF_REJECTED_EGGS = numberOfRejectedEggs;
         common = new Common();
         sharedpreferences = context.getSharedPreferences(mypreference,
                 Context.MODE_PRIVATE);
@@ -119,9 +121,12 @@ public class EggWeightLossAdapter extends RecyclerView.Adapter <EggWeightLossAda
 
             CharSequence styledTextTitle = "";
             CharSequence styledText = "";
+            ColorStateList oldColors =    holder.tv_egg_weight_title1.getTextColors(); //save original colors
 
-            currentTitle = "<B>Day: " + common.zeroIfNullInteger(eggDailyList.get(position).getReadingDayNumber())  + "</B>, " +
-                    "<B>Egg: " + eggDailyList.get(position).getEggLabel() + "</B>";
+            currentTitle = "<B>Day: " + common.zeroIfNullInteger(eggDailyList.get(position).getReadingDayNumber())  + "</B>" +
+                    ", <B>Egg: " + eggDailyList.get(position).getEggLabel() + "</B>" +
+                    ", <B># Eggs Remaining = </B> " + common.zeroIfNullInteger(eggDailyList.get(position).getNumberOfEggsRemaining() - WeightLossListActivity.NUMBER_OF_REJECTED_EGGS);
+            holder.tv_egg_weight_title1.setTextColor(oldColors);
             if (eggDailyList.get(position).getRejectedEgg() == 1) {
                 //holder.cv_egg_weight.setCardBackgroundColor(Color.RED);
                 holder.tv_egg_weight_title1.setTextColor(Color.RED);
@@ -137,11 +142,11 @@ public class EggWeightLossAdapter extends RecyclerView.Adapter <EggWeightLossAda
 
             //line1 = "<B>Label:</B> " + common.blankIfNullString(eggDailyList.get(position).getEggLabel()) +
             line1 = "<B>Weight:</B> " + common.zeroIfNullDouble(eggDailyList.get(position).getEggWeight()) +
-                    ", <B># Remaining:</B> " + common.zeroIfNullInteger(eggDailyList.get(position).getNumberOfEggsRemaining() - NUMBER_OF_REJECTED_EGGS) +
                     ", <B>Set Date:</B> " + common.blankIfNullString(eggDailyList.get(position).getSetDate()) +
-                    ", <B>Incubator:</B> " + common.blankIfNullString(eggDailyList.get(position).getIncubatorName()) +
+                    //", <B>Incubator:</B> " + common.blankIfNullString(eggDailyList.get(position).getIncubatorName()) +
                     ", <B>Reading Date:</B> " + common.blankIfNullString(eggDailyList.get(position).getReadingDate()) +
                     ", <B>Comment:</B> " + common.blankIfNullString(eggDailyList.get(position).getEggDailyComment());
+
             if (isTablet(context)) {
                 line1 += "<br>===<br>" +
                         //"<B> Weight Sum:</B> " + String.format(Locale.getDefault(), "%.1f", eggDailyList.get(position).getEggWeightSum()) +
@@ -173,7 +178,7 @@ public class EggWeightLossAdapter extends RecyclerView.Adapter <EggWeightLossAda
                             line1 += "*** Warning: Actual weight loss is less than target by ";
                             line1 += (String.format(Locale.getDefault(), "%.2f", eggDailyList.get(position).getWeightLossDeviation())) + " percent, reduce humidity. ";
                         }
-                        line1 += "Warn deviation amount = " + Common.PREF_WARN_WEIGHT_DEVIATION_PERCENTAGE + ". ***";
+                        //line1 += "Warn deviation amount = " + Common.PREF_WARN_WEIGHT_DEVIATION_PERCENTAGE + ". ***";
                         holder.cv_egg_weight.setCardBackgroundColor(Color.YELLOW);
                     } else {
                         holder.cv_egg_weight.setCardBackgroundColor(Color.TRANSPARENT);

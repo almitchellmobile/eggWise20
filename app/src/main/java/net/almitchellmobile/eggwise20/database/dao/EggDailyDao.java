@@ -159,6 +159,12 @@ public interface EggDailyDao {
     @Query(sqlUpdateEggDaily_RejectedEgg)
     void updateEggDaily_RejectedEgg(Integer rejectedEgg, Long eggBatchID, String eggLabel);
 
+    String sqlUpdateEggDaily_RestoreAllRejectedEggs = "Update " + Constants.TABLE_NAME_EGG_DAILY + "  " +
+            "SET RejectedEgg = 0 " +
+            "WHERE EggBatchID = :eggBatchID " ;
+    @Query(sqlUpdateEggDaily_RestoreAllRejectedEggs)
+    void updateEggDaily_RejectedEgg(Long eggBatchID);
+
 
     /*
      * delete the object from database
