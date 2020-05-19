@@ -142,7 +142,7 @@ public class EggWeightLossAdapter extends RecyclerView.Adapter <EggWeightLossAda
 
             //line1 = "<B>Label:</B> " + common.blankIfNullString(eggDailyList.get(position).getEggLabel()) +
             line1 = "<B>Weight:</B> " + common.zeroIfNullDouble(eggDailyList.get(position).getEggWeight()) +
-                    ", <B>Set Date:</B> " + common.blankIfNullString(eggDailyList.get(position).getSetDate()) +
+                    //", <B>Set Date:</B> " + common.blankIfNullString(eggDailyList.get(position).getSetDate()) +
                     //", <B>Incubator:</B> " + common.blankIfNullString(eggDailyList.get(position).getIncubatorName()) +
                     ", <B>Reading Date:</B> " + common.blankIfNullString(eggDailyList.get(position).getReadingDate()) +
                     ", <B>Comment:</B> " + common.blankIfNullString(eggDailyList.get(position).getEggDailyComment());

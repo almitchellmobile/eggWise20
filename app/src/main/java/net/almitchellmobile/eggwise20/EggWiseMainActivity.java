@@ -85,11 +85,19 @@ public class EggWiseMainActivity extends AppCompatActivity implements Navigation
         sharedpreferences = getSharedPreferences(mypreference,Context.MODE_PRIVATE);
         editor = sharedpreferences.edit();
 
+        Common.PREF_TEMPERATURE_ENTERED_IN = sharedpreferences.getString("temperature_entered_in", "Fahrenheit");
+        Common.PREF_HUMIDITY_MEASURED_WITH = sharedpreferences.getString("humidity_measured_with", "Humidity %");
+        Common.PREF_WEIGHT_ENTERED_IN = sharedpreferences.getString("weight_entered_in", "Ounces");
+        Common.PREF_DAYS_TO_HATCHER_BEFORE_HATCHING = sharedpreferences.getInt("days_to_hatcher_before_hatching", 3);
+        Common.PREF_DEFAULT_WEIGHT_LOSS_PRECENTAGE = Double.valueOf(sharedpreferences.getFloat("default_weight_loss_percentage", 13.0F));
+        Common.PREF_DEFAULT_WEIGHT_LOSS_INTEGER = Common.convertDoubleToInteger(Common.PREF_DEFAULT_WEIGHT_LOSS_PRECENTAGE);
+        Common.PREF_WARN_WEIGHT_DEVIATION_PERCENTAGE = Double.valueOf(sharedpreferences.getFloat("warn_weight_deviation_percentage", 0.5F));
+
 
         //editor.putBoolean("COMPLETED_ONBOARDING_PREF_SET_UP", false);
         //editor.commit();
 
-        /*editor.putBoolean("COMPLETED_ONBOARDING_PREF_EGG_WISE_MAIN", true);
+        editor.putBoolean("COMPLETED_ONBOARDING_PREF_EGG_WISE_MAIN", true);
         editor.putBoolean("COMPLETED_ONBOARDING_PREF_ADD_WEIGHT_LOSS_1", true);
         editor.putBoolean("COMPLETED_ONBOARDING_PREF_ADD_WEIGHT_LOSS_2", true);
         editor.putBoolean("COMPLETED_ONBOARDING_PREF_WEIGHT_LOSS_LIST_1", true);
@@ -99,7 +107,10 @@ public class EggWiseMainActivity extends AppCompatActivity implements Navigation
         editor.putBoolean("COMPLETED_ONBOARDING_PREF_BATCH_LIST_1", true);
         editor.putBoolean("COMPLETED_ONBOARDING_PREF_BATCH_LIST_2", true);
         editor.putBoolean("COMPLETED_ONBOARDING_PREF_ALL", true);
-        editor.putBoolean("COMPLETED_ONBOARDING_PREF_SET_UP", true);*/
+        editor.putBoolean("COMPLETED_ONBOARDING_PREF_SET_UP", true);
+        editor.commit();
+
+
 
         if (!sharedpreferences.getBoolean("COMPLETED_ONBOARDING_PREF_SET_UP", false)) {
 
@@ -114,14 +125,6 @@ public class EggWiseMainActivity extends AppCompatActivity implements Navigation
             editor.putBoolean("COMPLETED_ONBOARDING_PREF_BATCH_LIST_2", false);
             editor.putBoolean("COMPLETED_ONBOARDING_PREF_ALL", false);
             editor.putBoolean("COMPLETED_ONBOARDING_PREF_SET_UP", false);
-
-            /*editor.putString("humidity_measured_with", "Humidity %");
-            editor.putString("weight_entered_in", "Ounces");
-            editor.putString("temperature_entered_in", "Fahrenheit");
-
-            editor.putInt("days_to_hatcher_before_hatching", 3);
-            editor.putFloat("default_weight_loss_percentage", 13.0F);
-            editor.putFloat("warn_weight_deviation_percentage", 0.5F);*/
 
             editor.putBoolean("COMPLETED_ONBOARDING_PREF_SET_UP", true);
 

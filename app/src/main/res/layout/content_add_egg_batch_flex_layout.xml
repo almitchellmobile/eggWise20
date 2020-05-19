@@ -260,13 +260,11 @@
             android:layout_height="wrap_content" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <!--<Button
-        android:id="@+id/button_save_add_egg_batch"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_below="@id/text_number_of_eggs_hatched_rl"
-        android:text="Save" />-->
+        <Button
+            android:id="@+id/btn_save_egg_batch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Save Batch" />
 
     </com.google.android.flexbox.FlexboxLayout>
 </ScrollView>

@@ -5,11 +5,11 @@
     android:id="@+id/sv_egg_batch"
     android:layout_margin="@dimen/fab_margin"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
     <LinearLayout
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
     tools:context=".AddEggBatchActivity"
     tools:showIn="@layout/activity_add_egg_batch">
@@ -219,12 +219,17 @@
                 android:text="@string/track_specific_eggs" />
         </RadioGroup>
 
-
         <Button
+            android:id="@+id/btn_save_egg_batch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Save Batch" />
+
+       <!-- <Button
             android:id="@+id/button_save_add_egg_batch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Save" />
+            android:text="Save" />-->
     </LinearLayout>
 </ScrollView>

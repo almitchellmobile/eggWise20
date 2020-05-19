@@ -5,6 +5,7 @@ import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
 import android.content.res.Configuration;
 import android.icu.text.SimpleDateFormat;
 import android.icu.util.Calendar;
@@ -58,6 +59,20 @@ public class AddWeightLossActivity extends AppCompatActivity {
     public static SharedPreferences.Editor editor;
     public static final String mypreference = "mypreference";
 
+    public static Double WEIGHT_LOSS_DEVIATION = 0.0;
+    public static String SET_DATE = "";
+    public static String ACTION_BAR_TITLE = "";
+    public static Integer TRACKING_OPTION = 0;
+    public static Integer READING_DAY_NUMBER = 0;
+    public static Integer TARGET_WEIGHT_LOSS_INTEGER = 0;
+    public static Integer INCUBATION_DAYS = 0;
+    public static Integer NUMBER_OF_EGGS = 0 ;
+    public static Integer NUMBER_OF_REJECTED_EGGS = 0;
+    public static String BATCH_LABEL = "";
+    public static Long EGG_BATCH_ID = 0L;
+    public static Long EGG_DAILY_ID_STATIC = 0L;
+    public static String EGG_LABEL = "";
+
 
     private TextView text_number_of_eggs_remaining,
             text_incubator_name,
@@ -71,13 +86,12 @@ public class AddWeightLossActivity extends AppCompatActivity {
             button_save_list_weight_loss,
             button_cancel_list_batch,
             button_cancel_list_eggs,
-            button_reading_date_lookup, button_add_weight, button_show_hide_rejects;
+            button_reading_date_lookup, btn_add_weight, button_show_hide_rejects;
 
     ArrayAdapter<String> adapterBatchLabel;
     ArrayList<String> arrayListBatchLabel = new ArrayList<>();
 
-    com.google.android.material.floatingactionbutton.FloatingActionButton fab_add_save_weight_loss,
-            fab_reading_date_lookup;
+    //com.google.android.material.floatingactionbutton.FloatingActionButton fab_add_save_weight_loss,fab_reading_date_lookup;
 
     MaterialTapTargetPrompt mFabPrompt;
     private EggWiseDatabse eggWiseDatabse;
@@ -191,21 +205,6 @@ public class AddWeightLossActivity extends AppCompatActivity {
         et_reading_date = findViewById(R.id.et_reading_date);
         et_weight_loss_comment = findViewById(R.id.et_weight_loss_comment);
 
-        /*et_weight_loss_comment.setOnTouchListener(new View.OnTouchListener() {
-
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if(event.getAction() == MotionEvent.ACTION_DOWN) {
-                    if (!sharedpreferences.getBoolean("COMPLETED_ONBOARDING_PREF_WEIGHT_LOSS_LIST_1", false)) {
-                        // The user hasn't seen the OnboardingSupportFragment yet, so show it
-                        showFabPrompt();
-                        editor.putBoolean("COMPLETED_ONBOARDING_PREF_WEIGHT_LOSS_LIST_1", true);
-                        editor.commit();
-                    }
-                }
-                return false;
-            }
-        });*/
 
         et_egg_label.setSelectAllOnFocus(true);
         et_reading_date.setSelectAllOnFocus(true);
@@ -224,8 +223,8 @@ public class AddWeightLossActivity extends AppCompatActivity {
         et_weight_loss_comment.setInputType(InputType.TYPE_CLASS_TEXT);
 
 
-        /*button_add_weight  = findViewById(R.id.button_add_weight);
-        button_add_weight.setOnClickListener(new View.OnClickListener() {
+        /*btn_add_weight  = findViewById(R.id.btn_add_weight);
+        btn_add_weight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 try {
@@ -242,10 +241,10 @@ public class AddWeightLossActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
             }
-        });
-        button_add_weight.setVisibility(View.GONE);*/
+        });*/
 
-        fab_add_save_weight_loss = findViewById(R.id.fab_add_save_weight_loss);
+
+        /*fab_add_save_weight_loss = findViewById(R.id.fab_add_save_weight_loss);
         fab_add_save_weight_loss.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -261,7 +260,7 @@ public class AddWeightLossActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
             }
-        });
+        });*/
         //fab_add_save_weight_loss.setVisibility(View.GONE);
 
 
@@ -400,7 +399,7 @@ public class AddWeightLossActivity extends AppCompatActivity {
         if (getIntent().getSerializableExtra("eggDailyAdd") != null) {
             eggDaily = (EggDaily) getIntent().getSerializableExtra("eggDailyAdd");
             update = false;
-            getSupportActionBar().setTitle("Add Egg Weight for Batch: " + batchLabel);
+            //getSupportActionBar().setTitle("Add Egg Weight for Batch: " + ACTION_BAR_TITLE);
             eggBatchID = eggDaily.getEggBatchID();
             et_reading_date.setText(eggDaily.getReadingDate());
             readingDate = eggDaily.getReadingDate();
@@ -412,7 +411,8 @@ public class AddWeightLossActivity extends AppCompatActivity {
         } else if (getIntent().getSerializableExtra("eggDailyUpdate") != null) {
             eggDaily = (EggDaily) getIntent().getSerializableExtra("eggDailyUpdate");
             update = true;
-            getSupportActionBar().setTitle("Update Egg Weight for Batch: " + batchLabel);
+            //getSupportActionBar().setTitle("Update Egg Weight for Batch: " + ACTION_BAR_TITLE);
+            getSupportActionBar().setTitle("Update Egg Weight");
             eggLabel = eggDaily.getEggLabel();
             eggBatchID = eggDaily.getEggBatchID();
             readingDate = eggDaily.getReadingDate();
@@ -425,10 +425,11 @@ public class AddWeightLossActivity extends AppCompatActivity {
             et_egg_weight.setText(eggWeight.toString());
             et_weight_loss_comment.setText(eggDailyComment);
             button_save_add_weight_loss.setText("Update/Add Next");
-        }
-        if ( eggDaily!=null ){
-            //getSupportActionBar().setTitle("Update Egg Weight for Batch: " + batchLabel);
-
+            button_save_list_weight_loss.setText("Update/List Eggs");
+        } else if (getIntent().getSerializableExtra("eggDaily") != null) {
+            //if ( eggDaily!=null ){
+            //
+            getSupportActionBar().setTitle("Add Egg Weight for Batch: " + ACTION_BAR_TITLE);
             batchLabel = eggDaily.getBatchLabel();
             eggBatchID = eggDaily.getEggBatchID();
             setDate = eggDaily.getSetDate();
@@ -436,16 +437,10 @@ public class AddWeightLossActivity extends AppCompatActivity {
             numberOfEggsRemaining = eggDaily.getNumberOfEggsRemaining();
             targetWeightLossInteger = eggDaily.getTargetWeightLossInteger();
             incubationDays = eggDaily.getIncubationDays();
-            text_batch_label.setText(parseHTMLBold("<B>Batch Label:</B> " + eggDaily.getBatchLabel()));
-            //et_batch_label_add_egg_weight.setText(eggDaily.getBatchLabel());
-            text_set_date.setText(parseHTMLBold("<B>Set Date:</B> " + eggDaily.getSetDate()));
-            text_incubator_name.setText(parseHTMLBold("<B>Incubator Name:</B> " + eggDaily.getIncubatorName()));
-            text_number_of_eggs_remaining.setText(parseHTMLBold("<B>Number Of Eggs Remaining:</B> " + eggDaily.getNumberOfEggsRemaining()));
-
         }
 
-        //showReadingDayPrompt();
-        //showSequenceManual();
+
+
 
         if (!sharedpreferences.getBoolean("COMPLETED_ONBOARDING_PREF_WEIGHT_LOSS_LIST_1", false)) {
             // The user hasn't seen the OnboardingSupportFragment yet, so show it
@@ -491,47 +486,49 @@ public class AddWeightLossActivity extends AppCompatActivity {
         et_egg_label.setInputType(TYPE_NULL);
         et_weight_loss_comment.setInputType(TYPE_NULL);
 
+        ColorStateList oldColors =    et_weight_loss_comment.getTextColors(); //save original colors
+
         SpannableStringBuilder secondaryText1 = new SpannableStringBuilder(
-                "Tap this button to set the reading date and the reading day. Tap here to continue.");
-        ForegroundColorSpan foregroundColour1 = new ForegroundColorSpan(
-                ContextCompat.getColor(this,R.color.green_200));
-        secondaryText1.setSpan(foregroundColour1, 65, 69, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+                "Tap the [SET READING DATE] button to set the reading date and the reading day. Tap here to continue.");
+        //ForegroundColorSpan foregroundColour1 = new ForegroundColorSpan(
+        //        ContextCompat.getColor(this,R.color.green_200));
+        secondaryText1.setSpan(oldColors, 65, 69, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
 
         SpannableStringBuilder secondaryText2 = new SpannableStringBuilder(
                 "Or enter the reading day and the reading date will be calculated when you tap the egg weight field. Tap here to continue.");
-        ForegroundColorSpan foregroundColour2 = new ForegroundColorSpan(
-                ContextCompat.getColor(this,R.color.green_200));
-        secondaryText2.setSpan(foregroundColour2, 104, 108, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+        //ForegroundColorSpan foregroundColour2 = new ForegroundColorSpan(
+        //        ContextCompat.getColor(this,R.color.green_200));
+        secondaryText2.setSpan(oldColors, 104, 108, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
 
         SpannableStringBuilder secondaryText3 = new SpannableStringBuilder(
                 "Enter an egg label. Tap here to continue.");
-        ForegroundColorSpan foregroundColour3 = new ForegroundColorSpan(
-                ContextCompat.getColor(this,R.color.green_200));
-        secondaryText3.setSpan(foregroundColour3, 24, 28, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+        //ForegroundColorSpan foregroundColour3 = new ForegroundColorSpan(
+        //        ContextCompat.getColor(this,R.color.green_200));
+        secondaryText3.setSpan(oldColors, 24, 28, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
 
         SpannableStringBuilder secondaryText4 = new SpannableStringBuilder(
                 "Enter the egg weight. Tap here to continue.");
-        ForegroundColorSpan foregroundColour4 = new ForegroundColorSpan(
-                ContextCompat.getColor(this,R.color.green_200));
-        secondaryText4.setSpan(foregroundColour4, 26, 30, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+        //ForegroundColorSpan foregroundColour4 = new ForegroundColorSpan(
+        //        ContextCompat.getColor(this,R.color.green_200));
+        secondaryText4.setSpan(oldColors, 26, 30, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
 
         SpannableStringBuilder secondaryText5 = new SpannableStringBuilder(
                 "Enter an optional comment. Tap here to continue.");
-        ForegroundColorSpan foregroundColour5 = new ForegroundColorSpan(
-                ContextCompat.getColor(this,R.color.green_200));
-        secondaryText5.setSpan(foregroundColour5, 31, 35, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+        //ForegroundColorSpan foregroundColour5 = new ForegroundColorSpan(
+        //        ContextCompat.getColor(this,R.color.green_200));
+        secondaryText5.setSpan(oldColors, 31, 35, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
 
         SpannableStringBuilder secondaryText6 = new SpannableStringBuilder(
                 "Tap one of the save buttons, to save your egg weight information. Tap here to continue.");
-        ForegroundColorSpan foregroundColour6 = new ForegroundColorSpan(
-                ContextCompat.getColor(this,R.color.green_200));
-        secondaryText6.setSpan(foregroundColour6, 70, 74, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+        //ForegroundColorSpan foregroundColour6 = new ForegroundColorSpan(
+        //        ContextCompat.getColor(this,R.color.green_200));
+        secondaryText6.setSpan(oldColors, 70, 74, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
 
         SpannableStringBuilder secondaryText7 = new SpannableStringBuilder(
                 "Tap one of the cancel buttons, to cancel and return to the batch list or egg list. Tap here to finish.");
-        ForegroundColorSpan foregroundColour7 = new ForegroundColorSpan(
-                ContextCompat.getColor(this,R.color.green_200));
-        secondaryText7.setSpan(foregroundColour7, 87, 91, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+        //ForegroundColorSpan foregroundColour7 = new ForegroundColorSpan(
+        //        ContextCompat.getColor(this,R.color.green_200));
+        secondaryText7.setSpan(oldColors, 87, 91, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
 
         new MaterialTapTargetSequence()
                 .addPrompt(new MaterialTapTargetPrompt.Builder(AddWeightLossActivity.this)
@@ -615,7 +612,7 @@ public class AddWeightLossActivity extends AppCompatActivity {
 
     }
 
-    public void showSequence(View view) {
+    /*public void showSequence(View view) {
 
         new MaterialTapTargetSequence()
                 .addPrompt(new MaterialTapTargetPrompt.Builder(AddWeightLossActivity.this)
@@ -643,9 +640,9 @@ public class AddWeightLossActivity extends AppCompatActivity {
                         .setFocalPadding(R.dimen.dp40)
                         .create(), 8000)
                 .show();
-    }
+    }*/
 
-    public void showReadingDayPrompt()
+    /*public void showReadingDayPrompt()
     {
         if (mFabPrompt != null)
         {
@@ -676,9 +673,9 @@ public class AddWeightLossActivity extends AppCompatActivity {
         {
             mFabPrompt.show();
         }
-    }
+    }*/
 
-    public void showWeightPrompt()
+    /*public void showWeightPrompt()
     {
         if (mFabPrompt != null)
         {
@@ -707,40 +704,8 @@ public class AddWeightLossActivity extends AppCompatActivity {
         {
             mFabPrompt.show();
         }
-    }
+    }*/
 
-    public void showFabPrompt()
-    {
-        if (mFabPrompt != null)
-        {
-            return;
-        }
-        SpannableStringBuilder secondaryText = new SpannableStringBuilder("Enter your egg weight details and tap the save button to save your egg information.");
-        secondaryText.setSpan(new ForegroundColorSpan(ContextCompat.getColor(this, R.color.colorAccent)), 0, 30, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
-        SpannableStringBuilder primaryText = new SpannableStringBuilder("Save your egg.");
-        //primaryText.setSpan(new BackgroundColorSpan(ContextCompat.getColor(this, R.color.colorAccent)), 0, 40, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
-        mFabPrompt = new MaterialTapTargetPrompt.Builder(AddWeightLossActivity.this)
-                .setTarget(findViewById(R.id.fab_add_save_weight_loss))
-                .setFocalPadding(R.dimen.dp40)
-                .setBackgroundColour(getResources().getColor(R.color.colorAccent))
-                .setPrimaryText(primaryText)
-                .setSecondaryText(secondaryText)
-                .setBackButtonDismissEnabled(true)
-                .setAnimationInterpolator(new FastOutSlowInInterpolator())
-                .setPromptStateChangeListener((prompt, state) -> {
-                    if (state == MaterialTapTargetPrompt.STATE_FOCAL_PRESSED
-                            || state == MaterialTapTargetPrompt.STATE_NON_FOCAL_PRESSED)
-                    {
-                        mFabPrompt = null;
-                        //Do something such as storing a value so that this prompt is never shown again
-                    }
-                })
-                .create();
-        if (mFabPrompt != null)
-        {
-            mFabPrompt.show();
-        }
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -787,9 +752,16 @@ public class AddWeightLossActivity extends AppCompatActivity {
         eggBatch = (EggBatch) getIntent().getSerializableExtra("eggBatch");
         if ( eggBatch!=null ){
 
-           //getSupportActionBar().setTitle("Update Egg Batch");
-            //update = true;
-            //button_save_add_weight_loss.setText("Update");
+            BATCH_LABEL = eggBatch.getBatchLabel();
+            EGG_BATCH_ID = eggBatch.getEggBatchID();
+            TRACKING_OPTION = eggBatch.getTrackingOption();
+            SET_DATE = eggBatch.getSetDate();
+            NUMBER_OF_EGGS = eggBatch.getNumberOfEggs();
+            //updateActionBarTitle();
+            ACTION_BAR_TITLE = "Weight Loss for Batch: " + BATCH_LABEL;
+            ACTION_BAR_TITLE += ", Set Date: " + SET_DATE;
+            //ACTION_BAR_TITLE += ", Warn Deviation: " + Common.PREF_WARN_WEIGHT_DEVIATION_PERCENTAGE;
+            //getSupportActionBar().setTitle(ACTION_BAR_TITLE);
 
             batchLabel = eggBatch.getBatchLabel();
             eggBatchID = eggBatch.getEggBatchID();

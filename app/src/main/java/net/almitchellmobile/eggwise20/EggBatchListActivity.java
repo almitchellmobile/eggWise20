@@ -67,7 +67,7 @@ public class EggBatchListActivity extends AppCompatActivity implements EggBatchA
     public static DecimalFormat df = new DecimalFormat("00.00");
 
     public com.google.android.material.card.MaterialCardView cv_egg_batch;
-    public Button btn_add_new_batch_1;
+    public Button btn_add_egg_batch;
 
     //private TextView textViewMsg,
     private TextView tv_egg_batch_title1;
@@ -129,7 +129,7 @@ public class EggBatchListActivity extends AppCompatActivity implements EggBatchA
     }
 
 
-    private void showEggBatchSubMenuPrompt() {
+    /*private void showEggBatchSubMenuPrompt() {
 
         new MaterialTapTargetPrompt.Builder(this)
                 .setTarget(recyclerViewEggBatchList)
@@ -139,7 +139,7 @@ public class EggBatchListActivity extends AppCompatActivity implements EggBatchA
                 .setBackgroundColour(ContextCompat.getColor(this,R.color.colorAccent))
                 .setAnimationInterpolator(new FastOutSlowInInterpolator())
                 .show();
-    }
+    }*/
 
 
     public void showAddBatchPrompt()
@@ -149,11 +149,10 @@ public class EggBatchListActivity extends AppCompatActivity implements EggBatchA
             return;
         }
         mFabPrompt = new MaterialTapTargetPrompt.Builder(EggBatchListActivity.this)
-                .setTarget(findViewById(R.id.fab_egg_batch_list_1))
+                .setTarget(findViewById(R.id.btn_add_egg_batch))
                 .setFocalPadding(R.dimen.dp40)
                 .setPrimaryText("Add Egg Batch.")
-                //.setSecondaryText(setSecondarytText("Tap the plus sign to add a batch. Tap here to continue.", 38, 42))
-                .setSecondaryText("Tap the plus sign to add your first batch.")
+                .setSecondaryText("Tap the [ADD EGG BATCH] button to add a batch.")
                 .setBackgroundColour(ContextCompat.getColor(this,R.color.colorAccent))
                 .setBackButtonDismissEnabled(true)
                 .setAnimationInterpolator(new FastOutSlowInInterpolator())
@@ -357,7 +356,7 @@ public class EggBatchListActivity extends AppCompatActivity implements EggBatchA
         cv_egg_batch = findViewById(R.id.cv_egg_batch);
         cv_egg_batch.setVisibility(View.GONE);
 
-        fab_egg_batch_list_1 =  findViewById(R.id.fab_egg_batch_list_1);
+        /*fab_egg_batch_list_1 =  findViewById(R.id.fab_egg_batch_list_1);
         fab_egg_batch_list_1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -366,16 +365,16 @@ public class EggBatchListActivity extends AppCompatActivity implements EggBatchA
                 startActivityForResult(new Intent(EggBatchListActivity.this, AddEggBatchActivity.class), 100);
                 //showEggBatchListItemPrompt1(mLinearLayoutManager);
             }
-        });
+        });*/
 
 
-       /* btn_add_new_batch_1 = findViewById(R.id.btn_add_new_batch_1);
-        btn_add_new_batch_1.setOnClickListener(new View.OnClickListener() {
+        btn_add_egg_batch =  findViewById(R.id.btn_add_egg_batch);
+        btn_add_egg_batch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivityForResult(new Intent(EggBatchListActivity.this, AddEggBatchActivity.class), 100);
             }
-        });*/
+        });
 
 
         recyclerViewEggBatchList = findViewById(R.id.recycler_view_egg_batch_list);
@@ -420,7 +419,7 @@ public class EggBatchListActivity extends AppCompatActivity implements EggBatchA
                     .setTarget(viewHolder.cv_egg_batch)
                     //.setClipToView(card.getChildAt(0))
                     .setPrimaryText("Egg Batch Sub-Menu")
-                    .setSecondaryText("Click on the flashing circle to open the egg batch sub-menu. Then tap 'Enter Egg Weight' to enter your egg weight details.")
+                    .setSecondaryText("Tap on a list item to open the egg batch sub-menu. Then select Enter Egg Weight from the menu, to enter your egg weight details.")
                     .setBackgroundColour(ContextCompat.getColor(this,R.color.colorAccent))
                     .setAnimationInterpolator(new FastOutSlowInInterpolator())
                     .show();

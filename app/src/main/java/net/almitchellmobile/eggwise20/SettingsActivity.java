@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
@@ -22,7 +23,7 @@ public class SettingsActivity extends AppCompatActivity {
 
 
 
-    //Button btn_save, btn_retrieve, btn_clear;
+    Button btn_save_settings;
     com.google.android.material.floatingactionbutton.FloatingActionButton fab_configuration_options;
     RadioGroup rg_temperature_entered_in, rg_humidity_measured_with, rg_weight_entered_in;
     RadioButton rb_celcius, rb_fahrenheit, rb_wet_bulb_readings, rb_relative_humidity_percentage,
@@ -47,12 +48,12 @@ public class SettingsActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        fab_configuration_options = findViewById(R.id.fab_configuration_options);
-        fab_configuration_options.setOnClickListener(new View.OnClickListener() {
+        btn_save_settings = findViewById(R.id.btn_save_settings);
+        btn_save_settings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 savePrefrences();
-                Toast.makeText(SettingsActivity.this, "Preferences saved!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(SettingsActivity.this, "Settings saved!", Toast.LENGTH_LONG).show();
             }
 
         });
@@ -124,16 +125,6 @@ public class SettingsActivity extends AppCompatActivity {
         et_warn_weight_deviation_percentage.setSelectAllOnFocus(true);
         et_warn_weight_deviation_percentage.setRawInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED | InputType.TYPE_NUMBER_FLAG_DECIMAL);
 
-       /* sharedpreferences = getSharedPreferences(mypreference,Context.MODE_PRIVATE);
-        editor = sharedpreferences.edit();
-
-        Common.PREF_TEMPERATURE_ENTERED_IN = sharedpreferences.getString("temperature_entered_in", "Fahrenheit");
-        Common.PREF_HUMIDITY_MEASURED_WITH = sharedpreferences.getString("humidity_measured_with", "Humidity %");
-        Common.PREF_WEIGHT_ENTERED_IN = sharedpreferences.getString("weight_entered_in", "Ounces");
-        Common.PREF_DAYS_TO_HATCHER_BEFORE_HATCHING = sharedpreferences.getInt("days_to_hatcher_before_hatching", 3);
-        Common.PREF_DEFAULT_WEIGHT_LOSS_PRECENTAGE = Double.valueOf(sharedpreferences.getFloat("default_weight_loss_percentage", 13.0F));
-        Common.PREF_DEFAULT_WEIGHT_LOSS_INTEGER = Common.convertDoubleToInteger(Common.PREF_DEFAULT_WEIGHT_LOSS_PRECENTAGE);
-        Common.PREF_WARN_WEIGHT_DEVIATION_PERCENTAGE = Double.valueOf(sharedpreferences.getFloat("warn_weight_deviation_percentage", 0.5F));*/
 
         getPrefrences();
 

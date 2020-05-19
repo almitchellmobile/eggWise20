@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
+<LinearLayout
+    android:orientation="vertical"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -7,11 +8,6 @@
     android:layout_height="match_parent"
     android:background="@drawable/radialback3"
     tools:context=".EggBatchListActivity">
-
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
 
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
@@ -31,18 +27,23 @@
             android:id="@+id/recycler_view_egg_batch_list"
             android:descendantFocusability="blocksDescendants"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="wrap_content" />
         <include layout="@layout/content_egg_batch_list" />
 
-    </LinearLayout>
+    <Button
+        android:id="@+id/btn_add_egg_batch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add Egg Batch" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+
+    <!--<com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_egg_batch_list_1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="right|top"
         android:layout_marginTop="6dp"
         android:layout_marginRight="80dp"
-        app:srcCompat="@android:drawable/ic_input_add" />
+        app:srcCompat="@android:drawable/ic_input_add" />-->
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</LinearLayout>

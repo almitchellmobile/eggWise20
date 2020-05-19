@@ -95,7 +95,7 @@ public class Common {
                     //intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                     act.startActivity(intent1);
                     break;
-                case R.id.home:
+                case R.id.egg_wise_main:
                     Intent intent2 = new Intent(ctx,
                             EggWiseMainActivity.class);
                     intent2.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -234,18 +234,31 @@ public class Common {
         return newValue;
     }
 
-    /*public static  Integer zeroIfNullInteger (String value) {
+    public static  Integer zeroInteger_IfNullString (String value) {
         Integer newValue = 0;
         try {
-            if (value != null ) {
-                newValue = value;
+            if (value.trim().length() != 0 ) {
+                newValue = Integer.parseInt(value);
             }
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return newValue;
-    }*/
+    }
+
+    public static  Double zeroDouble_IfNullString (String value) {
+        Double newValue = 0.0;
+        try {
+            if (value.trim().length() != 0 ) {
+                newValue = Double.parseDouble(value);
+            }
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return newValue;
+    }
 
     public static  Double zeroIfNullDouble (Double value) {
         Double newValue = 0.0;

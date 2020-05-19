@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.icu.text.SimpleDateFormat;
@@ -24,11 +25,9 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.DatePicker;
-import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import net.almitchellmobile.eggwise20.database.EggWiseDatabse;
 import net.almitchellmobile.eggwise20.database.model.EggBatch;
@@ -58,8 +57,8 @@ public class AddEggBatchActivity extends AppCompatActivity {
             et_location, et_incubator_settings, et_temperature, et_incubation_days,
             et_number_of_eggs_hatched, et_target_weight_loss;
     CalendarView cv_set_date, cv_hatch_date;
-    Button button_add_batch, button_set_date_lookup, button_hatch_date_lookup;
-    com.google.android.material.floatingactionbutton.FloatingActionButton fab_add_save_egg_batch;
+    Button btn_save_egg_batch, button_set_date_lookup, button_hatch_date_lookup;
+    //com.google.android.material.floatingactionbutton.FloatingActionButton fab_add_save_egg_batch;
 
     RadioGroup rg_track_weight_loss;
     RadioButton rb_track_entire_batch;
@@ -145,8 +144,8 @@ public class AddEggBatchActivity extends AppCompatActivity {
 
         rl_egg_batch  = findViewById(R.id.rl_egg_batch);
 
-        /*button_add_batch = findViewById(R.id.button_add_new_batch);
-        button_add_batch.setOnClickListener(new View.OnClickListener() {
+        btn_save_egg_batch = findViewById(R.id.btn_save_egg_batch);
+        btn_save_egg_batch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 try {
@@ -157,7 +156,7 @@ public class AddEggBatchActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
             }
-        });*/
+        });
 
         DatePickerDialog.OnDateSetListener getSetDatePickerDialog = new
                 DatePickerDialog.OnDateSetListener() {
@@ -287,8 +286,8 @@ public class AddEggBatchActivity extends AppCompatActivity {
             et_target_weight_loss.setHint(hintStringValue);
         }
 
-        fab_add_save_egg_batch = findViewById(R.id.fab_add_save_egg_batch);
-        fab_add_save_egg_batch.setOnClickListener(new View.OnClickListener() {
+        btn_save_egg_batch = findViewById(R.id.btn_save_egg_batch);
+        btn_save_egg_batch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 try {
@@ -468,11 +467,12 @@ public class AddEggBatchActivity extends AppCompatActivity {
     }
 
     private SpannableStringBuilder setSecondarytText(String secondaryText, Integer textStart, Integer textEnd) {
+        ColorStateList oldColors =    et_hatch_date.getTextColors(); //save original colors
         SpannableStringBuilder secondaryText1 = new SpannableStringBuilder(
                 secondaryText);
         ForegroundColorSpan foregroundColour1 = new ForegroundColorSpan(
                 ContextCompat.getColor(this,R.color.green_200));
-        secondaryText1.setSpan(foregroundColour1, textStart, textEnd, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+        secondaryText1.setSpan(oldColors, textStart, textEnd, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
         return secondaryText1;
     }
 
@@ -501,7 +501,7 @@ public class AddEggBatchActivity extends AppCompatActivity {
                         .setFocalPadding(R.dimen.dp40)
                         .create())
                 .addPrompt(new MaterialTapTargetPrompt.Builder(AddEggBatchActivity.this)
-                        .setTarget(findViewById(R.id.fab_add_save_egg_batch))
+                        .setTarget(findViewById(R.id.btn_save_egg_batch))
                         .setBackgroundColour(ContextCompat.getColor(this,R.color.colorAccent))
                         .setPrimaryText("Step 2 - Save Egg Batch")
                         .setSecondaryText(setSecondarytText("After entering your egg batch details, tap the save button to save your batch. Tap here to continue.", 83, 87))
@@ -551,46 +551,17 @@ public class AddEggBatchActivity extends AppCompatActivity {
     }
 
     private void checkIfEmptyField() {
-        if (!(isEmptyField(et_batch_label))) {
-            batchLabel = et_batch_label.getText().toString();
-        }
-        if (!(isEmptyField(et_species_name))) {
-            speciesName = et_species_name.getText().toString();
-        }
-        if (!(isEmptyField(et_common_name))) {
-            commonName = et_common_name.getText().toString();
-        }
-        //if (isEmptyField(et_set_date)) {
-        //    setDate = "";
-        //}
-        if (isEmptyField(et_hatch_date)) {
-            hatchDate = "";
-        }
-        if (!(isEmptyField(et_incubator_name))) {
-            incubatorName = et_incubator_name.getText().toString();
-        }
-        if (!(isEmptyField(et_location))) {
-            location = et_location.getText().toString();
-        }
-        if (!(isEmptyField(et_number_of_eggs))) {
-            numberOfEggs = Integer.parseInt(et_number_of_eggs.getText().toString());
-        }
-
-        if (!(isEmptyField(et_incubator_settings))) {
-            incubatorSettings = et_incubator_settings.getText().toString();
-        }
-        if (!(isEmptyField(et_temperature))) {
-            temperature = Double.parseDouble(et_temperature.getText().toString());
-        }
-        if (!(isEmptyField(et_incubation_days))) {
-            incubationDays = Integer.parseInt(et_incubation_days.getText().toString());
-        }
-        if (!(isEmptyField(et_number_of_eggs_hatched))) {
-            numberOfEggsHatched = Integer.parseInt(et_number_of_eggs_hatched.getText().toString());
-        }
-        if (!(isEmptyField(et_target_weight_loss))) {
-            targetWeightLoss = Integer.parseInt(et_target_weight_loss.getText().toString());
-        }
+        speciesName = Common.blankIfNullString(et_species_name.getText().toString());
+        commonName = Common.blankIfNullString(et_common_name.getText().toString());
+        hatchDate = Common.blankIfNullString(et_hatch_date.getText().toString());
+        incubatorName = Common.blankIfNullString(et_incubator_name.getText().toString());
+        location = Common.blankIfNullString(et_location.getText().toString());
+        //numberOfEggs = Common.zeroInteger_IfNullString(et_number_of_eggs.getText().toString());
+        incubatorSettings = Common.blankIfNullString(et_incubator_settings.getText().toString());
+        temperature = Common.zeroDouble_IfNullString(et_temperature.getText().toString());
+        //incubationDays = Integer.parseInt(et_incubation_days.getText().toString());
+        numberOfEggsHatched = Common.zeroInteger_IfNullString(et_number_of_eggs_hatched.getText().toString());
+        //targetWeightLoss = Integer.parseInt(et_target_weight_loss.getText().toString());
     }
 
     private void updateSetDate() {
@@ -677,18 +648,20 @@ public class AddEggBatchActivity extends AppCompatActivity {
         }
     }
 
-    private boolean isEmptyField (EditText editText){
-        boolean result = editText.getText().toString().length() <= 0;
+    /*private boolean isEmptyField (AutoCompleteTextView autoCompleteTextView){
+        boolean result = autoCompleteTextView.getText().toString().length() <= 0;
+        com.google.android.material.textfield.TextInputLayout parent = (com.google.android.material.textfield.TextInputLayout) autoCompleteTextView.getParent();
+        String hint = parent.getHint().toString();
         if (result)
-            Toast.makeText(this, "Field " + editText.getHint() + " is empty!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Field " + hint + " is empty!", Toast.LENGTH_SHORT).show();
         return result;
-    }
+    }*/
 
 
     Boolean validateRequiredFields () throws ParseException {
 
         if (!(et_batch_label.getText().toString().length() == 0)) {
-            eggLabel = et_batch_label.getText().toString();
+            batchLabel = et_batch_label.getText().toString();
         } else {
             et_batch_label.setHint("Please enter Batch Label.");
             et_batch_label.setError("Batch Label is required.");

@@ -11,7 +11,6 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.jjoe64.graphview.DefaultLabelFormatter;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.LegendRenderer;
 import com.jjoe64.graphview.series.DataPoint;
@@ -69,6 +68,7 @@ public class WeightLossChartActivity extends AppCompatActivity {
 
     public Long settingID = 0L;
 
+
     public String eggLabel = "";
     public String readingDate = "";
     public String setDate = "";
@@ -109,7 +109,18 @@ public class WeightLossChartActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("Weight Loss Chart");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        sharedpreferences = getSharedPreferences(mypreference,
+        sharedpreferences = getSharedPreferences(mypreference,Context.MODE_PRIVATE);
+        editor = sharedpreferences.edit();
+
+        Common.PREF_TEMPERATURE_ENTERED_IN = sharedpreferences.getString("temperature_entered_in", "Fahrenheit");
+        Common.PREF_HUMIDITY_MEASURED_WITH = sharedpreferences.getString("humidity_measured_with", "Humidity %");
+        Common.PREF_WEIGHT_ENTERED_IN = sharedpreferences.getString("weight_entered_in", "Ounces");
+        Common.PREF_DAYS_TO_HATCHER_BEFORE_HATCHING = sharedpreferences.getInt("days_to_hatcher_before_hatching", 3);
+        Common.PREF_DEFAULT_WEIGHT_LOSS_PRECENTAGE = Double.valueOf(sharedpreferences.getFloat("default_weight_loss_percentage", 13.0F));
+        Common.PREF_DEFAULT_WEIGHT_LOSS_INTEGER = Common.convertDoubleToInteger(Common.PREF_DEFAULT_WEIGHT_LOSS_PRECENTAGE);
+        Common.PREF_WARN_WEIGHT_DEVIATION_PERCENTAGE = Double.valueOf(sharedpreferences.getFloat("warn_weight_deviation_percentage", 0.5F));
+
+        /*sharedpreferences = getSharedPreferences(mypreference,
                 Context.MODE_PRIVATE);
 
         Common.PREF_TEMPERATURE_ENTERED_IN = sharedpreferences.getString("temperature_entered_in", "");
@@ -133,7 +144,7 @@ public class WeightLossChartActivity extends AppCompatActivity {
             Common.PREF_WARN_WEIGHT_DEVIATION_PERCENTAGE = Double.valueOf(sharedpreferences.getFloat("warn_weight_deviation_percentage", 0.5F));
         } else {
             Common.PREF_WARN_WEIGHT_DEVIATION_PERCENTAGE = 0.0D;
-        }
+        }*/
 
         graphWeightLoss = (GraphView) findViewById(R.id.graph);
         graphWeightLoss.setTitle("Target Weight vs Actual Weight");
@@ -410,129 +421,7 @@ public class WeightLossChartActivity extends AppCompatActivity {
         }
     }
 
-    public void createWeightLossChart() {
 
-        eggDailyList = new ArrayList<>();
-        eggWiseDatabse = EggWiseDatabse.getInstance(WeightLossChartActivity.this);
-        eggDailyList =  eggWiseDatabse.getEggDailyDao().getEggDaily_BatchEggDay_Day_ASC_LABEL_ASC(EGG_BATCH_ID);
-
-        Integer index = 0;
-        EGG_WEIGHT_SUM = 0.0D;
-        READING_DAY_NUMBER = 0;
-
-
-        for (index = 0; index < eggDailyList.size(); index++) {
-            READING_DAY_NUMBER = eggDailyList.get(index).getReadingDayNumber();
-            EGG_LABEL = eggDailyList.get(index).getEggLabel();
-            if(TRACKING_OPTION == 1) { //Track entire batch
-                EGG_WEIGHT_SUM = zeroIfNull(eggWiseDatabse.getEggDailyDao().getEggDaily_ComputeSum_GroupBy_Day_Batch_Tracking(EGG_BATCH_ID, READING_DAY_NUMBER));
-                EGG_WEIGHT_AVG_CURRENT = zeroIfNull(eggWiseDatabse.getEggDailyDao().getEggDaily_Compute_Avg_GroupBy_Day_Batch_Tracking(EGG_BATCH_ID, READING_DAY_NUMBER));
-                EGG_WEIGHT_AVG_DAY_0 = zeroIfNull(eggWiseDatabse.getEggDailyDao().getEggDaily_ComputeAvg_Day0_Batch_Tracking(EGG_BATCH_ID));
-            } else { //Single egg tracking
-                EGG_WEIGHT_SUM =  zeroIfNull(eggDailyList.get(index).getEggWeight());
-                EGG_WEIGHT_AVG_CURRENT = zeroIfNull(eggDailyList.get(index).getEggWeight()/1D);
-                if (READING_DAY_NUMBER == 0) {
-                    EGG_WEIGHT_AVG_DAY_0 = EGG_WEIGHT_AVG_CURRENT;
-                }
-            }
-            eggDailyList.get(index).setEggWeightSum(EGG_WEIGHT_SUM);
-            eggDailyList.get(index).setEggWeightAverageCurrent(EGG_WEIGHT_AVG_CURRENT);
-            eggDailyList.get(index).setEggWeightAverageDay0(EGG_WEIGHT_AVG_DAY_0);
-
-            ACTUAL_WEIGHT_LOSS_PERCENT = 100 * ((EGG_WEIGHT_AVG_DAY_0 - EGG_WEIGHT_AVG_CURRENT) / EGG_WEIGHT_AVG_DAY_0);
-
-            READING_DAY_NUMBER = (eggDailyList.get(index).getReadingDayNumber());
-            TARGET_WEIGHT_LOSS_INTEGER = eggDailyList.get(index).getTargetWeightLossInteger();
-            INCUBATION_DAYS = eggDailyList.get(index).getIncubationDays();
-            Double targetWeightLossDouble = Double.valueOf(TARGET_WEIGHT_LOSS_INTEGER);
-            Double readingDayNumberDouble = Double.valueOf(READING_DAY_NUMBER);
-            Double incubationDaysDouble = Double.valueOf(INCUBATION_DAYS);
-            TARGET_WEIGHT_LOSS_PERCENT = ((targetWeightLossDouble * readingDayNumberDouble) / incubationDaysDouble);
-
-            WEIGHT_LOSS_DEVIATION = TARGET_WEIGHT_LOSS_PERCENT - ACTUAL_WEIGHT_LOSS_PERCENT;
-
-            eggDailyList.get(index).setActualWeightLossPercent(ACTUAL_WEIGHT_LOSS_PERCENT);
-            eggDailyList.get(index).setTargetWeightLossPercent(TARGET_WEIGHT_LOSS_PERCENT);
-            eggDailyList.get(index).setWeightLossDeviation(WEIGHT_LOSS_DEVIATION);
-
-            /*if (WEIGHT_LOSS_DEVIATION != null) {
-
-                if (Math.abs(ACTUAL_WEIGHT_LOSS_PERCENT) >TARGET_WEIGHT_LOSS_PERCENT) {
-                    String message = "*** Warning: Actual Weight deviates beyond Target Weight by "
-                            + WEIGHT_LOSS_DEVIATION + " percent. ***";
-                    //EggWeightLossAdapter.WEIGHT_LOSS_DEVIATION_MESSAGE = message;
-
-                }
-            }*/
-        }
-        Integer countUniqueReadingDays = 0;
-        Integer previousReadingDayNumber = -1;
-        for (int i = 0; i < eggDailyList.size(); i++) {
-            if (previousReadingDayNumber != eggDailyList.get(i).readingDayNumber) {
-                // add new DataPoint object to the array for each of your list entries
-                countUniqueReadingDays += 1;
-            }
-            previousReadingDayNumber = eggDailyList.get(i).readingDayNumber;
-        }
-
-        Integer dataPointIndex = 0;
-        previousReadingDayNumber = -1;
-        DataPoint[] dataPointsActualWeightLoss = new DataPoint[countUniqueReadingDays]; // declare an array of DataPoint objects with the same size as your list
-        for (index = 0; index <eggDailyList.size(); index++) {
-            if (previousReadingDayNumber != eggDailyList.get(index).readingDayNumber) {
-                // add new DataPoint object to the array for each of your list entries
-                if (dataPointIndex < countUniqueReadingDays) {
-                    dataPointsActualWeightLoss[dataPointIndex] = new DataPoint(Common.round(eggDailyList.get(index).readingDayNumber, 1),
-                            Common.round(eggDailyList.get(index).getActualWeightLossPercent(), 1));
-                    dataPointIndex +=1;
-                }
-            }
-            //index +=1;
-            previousReadingDayNumber = eggDailyList.get(index).readingDayNumber;
-        }
-
-        dataPointIndex = 0;
-        previousReadingDayNumber = -1;
-        TARGET_WEIGHT_LOSS_INTEGER = eggDailyList.get(0).getTargetWeightLossInteger();
-        INCUBATION_DAYS = eggDailyList.get(0).getIncubationDays();
-
-        Integer incubationDays = eggDailyList.get(0).getIncubationDays();
-        DataPoint[] dataPointsTargetWeightLoss = new DataPoint[incubationDays]; // declare an array of DataPoint objects with the same size as your list
-        for (index = 0; index < incubationDays; index++) {
-            TARGET_WEIGHT_LOSS_PERCENT = ((Double.valueOf(TARGET_WEIGHT_LOSS_INTEGER) * Double.valueOf(dataPointIndex) )/ Double.valueOf(INCUBATION_DAYS));
-            dataPointsTargetWeightLoss[dataPointIndex] = new DataPoint(Common.round(dataPointIndex, 1),
-                    Common.round(TARGET_WEIGHT_LOSS_PERCENT, 1));
-            dataPointIndex +=1;
-        }
-
-        graphWeightLoss.setTitle("Target Weight Loss vs Actual Weight Loss");
-        graphWeightLoss.setTitleTextSize(60);
-        graphWeightLoss.getGridLabelRenderer().setHorizontalAxisTitle("Weigh Day");
-        graphWeightLoss.getGridLabelRenderer().setVerticalAxisTitle("Weight Loss Percentage");
-
-
-        /*lineGraphSeriesTargetWeightLoss = new LineGraphSeries<DataPoint>(dataPointsTargetWeightLoss);
-        graphWeightLoss.addSeries(lineGraphSeriesTargetWeightLoss);
-
-        lineGraphSeriesActualWeightLoss = new LineGraphSeries<DataPoint>(dataPointsActualWeightLoss);
-        graphWeightLoss.addSeries(lineGraphSeriesActualWeightLoss);
-
-
-        lineGraphSeriesActualWeightLoss.setDrawDataPoints(true);
-        lineGraphSeriesActualWeightLoss.setColor(Color.YELLOW);
-
-        lineGraphSeriesTargetWeightLoss.setDrawDataPoints(true);
-        lineGraphSeriesTargetWeightLoss.setColor(Color.BLUE);*/
-
-        //graphWeightLoss.refreshDrawableState();
-
-        NumberFormat nf = NumberFormat.getInstance();
-        nf.setMinimumFractionDigits(1);
-        nf.setMinimumIntegerDigits(1);
-        graphWeightLoss.getGridLabelRenderer().setLabelFormatter(new DefaultLabelFormatter(nf, nf));
-
-
-    }
 
     public static Double zeroIfNull(Double valueIn) {
         if (valueIn == null) {

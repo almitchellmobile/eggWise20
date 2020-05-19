@@ -66,7 +66,7 @@ android:orientation="vertical">
             android:id="@+id/tv_egg_weight_line1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Tap the plus sign to add egg weights!!"
+            android:text="Tap the Add Weight button to add egg weights!!"
             android:focusable="false" />
     </FrameLayout>
 </com.google.android.material.card.MaterialCardView>
